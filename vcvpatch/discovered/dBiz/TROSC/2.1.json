@@ -1,0 +1,210 @@
+{
+  "plugin": "dBiz",
+  "model": "TROSC",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Link A Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Link B Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Osc1 Analog mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Osc1 Hard sync",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Osc2 Analog mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Osc2 Hard sync",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Osc3 Analog mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Osc3 Hard sync",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Wave AMix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Wave BMix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Wave CMix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Osc1 Frequency",
+      "default": 0,
+      "min": -54,
+      "max": 54
+    },
+    {
+      "id": 12,
+      "name": "Osc1 Fine frequency",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Osc2 Frequency",
+      "default": 0,
+      "min": -54,
+      "max": 54
+    },
+    {
+      "id": 14,
+      "name": "Osc2 Fine frequency",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Osc3 Frequency",
+      "default": 0,
+      "min": -54,
+      "max": 54
+    },
+    {
+      "id": 16,
+      "name": "Osc3 Fine frequency",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Osc1 Frequency modulation",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Osc2 Frequency modulation",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Osc3 Frequency modulation",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Osc1 Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Osc2 Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Osc3 Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Wave A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Wave 2A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Wave B Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Wave 2B Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Wave C Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Wave C Width Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

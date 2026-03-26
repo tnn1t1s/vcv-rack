@@ -1,0 +1,28 @@
+{
+  "plugin": "DanTModules",
+  "model": "5Splice",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Slew",
+      "default": 441,
+      "min": 0,
+      "max": 120000
+    },
+    {
+      "id": 1,
+      "name": "Advance Mode",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 2,
+      "name": "Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

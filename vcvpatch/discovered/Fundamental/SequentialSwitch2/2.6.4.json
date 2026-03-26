@@ -1,0 +1,14 @@
+{
+  "plugin": "Fundamental",
+  "model": "SequentialSwitch2",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Steps",
+      "default": 2,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

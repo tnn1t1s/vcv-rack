@@ -1,0 +1,62 @@
+Build a dub techno patch by following these exact steps in order. Do not improvise -- use exactly the modules and routing listed.
+
+STEP 1 - Add these modules:
+- "clock"    Clocked-Clkd (ImpromptuModular), BPM=115, RUN=1, RATIO1=2, RATIO2=1
+- "seq"      SEQ3 (Fundamental)
+- "osc1"     EvenVCO (Befaco), OCTAVE=-2
+- "osc2"     EvenVCO (Befaco), OCTAVE=-2, TUNE=0.08
+- "vcf1"     VCF (Fundamental), FREQ=0.35, RES=0.45
+- "vcf2"     VCF (Fundamental), FREQ=0.41, RES=0.2
+- "adsr_amp" Bogaudio-ADSR (Bogaudio), ATTACK=0.02, DECAY=0.25, SUSTAIN=0.7, RELEASE=0.5
+- "adsr_filt" Bogaudio-ADSR (Bogaudio), ATTACK=0.01, DECAY=0.3, SUSTAIN=0.2, RELEASE=0.6
+- "vca"      VCA (Fundamental)
+- "lfo1"     Bogaudio-LFO (Bogaudio), FREQ=0.15
+- "lfo2"     Bogaudio-LFO (Bogaudio), FREQ=0.3
+- "lfo3"     Bogaudio-LFO (Bogaudio), FREQ=0.55
+- "noise"    Noise (Fundamental)
+- "sh"       Bogaudio-SampleHold (Bogaudio)
+- "reverb"   Plateau (Valley), DRY=1.0, WET=0.4, SIZE=0.85, DECAY=0.8
+- "delay"    Chronoblob2 (AlrightDevices), FEEDBACK=0.55, MIX=0.35
+- "audio"    AudioInterface2 (Core)
+
+STEP 2 - Wire clock and sequencer:
+- connect_cv: clock.o.CLK1 -> seq.i.CLOCK (white, clock)
+- connect_cv: clock.o.CLK2 -> sh.i.CLOCK1 (white, clock)
+- connect_cv: clock.o.CLK2 -> delay.i.CLOCK (white, clock)
+
+STEP 3 - Wire sequencer gates and CV:
+- connect_cv: seq.o.TRIG -> adsr_amp.i.GATE (white, gate)
+- connect_cv: seq.o.TRIG -> adsr_filt.i.GATE (white, gate)
+- connect_cv: seq.o.CV1 -> osc1.i.VOCT (cyan, cv)
+- connect_cv: seq.o.CV1 -> osc2.i.VOCT (cyan, cv)
+
+STEP 4 - Wire S&H:
+- connect_cv: noise.o.WHITE -> sh.i.IN1 (purple, cv)
+
+STEP 5 - Wire audio chain (osc -> filters -> vca):
+- connect_audio: osc1.o.SAW -> vcf1.i.IN
+- connect_audio: osc2.o.SAW -> vcf1.i.IN
+- connect_audio: vcf1.o.LPF -> vcf2.i.IN
+- connect_audio: vcf2.o.LPF -> vca.i.IN
+
+STEP 6 - Wire envelopes:
+- connect_cv: adsr_amp.o.ENV -> vca.i.CV (orange, cv)
+- modulate: adsr_filt.o.ENV -> vcf1.i.FREQ, attenuation=0.45
+
+STEP 7 - Wire LFO modulations:
+- modulate: lfo1.o.TRI -> vcf1.i.FREQ, attenuation=0.4
+- modulate: lfo2.o.SIN -> vcf2.i.FREQ, attenuation=0.3
+- modulate: lfo2.o.SIN -> reverb.i.SIZE_CV, attenuation=0.2
+- modulate: lfo3.o.TRI -> vca.i.LIN1, attenuation=0.3
+
+STEP 8 - Wire S&H to filter resonance:
+- connect_cv: sh.o.OUT1 -> vcf2.i.RES (purple, cv)
+
+STEP 9 - Wire effects chain:
+- connect_audio: vca.o.OUT1 -> reverb.i.IN_L
+- connect_audio: vca.o.OUT1 -> reverb.i.IN_R
+- connect_audio: reverb.o.OUT_L -> delay.i.IN_L
+- connect_audio: reverb.o.OUT_R -> delay.i.IN_R
+- fan_out_audio: delay.o.OUT_L -> [audio.i.IN_L, audio.i.IN_R]
+
+STEP 10 - Call get_status. If proven=True, save to tests/dub_techno_agent.vcv. If not proven, read the report and fix the gap before saving.

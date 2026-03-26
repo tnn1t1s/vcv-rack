@@ -1,0 +1,7 @@
+{
+  "plugin": "dbRackModules",
+  "model": "AddSynth",
+  "version": "2.5.0",
+  "introspectable": false,
+  "reason": "createModule() crashed or produced invalid output"
+}

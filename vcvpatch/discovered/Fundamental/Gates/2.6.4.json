@@ -1,0 +1,21 @@
+{
+  "plugin": "Fundamental",
+  "model": "Gates",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gate length",
+      "default": -3.32193,
+      "min": -9.96578,
+      "max": 3.32193
+    },
+    {
+      "id": 1,
+      "name": "Reset flip/flop",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

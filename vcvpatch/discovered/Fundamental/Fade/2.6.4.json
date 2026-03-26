@@ -1,0 +1,21 @@
+{
+  "plugin": "Fundamental",
+  "model": "Fade",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Crossfade",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Crossfade CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

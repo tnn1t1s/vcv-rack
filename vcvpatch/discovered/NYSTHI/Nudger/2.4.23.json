@@ -1,0 +1,77 @@
+{
+  "plugin": "NYSTHI",
+  "model": "Nudger",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Nudge fwd 0",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Nudge fwd 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Nudge fwd 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Nudge fwd 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Nudge bwd 0",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Nudge bwd 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Nudge bwd 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Nudge bwd 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Nudge global fwd",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Nudge global bwd",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

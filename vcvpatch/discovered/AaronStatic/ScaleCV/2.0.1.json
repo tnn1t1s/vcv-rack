@@ -1,0 +1,21 @@
+{
+  "plugin": "AaronStatic",
+  "model": "ScaleCV",
+  "version": "2.0.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Root Note",
+      "default": 0,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Mode",
+      "default": -4,
+      "min": -4,
+      "max": 4
+    }
+  ]
+}

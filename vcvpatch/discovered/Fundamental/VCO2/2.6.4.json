@@ -1,0 +1,56 @@
+{
+  "plugin": "Fundamental",
+  "model": "VCO2",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Sync",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Frequency",
+      "default": 0,
+      "min": -75,
+      "max": 75
+    },
+    {
+      "id": 3,
+      "name": "Wavetable position",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Wavetable position CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "FM mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

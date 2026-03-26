@@ -1,0 +1,77 @@
+{
+  "plugin": "CountModula",
+  "model": "BinarySequencer",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Divide by 2",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Divide by 4",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Divide by 8",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 3,
+      "name": "Divide by 16",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 4,
+      "name": "Divide by 32",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 5,
+      "name": "Divide by 64",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 6,
+      "name": "Scale",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Clock Rate",
+      "default": 1,
+      "min": -3,
+      "max": 7
+    },
+    {
+      "id": 8,
+      "name": "Lag Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Lag Shape",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

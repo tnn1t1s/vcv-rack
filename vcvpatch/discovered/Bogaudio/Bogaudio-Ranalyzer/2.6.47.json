@@ -1,0 +1,49 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Ranalyzer",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Frequency 2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Sweep",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Loop",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Return sample delay",
+      "default": 2,
+      "min": 2,
+      "max": 66
+    }
+  ]
+}

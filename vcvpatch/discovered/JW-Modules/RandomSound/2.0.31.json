@@ -1,0 +1,35 @@
+{
+  "plugin": "JW-Modules",
+  "model": "RandomSound",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Amplitude Decay",
+      "default": 0.3,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Trigger Sound",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Randomize Sound",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Trigger + Randomize",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-PEQ",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel A level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel A frequency",
+      "default": 0.0707107,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Channel A bandwidth",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel A frequency CV attenuation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Channel B level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Channel B frequency",
+      "default": 0.132288,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Channel B bandwidth",
+      "default": 0.66,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Channel B frequency CV attenuation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Channel C level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Channel C frequency",
+      "default": 0.223607,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Channel C bandwidth",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Channel C frequency CV attenuation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Channel A LP/BP",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Channel C HP/BP",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Foundry-Expander",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Synchronize Seq# changes",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Write mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

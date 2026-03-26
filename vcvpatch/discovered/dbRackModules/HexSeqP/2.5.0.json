@@ -1,0 +1,28 @@
+{
+  "plugin": "dbRackModules",
+  "model": "HexSeqP",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Pattern",
+      "default": 0,
+      "min": 0,
+      "max": 15
+    },
+    {
+      "id": 1,
+      "name": "Copy",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Paste",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

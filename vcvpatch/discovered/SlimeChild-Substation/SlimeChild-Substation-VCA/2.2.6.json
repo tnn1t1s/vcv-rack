@@ -1,0 +1,14 @@
+{
+  "plugin": "SlimeChild-Substation",
+  "model": "SlimeChild-Substation-VCA",
+  "version": "2.2.6",
+  "params": [
+    {
+      "id": 0,
+      "name": "Level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

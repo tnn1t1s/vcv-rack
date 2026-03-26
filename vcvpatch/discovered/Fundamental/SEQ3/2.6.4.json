@@ -1,0 +1,280 @@
+{
+  "plugin": "Fundamental",
+  "model": "SEQ3",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Tempo",
+      "default": 1,
+      "min": -2,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Steps",
+      "default": 8,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 4,
+      "name": "CV 1 step 1",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 5,
+      "name": "CV 1 step 2",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 6,
+      "name": "CV 1 step 3",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 7,
+      "name": "CV 1 step 4",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 8,
+      "name": "CV 1 step 5",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 9,
+      "name": "CV 1 step 6",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 10,
+      "name": "CV 1 step 7",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 11,
+      "name": "CV 1 step 8",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 12,
+      "name": "CV 2 step 1",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 13,
+      "name": "CV 2 step 2",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 14,
+      "name": "CV 2 step 3",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 15,
+      "name": "CV 2 step 4",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 16,
+      "name": "CV 2 step 5",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 17,
+      "name": "CV 2 step 6",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 18,
+      "name": "CV 2 step 7",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 19,
+      "name": "CV 2 step 8",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 20,
+      "name": "CV 3 step 1",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 21,
+      "name": "CV 3 step 2",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 22,
+      "name": "CV 3 step 3",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 23,
+      "name": "CV 3 step 4",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 24,
+      "name": "CV 3 step 5",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 25,
+      "name": "CV 3 step 6",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 26,
+      "name": "CV 3 step 7",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 27,
+      "name": "CV 3 step 8",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 28,
+      "name": "Step 1 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Step 2 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Step 3 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Step 4 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Step 5 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Step 6 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Step 7 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Step 8 trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Tempo CV",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Steps CV",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Clock",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

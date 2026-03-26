@@ -1,0 +1,42 @@
+{
+  "plugin": "CountModula",
+  "model": "SampleAndHold2",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Hold mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Probability",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Input level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Offset amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

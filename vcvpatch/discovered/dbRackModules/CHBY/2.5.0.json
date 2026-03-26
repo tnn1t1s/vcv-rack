@@ -1,0 +1,21 @@
+{
+  "plugin": "dbRackModules",
+  "model": "CHBY",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 14,
+      "min": 3,
+      "max": 14
+    },
+    {
+      "id": 1,
+      "name": "Freq CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

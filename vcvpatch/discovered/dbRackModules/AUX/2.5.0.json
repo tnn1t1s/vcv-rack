@@ -1,0 +1,126 @@
+{
+  "plugin": "dbRackModules",
+  "model": "AUX",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "chn 1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "chn 2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "chn 3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "chn 4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "chn 5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "chn 6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "chn 7",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "chn 8",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "chn 9",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "chn 10",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "chn 11",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "chn 12",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "chn 13",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "chn 14",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "chn 15",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "chn 16",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Main Level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

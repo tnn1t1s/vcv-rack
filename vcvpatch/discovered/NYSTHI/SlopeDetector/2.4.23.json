@@ -1,0 +1,14 @@
+{
+  "plugin": "NYSTHI",
+  "model": "SlopeDetector",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Sensibility",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

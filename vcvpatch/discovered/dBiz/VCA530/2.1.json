@@ -1,0 +1,105 @@
+{
+  "plugin": "dBiz",
+  "model": "VCA530",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mix 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mix 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Ch 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Ch 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Ch 3 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Ch 4 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Ch 6 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Ch 5 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Ch 1 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Ch 2 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Ch 3 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Ch 4 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Ch 5 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Ch 6 CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "plugin": "JW-Modules",
+  "model": "Buffer",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Loop End",
+      "default": 0.5,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Loop Start",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Dry/Wet",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Freeze Toggle",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Wet on Freeze",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

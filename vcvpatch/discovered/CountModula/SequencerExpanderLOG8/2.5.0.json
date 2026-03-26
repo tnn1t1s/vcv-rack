@@ -1,0 +1,70 @@
+{
+  "plugin": "CountModula",
+  "model": "SequencerExpanderLOG8",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Bit 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Bit 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Bit 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Bit 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Bit 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Bit 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Bit 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Bit 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Output mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

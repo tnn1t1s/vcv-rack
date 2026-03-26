@@ -1,0 +1,28 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "Tohe",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Tone",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Tone Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Model",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

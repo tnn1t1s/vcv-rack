@@ -1,0 +1,980 @@
+{
+  "plugin": "CountModula",
+  "model": "GateSequencer16",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Track 1 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Track 1 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Track 1 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Track 1 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Track 1 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Track 1 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Track 1 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Track 1 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Track 1 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Track 1 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Track 1 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Track 1 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Track 1 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Track 1 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Track 1 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Track 1 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Track 2 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Track 2 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Track 2 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Track 2 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Track 2 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Track 2 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Track 2 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Track 2 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Track 2 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Track 2 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Track 2 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Track 2 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Track 2 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Track 2 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Track 2 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Track 2 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Track 3 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Track 3 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Track 3 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Track 3 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Track 3 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Track 3 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Track 3 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Track 3 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Track 3 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Track 3 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Track 3 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Track 3 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Track 3 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Track 3 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Track 3 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Track 3 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Track 4 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Track 4 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Track 4 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Track 4 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Track 4 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Track 4 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Track 4 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Track 4 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "Track 4 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "Track 4 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "Track 4 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "Track 4 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "Track 4 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "Track 4 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "Track 4 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "Track 4 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "Track 5 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "Track 5 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 66,
+      "name": "Track 5 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 67,
+      "name": "Track 5 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 68,
+      "name": "Track 5 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 69,
+      "name": "Track 5 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 70,
+      "name": "Track 5 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 71,
+      "name": "Track 5 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 72,
+      "name": "Track 5 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 73,
+      "name": "Track 5 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 74,
+      "name": "Track 5 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 75,
+      "name": "Track 5 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 76,
+      "name": "Track 5 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 77,
+      "name": "Track 5 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 78,
+      "name": "Track 5 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 79,
+      "name": "Track 5 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 80,
+      "name": "Track 6 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 81,
+      "name": "Track 6 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 82,
+      "name": "Track 6 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 83,
+      "name": "Track 6 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 84,
+      "name": "Track 6 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 85,
+      "name": "Track 6 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 86,
+      "name": "Track 6 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 87,
+      "name": "Track 6 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 88,
+      "name": "Track 6 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 89,
+      "name": "Track 6 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 90,
+      "name": "Track 6 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 91,
+      "name": "Track 6 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 92,
+      "name": "Track 6 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 93,
+      "name": "Track 6 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 94,
+      "name": "Track 6 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 95,
+      "name": "Track 6 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 96,
+      "name": "Track 7 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 97,
+      "name": "Track 7 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 98,
+      "name": "Track 7 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 99,
+      "name": "Track 7 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 100,
+      "name": "Track 7 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 101,
+      "name": "Track 7 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 102,
+      "name": "Track 7 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 103,
+      "name": "Track 7 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 104,
+      "name": "Track 7 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 105,
+      "name": "Track 7 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 106,
+      "name": "Track 7 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 107,
+      "name": "Track 7 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 108,
+      "name": "Track 7 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 109,
+      "name": "Track 7 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 110,
+      "name": "Track 7 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 111,
+      "name": "Track 7 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 112,
+      "name": "Track 8 step 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 113,
+      "name": "Track 8 step 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 114,
+      "name": "Track 8 step 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 115,
+      "name": "Track 8 step 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 116,
+      "name": "Track 8 step 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 117,
+      "name": "Track 8 step 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 118,
+      "name": "Track 8 step 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 119,
+      "name": "Track 8 step 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 120,
+      "name": "Track 8 step 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 121,
+      "name": "Track 8 step 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 122,
+      "name": "Track 8 step 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 123,
+      "name": "Track 8 step 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 124,
+      "name": "Track 8 step 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 125,
+      "name": "Track 8 step 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 126,
+      "name": "Track 8 step 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 127,
+      "name": "Track 8 step 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 128,
+      "name": "Length",
+      "default": 16,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 129,
+      "name": "Track 1 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 130,
+      "name": "Track 2 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 131,
+      "name": "Track 3 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 132,
+      "name": "Track 4 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 133,
+      "name": "Track 5 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 134,
+      "name": "Track 6 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 135,
+      "name": "Track 7 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 136,
+      "name": "Track 8 mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 137,
+      "name": "Direction",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 138,
+      "name": "Address",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    }
+  ]
+}

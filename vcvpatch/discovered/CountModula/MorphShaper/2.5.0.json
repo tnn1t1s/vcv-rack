@@ -1,0 +1,21 @@
+{
+  "plugin": "CountModula",
+  "model": "MorphShaper",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Morph CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Manual morph",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    }
+  ]
+}

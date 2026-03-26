@@ -1,0 +1,6 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Phrase-Seq-Expander",
+  "version": "2.5.0",
+  "params": []
+}

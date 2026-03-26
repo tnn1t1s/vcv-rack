@@ -1,0 +1,84 @@
+{
+  "plugin": "NYSTHI",
+  "model": "NYEnvFollower",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Input 0.0..5.0",
+      "default": 1,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Attack 0.0..1.0",
+      "default": 0.4,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Release 0.0..1.0",
+      "default": 0.4,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Offset -5.0..5.0",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 4,
+      "name": "Scale -5.0..5.0",
+      "default": 1,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 5,
+      "name": "Delay Envelope 0.0..0.2",
+      "default": 0,
+      "min": 0,
+      "max": 0.2
+    },
+    {
+      "id": 6,
+      "name": "Delay Signal 0.0..0.2",
+      "default": 0,
+      "min": 0,
+      "max": 0.2
+    },
+    {
+      "id": 7,
+      "name": "Scope Time Scale",
+      "default": 11,
+      "min": 6,
+      "max": 16
+    },
+    {
+      "id": 8,
+      "name": "Scope Vert Scale -2.0..8.0",
+      "default": 0,
+      "min": -2,
+      "max": 8
+    },
+    {
+      "id": 9,
+      "name": "Scope ON-OFF 0..1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Smoothness 1.0..0.0",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

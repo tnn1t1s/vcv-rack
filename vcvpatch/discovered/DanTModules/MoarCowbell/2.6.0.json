@@ -1,0 +1,77 @@
+{
+  "plugin": "DanTModules",
+  "model": "MoarCowbell",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Primary Frequency",
+      "default": 399.54,
+      "min": 32.703,
+      "max": 3951.07
+    },
+    {
+      "id": 1,
+      "name": "Oscillators Spread",
+      "default": 821.54,
+      "min": 0,
+      "max": 1600
+    },
+    {
+      "id": 2,
+      "name": "Ring",
+      "default": 0.45,
+      "min": 0.001,
+      "max": 5
+    },
+    {
+      "id": 3,
+      "name": "Filter Frequency",
+      "default": 541.36,
+      "min": 32.703,
+      "max": 3951.07
+    },
+    {
+      "id": 4,
+      "name": "Filter Width",
+      "default": 646.99,
+      "min": 100,
+      "max": 2000
+    },
+    {
+      "id": 5,
+      "name": "Distortion",
+      "default": 0.26,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Metal Spread",
+      "default": 877.07,
+      "min": 0,
+      "max": 1600
+    },
+    {
+      "id": 7,
+      "name": "Gain",
+      "default": 12,
+      "min": -70,
+      "max": 48
+    },
+    {
+      "id": 8,
+      "name": "Hit!",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "~~ Panic ~~",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

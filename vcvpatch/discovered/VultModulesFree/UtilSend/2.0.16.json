@@ -1,0 +1,21 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "UtilSend",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Blend",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Blend Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

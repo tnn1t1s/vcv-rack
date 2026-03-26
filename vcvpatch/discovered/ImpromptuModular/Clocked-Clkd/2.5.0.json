@@ -1,0 +1,77 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Clocked-Clkd",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Clk 1 ratio",
+      "default": 0,
+      "min": -34,
+      "max": 34
+    },
+    {
+      "id": 1,
+      "name": "Clk 2 ratio",
+      "default": 0,
+      "min": -34,
+      "max": 34
+    },
+    {
+      "id": 2,
+      "name": "Clk 3 ratio",
+      "default": 0,
+      "min": -34,
+      "max": 34
+    },
+    {
+      "id": 3,
+      "name": "Master clock",
+      "default": 120,
+      "min": 30,
+      "max": 300
+    },
+    {
+      "id": 4,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Bpm mode prev",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Bpm mode next",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Display prev",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Display next",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

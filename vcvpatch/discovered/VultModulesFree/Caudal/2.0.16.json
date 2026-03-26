@@ -1,0 +1,70 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "Caudal",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Speed",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Energy",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Speed Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Energy Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Hit",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 5,
+      "name": "Reverse",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 6,
+      "name": "Store",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 7,
+      "name": "Recall",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 8,
+      "name": "Model",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

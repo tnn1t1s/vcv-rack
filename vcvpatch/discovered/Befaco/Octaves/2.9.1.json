@@ -1,0 +1,84 @@
+{
+  "plugin": "Befaco",
+  "model": "Octaves",
+  "version": "2.9.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "PWM CV attenuater",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Octave",
+      "default": 1,
+      "min": 0,
+      "max": 6
+    },
+    {
+      "id": 2,
+      "name": "Tune",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "PWM",
+      "default": 0.5,
+      "min": 0.5,
+      "max": 0
+    },
+    {
+      "id": 4,
+      "name": "Range",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Gain Fundamental",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Gain x2 Fundamental",
+      "default": 0.75,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Gain x4 Fundamental",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Gain x8 Fundamental",
+      "default": 0.25,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Gain x16 Fundamental",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Gain x32 Fundamental",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

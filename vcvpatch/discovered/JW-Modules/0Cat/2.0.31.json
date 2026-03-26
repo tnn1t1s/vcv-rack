@@ -1,0 +1,14 @@
+{
+  "plugin": "JW-Modules",
+  "model": "0Cat",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "CLICK BOWL TO FEED THE CAT!",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

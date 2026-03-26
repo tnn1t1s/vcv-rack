@@ -1,0 +1,434 @@
+{
+  "plugin": "mscHack",
+  "model": "Mix_4_0_4",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Main Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Ch1. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Ch2. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Ch3. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Ch4. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "AUX1. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "AUX2. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "AUX3. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "AUX4. Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Ch1. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Ch2. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Ch3. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Ch4. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "AUX1. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "AUX2. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "AUX3. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "AUX4. Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Ch1. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Ch2. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Ch3. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Ch4. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "AUX1. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "AUX2. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "AUX3. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "AUX4. EQ High",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Ch1. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Ch2. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Ch3. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Ch4. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "AUX1. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "AUX2. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "AUX3. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "AUX4. EQ Mid",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Ch1. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Ch2. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Ch3. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Ch4. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "AUX1. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "AUX2. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "AUX3. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "AUX4. EQ Low",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Ch1. AUX 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Ch1. AUX 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Ch1. AUX 3 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Ch1. AUX 4 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Ch2. AUX 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Ch2. AUX 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Ch2. AUX 3 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Ch2. AUX 4 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Ch3. AUX 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Ch3. AUX 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Ch3. AUX 3 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Ch3. AUX 4 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Ch4. AUX 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Ch4. AUX 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Ch4. AUX 3 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "Ch4. AUX 4 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "AUX1 Send Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "AUX2 Send Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "AUX3 Send Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "AUX4 Send Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "plugin": "CountModula",
+  "model": "RandomAccessSwitch81",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Select 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Select 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Select 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Select 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Select 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Select 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Select 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Select 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

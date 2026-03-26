@@ -1,0 +1,56 @@
+{
+  "plugin": "mscHack",
+  "model": "Maude221",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Limit Input A",
+      "default": 10,
+      "min": 1,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Limit Input B",
+      "default": 10,
+      "min": 1,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Amplitude Out",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Mult Mode",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 4,
+      "name": "DC Offset",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 5,
+      "name": "CVA Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "CVB Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

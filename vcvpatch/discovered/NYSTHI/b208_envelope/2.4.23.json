@@ -1,0 +1,91 @@
+{
+  "plugin": "NYSTHI",
+  "model": "b208_envelope",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "",
+      "default": 4,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "",
+      "default": 10,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "",
+      "default": 6,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 3,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "",
+      "default": 4,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 7,
+      "name": "",
+      "default": 10,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 8,
+      "name": "",
+      "default": 6,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 9,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

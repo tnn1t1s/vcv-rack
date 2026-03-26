@@ -1,0 +1,42 @@
+{
+  "plugin": "SlimeChild-Substation",
+  "model": "SlimeChild-Substation-Quantizer",
+  "version": "2.2.6",
+  "params": [
+    {
+      "id": 0,
+      "name": "Temperament",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Scale Degrees",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Root Note",
+      "default": 0,
+      "min": 0,
+      "max": 11
+    },
+    {
+      "id": 3,
+      "name": "Octave",
+      "default": 0,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 4,
+      "name": "Transpose",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

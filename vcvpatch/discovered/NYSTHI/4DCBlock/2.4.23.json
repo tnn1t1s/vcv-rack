@@ -1,0 +1,14 @@
+{
+  "plugin": "NYSTHI",
+  "model": "4DCBlock",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

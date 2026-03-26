@@ -1,0 +1,112 @@
+{
+  "plugin": "ArhythmeticUnits-Fourier",
+  "model": "SpectrumAnalyzer",
+  "version": "2.1.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Red Gain",
+      "default": 1,
+      "min": 0,
+      "max": 3.98107
+    },
+    {
+      "id": 1,
+      "name": "Green Gain",
+      "default": 1,
+      "min": 0,
+      "max": 3.98107
+    },
+    {
+      "id": 2,
+      "name": "Blue Gain",
+      "default": 1,
+      "min": 0,
+      "max": 3.98107
+    },
+    {
+      "id": 3,
+      "name": "Yellow Gain",
+      "default": 1,
+      "min": 0,
+      "max": 3.98107
+    },
+    {
+      "id": 4,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Window",
+      "default": 14,
+      "min": 0,
+      "max": 14
+    },
+    {
+      "id": 6,
+      "name": "Length",
+      "default": 11,
+      "min": 7,
+      "max": 14
+    },
+    {
+      "id": 7,
+      "name": "Hop",
+      "default": 0.03,
+      "min": 0.005,
+      "max": 0.3
+    },
+    {
+      "id": 8,
+      "name": "X Scale",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Y Scale",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 10,
+      "name": "Average",
+      "default": 0,
+      "min": 0,
+      "max": 2.5
+    },
+    {
+      "id": 11,
+      "name": "Smooth",
+      "default": 0,
+      "min": 0,
+      "max": 15
+    },
+    {
+      "id": 12,
+      "name": "LO Freq",
+      "default": 0,
+      "min": 0,
+      "max": 22050
+    },
+    {
+      "id": 13,
+      "name": "HI Freq",
+      "default": 22050,
+      "min": 0,
+      "max": 22050
+    },
+    {
+      "id": 14,
+      "name": "Slope",
+      "default": 4.5,
+      "min": -9,
+      "max": 9
+    }
+  ]
+}

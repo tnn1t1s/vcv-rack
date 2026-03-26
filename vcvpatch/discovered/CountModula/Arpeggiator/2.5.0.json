@@ -1,0 +1,56 @@
+{
+  "plugin": "CountModula",
+  "model": "Arpeggiator",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Pattern length",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 1,
+      "name": "Sequence",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 2,
+      "name": "Note presort order",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Glide",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Octave processing",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Modifier processing",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Hold",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

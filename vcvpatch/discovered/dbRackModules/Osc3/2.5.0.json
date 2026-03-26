@@ -1,0 +1,28 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Osc3",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "FM Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Linear",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

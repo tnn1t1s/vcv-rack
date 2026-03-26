@@ -1,0 +1,84 @@
+{
+  "plugin": "NYSTHI",
+  "model": "NYStereoPhaser",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gain 0..1",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mod speed 0..1",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Mod depth -1..1",
+      "default": 0.6,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Reso 0..1",
+      "default": 0.7,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Depth 0..0.8",
+      "default": 0.66,
+      "min": 0,
+      "max": 0.8
+    },
+    {
+      "id": 5,
+      "name": "Bandwidth 0..1",
+      "default": 0.65,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Frequency 0..1",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Stages 0..1 (12 - 24)",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Order 0..1 (2 - 4)",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "VCO type 0..3 ",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 10,
+      "name": "Bypass 0..1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

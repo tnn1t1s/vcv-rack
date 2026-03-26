@@ -1,0 +1,322 @@
+{
+  "plugin": "dBiz",
+  "model": "TROSCMK2",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Wave Mix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Wave Mix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Wave Mix Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Osc Octave",
+      "default": 8,
+      "min": 4,
+      "max": 12
+    },
+    {
+      "id": 4,
+      "name": "Osc Octave",
+      "default": 8,
+      "min": 4,
+      "max": 12
+    },
+    {
+      "id": 5,
+      "name": "Osc Octave",
+      "default": 8,
+      "min": 4,
+      "max": 12
+    },
+    {
+      "id": 6,
+      "name": "Osc Coarse note",
+      "default": 0,
+      "min": -7,
+      "max": 7
+    },
+    {
+      "id": 7,
+      "name": "Osc Coarse note",
+      "default": 0,
+      "min": -7,
+      "max": 7
+    },
+    {
+      "id": 8,
+      "name": "Osc Coarse note",
+      "default": 0,
+      "min": -7,
+      "max": 7
+    },
+    {
+      "id": 9,
+      "name": "Osc1 Fine frequency",
+      "default": 0,
+      "min": -0.083333,
+      "max": 0.083333
+    },
+    {
+      "id": 10,
+      "name": "Osc1 Fine frequency",
+      "default": 0,
+      "min": -0.083333,
+      "max": 0.083333
+    },
+    {
+      "id": 11,
+      "name": "Osc1 Fine frequency",
+      "default": 0,
+      "min": -0.083333,
+      "max": 0.083333
+    },
+    {
+      "id": 12,
+      "name": "Osc1 Lin Frequency modulation",
+      "default": 0,
+      "min": -11.7,
+      "max": 11.7
+    },
+    {
+      "id": 13,
+      "name": "Osc1 Lin Frequency modulation",
+      "default": 0,
+      "min": -11.7,
+      "max": 11.7
+    },
+    {
+      "id": 14,
+      "name": "Osc1 Lin Frequency modulation",
+      "default": 0,
+      "min": -11.7,
+      "max": 11.7
+    },
+    {
+      "id": 15,
+      "name": "Osc1 Exp Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Osc1 Exp Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Osc1 Exp Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Folds",
+      "default": 0.9,
+      "min": 0.9,
+      "max": 10
+    },
+    {
+      "id": 19,
+      "name": "Folds",
+      "default": 0.9,
+      "min": 0.9,
+      "max": 10
+    },
+    {
+      "id": 20,
+      "name": "Folds",
+      "default": 0.9,
+      "min": 0.9,
+      "max": 10
+    },
+    {
+      "id": 21,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Symmetry",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 25,
+      "name": "Symmetry",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 26,
+      "name": "Symmetry",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 27,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Folds CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Osc Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Osc Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Osc Amp Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Wave A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Wave A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Wave A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Wave 2A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Wave 2A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Wave 2A Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Osc Level Att",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Osc Level Att",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Osc Level Att",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Ch level",
+      "default": 1,
+      "min": 0,
+      "max": 1.41421
+    },
+    {
+      "id": 43,
+      "name": "Link A Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Link B Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "plugin": "Befaco",
+  "model": "Atte",
+  "version": "2.9.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gain A",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Gain B",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Gain C",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Gain D",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Mode A",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Mode B",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Mode C",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Mode D",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

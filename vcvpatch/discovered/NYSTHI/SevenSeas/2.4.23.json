@@ -1,0 +1,154 @@
+{
+  "plugin": "NYSTHI",
+  "model": "SevenSeas",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 0.2
+    },
+    {
+      "id": 3,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 3.2
+    },
+    {
+      "id": 4,
+      "name": "",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 0.2
+    },
+    {
+      "id": 7,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 0.1
+    },
+    {
+      "id": 9,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 0.1
+    },
+    {
+      "id": 11,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "",
+      "default": 0,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "",
+      "default": 0,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "",
+      "default": 0,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "",
+      "default": 0,
+      "min": 0.001,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "",
+      "default": 0,
+      "min": -0.49998,
+      "max": 0.49998
+    },
+    {
+      "id": 19,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

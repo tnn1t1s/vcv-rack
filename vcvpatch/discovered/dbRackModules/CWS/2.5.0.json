@@ -1,0 +1,21 @@
+{
+  "plugin": "dbRackModules",
+  "model": "CWS",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Lvl",
+      "default": 0.1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Lvl CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-DADSRHPlus",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Delay",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Attack",
+      "default": 0.14142,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Decay",
+      "default": 0.316228,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Sustain",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Release",
+      "default": 0.316228,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Hold",
+      "default": 0.44721,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Attack shape",
+      "default": 1,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "id": 7,
+      "name": "Decay shape",
+      "default": 1,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "id": 8,
+      "name": "Release shape",
+      "default": 1,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "id": 9,
+      "name": "Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Loop",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Speed",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Retrigger",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

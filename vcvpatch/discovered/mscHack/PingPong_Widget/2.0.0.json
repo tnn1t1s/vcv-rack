@@ -1,0 +1,84 @@
+{
+  "plugin": "mscHack",
+  "model": "PingPong_Widget",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Left Delay Time",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Right Delay Time",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Feedback Left to Right",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Feedback Left to Left",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Feedback Right to Left",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Feedback Right to Right",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Filter Cutoff",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Filter Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Wet/Dry Mix",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Filter Type",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 10,
+      "name": "Unused",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

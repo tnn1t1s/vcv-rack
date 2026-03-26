@@ -1,0 +1,266 @@
+{
+  "plugin": "CountModula",
+  "model": "Sequencer8",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Step 1 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Step 2 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Step 3 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Step 4 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Step 5 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Step 6 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "Step 7 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Step 8 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Step 1 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Step 2 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Step 3 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Step 4 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Step 5 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Step 6 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Step 7 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Step 8 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Length",
+      "default": 8,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 17,
+      "name": "Direction",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 18,
+      "name": "Address",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 19,
+      "name": "Scale",
+      "default": 8,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 20,
+      "name": "Sample and hold mode",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 21,
+      "name": "Step 1 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Step 2 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Step 3 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Step 4 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Step 5 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Step 6 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Step 7 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Step 8 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Step 1 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Step 2 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Step 3 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Step 4 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Step 5 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Step 6 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Step 7 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Step 8 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

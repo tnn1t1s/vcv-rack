@@ -1,0 +1,42 @@
+{
+  "plugin": "NYSTHI",
+  "model": "02NAGOL",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "",
+      "default": 0.1,
+      "min": 0,
+      "max": 0.2
+    },
+    {
+      "id": 4,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

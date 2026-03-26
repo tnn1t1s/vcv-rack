@@ -1,0 +1,14 @@
+{
+  "plugin": "CountModula",
+  "model": "Breakout",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel range",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

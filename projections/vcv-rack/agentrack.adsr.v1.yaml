@@ -1,0 +1,15 @@
+module_id:   "agentrack.adsr.v1"
+runtime:     "vcv-rack"
+rack_plugin: "AgentRack"
+rack_model:  "ADSR"
+
+port_map:
+  gate_in:   {rack_id: 0}
+  retrig_in: {rack_id: 1}
+  env_out:   {rack_id: 0}
+
+param_map:
+  attack:  {rack_id: 0}
+  decay:   {rack_id: 1}
+  sustain: {rack_id: 2}
+  release: {rack_id: 3}

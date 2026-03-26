@@ -1,0 +1,322 @@
+{
+  "plugin": "dBiz",
+  "model": "PerfMixer",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mix Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Aux Return 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Aux Return 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Auz Send 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Auz Send 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Ch Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Ch Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Send 1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Send 2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Mute ch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

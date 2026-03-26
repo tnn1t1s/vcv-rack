@@ -1,0 +1,455 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Matrix88M",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mute 1A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 1,
+      "name": "Mute 2A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 2,
+      "name": "Mute 3A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 3,
+      "name": "Mute 4A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 4,
+      "name": "Mute 5A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 5,
+      "name": "Mute 6A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 6,
+      "name": "Mute 7A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 7,
+      "name": "Mute 8A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 8,
+      "name": "Mute 1B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 9,
+      "name": "Mute 2B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 10,
+      "name": "Mute 3B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 11,
+      "name": "Mute 4B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 12,
+      "name": "Mute 5B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 13,
+      "name": "Mute 6B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 14,
+      "name": "Mute 7B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 15,
+      "name": "Mute 8B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 16,
+      "name": "Mute 1C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 17,
+      "name": "Mute 2C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 18,
+      "name": "Mute 3C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 19,
+      "name": "Mute 4C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 20,
+      "name": "Mute 5C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 21,
+      "name": "Mute 6C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 22,
+      "name": "Mute 7C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 23,
+      "name": "Mute 8C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 24,
+      "name": "Mute 1D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 25,
+      "name": "Mute 2D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 26,
+      "name": "Mute 3D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 27,
+      "name": "Mute 4D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 28,
+      "name": "Mute 5D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 29,
+      "name": "Mute 6D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 30,
+      "name": "Mute 7D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 31,
+      "name": "Mute 8D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 32,
+      "name": "Mute 1E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 33,
+      "name": "Mute 2E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 34,
+      "name": "Mute 3E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 35,
+      "name": "Mute 4E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 36,
+      "name": "Mute 5E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 37,
+      "name": "Mute 6E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 38,
+      "name": "Mute 7E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 39,
+      "name": "Mute 8E",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 40,
+      "name": "Mute 1F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 41,
+      "name": "Mute 2F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 42,
+      "name": "Mute 3F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 43,
+      "name": "Mute 4F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 44,
+      "name": "Mute 5F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 45,
+      "name": "Mute 6F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 46,
+      "name": "Mute 7F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 47,
+      "name": "Mute 8F",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 48,
+      "name": "Mute 1G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 49,
+      "name": "Mute 2G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 50,
+      "name": "Mute 3G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 51,
+      "name": "Mute 4G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 52,
+      "name": "Mute 5G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 53,
+      "name": "Mute 6G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 54,
+      "name": "Mute 7G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 55,
+      "name": "Mute 8G",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 56,
+      "name": "Mute 1H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 57,
+      "name": "Mute 2H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 58,
+      "name": "Mute 3H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 59,
+      "name": "Mute 4H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 60,
+      "name": "Mute 5H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 61,
+      "name": "Mute 6H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 62,
+      "name": "Mute 7H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 63,
+      "name": "Mute 8H",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    }
+  ]
+}

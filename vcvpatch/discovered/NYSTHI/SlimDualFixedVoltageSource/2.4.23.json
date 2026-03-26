@@ -1,0 +1,6 @@
+{
+  "plugin": "NYSTHI",
+  "model": "SlimDualFixedVoltageSource",
+  "version": "2.4.23",
+  "params": []
+}

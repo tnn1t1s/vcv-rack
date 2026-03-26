@@ -1,0 +1,28 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Walk",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Rate",
+      "default": 0.1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Offset",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Scale",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

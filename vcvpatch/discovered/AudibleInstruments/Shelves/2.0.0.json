@@ -1,0 +1,77 @@
+{
+  "plugin": "AudibleInstruments",
+  "model": "Shelves",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "High-shelf frequency",
+      "default": 9.30482,
+      "min": 4.32193,
+      "max": 14.2877
+    },
+    {
+      "id": 1,
+      "name": "High-shelf gain",
+      "default": 0,
+      "min": -18,
+      "max": 18
+    },
+    {
+      "id": 2,
+      "name": "Parametric 1 frequency",
+      "default": 9.30482,
+      "min": 4.32193,
+      "max": 14.2877
+    },
+    {
+      "id": 3,
+      "name": "Parametric 1 gain",
+      "default": 0,
+      "min": -18,
+      "max": 18
+    },
+    {
+      "id": 4,
+      "name": "Parametric 1 quality",
+      "default": 2.16096,
+      "min": -1,
+      "max": 5.32193
+    },
+    {
+      "id": 5,
+      "name": "Parametric 2 frequency",
+      "default": 9.30482,
+      "min": 4.32193,
+      "max": 14.2877
+    },
+    {
+      "id": 6,
+      "name": "Parametric 2 gain",
+      "default": 0,
+      "min": -18,
+      "max": 18
+    },
+    {
+      "id": 7,
+      "name": "Parametric 2 quality",
+      "default": 2.16096,
+      "min": -1,
+      "max": 5.32193
+    },
+    {
+      "id": 8,
+      "name": "Low-shelf frequency",
+      "default": 9.30482,
+      "min": 4.32193,
+      "max": 14.2877
+    },
+    {
+      "id": 9,
+      "name": "Low-shelf gain",
+      "default": 0,
+      "min": -18,
+      "max": 18
+    }
+  ]
+}

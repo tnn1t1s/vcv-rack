@@ -1,0 +1,91 @@
+{
+  "plugin": "NYSTHI",
+  "model": "XYdisplay",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "X Scale",
+      "default": 1,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "X Offset",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Y Scale",
+      "default": 1,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 3,
+      "name": "Y Offset",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Fade time",
+      "default": 0.2,
+      "min": 0.01,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Beam focus",
+      "default": 2,
+      "min": 0.5,
+      "max": 20
+    },
+    {
+      "id": 6,
+      "name": "X SCALE VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "X OFFSET VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Y SCALE VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "Y OFFSET VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 10,
+      "name": "Beam focus VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 11,
+      "name": "Max drawable vector length",
+      "default": 20,
+      "min": 1,
+      "max": 20
+    }
+  ]
+}

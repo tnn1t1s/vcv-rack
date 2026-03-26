@@ -1,0 +1,21 @@
+{
+  "plugin": "CountModula",
+  "model": "ManualGate",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gate",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Output gate length",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    }
+  ]
+}

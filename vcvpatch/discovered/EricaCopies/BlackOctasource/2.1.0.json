@@ -1,0 +1,35 @@
+{
+  "plugin": "EricaCopies",
+  "model": "BlackOctasource",
+  "version": "2.1.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "RATE",
+      "default": 0.25,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "WAVE",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 2,
+      "name": "FM LEVEL",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "MULTI MODE",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

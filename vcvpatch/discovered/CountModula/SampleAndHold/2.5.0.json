@@ -1,0 +1,14 @@
+{
+  "plugin": "CountModula",
+  "model": "SampleAndHold",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Hold mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

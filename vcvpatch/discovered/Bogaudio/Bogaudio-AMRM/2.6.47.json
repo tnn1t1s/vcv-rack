@@ -1,0 +1,21 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-AMRM",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Rectification",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Wet mix",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

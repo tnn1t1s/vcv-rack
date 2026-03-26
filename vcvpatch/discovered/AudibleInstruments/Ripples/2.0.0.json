@@ -1,0 +1,28 @@
+{
+  "plugin": "AudibleInstruments",
+  "model": "Ripples",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Frequency",
+      "default": 14.2877,
+      "min": 4.32193,
+      "max": 14.2877
+    },
+    {
+      "id": 2,
+      "name": "Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

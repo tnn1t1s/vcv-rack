@@ -1,0 +1,413 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Mix8x",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 1 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Channel 1 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel 1 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Channel 1 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Channel 1 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Channel 1 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Channel 2 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Channel 2 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Channel 2 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Channel 2 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Channel 2 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Channel 2 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Channel 2 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Channel 3 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Channel 3 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Channel 3 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Channel 3 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Channel 3 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Channel 3 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Channel 3 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Channel 4 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Channel 4 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Channel 4 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Channel 4 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Channel 4 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Channel 4 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Channel 4 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Channel 5 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Channel 5 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Channel 5 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Channel 5 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Channel 5 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Channel 5 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Channel 5 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Channel 6 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Channel 6 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Channel 6 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Channel 6 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Channel 6 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Channel 6 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Channel 6 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Channel 7 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Channel 7 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Channel 7 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Channel 7 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Channel 7 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Channel 7 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Channel 7 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Channel 8 low",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Channel 8 mid",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Channel 8 high",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Channel 8 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Channel 8 A send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Channel 8 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Channel 8 B send",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "A return level",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "B return level",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

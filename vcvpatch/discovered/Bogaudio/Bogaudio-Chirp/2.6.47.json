@@ -1,0 +1,49 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Chirp",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Time",
+      "default": 0.308994,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Frequency 1",
+      "default": -3,
+      "min": -3,
+      "max": 6
+    },
+    {
+      "id": 2,
+      "name": "Frequency 2",
+      "default": 6,
+      "min": -3,
+      "max": 6
+    },
+    {
+      "id": 3,
+      "name": "Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Exponential",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Loop",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

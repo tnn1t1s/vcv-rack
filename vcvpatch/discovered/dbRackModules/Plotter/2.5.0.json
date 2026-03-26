@@ -1,0 +1,21 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Plotter",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Scale",
+      "default": 1,
+      "min": 0.5,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Dimmer",
+      "default": 255,
+      "min": 2,
+      "max": 255
+    }
+  ]
+}

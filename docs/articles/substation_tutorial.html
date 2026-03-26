@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slime Child Substation: A Practical Guide — VCV Rack Tutorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f5f5;
+      color: #1a1a1a;
+      font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ---- Nav ---- */
+    .nav {
+      background: #333;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 52px;
+    }
+
+    .nav-logo {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-sep { color: #666; font-size: 16px; }
+
+    .nav-crumb {
+      color: #aaa;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .nav-crumb.active { color: #f9b130; }
+
+    /* ---- Header ---- */
+    .header {
+      background: #333;
+      border-bottom: 3px solid #00a0f9;
+      padding: 52px 40px 44px;
+      text-align: center;
+    }
+
+    .header-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #f9b130;
+      margin-bottom: 20px;
+    }
+
+    .header-tag::before,
+    .header-tag::after {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: #f9b130;
+      opacity: 0.5;
+    }
+
+    .header h1 {
+      font-size: clamp(24px, 3.5vw, 40px);
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.25;
+      max-width: 700px;
+      margin: 0 auto 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .header-sub {
+      color: #aaa;
+      font-size: 15px;
+      max-width: 520px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* ---- Layout ---- */
+    .page {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      min-height: 100vh;
+    }
+
+    /* ---- Sidebar ---- */
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid #ddd;
+      padding: 32px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      padding: 0 20px 10px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 7px 20px;
+      font-size: 13.5px;
+      color: #444;
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all 0.1s;
+    }
+
+    .sidebar a:hover { color: #00a0f9; background: #f5f5f5; }
+    .sidebar a.active { color: #00a0f9; border-left-color: #00a0f9; background: #e5f5fe; font-weight: 500; }
+
+    .sidebar-section {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 16px;
+    }
+
+    /* ---- Content ---- */
+    .content {
+      background: #fff;
+      padding: 44px 52px 80px;
+      min-width: 0;
+    }
+
+    p { margin-bottom: 1.2em; }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 2.4em 0 0.65em;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e8e8e8;
+      letter-spacing: -0.01em;
+    }
+
+    h2:first-child { margin-top: 0; }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #00a0f9;
+      margin: 1.8em 0 0.5em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 2.4em 0;
+    }
+
+    strong { font-weight: 600; color: #111; }
+    em { color: #333; font-style: italic; }
+
+    a { color: #00a0f9; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    ul, ol { margin: 0.7em 0 1.2em 1.4em; }
+    li { margin-bottom: 0.35em; }
+
+    code {
+      font-family: "DM Mono", "Menlo", "Monaco", monospace;
+      font-size: 0.82em;
+      background: #f2f2f2;
+      border: 1px solid #ddd;
+      color: #333;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    pre {
+      background: #282828;
+      border: 1px solid #444;
+      border-radius: 5px;
+      padding: 18px 22px;
+      overflow-x: auto;
+      margin: 1.2em 0 1.6em;
+      font-family: "DM Mono", "Menlo", monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      color: #e8e8e8;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    /* ---- Signal flow diagram ---- */
+    .signal-flow {
+      background: #1c1c1c;
+      border: 1px solid #444;
+      border-left: 3px solid #00a0f9;
+      border-radius: 5px;
+      padding: 20px 24px;
+      margin: 1.4em 0 1.8em;
+      overflow-x: auto;
+    }
+
+    .signal-flow pre {
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      color: #ccc;
+      font-size: 12.5px;
+      line-height: 1.85;
+    }
+
+    /* ---- Callouts ---- */
+    .tip {
+      background: #fffbf0;
+      border: 1px solid #f9b130;
+      border-left: 3px solid #f9b130;
+      border-radius: 5px;
+      padding: 14px 18px;
+      margin: 1.2em 0;
+      font-size: 15.5px;
+    }
+
+    .tip strong { color: #b87800; }
+
+    .info {
+      background: #e5f5fe;
+      border: 1px solid #a0d8fc;
+      border-left: 3px solid #00a0f9;
+      border-radius: 5px;
+      padding: 14px 18px;
+      margin: 1.2em 0;
+      font-size: 15.5px;
+    }
+
+    .info strong { color: #0078bc; }
+
+    /* ---- Level table ---- */
+    .level-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.8em 0 1.4em;
+      font-size: 15px;
+    }
+
+    .level-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      padding: 6px 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .level-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    .level-table td:first-child {
+      font-family: "DM Mono", monospace;
+      font-size: 12.5px;
+      color: #0078bc;
+      white-space: nowrap;
+      background: #f7fbff;
+    }
+
+    .level-table tr:last-child td { border-bottom: none; }
+
+    /* ---- Section number ---- */
+    .section-num {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f9b130;
+      margin-bottom: 4px;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+      background: #333;
+      color: #888;
+      text-align: center;
+      padding: 24px 40px;
+      font-size: 13px;
+      border-top: 1px solid #444;
+    }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .page { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .content { padding: 28px 24px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="#">VCV Rack</a>
+  <span class="nav-sep">/</span>
+  <a class="nav-crumb" href="#">Community Tutorials</a>
+  <span class="nav-sep">/</span>
+  <a class="nav-crumb active" href="#">Substation</a>
+</nav>
+
+<div class="header">
+  <div class="header-tag">VCV Rack Tutorial</div>
+  <h1>Slime Child Substation: Polyrhythm, Sub-Bass, and Saturation</h1>
+  <p class="header-sub">Using all eight Substation modules to build a patch that does more with less</p>
+</div>
+
+<div class="page">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">On this page</div>
+    <a href="#patch">The Patch</a>
+    <a href="#polyseq">1. PolySeq Rhythm</a>
+    <a href="#quantizer">2. Quantization</a>
+    <a href="#subosc">3. Sub-Octave Layering</a>
+    <a href="#saturation">4. Saturation</a>
+    <a href="#envelopes">5. Envelopes</a>
+    <a href="#performance">Performance Ideas</a>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Modules used</div>
+      <a href="#">Clock</a>
+      <a href="#">PolySeq</a>
+      <a href="#">Quantizer</a>
+      <a href="#">SubOscillator</a>
+      <a href="#">Envelopes</a>
+      <a href="#">Mixer</a>
+      <a href="#">Filter</a>
+      <a href="#">VCA</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <p>If you spend time in the VCV Rack community, you'll notice a pattern: most synthesis tutorials show you how to connect a clock to a sequencer to a VCO to a filter to a VCA. The chain is always the same. It works. It sounds fine. But it rarely surprises you.</p>
+
+    <p>Slime Child Audio's Substation module pack breaks that pattern. It's a tightly designed toolkit where every module has an opinion about what synthesis should feel like. The PolySeq doesn't just sequence -- it creates interlocking rhythmic structures from a single clock. The SubOscillator gives you mathematically pure subharmonics at exact integer divisions of your base pitch. The Envelopes module has a behavior called "semi-interruptable" that changes how you think about percussive sounds.</p>
+
+    <p>This guide walks through building a patch that uses all eight Substation modules. By the end you'll have a working bass synthesizer with polyrhythmic sequencing, scale quantization, and saturation that you can actually perform with.</p>
+
+    <hr>
+
+    <h2 id="patch">The Patch We're Building</h2>
+
+    <div class="signal-flow"><pre>Clock (MULT x4) ──► PolySeq (CLOCK)
+                         │
+                    SEQ_A (CV)   ──► Quantizer ──► SubOsc V/OCT
+                    TRIG1 (gate) ──► Envelopes (TRIG1 + TRIG2)
+
+SubOsc BASE ──┐
+SubOsc SUB1 ──┼──► Mixer ──► Filter ──► VCA ──► Audio Out
+SubOsc SUB2 ──┘         ▲            ▲
+                   ENV2 (filter)   ENV1 (amp)</pre></div>
+
+    <p>The Clock drives everything. The PolySeq generates both the rhythm (TRIG outputs) and pitch material (SEQ outputs). The Quantizer constrains pitch to a musical scale. The SubOscillator layers the pitch across three octaves. The Mixer blends those layers with saturation. The Filter shapes tone with an envelope sweep. The VCA opens and closes with the amplitude envelope.</p>
+
+    <hr>
+
+    <h2 id="polyseq"><span class="section-num">Section 1</span>Syncopated Rhythm with the PolySeq</h2>
+
+    <p>The PolySeq looks intimidating at first. It has four rhythmic dividers (DIV1 through DIV4), three output sequences (A, B, C), and a routing matrix that connects dividers to sequences. Once you understand the routing matrix, everything clicks.</p>
+
+    <h3>How the Dividers Work</h3>
+
+    <p>Each divider is an independent rhythmic subdivision of the incoming clock. At DIV=1 the divider fires on every clock pulse. At DIV=3 it fires every third pulse. At DIV=4 it fires every fourth pulse.</p>
+
+    <h3>The Routing Matrix</h3>
+
+    <p>Each divider can be independently routed to any combination of the three sequences (A, B, C). When a divider fires, it advances every sequence it's routed to. When it doesn't fire, those sequences hold.</p>
+
+    <p>This means sequences A, B, and C can advance at completely different rates from a single clock -- without needing three separate clocks.</p>
+
+    <div class="info">
+      <p><strong>Example: 3-against-4 polyrhythm.</strong> Set DIV1 = 3 routed to A, and DIV2 = 4 routed to B. Sequence A cycles every 3 pulses, sequence B every 4. They realign every 12 pulses -- a classic 3:4 polyrhythm from two knob settings and no extra modules.</p>
+    </div>
+
+    <h3>Creating Syncopation</h3>
+
+    <p>Syncopation is about events landing <em>between</em> the expected beats. With the clock at 16th notes (MULT=4):</p>
+
+    <ul>
+      <li>DIV1 = 1 fires on every 16th note (straight grid)</li>
+      <li>DIV1 = 3 fires on the 1st, 4th, 7th... 16th note -- an off-beat pattern that syncopates against the 4/4 grid</li>
+    </ul>
+
+    <p>Try routing one divider to TRIG (for gates) and another to SEQ_A (for pitch) with different divisors. The pitch and rhythm drift apart and realign in a cycle, creating an evolving pattern from a simple setup.</p>
+
+    <h3>Step Values</h3>
+
+    <p>Each sequence has four step values (A1 through A4), normalized voltages from -1 to +1. After quantization these become musical intervals. You're not programming specific notes -- you're programming <em>relationships</em> between notes. Set A1=0, A2=0.25, A3=−0.17, A4=0.42. Quantized to C minor, those become the root, a third, a seventh below, and a fifth above.</p>
+
+    <div class="tip">
+      <p><strong>Tip:</strong> Set STEPS to a number that's out of phase with your rhythmic divider. If your divider fires every 3 pulses and your sequence has 4 steps, you get a 3:4 rotation that sounds much more alive than a beat-locked phrase.</p>
+    </div>
+
+    <hr>
+
+    <h2 id="quantizer"><span class="section-num">Section 2</span>Multi-Mode Quantization</h2>
+
+    <p>The Quantizer maps free CV to scale degrees. A few features make it worth understanding in detail.</p>
+
+    <h3>Root and Octave CV Inputs</h3>
+
+    <p>The ROOT and OCT inputs can be modulated with CV. Route a slow LFO to ROOT and the entire melody shifts through different modal colors as the LFO sweeps. Route an envelope to OCT to drop the melody by an octave on every strong beat.</p>
+
+    <p>In a live performance context, connect a MIDI-to-CV module's pitch output to ROOT. Now the scale root tracks your controller. Play a chord on the keyboard and the sequencer melody reorganizes itself around that chord's root.</p>
+
+    <h3>Quantizing Multiple Sources</h3>
+
+    <p>Since the PolySeq has three independent sequences, you can run SEQ_A, SEQ_B, and SEQ_C through separate quantizer instances for three simultaneous melodic voices -- all in key, each advancing at a different rhythmic rate.</p>
+
+    <p>A common technique: quantize SEQ_A to the full scale for the main melody and SEQ_B to just the pentatonic subset for an accent line. Both in key, but different tonal density.</p>
+
+    <h3>Scale Selection</h3>
+
+    <p>For bass music, minor pentatonic is forgiving -- no half-steps, nothing clashes. For more harmonic interest, Dorian mode (natural minor with a raised sixth) has a bittersweet quality that works well against sub-bass.</p>
+
+    <hr>
+
+    <h2 id="subosc"><span class="section-num">Section 3</span>Sub-Octave Layering</h2>
+
+    <p>The SubOscillator generates three simultaneous outputs from a single V/OCT input: BASE (the fundamental), SUB1 (BASE ÷ SUBDIV1), and SUB2 (BASE ÷ SUBDIV2).</p>
+
+    <h3>Integer Divisions and Why They Matter</h3>
+
+    <p>The subdivision is always an integer. SUBDIV1=2 gives you exactly one octave below -- frequency divided by 2. SUBDIV1=4 gives two octaves below. SUBDIV1=3 gives an octave plus a perfect fifth below.</p>
+
+    <p>Integer division means the subharmonic is always <em>in tune</em> with the fundamental, regardless of what pitch is playing. When the fundamental changes, the subharmonics follow. No tuning drift.</p>
+
+    <div class="info">
+      <p><strong>Why this matters for bass.</strong> A typical bass patch detunes two oscillators slightly for width. The Substation approach uses mathematically locked subharmonics for depth -- one and two octaves below, perfectly in phase with the fundamental at the moment of attack.</p>
+    </div>
+
+    <h3>Mixing the Layers</h3>
+
+    <p>Route BASE, SUB1, and SUB2 into the Mixer's three channels. The level balance changes the character dramatically:</p>
+
+    <table class="level-table">
+      <tr><th>BASE / SUB1 / SUB2</th><th>Character</th></tr>
+      <tr><td>0.7 / 0.7 / 0.7</td><td>Full, dense, somewhat muddy in the low end</td></tr>
+      <tr><td>0.8 / 0.5 / 0.2</td><td>Present fundamental with supporting sub-bass; sits well in a mix</td></tr>
+      <tr><td>0.2 / 0.5 / 0.8</td><td>Emphasized sub with recessed fundamental; good for rumble and drone</td></tr>
+      <tr><td>0 / 0.8 / 0.6</td><td>Pure sub-bass, no fundamental; sits very low in the spectrum</td></tr>
+    </table>
+
+    <p>The SUB1 and SUB2 CV inputs allow dynamic control over subdivision. Connect a sequencer CV here to change the subharmonic relationship over time -- jumping between SUBDIV=2 and SUBDIV=4 creates a rhythmic octave drop effect.</p>
+
+    <hr>
+
+    <h2 id="saturation"><span class="section-num">Section 4</span>Saturation in the Mixer</h2>
+
+    <p>The Mixer's DRIVE parameter adds harmonic saturation to the mixed signal before the output. Soft-clip saturation that adds odd harmonics (3rd, 5th, 7th) as the signal is pushed harder.</p>
+
+    <h3>Why Saturation After Mixing?</h3>
+
+    <p>Saturating after mixing means all three sub layers are processed together. The interaction between the fundamental and subharmonics creates intermodulation -- the saturation responds to the combined signal, producing warmer, more complex harmonic content than saturating each oscillator separately.</p>
+
+    <p>At DRIVE=0 the mixer is transparent. Around 0.2--0.3 you hear subtle harmonic richness, especially on transients. Past 0.5 the sound becomes visibly distorted. For sub-bass, anything above 0.3 tends to thin out the low end -- treat it like seasoning.</p>
+
+    <h3>The Chain Input</h3>
+
+    <p>The Mixer has CHAIN input and output for linking multiple Mixer modules. Route the CHAIN output of one Mixer into the CHAIN input of a second and you have a 6-channel summing bus. The CHAIN GAIN param controls how much of the chained signal comes through -- this is how you scale Substation up to larger patches without losing the saturating mixer character.</p>
+
+    <hr>
+
+    <h2 id="envelopes"><span class="section-num">Section 5</span>Semi-Interruptable Envelopes</h2>
+
+    <p>Most envelope generators have a specific behavior when triggered during an active stage: some restart from zero, some ignore the new trigger, some jump to attack from wherever they are. The Substation Envelopes are "semi-interruptable" -- a new trigger starts a new attack from the <em>current envelope level</em>, not from zero.</p>
+
+    <h3>Why This Sounds Natural</h3>
+
+    <p>Human-played instruments behave this way. A plucked string plucked again before it decays doesn't restart from silence -- it starts from whatever energy remained. The semi-interruptable behavior preserves this physical intuition.</p>
+
+    <p>For syncopated rhythms this is particularly important. When firing gates at irregular intervals (which the PolySeq encourages), some notes will fire while the previous note is still decaying. The envelope response sounds smooth and connected rather than choppy.</p>
+
+    <h3>HOLD Mode</h3>
+
+    <p>Setting HOLD=1 converts the AD envelope to AR -- the envelope sustains at peak while the gate is held high, then decays when the gate goes low. Having both modes in one module means you can have ENV1 gate-sensitive (amplitude) and ENV2 fire-and-forget (filter sweep) from the same trigger source.</p>
+
+    <div class="tip">
+      <p><strong>In the demo patch:</strong> both envelopes run in AD mode from PolySeq TRIG1. EG1 has a short decay for a percussive pluck. EG2 has a longer decay for a gradual cutoff sweep that lingers after the note attack.</p>
+    </div>
+
+    <hr>
+
+    <h2 id="performance">Putting It All Together: Performance Ideas</h2>
+
+    <div class="tip">
+      <p><strong>Evolving polyrhythm:</strong> Add DIV2=5 routed to B, run SEQ_B through a second Quantizer, route to a second voice. Two sequences at 4 and 5 steps stay out of phase for 20 steps before aligning -- five bars of material from eight parameter settings.</p>
+    </div>
+
+    <div class="tip">
+      <p><strong>Dynamic scale transposition:</strong> Connect PolySeq SEQ_C through a slow attenuator to the Quantizer ROOT input. As the sequence cycles, the scale root shifts incrementally. Over time the melody drifts through related modes without you touching anything.</p>
+    </div>
+
+    <div class="tip">
+      <p><strong>Rhythmic saturation:</strong> Run Envelopes ENV1 into the Mixer CV1 input. The mix level now pulses with the envelope -- saturation kicks harder on each attack and softens during decay. A pumping, compression-like effect entirely in the signal path.</p>
+    </div>
+
+    <div class="tip">
+      <p><strong>Sub-bass texture:</strong> Modulate SUBDIV1 with PolySeq SEQ_B so the subharmonic relationship changes with the sequence. The bass shifts between harmonic intervals on different steps -- SUBDIV=3 gives octave+fifth, SUBDIV=2 gives the clean octave. Melody and harmonic shadow move in tandem.</p>
+    </div>
+
+    <hr>
+
+    <p>The Substation modules reward the same approach all good modular synthesis rewards: start simple, understand each module's behavior deeply, then combine them in ways the individual modules didn't anticipate.</p>
+
+    <p>The PolySeq is the most sophisticated module in the set and the one with the highest ceiling. The routing matrix concept -- independent rhythmic dividers each advancing sequences at their own rate -- is borrowed from polyrhythmic music traditions where multiple timelines coexist rather than one master timeline subdividing downward. Once you hear a 3-against-4-against-5 polyrhythm emerge from three divider settings and a single clock, you'll wonder why you ever needed a more complex sequencer.</p>
+
+    <p>The patch file for this tutorial (<code>slimechild_demo.vcv</code>) loads all eight modules pre-wired and ready to hear.</p>
+
+  </main>
+</div>
+
+<footer>
+  All patches built with VCV Rack 2 Free &nbsp;·&nbsp; Substation v2.2.6 &nbsp;·&nbsp; <a href="#" style="color:#666">slimechildaudio.com</a>
+</footer>
+
+</body>
+</html>

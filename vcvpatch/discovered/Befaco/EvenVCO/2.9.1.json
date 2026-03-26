@@ -1,0 +1,28 @@
+{
+  "plugin": "Befaco",
+  "model": "EvenVCO",
+  "version": "2.9.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Octave",
+      "default": 0,
+      "min": -5,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Tune",
+      "default": 0,
+      "min": -7,
+      "max": 7
+    },
+    {
+      "id": 2,
+      "name": "Pulse width",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

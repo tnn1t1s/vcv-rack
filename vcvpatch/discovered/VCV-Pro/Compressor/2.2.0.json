@@ -1,0 +1,84 @@
+{
+  "plugin": "VCV-Pro",
+  "model": "Compressor",
+  "version": "2.2.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Model",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Attack",
+      "default": -6.64386,
+      "min": -13.2877,
+      "max": 0
+    },
+    {
+      "id": 2,
+      "name": "Release",
+      "default": -3.32193,
+      "min": -9.96578,
+      "max": 3.32193
+    },
+    {
+      "id": 3,
+      "name": "Knee",
+      "default": 1,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Threshold",
+      "default": 1,
+      "min": 0.0992126,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "High-pass filter",
+      "default": 3.32193,
+      "min": 3.32193,
+      "max": 9.96578
+    },
+    {
+      "id": 6,
+      "name": "Ratio",
+      "default": 2,
+      "min": -1,
+      "max": 5
+    },
+    {
+      "id": 7,
+      "name": "Input level",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Output level",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "Makeup",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Display mode",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    }
+  ]
+}

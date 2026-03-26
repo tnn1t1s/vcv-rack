@@ -1,0 +1,63 @@
+{
+  "plugin": "mscHack",
+  "model": "Compressor1",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Fade In Speed",
+      "default": 1,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Fade In Speed",
+      "default": 1,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 2,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 0.99
+    },
+    {
+      "id": 3,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Fade In Speed",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

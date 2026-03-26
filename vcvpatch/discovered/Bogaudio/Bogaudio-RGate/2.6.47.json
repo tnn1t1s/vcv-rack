@@ -1,0 +1,28 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-RGate",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gate length",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Clock division",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Clock multiplication",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

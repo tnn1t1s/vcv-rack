@@ -1,0 +1,70 @@
+{
+  "plugin": "CountModula",
+  "model": "BurstGenerator",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Number of pulses",
+      "default": 1,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 1,
+      "name": "Burst rate",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 2,
+      "name": "Rate CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Rate range",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Retrigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Number of pulses CV amount",
+      "default": 0,
+      "min": -1.6,
+      "max": 1.6
+    },
+    {
+      "id": 6,
+      "name": "Manual trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Pulse output probability",
+      "default": 10,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 8,
+      "name": "Probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

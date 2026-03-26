@@ -1,0 +1,6 @@
+{
+  "plugin": "CountModula",
+  "model": "SequencerGates16",
+  "version": "2.5.0",
+  "params": []
+}

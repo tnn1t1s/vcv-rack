@@ -1,0 +1,56 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "TactG",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Tact pad",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Attenuverter",
+      "default": 1,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Rate",
+      "default": 0.2,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 3,
+      "name": "Exponential",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Offset",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 5,
+      "name": "Offset2 CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Slow (rate knob x3)",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

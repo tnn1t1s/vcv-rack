@@ -1,0 +1,35 @@
+{
+  "plugin": "Befaco",
+  "model": "DualAtenuverter",
+  "version": "2.9.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Ch 1 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Ch 1 offset",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Ch 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Ch 2 offset",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    }
+  ]
+}

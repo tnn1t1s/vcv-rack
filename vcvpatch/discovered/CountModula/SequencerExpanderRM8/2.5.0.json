@@ -1,0 +1,70 @@
+{
+  "plugin": "CountModula",
+  "model": "SequencerExpanderRM8",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Bit 1",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Bit 2",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Bit 3",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Bit 4",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Bit 5",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Bit 6",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "Bit 7",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Bit 8",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Scale",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "plugin": "CountModula",
+  "model": "ClockedRandomGateExpanderLog",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Channel 3 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel 4 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Channel 5 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Channel 6 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Channel 7 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Channel 8 logic",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Sync",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 9,
+      "name": "Source channel",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    }
+  ]
+}

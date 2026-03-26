@@ -1,0 +1,21 @@
+{
+  "plugin": "Fundamental",
+  "model": "MidSide",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Encoder width",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Decoder width",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

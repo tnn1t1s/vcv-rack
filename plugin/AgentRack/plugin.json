@@ -1,0 +1,65 @@
+{
+  "slug": "AgentRack",
+  "name": "AgentRack",
+  "version": "2.0.0",
+  "license": "MIT",
+  "brand": "AgentRack",
+  "author": "AgentRack",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Attenuate",
+      "name": "Attenuate",
+      "description": "Single-channel CV attenuator. OUT = IN x SCALE.",
+      "tags": ["Utility", "Attenuator"]
+    },
+    {
+      "slug": "ADSR",
+      "name": "ADSR",
+      "description": "Attack/Decay/Sustain/Release envelope generator. 0-10V output.",
+      "tags": ["Envelope generator"]
+    },
+    {
+      "slug": "Crinkle",
+      "name": "Crinkle",
+      "description": "Buchla 259-inspired wavefolder oscillator. Triangle core, 5-stage parallel center-clipper fold.",
+      "tags": ["Oscillator", "Waveshaper"]
+    },
+    {
+      "slug": "Inspector",
+      "name": "Inspector",
+      "description": "Polls all AgentModules and writes agentrack_state.json every second.",
+      "tags": ["Utility"]
+    },
+    {
+      "slug": "Ladder",
+      "name": "Ladder",
+      "description": "TB-303-lineage Huovilainen nonlinear ladder filter with SPREAD/SHAPE pole topology control.",
+      "tags": ["Filter"]
+    },
+    {
+      "slug": "Noise",
+      "name": "Noise",
+      "description": "Six spectral noise generators: White, Pink, Brown, Blue, Violet, Crackle. Output only.",
+      "tags": ["Noise", "Random"]
+    },
+    {
+      "slug": "Saphire",
+      "name": "Saphire",
+      "description": "Fixed-IR convolution reverb with operator transformations. Lex Hall IR, TIME/BEND/TONE/PRE controls.",
+      "tags": ["Reverb", "Effect"]
+    },
+    {
+      "slug": "Sonic",
+      "name": "Sonic",
+      "description": "BBE-inspired spectral-phase maximizer. 3-band phase alignment + spectral tilt for perceived clarity and punch.",
+      "tags": ["Effect", "Equalizer"]
+    }
+  ]
+}

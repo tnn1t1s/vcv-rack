@@ -1,0 +1,42 @@
+{
+  "plugin": "dBiz",
+  "model": "Transpose",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Octave shift",
+      "default": 0,
+      "min": -4.5,
+      "max": 4.5
+    },
+    {
+      "id": 1,
+      "name": "Octave shift",
+      "default": 0,
+      "min": -4.5,
+      "max": 4.5
+    },
+    {
+      "id": 2,
+      "name": "Semitone shift",
+      "default": 0,
+      "min": -6.5,
+      "max": 6.5
+    },
+    {
+      "id": 3,
+      "name": "Semitone shift",
+      "default": 0,
+      "min": -6.5,
+      "max": 6.5
+    },
+    {
+      "id": 4,
+      "name": "Fine Shift",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

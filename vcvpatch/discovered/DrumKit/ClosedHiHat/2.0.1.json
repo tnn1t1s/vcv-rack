@@ -1,0 +1,231 @@
+{
+  "plugin": "DrumKit",
+  "model": "ClosedHiHat",
+  "version": "2.0.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Sample",
+      "default": 7,
+      "min": 0,
+      "max": 14
+    },
+    {
+      "id": 1,
+      "name": "Sample",
+      "default": 7,
+      "min": 0,
+      "max": 14
+    },
+    {
+      "id": 2,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Playback Speed",
+      "default": 1,
+      "min": 0.2,
+      "max": 1.8
+    },
+    {
+      "id": 17,
+      "name": "Playback Speed",
+      "default": 1,
+      "min": 0.2,
+      "max": 1.8
+    },
+    {
+      "id": 18,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

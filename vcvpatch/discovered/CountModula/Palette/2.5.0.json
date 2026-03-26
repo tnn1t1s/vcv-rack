@@ -1,0 +1,14 @@
+{
+  "plugin": "CountModula",
+  "model": "Palette",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Lock current colour",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

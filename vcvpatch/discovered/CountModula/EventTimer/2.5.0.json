@@ -1,0 +1,63 @@
+{
+  "plugin": "CountModula",
+  "model": "EventTimer",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Increment 100's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Increment 10's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Increment 1's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Decrement 100's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Decrement 10's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Decrement 1's",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Manual trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Manual reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

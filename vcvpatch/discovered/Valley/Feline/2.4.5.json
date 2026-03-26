@@ -1,0 +1,126 @@
+{
+  "plugin": "Valley",
+  "model": "Feline",
+  "version": "2.4.5",
+  "params": [
+    {
+      "id": 0,
+      "name": "Cutoff Frequency",
+      "default": 10,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Poles",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Type",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Cutoff Spacing",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Spacing Target",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Input Drive",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Cutoff CV 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Resonance CV 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Drive CV 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Spacing CV 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Spacing Target CV 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Cutoff CV 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Resonance CV 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Drive CV 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Spacing CV 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Spacing Target CV 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "plugin": "Befaco",
+  "model": "NoisePlethora",
+  "version": "2.9.1",
+  "introspectable": false,
+  "reason": "createModule() crashed or produced invalid output"
+}

@@ -1,0 +1,21 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Part-Gate-Split",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Split point",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Display mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

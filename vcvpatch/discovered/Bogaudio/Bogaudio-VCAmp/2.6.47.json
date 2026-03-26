@@ -1,0 +1,14 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-VCAmp",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Level",
+      "default": 0.833333,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

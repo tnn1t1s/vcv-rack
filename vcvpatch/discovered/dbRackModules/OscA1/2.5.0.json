@@ -1,0 +1,189 @@
+{
+  "plugin": "dbRackModules",
+  "model": "OscA1",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -14,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Cutoff",
+      "default": 6.3,
+      "min": -11,
+      "max": 6.3
+    },
+    {
+      "id": 2,
+      "name": "Decay ",
+      "default": 1,
+      "min": 0.1,
+      "max": 3
+    },
+    {
+      "id": 3,
+      "name": "Odd/Even ",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "First Partial ",
+      "default": 0,
+      "min": 0,
+      "max": 128
+    },
+    {
+      "id": 5,
+      "name": "Stretch ",
+      "default": 0,
+      "min": -1.25,
+      "max": 1.25
+    },
+    {
+      "id": 6,
+      "name": "Decay CV ",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Odd/Even CV ",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Stretch CV ",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Amp",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Amp CV ",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Comb Phs",
+      "default": 0,
+      "min": 0,
+      "max": 6.28319
+    },
+    {
+      "id": 12,
+      "name": "Comb Freq",
+      "default": 10,
+      "min": 1,
+      "max": 100
+    },
+    {
+      "id": 13,
+      "name": "Comb Amp",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Num Partials",
+      "default": 128,
+      "min": 1,
+      "max": 256
+    },
+    {
+      "id": 15,
+      "name": "Comb Phs CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Comb Freq CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Comb Amp CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Comb Warp",
+      "default": 1,
+      "min": 0.2,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Comb Warp CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Comb Peek",
+      "default": 1,
+      "min": 0.1,
+      "max": 4
+    },
+    {
+      "id": 21,
+      "name": "Comb Peek CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "FM Amt",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Linear FM",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Fundamental Amp",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

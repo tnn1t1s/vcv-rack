@@ -1,0 +1,329 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Osc6",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Bits",
+      "default": 8,
+      "min": 2,
+      "max": 16
+    },
+    {
+      "id": 1,
+      "name": "XA",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 2,
+      "name": "XB",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 3,
+      "name": "XC",
+      "default": 1,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 4,
+      "name": "XD",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 5,
+      "name": "YA",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 6,
+      "name": "YB",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 7,
+      "name": "YC",
+      "default": 1,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 8,
+      "name": "YD",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 9,
+      "name": "YM",
+      "default": 0,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 10,
+      "name": "YP",
+      "default": 1,
+      "min": 0,
+      "max": 32
+    },
+    {
+      "id": 11,
+      "name": "Rst",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Frequency",
+      "default": 0,
+      "min": -8,
+      "max": 4
+    },
+    {
+      "id": 13,
+      "name": "X1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "X2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "X3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "X4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "X5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "X6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "X7",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "X8",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "X9",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "X10",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "X11",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "X12",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "X13",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "X14",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "X15",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "X16",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Y1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Y2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Y3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Y4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Y5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Y6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Y7",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Y8",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Y9",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Y10",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Y11",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Y12",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Y13",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Y14",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Y15",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Y16",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Oct",
+      "default": 0,
+      "min": -8,
+      "max": 8
+    }
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "Flux",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mode A",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Range A",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Offset A",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Follower Mode A",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Rate A",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Mode B",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "Range B",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Offset B",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Follower Mode B",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "Rate B",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Mode C",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 11,
+      "name": "Range C",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Offset C",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Follower Mode C",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 14,
+      "name": "Rate C",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Mode D",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 16,
+      "name": "Range D",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Offset D",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Follower Mode D",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 19,
+      "name": "Rate D",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Slot 1 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Slot 2 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Slot 3 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Slot 4 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Slot 5 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Slot 6 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Slot 1 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Slot 2 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Slot 3 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Slot 4 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Slot 5 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Slot 6 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

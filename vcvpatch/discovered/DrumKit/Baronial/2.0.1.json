@@ -1,0 +1,70 @@
+{
+  "plugin": "DrumKit",
+  "model": "Baronial",
+  "version": "2.0.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Time",
+      "default": 1,
+      "min": 0.001,
+      "max": 4.999
+    },
+    {
+      "id": 1,
+      "name": "Time",
+      "default": 1,
+      "min": 0.001,
+      "max": 4.999
+    },
+    {
+      "id": 2,
+      "name": "Time",
+      "default": 1,
+      "min": 0.001,
+      "max": 4.999
+    },
+    {
+      "id": 3,
+      "name": "Level",
+      "default": 1,
+      "min": 0.001,
+      "max": 4.999
+    },
+    {
+      "id": 4,
+      "name": "Time",
+      "default": 1,
+      "min": 0.001,
+      "max": 4.999
+    },
+    {
+      "id": 5,
+      "name": "",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

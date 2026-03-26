@@ -1,0 +1,240 @@
+#include <rack.hpp>
+#include "AgentModule.hpp"
+#include <cmath>
+
+using namespace rack;
+extern Plugin* pluginInstance;
+
+/**
+ * Crinkle -- Buchla 259-inspired wavefolder oscillator.
+ *
+ * Triangle oscillator core fed through a 5-stage parallel center-clipper
+ * wavefolder.  TIMBRE scales amplitude before folding (accesses different
+ * regions of the transfer curve).  SYMMETRY adds DC offset before folding
+ * introducing even-order harmonics and organic asymmetry.
+ *
+ * 4x oversampling inline to suppress folding aliasing.
+ * Output: ±5V audio.
+ *
+ * Rack IDs (stable, never reorder):
+ *   Params:  TUNE_PARAM=0, TIMBRE_PARAM=1, SYMMETRY_PARAM=2, TIMBRE_CV_PARAM=3
+ *   Inputs:  VOCT_INPUT=0, TIMBRE_INPUT=1
+ *   Outputs: OUT_OUTPUT=0
+ */
+
+// ---------------------------------------------------------------------------
+// Wavefolder -- true triangle-bounce fold (Buchla 259 character)
+// ---------------------------------------------------------------------------
+
+// Triangle-wave fold: signal bounces hard off ±1 ceiling, creating new
+// zero crossings and rich harmonics.  This is the classic Buchla approach --
+// much more dramatic than soft clipping.
+static inline float trifold(float x) {
+    // Map any real x into -1..1 via triangle bounce
+    x = x * 0.5f + 0.5f;          // shift to 0..1 range
+    x = x - std::floor(x);         // wrap to 0..1
+    if (x > 0.5f) x = 1.f - x;    // fold second half back
+    return (x - 0.25f) * 4.f;      // rescale to -1..1
+}
+
+// Main fold function.  in should be roughly -1..1.
+// timbre: 0..1   symmetry: -1..1 (DC offset adds even-order harmonics)
+static float wavefold(float in, float timbre, float symmetry) {
+    // TIMBRE scales amplitude 1x..6x -- at 1x output is clean triangle,
+    // at higher values the wave folds multiple times producing strong harmonics
+    float amp = 1.f + timbre * 5.f;
+    float x   = in * amp + symmetry * 0.8f;
+    return trifold(x);
+}
+
+
+// ---------------------------------------------------------------------------
+// Module
+// ---------------------------------------------------------------------------
+
+struct Crinkle : AgentModule {
+
+    enum ParamId  { TUNE_PARAM, TIMBRE_PARAM, SYMMETRY_PARAM, TIMBRE_CV_PARAM, NUM_PARAMS };
+    enum InputId  { VOCT_INPUT, TIMBRE_INPUT, NUM_INPUTS  };
+    enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
+
+    float phase = 0.f;
+
+    Crinkle() {
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
+        configParam(TUNE_PARAM,      -2.f,  2.f,  0.f,  "Tune",        " oct");
+        configParam(TIMBRE_PARAM,     0.f,  1.f,  0.f,  "Timbre",      "%", 0.f, 100.f);
+        configParam(SYMMETRY_PARAM,  -1.f,  1.f,  0.f,  "Symmetry");
+        configParam(TIMBRE_CV_PARAM, -1.f,  1.f,  1.f,  "Timbre CV",   "x");
+        configInput (VOCT_INPUT,   "V/Oct");
+        configInput (TIMBRE_INPUT, "Timbre CV");
+        configOutput(OUT_OUTPUT,   "Out");
+    }
+
+    void process(const ProcessArgs& args) override {
+        // Pitch
+        float pitch  = params[TUNE_PARAM].getValue();
+        pitch       += inputs[VOCT_INPUT].getVoltage();
+        float freq   = dsp::FREQ_C4 * std::pow(2.f, pitch);
+
+        // Timbre with optional CV
+        float timbre = params[TIMBRE_PARAM].getValue();
+        if (inputs[TIMBRE_INPUT].isConnected()) {
+            timbre += inputs[TIMBRE_INPUT].getVoltage() / 10.f
+                      * params[TIMBRE_CV_PARAM].getValue();
+        }
+        timbre = clamp(timbre, 0.f, 1.f);
+
+        float symmetry = params[SYMMETRY_PARAM].getValue();
+
+        // 4x oversampling -- run oscillator + folder at 4x sample rate
+        float dt = args.sampleTime / 4.f;
+        float out = 0.f;
+        for (int i = 0; i < 4; i++) {
+            phase += freq * dt;
+            if (phase >= 1.f) phase -= 1.f;
+
+            // Triangle wave: 0..1 phase -> -1..1 triangle
+            float tri = 2.f * std::fabs(2.f * phase - 1.f) - 1.f;
+
+            out += wavefold(tri, timbre, symmetry);
+        }
+        out /= 4.f;
+
+        outputs[OUT_OUTPUT].setVoltage(out * 5.f);
+    }
+
+    std::string getManifest() const override {
+        return R"({
+  "module_id": "agentrack.crinkle.v1",
+  "ensemble_role": "none",
+  "ports": [
+    {"name": "VOCT",   "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "pitch_cv",        "required": false},
+    {"name": "TIMBRE", "direction": "input",  "signal_class": "cv",          "semantic_role": "timbre_mod_cv",   "required": false},
+    {"name": "OUT",    "direction": "output", "signal_class": "audio",       "semantic_role": "oscillator_out"}
+  ],
+  "params": [
+    {"name": "TUNE",       "rack_id": 0, "unit": "octaves",    "scale": "linear", "min": -2.0, "max": 2.0,  "default": 0.0},
+    {"name": "TIMBRE",     "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.0},
+    {"name": "SYMMETRY",   "rack_id": 2, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 0.0},
+    {"name": "TIMBRE_CV",  "rack_id": 3, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 1.0}
+  ],
+  "guarantees": [
+    "output is audio-rate, +-5V",
+    "TIMBRE=0 produces a clean triangle wave",
+    "increasing TIMBRE progressively folds the waveform adding harmonics",
+    "SYMMETRY shifts fold center adding even-order harmonics",
+    "V/OCT tracks 1V/octave standard"
+  ]
+})";
+    }
+};
+
+
+// ---------------------------------------------------------------------------
+// Panel
+// ---------------------------------------------------------------------------
+
+struct CrinklePanel : rack::widget::Widget {
+    void draw(const DrawArgs& args) override {
+        int imgHandle = 0;
+        try {
+            auto img = APP->window->loadImage(
+                asset::plugin(pluginInstance, "res/Crinkle-bg.jpg"));
+            if (img) imgHandle = img->handle;
+        } catch (...) {}
+
+        if (imgHandle > 0) {
+            NVGpaint paint = nvgImagePattern(
+                args.vg, 0, 0, box.size.x, box.size.y,
+                0.f, imgHandle, 1.f);
+            nvgBeginPath(args.vg);
+            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
+            nvgFillPaint(args.vg, paint);
+            nvgFill(args.vg);
+        } else {
+            nvgBeginPath(args.vg);
+            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
+            nvgFillColor(args.vg, nvgRGB(0, 140, 160));
+            nvgFill(args.vg);
+        }
+
+        // Dark top bar + title
+        nvgBeginPath(args.vg);
+        nvgRect(args.vg, 0, 0, box.size.x, 20.f);
+        nvgFillColor(args.vg, nvgRGBA(0, 0, 0, 160));
+        nvgFill(args.vg);
+
+        nvgFontSize(args.vg, 7.f);
+        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+        nvgFillColor(args.vg, nvgRGB(255, 255, 255));
+        nvgText(args.vg, box.size.x / 2.f, 10.f, "CRINKLE", NULL);
+
+        // Knob labels -- small, over the image
+        nvgFontSize(args.vg, 5.5f);
+        nvgFillColor(args.vg, nvgRGBA(255, 255, 255, 200));
+        float cx = box.size.x / 2.f;
+        nvgText(args.vg, cx, mm2px(28.f) - 10.f, "TUNE",     NULL);
+        nvgText(args.vg, cx, mm2px(50.f) - 10.f, "TIMBRE",   NULL);
+        nvgText(args.vg, cx, mm2px(72.f) - 10.f, "SYMMETRY", NULL);
+
+        // Port labels
+        float col1 = box.size.x * 0.28f;
+        float col2 = box.size.x * 0.72f;
+        nvgFontSize(args.vg, 5.f);
+        nvgFillColor(args.vg, nvgRGBA(255, 255, 255, 200));
+        nvgText(args.vg, col1, mm2px(96.f)  - 9.f, "V/OCT", NULL);
+        nvgText(args.vg, col2, mm2px(96.f)  - 9.f, "TMB",   NULL);
+        nvgText(args.vg, cx,   mm2px(112.f) - 9.f, "OUT",   NULL);
+    }
+};
+
+
+// ---------------------------------------------------------------------------
+// Widget -- 8HP
+// ---------------------------------------------------------------------------
+
+struct CrinkleWidget : rack::ModuleWidget {
+
+    CrinkleWidget(Crinkle* module) {
+        setModule(module);
+
+        // 8HP = 40.64mm
+        auto* panel = new CrinklePanel;
+        panel->box.size = mm2px(Vec(40.64f, 128.5f));
+        addChild(panel);
+        box.size = panel->box.size;
+
+        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, 0)));
+        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, 0)));
+        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+
+        float cx = 20.32f;  // center x of 8HP
+
+        // Knobs -- large for TUNE, small for TIMBRE/SYMMETRY
+        addParam(createParamCentered<rack::RoundBigBlackKnob>(
+            mm2px(rack::Vec(cx, 28.f)), module, Crinkle::TUNE_PARAM));
+        addParam(createParamCentered<rack::RoundBlackKnob>(
+            mm2px(rack::Vec(cx, 50.f)), module, Crinkle::TIMBRE_PARAM));
+        addParam(createParamCentered<rack::RoundSmallBlackKnob>(
+            mm2px(rack::Vec(cx, 72.f)), module, Crinkle::SYMMETRY_PARAM));
+
+        // TIMBRE CV attenuator (small, near TIMBRE input)
+        addParam(createParamCentered<rack::Trimpot>(
+            mm2px(rack::Vec(cx + 8.f, 82.f)), module, Crinkle::TIMBRE_CV_PARAM));
+
+        // Inputs: V/OCT left, TIMBRE right
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(rack::Vec(cx - 8.f, 96.f)), module, Crinkle::VOCT_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(rack::Vec(cx + 8.f, 96.f)), module, Crinkle::TIMBRE_INPUT));
+
+        // Output: center
+        addOutput(createOutputCentered<rack::PJ301MPort>(
+            mm2px(rack::Vec(cx, 112.f)), module, Crinkle::OUT_OUTPUT));
+    }
+};
+
+
+rack::Model* modelCrinkle = createModel<Crinkle, CrinkleWidget>("Crinkle");

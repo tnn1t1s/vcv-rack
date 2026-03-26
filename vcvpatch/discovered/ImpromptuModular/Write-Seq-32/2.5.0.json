@@ -1,0 +1,182 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Write-Seq-32",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Display mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Window #1 of 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Window #2 of 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Window #3 of 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Window #4 of 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Quantize",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Gate #1 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Gate #2 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Gate #3 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Gate #4 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Gate #5 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Gate #6 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Gate #7 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Gate #8 of 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Channel",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Copy",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Paste",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Write",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Step left",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Monitor",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Step right",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Number of steps",
+      "default": 32,
+      "min": 1,
+      "max": 32
+    },
+    {
+      "id": 23,
+      "name": "Autostep when write",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Paste sync",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

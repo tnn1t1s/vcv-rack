@@ -1,0 +1,56 @@
+{
+  "plugin": "CountModula",
+  "model": "GateDelay",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Delay time",
+      "default": 5,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Delay time",
+      "default": 5,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Delay time CV amount",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 3,
+      "name": "Delay time CV amount",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 4,
+      "name": "Time range",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 5,
+      "name": "Time range",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 6,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "plugin": "NYSTHI",
+  "model": "Simpliciter2",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Inner LFO FM",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Select LFO Waveform Trig",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 4,
+      "name": "Inner LFO Frequency",
+      "default": 1,
+      "min": 0.001,
+      "max": 15
+    },
+    {
+      "id": 5,
+      "name": "Inner LFO Modulation Index",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Start Rec Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Start Slice Jog",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "End Slice Jog",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Vertical Scale Wave View",
+      "default": 0,
+      "min": -5,
+      "max": 8
+    },
+    {
+      "id": 12,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 13,
+      "name": "Transient Smoother",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Inner LFO UNIPHASE Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Invert LFO Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Grid Activation Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Random Next GRID when EOC Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Add Slice Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Load Slice Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Update Current Slice Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Delete Current Slice Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Go Next Slice Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Go Prev Slice Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Sound On Sound VCA",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Yummer Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Yummer Level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "PRE Sound On Sound Mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Sound On Sound Mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Select Slice CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Select RND Slice Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Select LFO Waveform Trig",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Select Slice CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Slice Grid by Peak Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Random Next Slice when EOC Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

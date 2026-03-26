@@ -1,0 +1,70 @@
+{
+  "plugin": "Fundamental",
+  "model": "ADSR",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Attack",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Decay",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Sustain",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Release",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Attack CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Decay CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Sustain CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Release CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Push",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

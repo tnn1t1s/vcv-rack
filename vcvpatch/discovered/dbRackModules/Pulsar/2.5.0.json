@@ -1,0 +1,70 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Pulsar",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -8,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Fine tune",
+      "default": 0,
+      "min": -100,
+      "max": 100
+    },
+    {
+      "id": 2,
+      "name": "Duty Cycle",
+      "default": 0,
+      "min": 0,
+      "max": 0.99
+    },
+    {
+      "id": 3,
+      "name": "D CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Cluster",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 5,
+      "name": "Waveform",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 6,
+      "name": "Waveform CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Envelope Form",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 8,
+      "name": "Envelope Param",
+      "default": 5,
+      "min": 1,
+      "max": 10
+    }
+  ]
+}

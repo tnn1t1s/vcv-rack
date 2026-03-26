@@ -1,0 +1,189 @@
+{
+  "plugin": "JW-Modules",
+  "model": "NoteSeq",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Length",
+      "default": 32,
+      "min": 1,
+      "max": 32
+    },
+    {
+      "id": 2,
+      "name": "Play Mode",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 3,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Clear",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Random Mode",
+      "default": 0,
+      "min": 0,
+      "max": 6
+    },
+    {
+      "id": 6,
+      "name": "Random Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Random Amount",
+      "default": 0.1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Rotate Right",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Rotate Left",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Flip Horizontal",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Flip Vertical",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Shift Up",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Shift Down",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Life Switch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Life Speed",
+      "default": 12,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 16,
+      "name": "Scale",
+      "default": 11,
+      "min": 0,
+      "max": 17
+    },
+    {
+      "id": 17,
+      "name": "Root Note",
+      "default": 0,
+      "min": 0,
+      "max": 11
+    },
+    {
+      "id": 18,
+      "name": "Octave",
+      "default": 0,
+      "min": -5,
+      "max": 7
+    },
+    {
+      "id": 19,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Highest Note",
+      "default": 32,
+      "min": 1,
+      "max": 32
+    },
+    {
+      "id": 21,
+      "name": "Lowest Note",
+      "default": 1,
+      "min": 1,
+      "max": 32
+    },
+    {
+      "id": 22,
+      "name": "Drum Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Shift Amount",
+      "default": 1,
+      "min": -32,
+      "max": 32
+    },
+    {
+      "id": 24,
+      "name": "Start",
+      "default": 0,
+      "min": 0,
+      "max": 31
+    },
+    {
+      "id": 25,
+      "name": "Shift Chaos",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

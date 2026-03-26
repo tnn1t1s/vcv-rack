@@ -1,0 +1,413 @@
+{
+  "plugin": "DanTModules",
+  "model": "CharlieFoxtrot",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Clock Divide",
+      "default": 1,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 1,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "[1] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "[2] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "[3] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "[4] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "[5] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "[6] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "[7] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "[8] Enable",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "[1] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 11,
+      "name": "[2] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 12,
+      "name": "[3] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 13,
+      "name": "[4] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 14,
+      "name": "[5] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 15,
+      "name": "[6] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 16,
+      "name": "[7] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 17,
+      "name": "[8] Start",
+      "default": 1,
+      "min": 1,
+      "max": 99999
+    },
+    {
+      "id": 18,
+      "name": "[1] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 19,
+      "name": "[2] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 20,
+      "name": "[3] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 21,
+      "name": "[4] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 22,
+      "name": "[5] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 23,
+      "name": "[6] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 24,
+      "name": "[7] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 25,
+      "name": "[8] Length",
+      "default": 0,
+      "min": 0,
+      "max": 99999
+    },
+    {
+      "id": 26,
+      "name": "[1] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "[2] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "[3] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "[4] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "[5] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "[6] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "[7] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "[8] Rise",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "[1] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "[2] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "[3] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "[4] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "[5] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "[6] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "[7] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "[8] Fall",
+      "default": 0.05,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "[1] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "[2] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "[3] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "[4] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "[5] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "[6] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "[7] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "[8] Rise Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "[1] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "[2] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "[3] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "[4] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "[5] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "[6] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "[7] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "[8] Fall Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

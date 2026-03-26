@@ -1,0 +1,14 @@
+{
+  "plugin": "dbRackModules",
+  "model": "PShift",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Shift",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    }
+  ]
+}

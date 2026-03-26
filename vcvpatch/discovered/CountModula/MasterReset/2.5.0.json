@@ -1,0 +1,21 @@
+{
+  "plugin": "CountModula",
+  "model": "MasterReset",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

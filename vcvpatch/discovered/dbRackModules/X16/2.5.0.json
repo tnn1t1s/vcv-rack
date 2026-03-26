@@ -1,0 +1,1799 @@
+{
+  "plugin": "dbRackModules",
+  "model": "X16",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "CV 1 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "CV 1 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "CV 1 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "CV 1 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "CV 1 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "CV 1 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "CV 1 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "CV 1 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "CV 1 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "CV 1 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "CV 1 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "CV 1 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "CV 1 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "CV 1 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "CV 1 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "CV 1 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "CV 2 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "CV 2 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "CV 2 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "CV 2 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "CV 2 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "CV 2 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "CV 2 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "CV 2 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "CV 2 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "CV 2 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "CV 2 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "CV 2 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "CV 2 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "CV 2 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "CV 2 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "CV 2 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "CV 3 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "CV 3 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "CV 3 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "CV 3 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "CV 3 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "CV 3 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "CV 3 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "CV 3 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "CV 3 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "CV 3 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "CV 3 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "CV 3 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "CV 3 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "CV 3 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "CV 3 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "CV 3 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "CV 4 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "CV 4 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "CV 4 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "CV 4 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "CV 4 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "CV 4 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "CV 4 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "CV 4 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "CV 4 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "CV 4 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "CV 4 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "CV 4 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "CV 4 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "CV 4 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "CV 4 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "CV 4 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "CV 5 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "CV 5 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 66,
+      "name": "CV 5 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 67,
+      "name": "CV 5 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 68,
+      "name": "CV 5 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 69,
+      "name": "CV 5 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 70,
+      "name": "CV 5 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 71,
+      "name": "CV 5 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 72,
+      "name": "CV 5 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 73,
+      "name": "CV 5 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 74,
+      "name": "CV 5 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 75,
+      "name": "CV 5 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 76,
+      "name": "CV 5 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 77,
+      "name": "CV 5 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 78,
+      "name": "CV 5 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 79,
+      "name": "CV 5 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 80,
+      "name": "CV 6 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 81,
+      "name": "CV 6 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 82,
+      "name": "CV 6 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 83,
+      "name": "CV 6 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 84,
+      "name": "CV 6 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 85,
+      "name": "CV 6 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 86,
+      "name": "CV 6 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 87,
+      "name": "CV 6 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 88,
+      "name": "CV 6 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 89,
+      "name": "CV 6 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 90,
+      "name": "CV 6 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 91,
+      "name": "CV 6 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 92,
+      "name": "CV 6 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 93,
+      "name": "CV 6 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 94,
+      "name": "CV 6 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 95,
+      "name": "CV 6 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 96,
+      "name": "CV 7 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 97,
+      "name": "CV 7 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 98,
+      "name": "CV 7 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 99,
+      "name": "CV 7 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 100,
+      "name": "CV 7 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 101,
+      "name": "CV 7 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 102,
+      "name": "CV 7 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 103,
+      "name": "CV 7 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 104,
+      "name": "CV 7 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 105,
+      "name": "CV 7 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 106,
+      "name": "CV 7 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 107,
+      "name": "CV 7 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 108,
+      "name": "CV 7 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 109,
+      "name": "CV 7 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 110,
+      "name": "CV 7 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 111,
+      "name": "CV 7 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 112,
+      "name": "CV 8 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 113,
+      "name": "CV 8 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 114,
+      "name": "CV 8 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 115,
+      "name": "CV 8 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 116,
+      "name": "CV 8 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 117,
+      "name": "CV 8 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 118,
+      "name": "CV 8 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 119,
+      "name": "CV 8 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 120,
+      "name": "CV 8 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 121,
+      "name": "CV 8 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 122,
+      "name": "CV 8 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 123,
+      "name": "CV 8 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 124,
+      "name": "CV 8 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 125,
+      "name": "CV 8 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 126,
+      "name": "CV 8 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 127,
+      "name": "CV 8 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 128,
+      "name": "CV 9 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 129,
+      "name": "CV 9 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 130,
+      "name": "CV 9 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 131,
+      "name": "CV 9 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 132,
+      "name": "CV 9 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 133,
+      "name": "CV 9 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 134,
+      "name": "CV 9 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 135,
+      "name": "CV 9 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 136,
+      "name": "CV 9 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 137,
+      "name": "CV 9 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 138,
+      "name": "CV 9 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 139,
+      "name": "CV 9 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 140,
+      "name": "CV 9 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 141,
+      "name": "CV 9 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 142,
+      "name": "CV 9 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 143,
+      "name": "CV 9 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 144,
+      "name": "CV 10 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 145,
+      "name": "CV 10 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 146,
+      "name": "CV 10 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 147,
+      "name": "CV 10 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 148,
+      "name": "CV 10 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 149,
+      "name": "CV 10 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 150,
+      "name": "CV 10 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 151,
+      "name": "CV 10 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 152,
+      "name": "CV 10 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 153,
+      "name": "CV 10 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 154,
+      "name": "CV 10 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 155,
+      "name": "CV 10 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 156,
+      "name": "CV 10 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 157,
+      "name": "CV 10 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 158,
+      "name": "CV 10 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 159,
+      "name": "CV 10 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 160,
+      "name": "CV 11 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 161,
+      "name": "CV 11 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 162,
+      "name": "CV 11 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 163,
+      "name": "CV 11 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 164,
+      "name": "CV 11 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 165,
+      "name": "CV 11 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 166,
+      "name": "CV 11 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 167,
+      "name": "CV 11 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 168,
+      "name": "CV 11 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 169,
+      "name": "CV 11 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 170,
+      "name": "CV 11 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 171,
+      "name": "CV 11 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 172,
+      "name": "CV 11 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 173,
+      "name": "CV 11 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 174,
+      "name": "CV 11 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 175,
+      "name": "CV 11 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 176,
+      "name": "CV 12 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 177,
+      "name": "CV 12 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 178,
+      "name": "CV 12 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 179,
+      "name": "CV 12 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 180,
+      "name": "CV 12 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 181,
+      "name": "CV 12 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 182,
+      "name": "CV 12 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 183,
+      "name": "CV 12 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 184,
+      "name": "CV 12 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 185,
+      "name": "CV 12 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 186,
+      "name": "CV 12 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 187,
+      "name": "CV 12 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 188,
+      "name": "CV 12 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 189,
+      "name": "CV 12 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 190,
+      "name": "CV 12 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 191,
+      "name": "CV 12 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 192,
+      "name": "CV 13 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 193,
+      "name": "CV 13 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 194,
+      "name": "CV 13 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 195,
+      "name": "CV 13 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 196,
+      "name": "CV 13 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 197,
+      "name": "CV 13 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 198,
+      "name": "CV 13 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 199,
+      "name": "CV 13 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 200,
+      "name": "CV 13 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 201,
+      "name": "CV 13 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 202,
+      "name": "CV 13 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 203,
+      "name": "CV 13 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 204,
+      "name": "CV 13 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 205,
+      "name": "CV 13 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 206,
+      "name": "CV 13 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 207,
+      "name": "CV 13 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 208,
+      "name": "CV 14 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 209,
+      "name": "CV 14 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 210,
+      "name": "CV 14 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 211,
+      "name": "CV 14 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 212,
+      "name": "CV 14 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 213,
+      "name": "CV 14 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 214,
+      "name": "CV 14 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 215,
+      "name": "CV 14 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 216,
+      "name": "CV 14 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 217,
+      "name": "CV 14 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 218,
+      "name": "CV 14 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 219,
+      "name": "CV 14 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 220,
+      "name": "CV 14 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 221,
+      "name": "CV 14 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 222,
+      "name": "CV 14 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 223,
+      "name": "CV 14 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 224,
+      "name": "CV 15 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 225,
+      "name": "CV 15 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 226,
+      "name": "CV 15 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 227,
+      "name": "CV 15 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 228,
+      "name": "CV 15 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 229,
+      "name": "CV 15 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 230,
+      "name": "CV 15 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 231,
+      "name": "CV 15 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 232,
+      "name": "CV 15 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 233,
+      "name": "CV 15 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 234,
+      "name": "CV 15 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 235,
+      "name": "CV 15 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 236,
+      "name": "CV 15 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 237,
+      "name": "CV 15 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 238,
+      "name": "CV 15 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 239,
+      "name": "CV 15 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 240,
+      "name": "CV 16 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 241,
+      "name": "CV 16 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 242,
+      "name": "CV 16 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 243,
+      "name": "CV 16 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 244,
+      "name": "CV 16 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 245,
+      "name": "CV 16 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 246,
+      "name": "CV 16 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 247,
+      "name": "CV 16 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 248,
+      "name": "CV 16 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 249,
+      "name": "CV 16 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 250,
+      "name": "CV 16 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 251,
+      "name": "CV 16 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 252,
+      "name": "CV 16 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 253,
+      "name": "CV 16 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 254,
+      "name": "CV 16 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 255,
+      "name": "CV 16 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

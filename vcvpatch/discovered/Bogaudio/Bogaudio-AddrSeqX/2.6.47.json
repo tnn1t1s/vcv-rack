@@ -1,0 +1,63 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-AddrSeqX",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Step 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Step 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Step 3",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Step 4",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Step 5",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Step 6",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Step 7",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Step 8",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+module_id:     "agentrack.attenuate.v1"
+name:          "Attenuate"
+version:       "1.0.0"
+category:      "signal_utility"
+ensemble_role: "none"
+summary: >
+  Multiplies input signal by a scale factor 0–1.
+  Output = IN × SCALE.
+  Signal class and semantic role of IN are preserved at OUT.
+
+ports:
+  - name:          IN
+    direction:     input
+    signal_class:  cv
+    semantic_role: passthrough
+    required:      true
+    description:   "Signal to scale. Any CV signal class."
+
+  - name:          OUT
+    direction:     output
+    signal_class:  cv
+    semantic_role: passthrough
+    description:   "Scaled signal. Same class and role as IN."
+
+params:
+  - name:    SCALE
+    unit:    normalized
+    scale:   linear
+    min:     0.0
+    max:     1.0
+    default: 1.0
+    description: "Multiplier applied to IN. 0 = silence, 1 = unity gain."
+
+guarantees:
+  - "OUT = IN × SCALE at every sample"
+  - "SCALE=1.0 is unity gain -- OUT equals IN exactly"
+  - "SCALE=0.0 produces exactly 0V regardless of IN"
+  - "output range is [IN_min × SCALE, IN_max × SCALE]"
+  - "no clipping, no offset, no nonlinearity"
+  - "signal class of IN is preserved at OUT"
+  - "semantic role of IN is preserved at OUT"

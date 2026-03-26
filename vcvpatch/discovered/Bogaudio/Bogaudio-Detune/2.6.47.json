@@ -1,0 +1,14 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Detune",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Cents",
+      "default": 0,
+      "min": 0,
+      "max": 50
+    }
+  ]
+}

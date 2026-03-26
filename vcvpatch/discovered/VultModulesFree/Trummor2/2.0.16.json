@@ -1,0 +1,238 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "Trummor2",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Tune",
+      "default": 0.1,
+      "min": -0.1,
+      "max": 0.3
+    },
+    {
+      "id": 1,
+      "name": "Bend",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Time",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Sub",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Wave",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Shaper",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Osc Attack",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Osc Hold",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Osc Decay",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Osc Env Mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 10,
+      "name": "Osc Blend",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Osc Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Noise Pitch",
+      "default": -0.1,
+      "min": -0.1,
+      "max": 0.9
+    },
+    {
+      "id": 13,
+      "name": "Rescomb",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Noise Tone",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Cutoff",
+      "default": 0.95,
+      "min": 0,
+      "max": 0.95
+    },
+    {
+      "id": 16,
+      "name": "Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Filter Type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 18,
+      "name": "Noise Attack",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Noise Hold",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Noise Decay",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Noise Env Mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 22,
+      "name": "Noise Blend",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Noise Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Slot 1 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Slot 2 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Slot 3 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Slot 4 Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Slot 1 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Slot 2 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Slot 3 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Slot 4 Select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

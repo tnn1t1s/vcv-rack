@@ -1,0 +1,469 @@
+{
+  "plugin": "CountModula",
+  "model": "SequencerChannel16",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Step 1 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Step 2 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Step 3 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Step 4 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Step 5 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Step 6 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "Step 7 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Step 8 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Step 9 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "Step 10 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 10,
+      "name": "Step 11 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 11,
+      "name": "Step 12 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 12,
+      "name": "Step 13 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 13,
+      "name": "Step 14 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 14,
+      "name": "Step 15 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 15,
+      "name": "Step 16 select",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 16,
+      "name": "Step 1 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Step 2 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Step 3 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Step 4 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Step 5 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Step 6 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Step 7 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Step 8 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Step 9 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Step 10 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Step 11 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Step 12 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Step 13 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Step 14 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Step 15 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Step 16 value",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Scale",
+      "default": 8,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 33,
+      "name": "Sample and hold mode",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 34,
+      "name": "Step 1 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Step 2 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Step 3 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Step 4 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Step 5 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Step 6 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Step 7 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Step 8 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Step 9 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Step 10 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Step 11 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Step 12 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Step 13 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Step 14 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Step 15 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Step 16 trigger select",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Step 1 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Step 2 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Step 3 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Step 4 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Step 5 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Step 6 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "Step 7 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "Step 8 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "Step 9 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "Step 10 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "Step 11 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "Step 12 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "Step 13 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "Step 14 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "Step 15 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "Step 16 gate select",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+module_id:   "agentrack.attenuate.v1"
+runtime:     "vcv-rack"
+rack_plugin: "AgentRack"
+rack_model:  "Attenuate"
+
+port_map:
+  IN:  {rack_id: 0}
+  OUT: {rack_id: 0}
+
+param_map:
+  SCALE: {rack_id: 0}

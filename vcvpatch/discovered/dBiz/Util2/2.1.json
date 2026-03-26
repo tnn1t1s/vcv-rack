@@ -1,0 +1,175 @@
+{
+  "plugin": "dBiz",
+  "model": "Util2",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Value",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 5,
+      "name": "Value",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 6,
+      "name": "Value",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 7,
+      "name": "Value",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 8,
+      "name": "Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Env Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Env Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Range",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 15,
+      "name": "Range",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 16,
+      "name": "Glide",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Glide",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Rise",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Rise",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Fall",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Fall",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Shape",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

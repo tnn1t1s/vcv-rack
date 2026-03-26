@@ -1,0 +1,28 @@
+{
+  "plugin": "JW-Modules",
+  "model": "Quantizer",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Root Note",
+      "default": 0,
+      "min": 0,
+      "max": 11
+    },
+    {
+      "id": 1,
+      "name": "Scale",
+      "default": 11,
+      "min": 0,
+      "max": 17
+    },
+    {
+      "id": 2,
+      "name": "Octave Shift",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    }
+  ]
+}

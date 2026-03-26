@@ -1,0 +1,21 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "UtilBypass",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

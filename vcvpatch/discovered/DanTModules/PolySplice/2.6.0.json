@@ -1,0 +1,77 @@
+{
+  "plugin": "DanTModules",
+  "model": "PolySplice",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Slew",
+      "default": 10,
+      "min": 0,
+      "max": 5000
+    },
+    {
+      "id": 1,
+      "name": "Slew CV Attenuvertor",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Advance Mode",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 3,
+      "name": "Output Attenuvertor",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 4,
+      "name": "Polyphonic Output Mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 5,
+      "name": "Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "PingPong Direction",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Number of Channels",
+      "default": 16,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 9,
+      "name": "Start Channel",
+      "default": 1,
+      "min": 1,
+      "max": 16
+    }
+  ]
+}

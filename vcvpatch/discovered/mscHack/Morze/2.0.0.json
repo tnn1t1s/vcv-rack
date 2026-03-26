@@ -1,0 +1,14 @@
+{
+  "plugin": "mscHack",
+  "model": "Morze",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Morse speed",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

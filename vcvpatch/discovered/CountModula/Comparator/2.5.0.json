@@ -1,0 +1,14 @@
+{
+  "plugin": "CountModula",
+  "model": "Comparator",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Threshold",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    }
+  ]
+}

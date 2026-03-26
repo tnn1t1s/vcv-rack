@@ -1,0 +1,35 @@
+{
+  "plugin": "AudibleInstruments",
+  "model": "Branches",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Channel 1 mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel 2 mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

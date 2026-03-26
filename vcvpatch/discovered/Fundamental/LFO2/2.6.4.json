@@ -1,0 +1,49 @@
+{
+  "plugin": "Fundamental",
+  "model": "LFO2",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Offset",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Invert",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Frequency",
+      "default": 1,
+      "min": -8,
+      "max": 10
+    },
+    {
+      "id": 3,
+      "name": "Wavetable position",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Frequency modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Wavetable position CV",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

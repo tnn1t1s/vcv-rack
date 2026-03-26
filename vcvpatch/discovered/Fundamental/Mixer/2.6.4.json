@@ -1,0 +1,14 @@
+{
+  "plugin": "Fundamental",
+  "model": "Mixer",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "plugin": "DanTModules",
+  "model": "PKorre",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Sample Window",
+      "default": 512,
+      "min": 128,
+      "max": 4800
+    },
+    {
+      "id": 1,
+      "name": "Output Attenuator",
+      "default": 5,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Output Offset",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    }
+  ]
+}

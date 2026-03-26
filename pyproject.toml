@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vcvpatch"
+version = "0.1.0"
+description = "Programmatic VCV Rack patch builder with formal signal-graph proof"
+requires-python = ">=3.11"
+dependencies = [
+    "zstandard",
+    "pillow",
+]
+
+[project.optional-dependencies]
+agent = [
+    "google-adk",
+]
+runtime = [
+    "mido",
+    "python-rtmidi",
+]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["vcvpatch*", "agent*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "eval: live agent evals (require OPENROUTER_API_KEY, skipped in normal runs)",
+]

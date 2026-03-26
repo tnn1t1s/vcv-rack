@@ -1,0 +1,63 @@
+{
+  "plugin": "Fundamental",
+  "model": "8vert",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Row 1 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Row 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Row 3 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Row 4 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Row 5 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Row 6 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Row 7 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Row 8 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

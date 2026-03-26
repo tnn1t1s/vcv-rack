@@ -1,0 +1,119 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Matrix44Cvm",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mute 1A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 1,
+      "name": "Mute 2A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 2,
+      "name": "Mute 3A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 3,
+      "name": "Mute 4A",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 4,
+      "name": "Mute 1B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 5,
+      "name": "Mute 2B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 6,
+      "name": "Mute 3B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 7,
+      "name": "Mute 4B",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 8,
+      "name": "Mute 1C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 9,
+      "name": "Mute 2C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 10,
+      "name": "Mute 3C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 11,
+      "name": "Mute 4C",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 12,
+      "name": "Mute 1D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 13,
+      "name": "Mute 2D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 14,
+      "name": "Mute 3D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 15,
+      "name": "Mute 4D",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    }
+  ]
+}

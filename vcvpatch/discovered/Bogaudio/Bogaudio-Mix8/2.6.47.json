@@ -1,0 +1,196 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Mix8",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 1 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 2,
+      "name": "Channel 1 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel 2 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Channel 2 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 5,
+      "name": "Channel 2 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Channel 3 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Channel 3 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 8,
+      "name": "Channel 3 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Channel 4 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Channel 4 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 11,
+      "name": "Channel 4 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Channel 5 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Channel 5 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 14,
+      "name": "Channel 5 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Channel 6 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Channel 6 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 17,
+      "name": "Channel 6 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Channel 7 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Channel 7 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 20,
+      "name": "Channel 7 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Channel 8 level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Channel 8 mute",
+      "default": 0,
+      "min": 0,
+      "max": 3
+    },
+    {
+      "id": 23,
+      "name": "Channel 8 panning",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Master level",
+      "default": 0.909091,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Master mute",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Master dim",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

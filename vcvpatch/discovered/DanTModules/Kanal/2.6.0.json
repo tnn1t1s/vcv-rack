@@ -1,0 +1,42 @@
+{
+  "plugin": "DanTModules",
+  "model": "Kanal",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Attenuvertor",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Position",
+      "default": 0,
+      "min": -2.5,
+      "max": 2.5
+    },
+    {
+      "id": 2,
+      "name": "Width",
+      "default": 2.5,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 3,
+      "name": "Top Boost",
+      "default": 5,
+      "min": -10,
+      "max": 10
+    },
+    {
+      "id": 4,
+      "name": "Bottom Boost",
+      "default": 5,
+      "min": -10,
+      "max": 10
+    }
+  ]
+}

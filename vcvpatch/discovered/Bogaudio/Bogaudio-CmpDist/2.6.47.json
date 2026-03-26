@@ -1,0 +1,70 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-CmpDist",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "A scaling",
+      "default": 1,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Window",
+      "default": 0.25,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "B scaling",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Greater-than mix",
+      "default": 1,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Equal mix",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Less-than mix",
+      "default": 1,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Dry/wet mix",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "A dry level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "B dry level",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

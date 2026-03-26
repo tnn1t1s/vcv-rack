@@ -1,0 +1,126 @@
+{
+  "plugin": "CountModula",
+  "model": "ClockedRandomGates",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Channel 3 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel 4 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Channel 5 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Channel 6 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Channel 7 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Channel 8 probability CV amount",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Channel 1 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Channel 2 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Channel 3 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Channel 4 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Channel 5 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Channel 6 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Channel 7 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Channel 8 probability",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Matrix44",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mix 1A",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mix 2A",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Mix 3A",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Mix 4A",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Mix 1B",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Mix 2B",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Mix 3B",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Mix 4B",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Mix 1C",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Mix 2C",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Mix 3C",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Mix 4C",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Mix 1D",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Mix 2D",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Mix 3D",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Mix 4D",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

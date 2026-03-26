@@ -1,0 +1,1722 @@
+{
+  "plugin": "NYSTHI",
+  "model": "MusicalBox2",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Active Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Gated Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Loop Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "Start Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 66,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 67,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 68,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 69,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 70,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 71,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 72,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 73,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 74,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 75,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 76,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 77,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 78,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 79,
+      "name": "Stop Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 80,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 81,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 82,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 83,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 84,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 85,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 86,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 87,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 88,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 89,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 90,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 91,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 92,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 93,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 94,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 95,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 96,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 97,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 98,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 99,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 100,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 101,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 102,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 103,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 104,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 105,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 106,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 107,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 108,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 109,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 110,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 111,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 112,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 113,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 114,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 115,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 116,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 117,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 118,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 119,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 120,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 121,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 122,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 123,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 124,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 125,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 126,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 127,
+      "name": "Speed CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 128,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 129,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 130,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 131,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 132,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 133,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 134,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 135,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 136,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 137,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 138,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 139,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 140,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 141,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 142,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 143,
+      "name": "Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 144,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 145,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 146,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 147,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 148,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 149,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 150,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 151,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 152,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 153,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 154,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 155,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 156,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 157,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 158,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 159,
+      "name": "Octave",
+      "default": 0,
+      "min": -6,
+      "max": 6
+    },
+    {
+      "id": 160,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 161,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 162,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 163,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 164,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 165,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 166,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 167,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 168,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 169,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 170,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 171,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 172,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 173,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 174,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 175,
+      "name": "CV-IN Volume VCA",
+      "default": 0.2,
+      "min": 0,
+      "max": 0.5
+    },
+    {
+      "id": 176,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 177,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 178,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 179,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 180,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 181,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 182,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 183,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 184,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 185,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 186,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 187,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 188,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 189,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 190,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 191,
+      "name": "Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 192,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 193,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 194,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 195,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 196,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 197,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 198,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 199,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 200,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 201,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 202,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 203,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 204,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 205,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 206,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 207,
+      "name": "Pan",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 208,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 209,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 210,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 211,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 212,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 213,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 214,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 215,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 216,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 217,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 218,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 219,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 220,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 221,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 222,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 223,
+      "name": "Next Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 224,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 225,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 226,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 227,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 228,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 229,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 230,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 231,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 232,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 233,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 234,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 235,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 236,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 237,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 238,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 239,
+      "name": "Prev Sample Trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 240,
+      "name": "Vertical Scale Wave View",
+      "default": 1,
+      "min": -2,
+      "max": 8
+    },
+    {
+      "id": 241,
+      "name": "Transient Smoother",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 242,
+      "name": "Global Speed CV-IN VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 243,
+      "name": "Global Speed",
+      "default": 1,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 244,
+      "name": "Global Volume",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

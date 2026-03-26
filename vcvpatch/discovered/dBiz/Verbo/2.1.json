@@ -1,0 +1,126 @@
+{
+  "plugin": "dBiz",
+  "model": "Verbo",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Slope Param",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Frequency",
+      "default": 0,
+      "min": -54,
+      "max": 54
+    },
+    {
+      "id": 2,
+      "name": "Fine frequency",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Cv Param",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Center Param",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 5,
+      "name": "Center Cv Param",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Width Param",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 7,
+      "name": "Width Cv Param",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Fm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Harm Param",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

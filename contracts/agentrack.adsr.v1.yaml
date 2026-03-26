@@ -1,0 +1,88 @@
+module_id:     "agentrack.adsr.v1"
+name:          "ADSR Envelope"
+version:       "1.0.0"
+category:      "control_envelope"
+ensemble_role: "dynamics"
+summary: >
+  Generates a unipolar contour with attack, decay, sustain, and release
+  phases in response to a gate signal.
+
+ports:
+  - name:          gate_in
+    direction:     input
+    signal_class:  gate
+    semantic_role: trigger_source
+    required:      true
+    description:   "High signal starts attack. Falling edge starts release."
+
+  - name:          retrig_in
+    direction:     input
+    signal_class:  trigger
+    semantic_role: retrigger_source
+    required:      false
+    description:   "Rising edge restarts attack from current level."
+
+  - name:          env_out
+    direction:     output
+    signal_class:  cv_unipolar
+    semantic_role: envelope_contour
+    range_v:       [0.0, 10.0]
+    description:   "Envelope contour 0-10V. Suitable for amplitude or filter CV."
+
+params:
+  - name: attack
+    unit: seconds
+    scale: linear
+    min: 0.001
+    max: 10.0
+    default: 0.01
+    presets: {click: 0.001, percussive: 0.005, standard: 0.010, slow: 0.3, pad: 1.5}
+
+  - name: decay
+    unit: seconds
+    scale: linear
+    min: 0.001
+    max: 10.0
+    default: 0.2
+    presets: {tight: 0.05, pluck: 0.15, standard: 0.2, long: 1.0}
+
+  - name: sustain
+    unit: normalized
+    scale: linear
+    min: 0.0
+    max: 1.0
+    default: 0.7
+
+  - name: release
+    unit: seconds
+    scale: linear
+    min: 0.001
+    max: 20.0
+    default: 0.3
+    presets: {snap: 0.01, short: 0.1, standard: 0.3, long: 1.5}
+
+guarantees:
+  - "output is always in [0, 10] V"
+  - "output is exactly 0V in idle state"
+  - "attack phase is strictly monotonic increasing"
+  - "release phase is strictly monotonic decreasing"
+  - "sustain=0 makes envelope fully percussive; gate duration irrelevant"
+  - "retrigger restarts attack from current level, not from 0V"
+
+limitations:
+  - "not suitable for audio-rate modulation"
+  - "parameter modulation takes effect at next phase boundary"
+
+musical_uses:
+  - label: pluck
+    params: {attack: 0.001, decay: 0.15, sustain: 0.0, release: 0.05}
+    routing: "env_out → Attenuate → filter_cutoff_cv"
+    param_effects: {attack: decrease, decay: decrease, sustain: zero, release: decrease}
+
+  - label: pad
+    params: {attack: 0.5, decay: 0.3, sustain: 0.8, release: 1.5}
+    param_effects: {attack: increase, sustain: increase, release: increase}
+
+  - label: gate_following
+    params: {attack: 0.001, decay: 0.001, sustain: 1.0, release: 0.01}
+    param_effects: {attack: zero, decay: zero, sustain: max, release: zero}

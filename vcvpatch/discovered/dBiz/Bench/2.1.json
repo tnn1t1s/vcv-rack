@@ -1,0 +1,133 @@
+{
+  "plugin": "dBiz",
+  "model": "Bench",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mult att",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Mult att",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Fade A/B",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Swap",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Lfo Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Lfo wave select",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "A1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "A2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Fade A/B",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "B1 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "B2 Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Swap",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Fixed Volt Att",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 13,
+      "name": "Uni/Bipolar Lfo",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Frequency",
+      "default": 1,
+      "min": -8,
+      "max": 10
+    },
+    {
+      "id": 15,
+      "name": "Fade Level",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Input A selector",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 17,
+      "name": "Input B selector",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

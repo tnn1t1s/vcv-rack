@@ -1,0 +1,91 @@
+{
+  "plugin": "Befaco",
+  "model": "Muxlicer",
+  "version": "2.9.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Play switch",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Address",
+      "default": -1,
+      "min": -1,
+      "max": 7
+    },
+    {
+      "id": 2,
+      "name": "Gate mode",
+      "default": 1,
+      "min": -1,
+      "max": 8
+    },
+    {
+      "id": 3,
+      "name": "Main clock mult/div",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Gain step 1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Gain step 2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Gain step 3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Gain step 4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Gain step 5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Gain step 6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Gain step 7",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Gain step 8",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

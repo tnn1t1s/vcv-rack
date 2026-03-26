@@ -1,0 +1,14 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "NoteFilter",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gate input sample delay",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    }
+  ]
+}

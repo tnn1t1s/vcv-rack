@@ -1,0 +1,147 @@
+{
+  "plugin": "mscHack",
+  "model": "StepDelay",
+  "version": "2.0.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Filter Type",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Filter Cutoff",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Filter Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Step Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Step Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Step Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Step Level",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Step Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Step Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Step Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Step Pan",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Step Feedback",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Step Feedback",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Step Feedback",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Step Feedback",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Step Delay",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 16,
+      "name": "Step Delay",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 17,
+      "name": "Step Delay",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 18,
+      "name": "Step Delay",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 19,
+      "name": "Wet/Dry Mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

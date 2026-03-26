@@ -1,0 +1,112 @@
+{
+  "plugin": "NYSTHI",
+  "model": "XattoTime",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "input 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "input 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "input 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "input 2 gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "dry-wet mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "dry-wet mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "dry-wet mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "dry-wet mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Feedback",
+      "default": 0,
+      "min": -0.9999,
+      "max": 0.9999
+    },
+    {
+      "id": 11,
+      "name": "Feedback",
+      "default": 0,
+      "min": -0.9999,
+      "max": 0.9999
+    },
+    {
+      "id": 12,
+      "name": "Feedback",
+      "default": 0,
+      "min": -0.9999,
+      "max": 0.9999
+    },
+    {
+      "id": 13,
+      "name": "Feedback",
+      "default": 0,
+      "min": -0.9999,
+      "max": 0.9999
+    },
+    {
+      "id": 14,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

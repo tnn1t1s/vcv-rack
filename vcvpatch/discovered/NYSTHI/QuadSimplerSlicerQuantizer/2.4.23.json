@@ -1,0 +1,6 @@
+{
+  "plugin": "NYSTHI",
+  "model": "QuadSimplerSlicerQuantizer",
+  "version": "2.4.23",
+  "params": []
+}

@@ -1,0 +1,112 @@
+{
+  "plugin": "dBiz",
+  "model": "DualFilter",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Center Freq.",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Q factor",
+      "default": 0.1,
+      "min": 0.1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Freq. Mod",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Freq. Mod2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Drive Level",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 5,
+      "name": "Center Freq.",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Q factor",
+      "default": 0.1,
+      "min": 0.1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Freq. Mod",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Freq. Mod2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Drive Level",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 10,
+      "name": "Fade Filter",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Amp A Level",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 12,
+      "name": "Amp B Level",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 13,
+      "name": "FilterA Type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 14,
+      "name": "FilterB Type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

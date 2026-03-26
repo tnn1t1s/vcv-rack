@@ -1,0 +1,21 @@
+{
+  "plugin": "Fundamental",
+  "model": "Unity",
+  "version": "2.6.4",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel 1 mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

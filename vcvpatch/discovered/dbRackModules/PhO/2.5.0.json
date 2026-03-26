@@ -1,0 +1,21 @@
+{
+  "plugin": "dbRackModules",
+  "model": "PhO",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Damp",
+      "default": 0,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 1,
+      "name": "Phase Offset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

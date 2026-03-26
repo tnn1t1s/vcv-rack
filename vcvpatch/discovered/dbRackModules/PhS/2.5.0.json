@@ -1,0 +1,28 @@
+{
+  "plugin": "dbRackModules",
+  "model": "PhS",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Depth",
+      "default": 0.5,
+      "min": 0,
+      "max": 0.99
+    },
+    {
+      "id": 1,
+      "name": "Depth CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Shape Type",
+      "default": 0,
+      "min": 0,
+      "max": 25
+    }
+  ]
+}

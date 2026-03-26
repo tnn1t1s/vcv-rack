@@ -1,0 +1,70 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "Julste",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Offset",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Resonance",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Offset Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Resonance Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Sharpness",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Sharpness Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Range",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Range Modulation",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

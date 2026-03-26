@@ -1,0 +1,56 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-LFO",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -5,
+      "max": 8
+    },
+    {
+      "id": 1,
+      "name": "Slow",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Output sampling",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Pulse width",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Offset",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Scale",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Smoothing",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

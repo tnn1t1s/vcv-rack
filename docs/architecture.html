@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCV Rack Patch Prover — Architecture</title>
+<style>
+  :root {
+    --bg:       #0f0f13;
+    --surface:  #1a1a24;
+    --border:   #2e2e42;
+    --accent:   #7c6af7;
+    --accent2:  #4fc3a1;
+    --accent3:  #f79c6a;
+    --warn:     #f7c26a;
+    --text:     #e4e4f0;
+    --muted:    #888899;
+    --code-bg:  #12121a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 0 1rem 6rem;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* ── header ── */
+  header {
+    padding: 4rem 0 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+  header h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #fff;
+  }
+  header p {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+
+  /* ── sections ── */
+  section { margin-bottom: 3.5rem; }
+
+  h2 {
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent2);
+    margin: 1.6rem 0 0.5rem;
+  }
+
+  p { margin-bottom: 0.9rem; }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── callout boxes ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    padding: 1rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1.2rem 0;
+  }
+  .callout.key  { border-color: var(--accent2); }
+  .callout.warn { border-color: var(--warn); }
+
+  /* ── code blocks ── */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 1rem 0 1.4rem;
+    font-family: "JetBrains Mono", "Fira Code", "Menlo", monospace;
+  }
+  code {
+    font-family: inherit;
+    font-size: 0.92em;
+  }
+  p code, li code {
+    background: var(--surface);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.88em;
+    color: var(--accent2);
+  }
+
+  /* syntax colouring (manual, no library) */
+  .kw  { color: #c792ea; }
+  .cls { color: #82aaff; }
+  .fn  { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .cmt { color: #546e7a; font-style: italic; }
+  .num { color: #f78c6c; }
+  .dec { color: var(--accent3); }
+
+  /* ── diagram ── */
+  .diagram {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem 1.8rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    margin: 1rem 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .d-src  { color: #c3e88d; }
+  .d-proc { color: var(--accent); }
+  .d-sink { color: var(--accent3); }
+  .d-ctrl { color: var(--muted); }
+  .d-arr  { color: var(--border); }
+
+  /* ── file tree ── */
+  .tree {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 1.6rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.87rem;
+    line-height: 2;
+    margin: 1rem 0;
+  }
+  .tree .dir  { color: var(--accent2); }
+  .tree .file { color: var(--text); }
+  .tree .note { color: var(--muted); }
+
+  /* ── proof steps ── */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+  }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    min-width: 2.2rem;
+    height: 2.2rem;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* ── table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+  }
+  th {
+    background: var(--surface);
+    color: var(--accent2);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.65rem 1rem;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--surface); }
+  td code { font-size: 0.85em; }
+
+  /* ── output block ── */
+  .output {
+    background: #0a0f0a;
+    border: 1px solid #1e3a1e;
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin: 1rem 0;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .out-ok   { color: #4fc3a1; }
+  .out-fail { color: #f7786a; }
+  .out-warn { color: var(--warn); }
+  .out-dim  { color: #546e7a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>VCV Rack Patch Prover</h1>
+  <p>How the signal graph and audio reachability system is built</p>
+</header>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>What problem this solves</h2>
+
+  <p>
+    A VCV Rack patch is a graph of modules wired together with cables.
+    Whether that patch actually produces audio depends on two conditions:
+  </p>
+
+  <ol class="steps">
+    <li><strong>Existence</strong> — every module in the patch is installed on this machine.</li>
+    <li><strong>Reachability</strong> — there is a continuous audio path from at least one sound source
+        to the audio output (AudioInterface2).</li>
+  </ol>
+
+  <p>
+    Both of these can fail silently. A missing module is quietly skipped by VCV Rack.
+    A broken cable chain produces no error — just silence. This system proves both
+    conditions from the patch file alone, before opening VCV Rack.
+  </p>
+
+  <div class="callout key">
+    <strong>Key design principle:</strong> provability is a <em>property of the graph</em>,
+    not a separate step. After construction, <code>graph.audio_reachable</code> is always
+    current — no explicit "prove" call exists.
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>File layout</h2>
+
+  <div class="tree">
+<span class="dir">vcvpatch/graph/</span>
+  <span class="file">__init__.py</span>       <span class="note">public API</span>
+  <span class="file">node.py</span>           <span class="note">Node base class hierarchy</span>
+  <span class="file">modules.py</span>        <span class="note">one class per VCV Rack module + NODE_REGISTRY</span>
+  <span class="file">signal_graph.py</span>   <span class="note">SignalGraph — owns nodes, edges, properties</span>
+  <span class="file">installed.py</span>      <span class="note">InstalledRegistry — scans plugins directory</span>
+  <span class="file">loader.py</span>         <span class="note">PatchLoader — .vcv file → SignalGraph</span>
+
+<span class="dir">tests/</span>
+  <span class="file">square_to_output.py</span>  <span class="note">demo: VCO square → AudioInterface2, proves both conditions</span></div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Layer 1: Node base classes <code>node.py</code></h2>
+
+  <p>
+    Every module type is a subclass of <code>Node</code>. The key contract
+    is a single abstract method:
+  </p>
+
+<pre><span class="kw">def</span> <span class="fn">audio_out_for</span>(self, audio_in_ports: <span class="cls">frozenset</span>[<span class="cls">int</span>]) -> <span class="cls">frozenset</span>[<span class="cls">int</span>]:
+    <span class="str">"""
+    Given which input port IDs currently carry audio,
+    return which output port IDs emit audio.
+    """</span></pre>
+
+  <p>
+    This is what each module class <em>knows about itself</em>. The graph calls
+    it during propagation; no module needs to know about the rest of the patch.
+  </p>
+
+  <div class="diagram"><span class="d-src">AudioSourceNode</span>   <span class="d-arr">──</span> always emits audio (oscillators, samplers, drum voices)
+<span class="d-proc">AudioProcessorNode</span> <span class="d-arr">──</span> routes specific inputs to specific outputs  (VCF, VCA, Reverb)
+<span class="d-proc">AudioMixerNode</span>     <span class="d-arr">──</span> any audio input activates all audio outputs (Mix4, Mix8, mscHack)
+<span class="d-sink">AudioSinkNode</span>      <span class="d-arr">──</span> terminal consumer, no audio outputs           (AudioInterface2)
+<span class="d-ctrl">ControllerNode</span>     <span class="d-arr">──</span> CV / Gate / Clock only, never passes audio    (ADSR, LFO, Clock)
+<span class="d-ctrl">UnknownNode</span>        <span class="d-arr">──</span> module not in our registry; conservative all-to-all passthrough</div>
+
+  <h3>AudioProcessorNode — explicit route declaration</h3>
+  <p>
+    Processor subclasses declare <code>_routes</code>: a list of
+    <code>(input_port_id, output_port_id)</code> pairs.
+    Audio flows from an input to its paired output only when that input port receives audio.
+  </p>
+
+<pre><span class="kw">class</span> <span class="cls">VCFNode</span>(<span class="cls">AudioProcessorNode</span>):
+    PLUGIN = <span class="str">"Fundamental"</span>
+    MODEL  = <span class="str">"VCF"</span>
+    <span class="cmt"># IN (port 3) → LPF (port 0), HPF (port 1)</span>
+    _routes = [(<span class="num">3</span>, <span class="num">0</span>), (<span class="num">3</span>, <span class="num">1</span>)]</pre>
+
+  <h3>UnknownNode — the conservative assumption</h3>
+  <p>
+    If a module isn't in our registry, it gets <code>UnknownNode</code>.
+    Its <code>audio_out_for</code> returns a large sentinel set covering ports 0–63.
+    The graph then constrains that to only actually-connected ports,
+    so an unknown module never silently blocks a proven audio path.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Layer 2: Module classes <code>modules.py</code></h2>
+
+  <p>
+    Every supported module has its own class. Port numbers come from the
+    C++ enum order in each plugin's source code.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Plugin / Model</th><th>Class</th><th>Base</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>Core/AudioInterface2</code></td><td><code>AudioInterface2Node</code></td><td>Sink</td><td>IN_L=0, IN_R=1</td></tr>
+      <tr><td><code>Fundamental/VCO</code></td><td><code>VCONode</code></td><td>Source</td><td>SIN/TRI/SAW/SQR = ports 0–3</td></tr>
+      <tr><td><code>Fundamental/VCF</code></td><td><code>VCFNode</code></td><td>Processor</td><td>IN=3 → LPF=0, HPF=1</td></tr>
+      <tr><td><code>Fundamental/VCA</code></td><td><code>VCANode</code></td><td>Processor</td><td>IN1=2→OUT1=0; IN2=5→OUT2=1</td></tr>
+      <tr><td><code>Valley/Plateau</code></td><td><code>PlateauNode</code></td><td>Processor</td><td>IN_L/R=0,1 → OUT_L/R=0,1</td></tr>
+      <tr><td><code>AlrightDevices/Chronoblob2</code></td><td><code>Chronoblob2Node</code></td><td>Processor</td><td>IN_L=5, IN_R=6 (not 0,1)</td></tr>
+      <tr><td><code>Bogaudio/Bogaudio-Pressor</code></td><td><code>PressurNode</code></td><td>Processor</td><td>IN_L=0,IN_R=4 → OUT_L=1,OUT_R=2</td></tr>
+      <tr><td><code>Bogaudio/Bogaudio-Mix8</code></td><td><code>BogaudioMix8Node</code></td><td>Mixer</td><td>8 audio inputs → stereo out</td></tr>
+      <tr><td><code>Bogaudio/Bogaudio-ADSR</code></td><td><code>BogaudioADSRNode</code></td><td>Controller</td><td>CV only</td></tr>
+      <tr><td><code>Befaco/EvenVCO</code></td><td><code>EvenVCONode</code></td><td>Source</td><td>TRI/SINE/SAW/PULSE/EVEN = 0–4</td></tr>
+      <tr><td><code>AudibleInstruments/Plaits</code></td><td><code>PlaitsNode</code></td><td>Source</td><td>OUT=0, AUX=1</td></tr>
+      <tr><td><code>ImpromptuModular/Clocked-Clkd</code></td><td><code>ClockedNode</code></td><td>Controller</td><td>Clock/gate outputs only</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    All classes self-register in <code>NODE_REGISTRY</code>, a dict mapping
+    <code>"plugin/model"</code> strings to classes.
+    <code>PatchLoader</code> looks up each module in this dict; anything missing
+    becomes an <code>UnknownNode</code>.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Layer 3: SignalGraph <code>signal_graph.py</code></h2>
+
+  <p>
+    <code>SignalGraph</code> owns a dict of <code>Node</code>s and a list of <code>Edge</code>s
+    (one per cable). Its properties are computed on demand from current topology.
+  </p>
+
+  <h3>Forward propagation — the core algorithm</h3>
+  <p>
+    Propagation runs iteratively until no more audio ports are discovered (fixed point).
+    Because audio sets can only grow and are bounded by the finite port count,
+    this always terminates — even in the presence of feedback loops.
+  </p>
+
+<pre><span class="kw">def</span> <span class="fn">_propagate</span>(self) -> <span class="cls">dict</span>[<span class="cls">int</span>, <span class="cls">frozenset</span>[<span class="cls">int</span>]]:
+    <span class="cmt"># audio_in[module_id] = set of input ports that carry audio</span>
+    audio_in = {mid: <span class="cls">set</span>() <span class="kw">for</span> mid <span class="kw">in</span> self._nodes}
+    changed = <span class="kw">True</span>
+
+    <span class="kw">while</span> changed:
+        changed = <span class="kw">False</span>
+        <span class="kw">for</span> edge <span class="kw">in</span> self._edges:
+            src = self._nodes[edge.src_node]
+            src_audio_out = src.audio_out_for(<span class="cls">frozenset</span>(audio_in[edge.src_node]))
+
+            <span class="kw">if</span> edge.src_port <span class="kw">in</span> src_audio_out:
+                <span class="kw">if</span> edge.dst_port <span class="kw">not in</span> audio_in[edge.dst_node]:
+                    audio_in[edge.dst_node].add(edge.dst_port)
+                    changed = <span class="kw">True</span>
+
+    <span class="kw">return</span> {mid: <span class="cls">frozenset</span>(ports) <span class="kw">for</span> mid, ports <span class="kw">in</span> audio_in.items()}</pre>
+
+  <p>
+    <code>AudioSourceNode</code> subclasses return their audio outputs regardless of input,
+    so they seed the propagation automatically — no special "seed sources" step needed.
+  </p>
+
+  <h3>Public properties</h3>
+
+  <table>
+    <thead>
+      <tr><th>Property / Method</th><th>Returns</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>audio_reachable</code></td><td><code>bool</code></td><td>True if audio reaches any AudioSinkNode</td></tr>
+      <tr><td><code>audio_chain</code></td><td><code>list[Node]</code></td><td>All nodes audio flows through</td></tr>
+      <tr><td><code>audio_sources</code></td><td><code>list[Node]</code></td><td>All AudioSourceNode instances</td></tr>
+      <tr><td><code>audio_sinks</code></td><td><code>list[Node]</code></td><td>All AudioSinkNode instances</td></tr>
+      <tr><td><code>missing_modules()</code></td><td><code>list[Node]</code></td><td>Nodes not found in installed plugins</td></tr>
+      <tr><td><code>warnings</code></td><td><code>list[str]</code></td><td>Advisory: zero-level params, unknown modules on path</td></tr>
+      <tr><td><code>report()</code></td><td><code>str</code></td><td>Human-readable full proof output</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Layer 4: InstalledRegistry <code>installed.py</code></h2>
+
+  <p>
+    Scans <code>~/Library/Application Support/Rack2/plugins-mac-arm64/</code>
+    (and fallback paths for other platforms) for <code>plugin.json</code> files,
+    collecting all <code>plugin/model</code> pairs. Loading is lazy and cached.
+  </p>
+
+  <div class="callout warn">
+    <strong>Core modules</strong> (AudioInterface2, MIDIToCVInterface, etc.) are
+    built into VCV Rack itself — no <code>plugin.json</code> exists for them.
+    They are hardcoded in <code>BUILTIN</code> and always treated as installed.
+    This was a real bug we hit: AudioInterface2 was reported missing until we
+    added the hardcoded set.
+  </div>
+
+<pre><span class="cmt"># Usage</span>
+reg = <span class="cls">InstalledRegistry</span>.default()   <span class="cmt"># singleton, lazy-loaded</span>
+reg.has(<span class="str">"Fundamental"</span>, <span class="str">"VCO"</span>)       <span class="cmt"># True</span>
+reg.has(<span class="str">"Autodafe"</span>, <span class="str">"ClockDivider"</span>)  <span class="cmt"># False on ARM64 Mac</span></pre>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Layer 5: PatchLoader <code>loader.py</code></h2>
+
+  <p>
+    The only layer that reads raw <code>.vcv</code> JSON.
+    A <code>.vcv</code> file is a zstandard-compressed POSIX tar archive
+    containing <code>patch.json</code>.
+  </p>
+
+<pre><span class="cmt"># patch.json structure (simplified)</span>
+{
+  <span class="str">"modules"</span>: [
+    { <span class="str">"id"</span>: <span class="num">12345</span>, <span class="str">"plugin"</span>: <span class="str">"Fundamental"</span>, <span class="str">"model"</span>: <span class="str">"VCO"</span>,
+      <span class="str">"params"</span>: [{ <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"value"</span>: <span class="num">0.0</span> }] }
+  ],
+  <span class="str">"cables"</span>: [
+    { <span class="str">"outputModuleId"</span>: <span class="num">12345</span>, <span class="str">"outputId"</span>: <span class="num">3</span>,
+      <span class="str">"inputModuleId"</span>: <span class="num">67890</span>, <span class="str">"inputId"</span>: <span class="num">0</span> }
+  ]
+}</pre>
+
+  <p>
+    For each module, <code>PatchLoader</code> looks up <code>NODE_REGISTRY</code>
+    and instantiates the matching class. Unknown modules become <code>UnknownNode</code>.
+    Each cable becomes an <code>Edge(src_node, src_port, dst_node, dst_port)</code>.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>The proof in action</h2>
+
+  <p>The demo patch <code>tests/square_to_output.py</code>:</p>
+
+<pre><span class="cmt"># Build the patch</span>
+patch = <span class="cls">Patch</span>()
+vco   = patch.add(<span class="str">"Fundamental"</span>, <span class="str">"VCO"</span>,           pos=[<span class="num">0</span>, <span class="num">0</span>])
+audio = patch.add(<span class="str">"Core"</span>,        <span class="str">"AudioInterface2"</span>, pos=[<span class="num">8</span>, <span class="num">0</span>])
+patch.connect(vco.SQR, audio.i.IN_L)
+patch.connect(vco.SQR, audio.i.IN_R)
+patch.save(<span class="str">"tests/square_to_output.vcv"</span>)
+
+<span class="cmt"># Prove it</span>
+graph = <span class="cls">PatchLoader</span>.load(<span class="str">"tests/square_to_output.vcv"</span>)
+<span class="kw">assert not</span> graph.missing_modules()   <span class="cmt"># step 1: existence</span>
+<span class="kw">assert</span> graph.audio_reachable          <span class="cmt"># step 2: reachability</span></pre>
+
+  <p>Output:</p>
+
+  <div class="output"><span class="out-dim">Nodes: 2  Edges: 2
+</span>
+<span class="out-ok">All modules installed: yes
+
+AUDIO REACHABLE: yes</span>
+
+Audio chain:
+  Fundamental/VCO#7109571174881621
+  Core/AudioInterface2#4329850745837336
+
+<span class="out-ok">All assertions passed.</span></div>
+
+  <h3>A patch that would fail existence</h3>
+  <div class="output"><span class="out-dim">Nodes: 2  Edges: 2
+</span>
+<span class="out-fail">MODULES MISSING (1) -- cannot prove reachability:
+  ! Autodafe/ClockDivider
+
+AUDIO REACHABLE: unknown (missing modules)</span></div>
+
+  <p>
+    Existence failure short-circuits the report — there is no point
+    checking reachability if a module won't load.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<section>
+  <h2>Known limitations and next steps</h2>
+
+  <ul style="padding-left: 1.4rem; line-height: 2.1;">
+    <li>
+      <strong>Port numbers are hand-declared.</strong>
+      They come from reading each plugin's C++ source or observing live patches.
+      A wrong port number produces a false negative (audio declared unreachable when it isn't).
+      This happened with Chronoblob2 (audio inputs are 5, 6 — not 0, 1) and
+      Pressor (audio outputs are 1, 2 — not 0, 1).
+    </li>
+    <li>
+      <strong>Params are not evaluated.</strong>
+      A VCA with its level knob at zero will pass the reachability check but produce silence.
+      The <code>warnings</code> property flags obvious zero-level cases, but this is advisory only.
+    </li>
+    <li>
+      <strong>UnknownNode is optimistic.</strong>
+      Modules not in our registry are assumed to pass audio. Adding more module classes
+      makes the proof tighter.
+    </li>
+    <li>
+      <strong>Signal type is not tracked.</strong>
+      The graph propagates a single "audio present" boolean per port.
+      A future version could track signal type (audio, CV, gate, clock) and flag
+      cables that carry the wrong type into an input.
+    </li>
+  </ul>
+</section>
+
+
+</div><!-- .page -->
+</body>
+</html>

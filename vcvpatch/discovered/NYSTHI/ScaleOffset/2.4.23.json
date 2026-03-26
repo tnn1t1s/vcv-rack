@@ -1,0 +1,35 @@
+{
+  "plugin": "NYSTHI",
+  "model": "ScaleOffset",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Scale",
+      "default": 10,
+      "min": -40,
+      "max": 40
+    },
+    {
+      "id": 1,
+      "name": "SCALE in CV VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Offset",
+      "default": 0,
+      "min": -100,
+      "max": 100
+    },
+    {
+      "id": 3,
+      "name": "OFFSET in CV VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

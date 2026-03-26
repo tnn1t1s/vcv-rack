@@ -1,0 +1,49 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Osc2",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -8,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "FM Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Linear",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Phs Shift",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Phs CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "RST",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

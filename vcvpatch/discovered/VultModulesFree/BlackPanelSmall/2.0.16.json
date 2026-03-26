@@ -1,0 +1,28 @@
+{
+  "plugin": "VultModulesFree",
+  "model": "BlackPanelSmall",
+  "version": "2.0.16",
+  "params": [
+    {
+      "id": 0,
+      "name": "Speed",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Scale X",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Scale Y",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    }
+  ]
+}

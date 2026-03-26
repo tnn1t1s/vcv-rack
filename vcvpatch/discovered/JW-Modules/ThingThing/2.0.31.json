@@ -1,0 +1,21 @@
+{
+  "plugin": "JW-Modules",
+  "model": "ThingThing",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Radius",
+      "default": 10,
+      "min": 0,
+      "max": 30
+    },
+    {
+      "id": 1,
+      "name": "Length",
+      "default": 20,
+      "min": 1,
+      "max": 200
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "plugin": "JW-Modules",
+  "model": "Pres1t",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Save",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Load",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

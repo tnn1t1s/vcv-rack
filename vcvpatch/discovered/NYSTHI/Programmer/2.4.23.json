@@ -1,0 +1,1015 @@
+{
+  "plugin": "NYSTHI",
+  "model": "Programmer",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Stage pulse active trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Channel A Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 38,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 39,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 40,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 41,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 42,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 43,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 44,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 45,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 46,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 47,
+      "name": "Channel B Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 48,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 49,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "Channel C Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 66,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 67,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 68,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 69,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 70,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 71,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 72,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 73,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 74,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 75,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 76,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 77,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 78,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 79,
+      "name": "Channel D Voltage",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 80,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 81,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 82,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 83,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 84,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 85,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 86,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 87,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 88,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 89,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 90,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 91,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 92,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 93,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 94,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 95,
+      "name": "Stage mode forward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 96,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 97,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 98,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 99,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 100,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 101,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 102,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 103,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 104,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 105,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 106,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 107,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 108,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 109,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 110,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 111,
+      "name": "Stage mode backward",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 112,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 113,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 114,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 115,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 116,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 117,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 118,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 119,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 120,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 121,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 122,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 123,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 124,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 125,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 126,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 127,
+      "name": "Stage select trigger",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 128,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 129,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 130,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 131,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 132,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 133,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 134,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 135,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 136,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 137,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 138,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 139,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 140,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 141,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 142,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    },
+    {
+      "id": 143,
+      "name": "Pulse repetitions (ratcheting)",
+      "default": 1,
+      "min": 1,
+      "max": 9
+    }
+  ]
+}

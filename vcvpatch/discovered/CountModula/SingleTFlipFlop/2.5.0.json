@@ -1,0 +1,6 @@
+{
+  "plugin": "CountModula",
+  "model": "SingleTFlipFlop",
+  "version": "2.5.0",
+  "params": []
+}

@@ -1,0 +1,70 @@
+{
+  "plugin": "ArhythmeticUnits-Fourier",
+  "model": "Spectrogram",
+  "version": "2.1.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Input Gain",
+      "default": 1.99526,
+      "min": 0,
+      "max": 3.98107
+    },
+    {
+      "id": 1,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Window",
+      "default": 14,
+      "min": 0,
+      "max": 14
+    },
+    {
+      "id": 3,
+      "name": "Y Scale",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Average",
+      "default": 0,
+      "min": 0,
+      "max": 2.5
+    },
+    {
+      "id": 5,
+      "name": "Smooth",
+      "default": 0,
+      "min": 0,
+      "max": 15
+    },
+    {
+      "id": 6,
+      "name": "LO Freq",
+      "default": 0,
+      "min": 0,
+      "max": 22050
+    },
+    {
+      "id": 7,
+      "name": "HI Freq",
+      "default": 22050,
+      "min": 0,
+      "max": 22050
+    },
+    {
+      "id": 8,
+      "name": "Slope",
+      "default": 4.5,
+      "min": -9,
+      "max": 9
+    }
+  ]
+}

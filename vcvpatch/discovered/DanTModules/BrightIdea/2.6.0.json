@@ -1,0 +1,63 @@
+{
+  "plugin": "DanTModules",
+  "model": "BrightIdea",
+  "version": "2.6.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Active Toggle",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Cable Opacity",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Cable Tension",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Room Brightness",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Light Bloom",
+      "default": 0.25,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Use Dark Panels Toggle",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Spotlight Brightness",
+      "default": 0.2,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Spotlight Radius",
+      "default": 300,
+      "min": 0,
+      "max": 3840
+    }
+  ]
+}

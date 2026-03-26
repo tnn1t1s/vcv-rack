@@ -1,0 +1,56 @@
+{
+  "plugin": "dbRackModules",
+  "model": "CSOSC",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0,
+      "min": -14,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Skew",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Clip",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Skew Amt",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Clip Amt",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "FM Amount",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Linear",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

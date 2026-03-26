@@ -1,0 +1,28 @@
+{
+  "plugin": "dbRackModules",
+  "model": "CLP",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Type",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 1,
+      "name": "Drive",
+      "default": 1,
+      "min": 0,
+      "max": 10
+    },
+    {
+      "id": 2,
+      "name": "Drive CV",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

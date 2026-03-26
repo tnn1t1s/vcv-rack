@@ -1,0 +1,77 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Pressor",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Threshold",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Ratio",
+      "default": 0.55159,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Attack",
+      "default": 0.316228,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Release",
+      "default": 0.316228,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Output gain",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Input gain",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Detector mix",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Dectector mode",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Knee",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

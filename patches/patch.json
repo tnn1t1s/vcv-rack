@@ -1,0 +1,6477 @@
+{
+  "version": "2.6.6",
+  "zoom": 0.55388098955154419,
+  "gridOffset": [
+    85.749351501464844,
+    -0.46824631094932556
+  ],
+  "modules": [
+    {
+      "id": 8518972980240757,
+      "plugin": "Core",
+      "model": "AudioInterface2",
+      "version": "2.6.6",
+      "params": [
+        {
+          "value": 1.0,
+          "id": 0
+        }
+      ],
+      "leftModuleId": 2838946523334749,
+      "data": {
+        "audio": {
+          "driver": 5,
+          "deviceName": "SOUND",
+          "sampleRate": 48000.0,
+          "blockSize": 256,
+          "inputOffset": 0,
+          "outputOffset": 0
+        },
+        "dcFilter": true
+      },
+      "pos": [
+        253,
+        0
+      ]
+    },
+    {
+      "id": 970152246827565,
+      "plugin": "DanTModules",
+      "model": "Purfenator",
+      "version": "2.5.3",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        }
+      ],
+      "rightModuleId": 8016710114401754,
+      "data": {
+        "active": true,
+        "showiconmenus": false,
+        "drawbutton": true,
+        "buttonypos": 351.5,
+        "fliptitle": false,
+        "drawtitle": false,
+        "titleislight": false,
+        "titlefontsize": 45.0,
+        "titlehidevcv": false,
+        "titlecolourr": 50.0,
+        "titlecolourg": 50.0,
+        "titlecolourb": 50.0,
+        "titlecoloura": 200.0,
+        "drawbackgroundcolour": true,
+        "gradientmode": true,
+        "gradienttype": 0,
+        "gradientstart": 0.0,
+        "gradientend": 1.0,
+        "gradientlindir": 0,
+        "gradientradx": 0.0,
+        "gradientrady": 0.0,
+        "gradientboxrange": 0.0,
+        "gradientboxradius": 0.0,
+        "drawbackgroundimage": true,
+        "imageontop": true,
+        "ignorezoom": false,
+        "imageposition": 4,
+        "tileimage": true,
+        "backgroundscale": 0.63504326343536377,
+        "ximageoffset": 0.01525382325053215,
+        "yimageoffset": -0.02210412360727787,
+        "xpositionoffset": 0.0,
+        "ypositionoffset": 0.0,
+        "drawskiff": true,
+        "multiskiffmode": true,
+        "splitvertically": true,
+        "horizontalsplitthreshold": 3.4233794212341309,
+        "drawskiffbezel": true,
+        "drawrails": true,
+        "drawskiffshadow": true,
+        "skiffdepth": 1.3416596651077271,
+        "skiffbezelsize": 16.0,
+        "skiffshadowsize": 0.65754014253616333,
+        "skiffshadowsoftness": 0.63384431600570679,
+        "skiffshadowintensity": 0.99000000953674316,
+        "backgroundcolourr": 250.15504455566406,
+        "backgroundcolourg": 0.0,
+        "backgroundcolourb": 0.0,
+        "backgroundcoloura": 255.0,
+        "gradientcolourr": 149.47000122070312,
+        "gradientcolourg": 255.0,
+        "gradientcolourb": 0.0,
+        "gradientcoloura": 255.0,
+        "skiffcolourr": 250.29669189453125,
+        "skiffcolourg": 204.30906677246094,
+        "skiffcolourb": 113.0,
+        "internalcolourr": 50.0,
+        "internalcolourg": 45.0,
+        "internalcolourb": 38.0,
+        "internalcoloura": 255.0,
+        "selectedimagedirectory": "/Volumes/SSD/MOCKUPS STOCK",
+        "selectedimagefilepath": "/Volumes/SSD/MOCKUPS STOCK/facade-modern-urban-building.jpg",
+        "drawcheeks": false,
+        "cheekimagefilepath": "",
+        "mirrorcheek": false
+      },
+      "pos": [
+        111,
+        0
+      ]
+    },
+    {
+      "id": 8999151672642431,
+      "plugin": "Valley",
+      "model": "Plateau",
+      "version": "2.4.5",
+      "params": [
+        {
+          "value": 0.10073909908533096,
+          "id": 0
+        },
+        {
+          "value": 0.9272770881652832,
+          "id": 1
+        },
+        {
+          "value": 0.00034568094997666776,
+          "id": 2
+        },
+        {
+          "value": 7.5562629699707031,
+          "id": 3
+        },
+        {
+          "value": 7.565640926361084,
+          "id": 4
+        },
+        {
+          "value": 0.57097285985946655,
+          "id": 5
+        },
+        {
+          "value": 10.0,
+          "id": 6
+        },
+        {
+          "value": 0.65054243803024292,
+          "id": 7
+        },
+        {
+          "value": 2.6901438236236572,
+          "id": 8
+        },
+        {
+          "value": 2.1333415508270264,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 0.5,
+          "id": 11
+        },
+        {
+          "value": 2.4200737476348877,
+          "id": 12
+        },
+        {
+          "value": 0.0,
+          "id": 13
+        },
+        {
+          "value": 0.0,
+          "id": 14
+        },
+        {
+          "value": 0.0,
+          "id": 15
+        },
+        {
+          "value": 0.0,
+          "id": 16
+        },
+        {
+          "value": 0.0,
+          "id": 17
+        },
+        {
+          "value": 0.0,
+          "id": 18
+        },
+        {
+          "value": 0.0,
+          "id": 19
+        },
+        {
+          "value": 0.0,
+          "id": 20
+        },
+        {
+          "value": 0.0,
+          "id": 21
+        },
+        {
+          "value": 0.0,
+          "id": 22
+        },
+        {
+          "value": 0.0,
+          "id": 23
+        },
+        {
+          "value": 0.0,
+          "id": 24
+        },
+        {
+          "value": 0.0,
+          "id": 25
+        },
+        {
+          "value": 0.0,
+          "id": 26
+        },
+        {
+          "value": 0.0,
+          "id": 27
+        },
+        {
+          "value": 0.0,
+          "id": 28
+        },
+        {
+          "value": 0.0,
+          "id": 29
+        },
+        {
+          "value": 0.0,
+          "id": 30
+        }
+      ],
+      "leftModuleId": 6858725640028559,
+      "rightModuleId": 8021584981405180,
+      "data": {
+        "frozen": false,
+        "freezeToggle": false,
+        "panelStyle": 1,
+        "tuned": 0,
+        "diffuseInput": 0,
+        "preDelayCVSens": 0,
+        "inputSensitivity": 0,
+        "outputSaturation": 0
+      },
+      "pos": [
+        178,
+        1
+      ]
+    },
+    {
+      "id": 8016710114401754,
+      "plugin": "dbRackModules",
+      "model": "Drums",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 6.0,
+          "id": 1
+        },
+        {
+          "value": 0.40297156572341919,
+          "id": 2
+        },
+        {
+          "value": 0.26321825385093689,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 3.258303165435791,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 970152246827565,
+      "rightModuleId": 8244416540271667,
+      "pos": [
+        115,
+        0
+      ]
+    },
+    {
+      "id": 887621289588497,
+      "plugin": "Autodafe",
+      "model": "ClockDivider",
+      "version": "2.0.0",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        }
+      ],
+      "leftModuleId": 8044584459984612,
+      "rightModuleId": 2975378487850540,
+      "pos": [
+        154,
+        1
+      ]
+    },
+    {
+      "id": 6440568681380670,
+      "plugin": "dbRackModules",
+      "model": "Drums",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 3.0,
+          "id": 0
+        },
+        {
+          "value": 4.0,
+          "id": 1
+        },
+        {
+          "value": 0.41999971866607666,
+          "id": 2
+        },
+        {
+          "value": 0.48316779732704163,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 1.0150235891342163,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 8244416540271667,
+      "rightModuleId": 274012221017285,
+      "pos": [
+        119,
+        0
+      ]
+    },
+    {
+      "id": 195729029706814,
+      "plugin": "Befaco",
+      "model": "Kickall",
+      "version": "2.9.1",
+      "params": [
+        {
+          "value": 48.839168548583984,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.27618908882141113,
+          "id": 2
+        },
+        {
+          "value": 0.45692762732505798,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 5633202477712330,
+      "rightModuleId": 3251897877550005,
+      "pos": [
+        125,
+        0
+      ]
+    },
+    {
+      "id": 8257203935208646,
+      "plugin": "mscHack",
+      "model": "Mix_9_3_4",
+      "version": "2.0.0",
+      "params": [
+        {
+          "value": 0.5,
+          "id": 0
+        },
+        {
+          "value": 0.25009402632713318,
+          "id": 1
+        },
+        {
+          "value": 0.15811090171337128,
+          "id": 2
+        },
+        {
+          "value": 0.30302104353904724,
+          "id": 3
+        },
+        {
+          "value": 0.18898257613182068,
+          "id": 4
+        },
+        {
+          "value": 0.20532204210758209,
+          "id": 5
+        },
+        {
+          "value": 0.41983324289321899,
+          "id": 6
+        },
+        {
+          "value": 0.2270684689283371,
+          "id": 7
+        },
+        {
+          "value": 0.68193745613098145,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 0.0,
+          "id": 11
+        },
+        {
+          "value": 0.0,
+          "id": 12
+        },
+        {
+          "value": 0.81999921798706055,
+          "id": 13
+        },
+        {
+          "value": 0.84399992227554321,
+          "id": 14
+        },
+        {
+          "value": 0.813213050365448,
+          "id": 15
+        },
+        {
+          "value": 0.0,
+          "id": 16
+        },
+        {
+          "value": 0.0,
+          "id": 17
+        },
+        {
+          "value": 0.0,
+          "id": 18
+        },
+        {
+          "value": 0.0,
+          "id": 19
+        },
+        {
+          "value": 0.0,
+          "id": 20
+        },
+        {
+          "value": 0.0,
+          "id": 21
+        },
+        {
+          "value": 0.0,
+          "id": 22
+        },
+        {
+          "value": 0.0,
+          "id": 23
+        },
+        {
+          "value": 0.0,
+          "id": 24
+        },
+        {
+          "value": 0.0,
+          "id": 25
+        },
+        {
+          "value": 0.0,
+          "id": 26
+        },
+        {
+          "value": 0.0,
+          "id": 27
+        },
+        {
+          "value": 0.0,
+          "id": 28
+        },
+        {
+          "value": 0.0,
+          "id": 29
+        },
+        {
+          "value": 0.0,
+          "id": 30
+        },
+        {
+          "value": 0.0,
+          "id": 31
+        },
+        {
+          "value": 0.0,
+          "id": 32
+        },
+        {
+          "value": 0.5,
+          "id": 33
+        },
+        {
+          "value": 0.5,
+          "id": 34
+        },
+        {
+          "value": 0.2504621148109436,
+          "id": 35
+        },
+        {
+          "value": 0.37972858548164368,
+          "id": 36
+        },
+        {
+          "value": 0.01165462750941515,
+          "id": 37
+        },
+        {
+          "value": 0.5,
+          "id": 38
+        },
+        {
+          "value": 0.5,
+          "id": 39
+        },
+        {
+          "value": 0.19913285970687866,
+          "id": 40
+        },
+        {
+          "value": 0.5,
+          "id": 41
+        },
+        {
+          "value": 0.5,
+          "id": 42
+        },
+        {
+          "value": 0.5,
+          "id": 43
+        },
+        {
+          "value": 0.5,
+          "id": 44
+        },
+        {
+          "value": 0.5,
+          "id": 45
+        },
+        {
+          "value": 0.5,
+          "id": 46
+        },
+        {
+          "value": 0.5,
+          "id": 47
+        },
+        {
+          "value": 0.5,
+          "id": 48
+        },
+        {
+          "value": 0.0,
+          "id": 49
+        },
+        {
+          "value": 0.5,
+          "id": 50
+        },
+        {
+          "value": 0.62880563735961914,
+          "id": 51
+        },
+        {
+          "value": 0.0,
+          "id": 52
+        },
+        {
+          "value": 0.0,
+          "id": 53
+        },
+        {
+          "value": 0.5,
+          "id": 54
+        },
+        {
+          "value": 0.5,
+          "id": 55
+        },
+        {
+          "value": 0.0,
+          "id": 56
+        },
+        {
+          "value": 0.5,
+          "id": 57
+        },
+        {
+          "value": 0.5,
+          "id": 58
+        },
+        {
+          "value": 0.5,
+          "id": 59
+        },
+        {
+          "value": 0.5,
+          "id": 60
+        },
+        {
+          "value": 0.5,
+          "id": 61
+        },
+        {
+          "value": 0.5,
+          "id": 62
+        },
+        {
+          "value": 0.5,
+          "id": 63
+        },
+        {
+          "value": 0.5,
+          "id": 64
+        },
+        {
+          "value": 0.4013613760471344,
+          "id": 65
+        },
+        {
+          "value": 0.5,
+          "id": 66
+        },
+        {
+          "value": 0.0,
+          "id": 67
+        },
+        {
+          "value": 0.0,
+          "id": 68
+        },
+        {
+          "value": 0.60237026214599609,
+          "id": 69
+        },
+        {
+          "value": 0.5,
+          "id": 70
+        },
+        {
+          "value": 0.5,
+          "id": 71
+        },
+        {
+          "value": 0.0,
+          "id": 72
+        },
+        {
+          "value": 0.5,
+          "id": 73
+        },
+        {
+          "value": 0.5,
+          "id": 74
+        },
+        {
+          "value": 0.5,
+          "id": 75
+        },
+        {
+          "value": 0.5,
+          "id": 76
+        },
+        {
+          "value": 0.5,
+          "id": 77
+        },
+        {
+          "value": 0.5,
+          "id": 78
+        },
+        {
+          "value": 0.5,
+          "id": 79
+        },
+        {
+          "value": 0.5,
+          "id": 80
+        },
+        {
+          "value": 0.0,
+          "id": 81
+        },
+        {
+          "value": 0.0,
+          "id": 82
+        },
+        {
+          "value": 0.0,
+          "id": 83
+        },
+        {
+          "value": 0.0,
+          "id": 84
+        },
+        {
+          "value": 0.0,
+          "id": 85
+        },
+        {
+          "value": 0.0,
+          "id": 86
+        },
+        {
+          "value": 0.77178448438644409,
+          "id": 87
+        },
+        {
+          "value": 0.0,
+          "id": 88
+        },
+        {
+          "value": 0.0,
+          "id": 89
+        },
+        {
+          "value": 0.10910731554031372,
+          "id": 90
+        },
+        {
+          "value": 0.31970545649528503,
+          "id": 91
+        },
+        {
+          "value": 0.0,
+          "id": 92
+        },
+        {
+          "value": 0.0,
+          "id": 93
+        },
+        {
+          "value": 0.018640799447894096,
+          "id": 94
+        },
+        {
+          "value": 0.79730266332626343,
+          "id": 95
+        },
+        {
+          "value": 0.0,
+          "id": 96
+        },
+        {
+          "value": 0.0,
+          "id": 97
+        },
+        {
+          "value": 0.073753334581851959,
+          "id": 98
+        },
+        {
+          "value": 0.0,
+          "id": 99
+        },
+        {
+          "value": 0.0,
+          "id": 100
+        },
+        {
+          "value": 0.0,
+          "id": 101
+        },
+        {
+          "value": 0.0,
+          "id": 102
+        },
+        {
+          "value": 0.61953645944595337,
+          "id": 103
+        },
+        {
+          "value": 0.0,
+          "id": 104
+        },
+        {
+          "value": 0.0,
+          "id": 105
+        },
+        {
+          "value": 0.06296955794095993,
+          "id": 106
+        },
+        {
+          "value": 0.0,
+          "id": 107
+        },
+        {
+          "value": 0.0,
+          "id": 108
+        },
+        {
+          "value": 0.0,
+          "id": 109
+        },
+        {
+          "value": 0.23280450701713562,
+          "id": 110
+        },
+        {
+          "value": 0.00073940790025517344,
+          "id": 111
+        },
+        {
+          "value": 0.0,
+          "id": 112
+        },
+        {
+          "value": 0.0,
+          "id": 113
+        },
+        {
+          "value": 0.0,
+          "id": 114
+        },
+        {
+          "value": 0.0,
+          "id": 115
+        },
+        {
+          "value": 0.0,
+          "id": 116
+        },
+        {
+          "value": 0.0,
+          "id": 117
+        },
+        {
+          "value": 0.0,
+          "id": 118
+        },
+        {
+          "value": 0.0,
+          "id": 119
+        },
+        {
+          "value": 0.0,
+          "id": 120
+        },
+        {
+          "value": 0.0,
+          "id": 121
+        },
+        {
+          "value": 0.0,
+          "id": 122
+        },
+        {
+          "value": 0.0,
+          "id": 123
+        },
+        {
+          "value": 0.0,
+          "id": 124
+        },
+        {
+          "value": 0.0,
+          "id": 125
+        },
+        {
+          "value": 0.0,
+          "id": 126
+        },
+        {
+          "value": 0.0,
+          "id": 127
+        },
+        {
+          "value": 0.0,
+          "id": 128
+        },
+        {
+          "value": 1.0,
+          "id": 129
+        },
+        {
+          "value": 1.0,
+          "id": 130
+        },
+        {
+          "value": 1.0,
+          "id": 131
+        },
+        {
+          "value": 0.0,
+          "id": 132
+        }
+      ],
+      "rightModuleId": 8044584459984612,
+      "data": {
+        "m_bMuteStates": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "m_bSoloStates": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "m_iRouteGroup": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "m_bGroupPreMute": [
+          true
+        ],
+        "m_bGainLevelx2": [
+          true
+        ],
+        "m_bPreFader": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "m_bAuxIgnoreSolo": [
+          true
+        ]
+      },
+      "pos": [
+        111,
+        1
+      ]
+    },
+    {
+      "id": 7615419823039096,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-DADSRH",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.19092889130115509,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.43275243043899536,
+          "id": 5
+        },
+        {
+          "value": 1.0,
+          "id": 6
+        },
+        {
+          "value": 1.0,
+          "id": 7
+        },
+        {
+          "value": 1.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 1.0,
+          "id": 11
+        },
+        {
+          "value": 1.0,
+          "id": 12
+        },
+        {
+          "value": 1.0,
+          "id": 13
+        }
+      ],
+      "leftModuleId": 5637168292357997,
+      "rightModuleId": 2683340536798514,
+      "data": {
+        "skin": "dark",
+        "triggerOnLoad": true,
+        "shouldTriggerOnLoad": true
+      },
+      "pos": [
+        179,
+        0
+      ]
+    },
+    {
+      "id": 8894585707507943,
+      "plugin": "DrumKit",
+      "model": "Sequencer",
+      "version": "2.0.1",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 0.0,
+          "id": 11
+        },
+        {
+          "value": 0.0,
+          "id": 12
+        },
+        {
+          "value": 0.0,
+          "id": 13
+        },
+        {
+          "value": 0.0,
+          "id": 14
+        },
+        {
+          "value": 0.0,
+          "id": 15
+        },
+        {
+          "value": 0.0,
+          "id": 16
+        },
+        {
+          "value": 0.0,
+          "id": 17
+        },
+        {
+          "value": 0.0,
+          "id": 18
+        },
+        {
+          "value": 0.0,
+          "id": 19
+        },
+        {
+          "value": 0.0,
+          "id": 20
+        },
+        {
+          "value": 0.0,
+          "id": 21
+        },
+        {
+          "value": 0.0,
+          "id": 22
+        },
+        {
+          "value": 0.0,
+          "id": 23
+        },
+        {
+          "value": 0.0,
+          "id": 24
+        },
+        {
+          "value": 0.0,
+          "id": 25
+        },
+        {
+          "value": 1.0,
+          "id": 26
+        },
+        {
+          "value": 0.0,
+          "id": 27
+        },
+        {
+          "value": 0.0,
+          "id": 28
+        },
+        {
+          "value": 0.0,
+          "id": 29
+        },
+        {
+          "value": 0.0,
+          "id": 30
+        },
+        {
+          "value": 0.0,
+          "id": 31
+        },
+        {
+          "value": 0.0,
+          "id": 32
+        },
+        {
+          "value": 0.0,
+          "id": 33
+        },
+        {
+          "value": 1.0,
+          "id": 34
+        },
+        {
+          "value": 0.0,
+          "id": 35
+        },
+        {
+          "value": 0.0,
+          "id": 36
+        },
+        {
+          "value": 0.0,
+          "id": 37
+        },
+        {
+          "value": 0.0,
+          "id": 38
+        },
+        {
+          "value": 0.0,
+          "id": 39
+        },
+        {
+          "value": 0.0,
+          "id": 40
+        },
+        {
+          "value": 0.0,
+          "id": 41
+        },
+        {
+          "value": 0.0,
+          "id": 42
+        },
+        {
+          "value": 0.0,
+          "id": 43
+        },
+        {
+          "value": 0.0,
+          "id": 44
+        },
+        {
+          "value": 0.0,
+          "id": 45
+        },
+        {
+          "value": 1.0,
+          "id": 46
+        },
+        {
+          "value": 0.0,
+          "id": 47
+        },
+        {
+          "value": 0.0,
+          "id": 48
+        },
+        {
+          "value": 0.0,
+          "id": 49
+        },
+        {
+          "value": 0.0,
+          "id": 50
+        },
+        {
+          "value": 0.0,
+          "id": 51
+        },
+        {
+          "value": 0.0,
+          "id": 52
+        },
+        {
+          "value": 0.0,
+          "id": 53
+        },
+        {
+          "value": 0.0,
+          "id": 54
+        },
+        {
+          "value": 0.0,
+          "id": 55
+        },
+        {
+          "value": 0.0,
+          "id": 56
+        },
+        {
+          "value": 0.0,
+          "id": 57
+        },
+        {
+          "value": 0.0,
+          "id": 58
+        },
+        {
+          "value": 0.0,
+          "id": 59
+        },
+        {
+          "value": 0.0,
+          "id": 60
+        },
+        {
+          "value": 0.0,
+          "id": 61
+        },
+        {
+          "value": 0.0,
+          "id": 62
+        },
+        {
+          "value": 0.0,
+          "id": 63
+        },
+        {
+          "value": 0.0,
+          "id": 64
+        },
+        {
+          "value": 0.0,
+          "id": 65
+        },
+        {
+          "value": 0.0,
+          "id": 66
+        },
+        {
+          "value": 0.0,
+          "id": 67
+        },
+        {
+          "value": 0.0,
+          "id": 68
+        },
+        {
+          "value": 0.0,
+          "id": 69
+        },
+        {
+          "value": 0.0,
+          "id": 70
+        },
+        {
+          "value": 0.0,
+          "id": 71
+        },
+        {
+          "value": 0.0,
+          "id": 72
+        },
+        {
+          "value": 0.0,
+          "id": 73
+        },
+        {
+          "value": 0.0,
+          "id": 74
+        },
+        {
+          "value": 0.0,
+          "id": 75
+        },
+        {
+          "value": 0.0,
+          "id": 76
+        },
+        {
+          "value": 0.0,
+          "id": 77
+        },
+        {
+          "value": 0.0,
+          "id": 78
+        },
+        {
+          "value": 0.0,
+          "id": 79
+        },
+        {
+          "value": 0.0,
+          "id": 80
+        },
+        {
+          "value": 0.0,
+          "id": 81
+        },
+        {
+          "value": 1.0,
+          "id": 82
+        },
+        {
+          "value": 0.0,
+          "id": 83
+        },
+        {
+          "value": 0.0,
+          "id": 84
+        },
+        {
+          "value": 0.0,
+          "id": 85
+        },
+        {
+          "value": 0.0,
+          "id": 86
+        },
+        {
+          "value": 0.0,
+          "id": 87
+        },
+        {
+          "value": 0.0,
+          "id": 88
+        },
+        {
+          "value": 0.0,
+          "id": 89
+        },
+        {
+          "value": 1.0,
+          "id": 90
+        },
+        {
+          "value": 0.0,
+          "id": 91
+        },
+        {
+          "value": 0.0,
+          "id": 92
+        },
+        {
+          "value": 0.0,
+          "id": 93
+        },
+        {
+          "value": 0.0,
+          "id": 94
+        },
+        {
+          "value": 0.0,
+          "id": 95
+        },
+        {
+          "value": 0.0,
+          "id": 96
+        },
+        {
+          "value": 0.0,
+          "id": 97
+        },
+        {
+          "value": 0.0,
+          "id": 98
+        },
+        {
+          "value": 0.0,
+          "id": 99
+        },
+        {
+          "value": 0.0,
+          "id": 100
+        },
+        {
+          "value": 0.0,
+          "id": 101
+        },
+        {
+          "value": 0.0,
+          "id": 102
+        },
+        {
+          "value": 0.0,
+          "id": 103
+        },
+        {
+          "value": 0.0,
+          "id": 104
+        },
+        {
+          "value": 0.0,
+          "id": 105
+        },
+        {
+          "value": 0.0,
+          "id": 106
+        },
+        {
+          "value": 0.0,
+          "id": 107
+        },
+        {
+          "value": 0.0,
+          "id": 108
+        },
+        {
+          "value": 0.0,
+          "id": 109
+        },
+        {
+          "value": 0.0,
+          "id": 110
+        },
+        {
+          "value": 0.0,
+          "id": 111
+        },
+        {
+          "value": 1.0,
+          "id": 112
+        },
+        {
+          "value": 0.0,
+          "id": 113
+        },
+        {
+          "value": 0.0,
+          "id": 114
+        },
+        {
+          "value": 0.0,
+          "id": 115
+        },
+        {
+          "value": 1.0,
+          "id": 116
+        },
+        {
+          "value": 0.0,
+          "id": 117
+        },
+        {
+          "value": 0.0,
+          "id": 118
+        },
+        {
+          "value": 0.0,
+          "id": 119
+        },
+        {
+          "value": 1.0,
+          "id": 120
+        },
+        {
+          "value": 0.0,
+          "id": 121
+        },
+        {
+          "value": 0.0,
+          "id": 122
+        },
+        {
+          "value": 0.0,
+          "id": 123
+        },
+        {
+          "value": 1.0,
+          "id": 124
+        },
+        {
+          "value": 0.0,
+          "id": 125
+        },
+        {
+          "value": 0.0,
+          "id": 126
+        },
+        {
+          "value": 0.0,
+          "id": 127
+        },
+        {
+          "value": 0.0,
+          "id": 128
+        },
+        {
+          "value": 0.0,
+          "id": 129
+        },
+        {
+          "value": 0.0,
+          "id": 130
+        },
+        {
+          "value": 5.0500001907348633,
+          "id": 131
+        },
+        {
+          "value": 0.0,
+          "id": 132
+        },
+        {
+          "value": 0.0,
+          "id": 133
+        },
+        {
+          "value": 0.0,
+          "id": 134
+        },
+        {
+          "value": 0.0,
+          "id": 135
+        },
+        {
+          "value": 0.0,
+          "id": 136
+        },
+        {
+          "value": 0.0,
+          "id": 137
+        },
+        {
+          "value": 0.0,
+          "id": 138
+        },
+        {
+          "value": 0.0,
+          "id": 139
+        },
+        {
+          "value": 0.0,
+          "id": 140
+        },
+        {
+          "value": 0.0,
+          "id": 141
+        },
+        {
+          "value": 0.0,
+          "id": 142
+        },
+        {
+          "value": 0.0,
+          "id": 143
+        },
+        {
+          "value": 0.0,
+          "id": 144
+        },
+        {
+          "value": 0.0,
+          "id": 145
+        },
+        {
+          "value": 0.0,
+          "id": 146
+        },
+        {
+          "value": 0.0,
+          "id": 147
+        },
+        {
+          "value": 0.0,
+          "id": 148
+        },
+        {
+          "value": 0.0,
+          "id": 149
+        },
+        {
+          "value": 0.0,
+          "id": 150
+        }
+      ],
+      "leftModuleId": 6652053351708728,
+      "data": {
+        "running": true,
+        "cycling": false,
+        "currentPlay": 1,
+        "tracks": [
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              true
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ],
+            [
+              true,
+              false,
+              false,
+              false,
+              true,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ],
+          [
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ],
+            [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          ]
+        ],
+        "programs": [
+          16,
+          16,
+          1,
+          3,
+          1,
+          2,
+          1,
+          4
+        ]
+      },
+      "pos": [
+        226,
+        1
+      ]
+    },
+    {
+      "id": 274012221017285,
+      "plugin": "dbRackModules",
+      "model": "Drums",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 1.0,
+          "id": 0
+        },
+        {
+          "value": 6.0,
+          "id": 1
+        },
+        {
+          "value": -0.99308055639266968,
+          "id": 2
+        },
+        {
+          "value": 0.1474548727273941,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 1.1106492280960083,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 6440568681380670,
+      "rightModuleId": 5633202477712330,
+      "pos": [
+        121,
+        0
+      ]
+    },
+    {
+      "id": 969613847551127,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-Pressor",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 0.28117892146110535,
+          "id": 0
+        },
+        {
+          "value": 0.79245460033416748,
+          "id": 1
+        },
+        {
+          "value": 0.46192294359207153,
+          "id": 2
+        },
+        {
+          "value": 0.48358851671218872,
+          "id": 3
+        },
+        {
+          "value": 0.50512921810150146,
+          "id": 4
+        },
+        {
+          "value": 0.019241420552134514,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 1.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        }
+      ],
+      "leftModuleId": 8868042791831732,
+      "rightModuleId": 2838946523334749,
+      "data": {
+        "skin": "dark",
+        "threshold_range": 1.0
+      },
+      "pos": [
+        235,
+        0
+      ]
+    },
+    {
+      "id": 8044584459984612,
+      "plugin": "ImpromptuModular",
+      "model": "Clocked-Clkd",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 4.0,
+          "id": 0
+        },
+        {
+          "value": 5.0,
+          "id": 1
+        },
+        {
+          "value": -5.0,
+          "id": 2
+        },
+        {
+          "value": 115.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        }
+      ],
+      "leftModuleId": 8257203935208646,
+      "rightModuleId": 887621289588497,
+      "data": {
+        "panelTheme": 0,
+        "panelContrast": 190.0,
+        "running": true,
+        "bpmDetectionMode": false,
+        "resetOnStartStop": 0,
+        "ppqn": 24,
+        "resetClockOutputsHigh": true,
+        "momentaryRunInput": true,
+        "forceCvOnBpmOut": false,
+        "displayIndex": 1,
+        "trigOuts": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "bpmInputScale": 1.0,
+        "bpmInputOffset": 0.0,
+        "clockMaster": -1
+      },
+      "pos": [
+        144,
+        1
+      ]
+    },
+    {
+      "id": 2838946523334749,
+      "plugin": "Inklen-CableColourKey",
+      "model": "CableColourKey",
+      "version": "2.0.3",
+      "params": [],
+      "leftModuleId": 969613847551127,
+      "rightModuleId": 8518972980240757,
+      "data": {
+        "theme": 3
+      },
+      "pos": [
+        250,
+        0
+      ]
+    },
+    {
+      "id": 8244416540271667,
+      "plugin": "dbRackModules",
+      "model": "Drums",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 2.0,
+          "id": 0
+        },
+        {
+          "value": 7.0,
+          "id": 1
+        },
+        {
+          "value": 0.44999971985816956,
+          "id": 2
+        },
+        {
+          "value": 0.17672523856163025,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 1.0674149990081787,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 8016710114401754,
+      "rightModuleId": 6440568681380670,
+      "pos": [
+        117,
+        0
+      ]
+    },
+    {
+      "id": 2683340536798514,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-AddrSeq",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 4.2975311279296875,
+          "id": 0
+        },
+        {
+          "value": 1.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": -0.13119485974311829,
+          "id": 3
+        },
+        {
+          "value": 1.0,
+          "id": 4
+        },
+        {
+          "value": 0.58338552713394165,
+          "id": 5
+        },
+        {
+          "value": 0.33814927935600281,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        }
+      ],
+      "leftModuleId": 7615419823039096,
+      "rightModuleId": 526348730824532,
+      "data": {
+        "skin": "dark",
+        "poly_input": 0,
+        "select_on_clock": false,
+        "triggered_select": false,
+        "reverse_on_negative_clock": false,
+        "wrap_select_at_steps": false,
+        "range_offset": 1.0,
+        "range_scale": 0.5
+      },
+      "pos": [
+        189,
+        0
+      ]
+    },
+    {
+      "id": 4236117623435237,
+      "plugin": "Fundamental",
+      "model": "Noise",
+      "version": "2.6.4",
+      "params": [],
+      "leftModuleId": 5986747884000774,
+      "rightModuleId": 1836233153355677,
+      "pos": [
+        147,
+        0
+      ]
+    },
+    {
+      "id": 5633202477712330,
+      "plugin": "dbRackModules",
+      "model": "Drums",
+      "version": "2.5.0",
+      "params": [
+        {
+          "value": 4.0,
+          "id": 0
+        },
+        {
+          "value": 12.0,
+          "id": 1
+        },
+        {
+          "value": 0.60019809007644653,
+          "id": 2
+        },
+        {
+          "value": 0.33403575420379639,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.30254018306732178,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 274012221017285,
+      "rightModuleId": 195729029706814,
+      "pos": [
+        123,
+        0
+      ]
+    },
+    {
+      "id": 626140580651461,
+      "plugin": "AlrightDevices",
+      "model": "Chronoblob2",
+      "version": "2.1.0",
+      "params": [
+        {
+          "value": 0.48692083358764648,
+          "id": 0
+        },
+        {
+          "value": 0.72884625196456909,
+          "id": 1
+        },
+        {
+          "value": 0.72565877437591553,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.25622761249542236,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        }
+      ],
+      "leftModuleId": 8021584981405180,
+      "rightModuleId": 6652053351708728,
+      "data": {
+        "delay_mode": 1,
+        "hold_behavior": 0,
+        "sync_prescaler": 6
+      },
+      "pos": [
+        202,
+        1
+      ]
+    },
+    {
+      "id": 8021584981405180,
+      "plugin": "Valley",
+      "model": "Plateau",
+      "version": "2.4.5",
+      "params": [
+        {
+          "value": 1.0,
+          "id": 0
+        },
+        {
+          "value": 0.29731163382530212,
+          "id": 1
+        },
+        {
+          "value": 0.00034568094997666776,
+          "id": 2
+        },
+        {
+          "value": 5.3692364692687988,
+          "id": 3
+        },
+        {
+          "value": 6.415858268737793,
+          "id": 4
+        },
+        {
+          "value": 0.51709461212158203,
+          "id": 5
+        },
+        {
+          "value": 10.0,
+          "id": 6
+        },
+        {
+          "value": 0.62244510650634766,
+          "id": 7
+        },
+        {
+          "value": 10.0,
+          "id": 8
+        },
+        {
+          "value": 10.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 0.5,
+          "id": 11
+        },
+        {
+          "value": 2.2816908359527588,
+          "id": 12
+        },
+        {
+          "value": 0.0,
+          "id": 13
+        },
+        {
+          "value": 0.0,
+          "id": 14
+        },
+        {
+          "value": 0.0,
+          "id": 15
+        },
+        {
+          "value": 0.0,
+          "id": 16
+        },
+        {
+          "value": 0.0,
+          "id": 17
+        },
+        {
+          "value": 0.0,
+          "id": 18
+        },
+        {
+          "value": 0.0,
+          "id": 19
+        },
+        {
+          "value": 0.81288212537765503,
+          "id": 20
+        },
+        {
+          "value": 0.0,
+          "id": 21
+        },
+        {
+          "value": 0.0,
+          "id": 22
+        },
+        {
+          "value": 0.0,
+          "id": 23
+        },
+        {
+          "value": 0.0,
+          "id": 24
+        },
+        {
+          "value": 0.0,
+          "id": 25
+        },
+        {
+          "value": 0.0,
+          "id": 26
+        },
+        {
+          "value": 0.0,
+          "id": 27
+        },
+        {
+          "value": 0.0,
+          "id": 28
+        },
+        {
+          "value": 0.0,
+          "id": 29
+        },
+        {
+          "value": 1.0,
+          "id": 30
+        }
+      ],
+      "leftModuleId": 8999151672642431,
+      "rightModuleId": 626140580651461,
+      "data": {
+        "frozen": true,
+        "freezeToggle": false,
+        "panelStyle": 1,
+        "tuned": 0,
+        "diffuseInput": 1,
+        "preDelayCVSens": 1,
+        "inputSensitivity": 0,
+        "outputSaturation": 1
+      },
+      "pos": [
+        190,
+        1
+      ]
+    },
+    {
+      "id": 6858725640028559,
+      "plugin": "AaronStatic",
+      "model": "ChordCV",
+      "version": "2.0.1",
+      "params": [
+        {
+          "value": -0.005131071899086237,
+          "id": 0
+        },
+        {
+          "value": -1.3303055763244629,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        }
+      ],
+      "leftModuleId": 2975378487850540,
+      "rightModuleId": 8999151672642431,
+      "pos": [
+        170,
+        1
+      ]
+    },
+    {
+      "id": 3251897877550005,
+      "plugin": "Befaco",
+      "model": "EvenVCO",
+      "version": "2.9.1",
+      "params": [
+        {
+          "value": -2.0,
+          "id": 0
+        },
+        {
+          "value": -0.14845946431159973,
+          "id": 1
+        },
+        {
+          "value": -0.30284398794174194,
+          "id": 2
+        }
+      ],
+      "leftModuleId": 195729029706814,
+      "rightModuleId": 5986747884000774,
+      "data": {
+        "removePulseDC": true,
+        "limitPW": true,
+        "oversamplingIndex": 2
+      },
+      "pos": [
+        131,
+        0
+      ]
+    },
+    {
+      "id": 5986747884000774,
+      "plugin": "Befaco",
+      "model": "EvenVCO",
+      "version": "2.9.1",
+      "params": [
+        {
+          "value": -1.0,
+          "id": 0
+        },
+        {
+          "value": 0.040111999958753586,
+          "id": 1
+        },
+        {
+          "value": 0.11478959769010544,
+          "id": 2
+        }
+      ],
+      "leftModuleId": 3251897877550005,
+      "rightModuleId": 4236117623435237,
+      "data": {
+        "removePulseDC": true,
+        "limitPW": true,
+        "oversamplingIndex": 2
+      },
+      "pos": [
+        139,
+        0
+      ]
+    },
+    {
+      "id": 1836233153355677,
+      "plugin": "Befaco",
+      "model": "Mixer",
+      "version": "2.9.1",
+      "params": [
+        {
+          "value": 0.81773221492767334,
+          "id": 0
+        },
+        {
+          "value": 0.81796491146087646,
+          "id": 1
+        },
+        {
+          "value": 0.99686700105667114,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        }
+      ],
+      "leftModuleId": 4236117623435237,
+      "rightModuleId": 4180501257517682,
+      "pos": [
+        150,
+        0
+      ]
+    },
+    {
+      "id": 4180501257517682,
+      "plugin": "Fundamental",
+      "model": "VCF",
+      "version": "2.6.4",
+      "params": [
+        {
+          "value": 0.42217022180557251,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.0089099807664752007,
+          "id": 2
+        },
+        {
+          "value": 0.41428348422050476,
+          "id": 3
+        },
+        {
+          "value": -0.5076291561126709,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        }
+      ],
+      "leftModuleId": 1836233153355677,
+      "rightModuleId": 6802437339609168,
+      "pos": [
+        155,
+        0
+      ]
+    },
+    {
+      "id": 5606550633662614,
+      "plugin": "ArhythmeticUnits-Fourier",
+      "model": "SpectrumAnalyzer",
+      "version": "2.1.1",
+      "params": [
+        {
+          "value": 3.981071949005127,
+          "id": 0
+        },
+        {
+          "value": 3.981071949005127,
+          "id": 1
+        },
+        {
+          "value": 1.0,
+          "id": 2
+        },
+        {
+          "value": 1.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 14.0,
+          "id": 5
+        },
+        {
+          "value": 11.0,
+          "id": 6
+        },
+        {
+          "value": 0.029999999329447746,
+          "id": 7
+        },
+        {
+          "value": 1.0,
+          "id": 8
+        },
+        {
+          "value": 1.0,
+          "id": 9
+        },
+        {
+          "value": 1.1261804103851318,
+          "id": 10
+        },
+        {
+          "value": 8.0,
+          "id": 11
+        },
+        {
+          "value": 0.0,
+          "id": 12
+        },
+        {
+          "value": 22050.0,
+          "id": 13
+        },
+        {
+          "value": 4.5,
+          "id": 14
+        }
+      ],
+      "data": {
+        "is_running": true,
+        "is_fill_enabled": true,
+        "is_bezier_enabled": true,
+        "is_ac_coupled": true
+      },
+      "pos": [
+        222,
+        3
+      ]
+    },
+    {
+      "id": 5637168292357997,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-DADSRH",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.1003839522600174,
+          "id": 1
+        },
+        {
+          "value": 0.18573164939880371,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.247701495885849,
+          "id": 4
+        },
+        {
+          "value": 0.43275243043899536,
+          "id": 5
+        },
+        {
+          "value": 1.0,
+          "id": 6
+        },
+        {
+          "value": 1.0,
+          "id": 7
+        },
+        {
+          "value": 1.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        },
+        {
+          "value": 0.0,
+          "id": 10
+        },
+        {
+          "value": 1.0,
+          "id": 11
+        },
+        {
+          "value": 1.0,
+          "id": 12
+        },
+        {
+          "value": 1.0,
+          "id": 13
+        }
+      ],
+      "leftModuleId": 6802437339609168,
+      "rightModuleId": 7615419823039096,
+      "data": {
+        "skin": "dark",
+        "triggerOnLoad": true,
+        "shouldTriggerOnLoad": true
+      },
+      "pos": [
+        169,
+        0
+      ]
+    },
+    {
+      "id": 1756900600995668,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-LFO",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": -3.4522342681884766,
+          "id": 0
+        },
+        {
+          "value": 1.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 1.0,
+          "id": 4
+        },
+        {
+          "value": 1.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        }
+      ],
+      "leftModuleId": 3776773909924223,
+      "rightModuleId": 255366759589004,
+      "data": {
+        "skin": "dark",
+        "offset_scale": 1.0,
+        "offset_cv_to_smoothing": false
+      },
+      "pos": [
+        219,
+        0
+      ]
+    },
+    {
+      "id": 255366759589004,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-SampleHold",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        }
+      ],
+      "leftModuleId": 1756900600995668,
+      "rightModuleId": 8868042791831732,
+      "data": {
+        "skin": "dark",
+        "poly_input": 0,
+        "noise_type": 0,
+        "range_offset": 1.0,
+        "range_scale": 5.0,
+        "smoothing_ms": 0.0
+      },
+      "pos": [
+        229,
+        0
+      ]
+    },
+    {
+      "id": 2975378487850540,
+      "plugin": "AudibleInstruments",
+      "model": "Plaits",
+      "version": "2.0.0",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": -1.0101499557495117,
+          "id": 2
+        },
+        {
+          "value": 0.5,
+          "id": 3
+        },
+        {
+          "value": 0.18015456199645996,
+          "id": 4
+        },
+        {
+          "value": 0.27686509490013123,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.5,
+          "id": 9
+        },
+        {
+          "value": 0.5,
+          "id": 10
+        }
+      ],
+      "leftModuleId": 887621289588497,
+      "rightModuleId": 6858725640028559,
+      "data": {
+        "lowCpu": false,
+        "model": 6
+      },
+      "pos": [
+        158,
+        1
+      ]
+    },
+    {
+      "id": 6802437339609168,
+      "plugin": "Fundamental",
+      "model": "VCF",
+      "version": "2.6.4",
+      "params": [
+        {
+          "value": 0.13292795419692993,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        },
+        {
+          "value": 0.3126072883605957,
+          "id": 2
+        },
+        {
+          "value": 0.68683487176895142,
+          "id": 3
+        },
+        {
+          "value": 0.21900871396064758,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        }
+      ],
+      "leftModuleId": 4180501257517682,
+      "rightModuleId": 5637168292357997,
+      "pos": [
+        162,
+        0
+      ]
+    },
+    {
+      "id": 526348730824532,
+      "plugin": "VultModulesFree",
+      "model": "UtilSend",
+      "version": "2.0.15",
+      "params": [
+        {
+          "value": 0.0,
+          "id": 0
+        },
+        {
+          "value": 1.0,
+          "id": 1
+        }
+      ],
+      "leftModuleId": 2683340536798514,
+      "rightModuleId": 7522779505383418,
+      "pos": [
+        195,
+        0
+      ]
+    },
+    {
+      "id": 6652053351708728,
+      "plugin": "AlrightDevices",
+      "model": "Chronoblob2",
+      "version": "2.1.0",
+      "params": [
+        {
+          "value": 0.66044872999191284,
+          "id": 0
+        },
+        {
+          "value": 0.5,
+          "id": 1
+        },
+        {
+          "value": 0.73094803094863892,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 0.0,
+          "id": 4
+        },
+        {
+          "value": 0.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        },
+        {
+          "value": 0.0,
+          "id": 7
+        },
+        {
+          "value": 0.0,
+          "id": 8
+        },
+        {
+          "value": 0.0,
+          "id": 9
+        }
+      ],
+      "leftModuleId": 626140580651461,
+      "rightModuleId": 8894585707507943,
+      "data": {
+        "delay_mode": 1,
+        "hold_behavior": 0,
+        "sync_prescaler": 9
+      },
+      "pos": [
+        214,
+        1
+      ]
+    },
+    {
+      "id": 7522779505383418,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-LFO",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": -1.1840234994888306,
+          "id": 0
+        },
+        {
+          "value": 1.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": 1.0,
+          "id": 4
+        },
+        {
+          "value": 1.0,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        }
+      ],
+      "leftModuleId": 526348730824532,
+      "rightModuleId": 3776773909924223,
+      "data": {
+        "skin": "dark",
+        "offset_scale": 1.0,
+        "offset_cv_to_smoothing": false
+      },
+      "pos": [
+        199,
+        0
+      ]
+    },
+    {
+      "id": 3776773909924223,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-LFO",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": -2.1988739967346191,
+          "id": 0
+        },
+        {
+          "value": 1.0,
+          "id": 1
+        },
+        {
+          "value": 0.0,
+          "id": 2
+        },
+        {
+          "value": 0.0,
+          "id": 3
+        },
+        {
+          "value": -0.15032613277435303,
+          "id": 4
+        },
+        {
+          "value": 0.22449557483196259,
+          "id": 5
+        },
+        {
+          "value": 0.0,
+          "id": 6
+        }
+      ],
+      "leftModuleId": 7522779505383418,
+      "rightModuleId": 1756900600995668,
+      "data": {
+        "skin": "dark",
+        "offset_scale": 1.0,
+        "offset_cv_to_smoothing": false
+      },
+      "pos": [
+        209,
+        0
+      ]
+    },
+    {
+      "id": 8868042791831732,
+      "plugin": "Fundamental",
+      "model": "Mult",
+      "version": "2.6.4",
+      "params": [],
+      "leftModuleId": 255366759589004,
+      "rightModuleId": 969613847551127,
+      "pos": [
+        232,
+        0
+      ]
+    },
+    {
+      "id": 8171301276595344,
+      "plugin": "Bogaudio",
+      "model": "Bogaudio-Mix2",
+      "version": "2.6.47",
+      "params": [
+        {
+          "value": 0.90909093618392944,
+          "id": 0
+        },
+        {
+          "value": 0.0,
+          "id": 1
+        }
+      ],
+      "leftModuleId": 2154647315100208,
+      "data": {
+        "poly_channel_offset": -1
+      },
+      "pos": [
+        102,
+        3
+      ]
+    },
+    {
+      "id": 2154647315100208,
+      "plugin": "NYSTHI",
+      "model": "Label",
+      "version": "2.4.23",
+      "params": [],
+      "rightModuleId": 8171301276595344,
+      "data": {
+        "m_unipolar": false,
+        "m_abs_value": false,
+        "m_scale_mode": 1,
+        "m_poly_out": 1,
+        "m_ltf0": "        KICK"
+      },
+      "pos": [
+        100,
+        3
+      ]
+    }
+  ],
+  "cables": [
+    {
+      "id": 398961500911922,
+      "outputModuleId": 8257203935208646,
+      "outputId": 0,
+      "inputModuleId": 969613847551127,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 23,
+      "outputPlugOrder": 3
+    },
+    {
+      "id": 7046743725123471,
+      "outputModuleId": 8257203935208646,
+      "outputId": 1,
+      "inputModuleId": 969613847551127,
+      "inputId": 4,
+      "color": "#ffb437",
+      "inputPlugOrder": 24,
+      "outputPlugOrder": 4
+    },
+    {
+      "id": 945999824535517,
+      "outputModuleId": 8044584459984612,
+      "outputId": 3,
+      "inputModuleId": 887621289588497,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 43,
+      "outputPlugOrder": 29
+    },
+    {
+      "id": 5590099268960998,
+      "outputModuleId": 8894585707507943,
+      "outputId": 4,
+      "inputModuleId": 6440568681380670,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 17,
+      "outputPlugOrder": 16
+    },
+    {
+      "id": 4865430386996515,
+      "outputModuleId": 8894585707507943,
+      "outputId": 6,
+      "inputModuleId": 274012221017285,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 18,
+      "outputPlugOrder": 42
+    },
+    {
+      "id": 7348765814707325,
+      "outputModuleId": 5986747884000774,
+      "outputId": 2,
+      "inputModuleId": 1836233153355677,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 59,
+      "outputPlugOrder": 72
+    },
+    {
+      "id": 7728541857832936,
+      "outputModuleId": 3251897877550005,
+      "outputId": 2,
+      "inputModuleId": 1836233153355677,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 60,
+      "outputPlugOrder": 66
+    },
+    {
+      "id": 7791252368678844,
+      "outputModuleId": 4236117623435237,
+      "outputId": 1,
+      "inputModuleId": 1836233153355677,
+      "inputId": 2,
+      "color": "#ffb437",
+      "inputPlugOrder": 79,
+      "outputPlugOrder": 80
+    },
+    {
+      "id": 1361015600726546,
+      "outputModuleId": 255366759589004,
+      "outputId": 1,
+      "inputModuleId": 4180501257517682,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 93,
+      "outputPlugOrder": 92
+    },
+    {
+      "id": 8736216163473746,
+      "outputModuleId": 5637168292357997,
+      "outputId": 0,
+      "inputModuleId": 4180501257517682,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 62,
+      "outputPlugOrder": 84
+    },
+    {
+      "id": 7531928116271556,
+      "outputModuleId": 1836233153355677,
+      "outputId": 1,
+      "inputModuleId": 4180501257517682,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 61,
+      "outputPlugOrder": 73
+    },
+    {
+      "id": 4046792186683030,
+      "outputModuleId": 969613847551127,
+      "outputId": 1,
+      "inputModuleId": 5606550633662614,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 69,
+      "outputPlugOrder": 57
+    },
+    {
+      "id": 4183947916046487,
+      "outputModuleId": 969613847551127,
+      "outputId": 2,
+      "inputModuleId": 5606550633662614,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 70,
+      "outputPlugOrder": 58
+    },
+    {
+      "id": 3394767190411390,
+      "outputModuleId": 8257203935208646,
+      "outputId": 0,
+      "inputModuleId": 5606550633662614,
+      "inputId": 2,
+      "color": "#ffb437",
+      "inputPlugOrder": 131,
+      "outputPlugOrder": 130
+    },
+    {
+      "id": 6905716074127510,
+      "outputModuleId": 8257203935208646,
+      "outputId": 1,
+      "inputModuleId": 5606550633662614,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 133,
+      "outputPlugOrder": 132
+    },
+    {
+      "id": 1259976194057909,
+      "outputModuleId": 887621289588497,
+      "outputId": 2,
+      "inputModuleId": 5637168292357997,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 85,
+      "outputPlugOrder": 82
+    },
+    {
+      "id": 5153779416854122,
+      "outputModuleId": 8894585707507943,
+      "outputId": 7,
+      "inputModuleId": 8016710114401754,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 27,
+      "outputPlugOrder": 15
+    },
+    {
+      "id": 1163135612966774,
+      "outputModuleId": 8894585707507943,
+      "outputId": 0,
+      "inputModuleId": 5633202477712330,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 45,
+      "outputPlugOrder": 44
+    },
+    {
+      "id": 5674877254186173,
+      "outputModuleId": 8894585707507943,
+      "outputId": 7,
+      "inputModuleId": 7615419823039096,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 106,
+      "outputPlugOrder": 39
+    },
+    {
+      "id": 5829552429161717,
+      "outputModuleId": 7615419823039096,
+      "outputId": 1,
+      "inputModuleId": 6802437339609168,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 105,
+      "outputPlugOrder": 104
+    },
+    {
+      "id": 8459151616336495,
+      "outputModuleId": 3776773909924223,
+      "outputId": 4,
+      "inputModuleId": 6802437339609168,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 127,
+      "outputPlugOrder": 126
+    },
+    {
+      "id": 878871769071996,
+      "outputModuleId": 2975378487850540,
+      "outputId": 0,
+      "inputModuleId": 6802437339609168,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 103,
+      "outputPlugOrder": 102
+    },
+    {
+      "id": 4037868748945333,
+      "outputModuleId": 8016710114401754,
+      "outputId": 0,
+      "inputModuleId": 8171301276595344,
+      "inputId": 2,
+      "color": "#ffb437",
+      "inputPlugOrder": 134,
+      "outputPlugOrder": 32
+    },
+    {
+      "id": 2118289389583194,
+      "outputModuleId": 8894585707507943,
+      "outputId": 2,
+      "inputModuleId": 195729029706814,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 1,
+      "outputPlugOrder": 41
+    },
+    {
+      "id": 5245659873100167,
+      "outputModuleId": 2683340536798514,
+      "outputId": 0,
+      "inputModuleId": 195729029706814,
+      "inputId": 2,
+      "color": "#ffb437",
+      "inputPlugOrder": 95,
+      "outputPlugOrder": 94
+    },
+    {
+      "id": 6514840537852172,
+      "outputModuleId": 8894585707507943,
+      "outputId": 5,
+      "inputModuleId": 8244416540271667,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 34,
+      "outputPlugOrder": 40
+    },
+    {
+      "id": 39494326759548,
+      "outputModuleId": 8044584459984612,
+      "outputId": 0,
+      "inputModuleId": 255366759589004,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 91,
+      "outputPlugOrder": 90
+    },
+    {
+      "id": 8966906039612180,
+      "outputModuleId": 4236117623435237,
+      "outputId": 0,
+      "inputModuleId": 255366759589004,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 89,
+      "outputPlugOrder": 88
+    },
+    {
+      "id": 7192567648682646,
+      "outputModuleId": 8257203935208646,
+      "outputId": 10,
+      "inputModuleId": 626140580651461,
+      "inputId": 5,
+      "color": "#ffb437",
+      "inputPlugOrder": 48,
+      "outputPlugOrder": 47
+    },
+    {
+      "id": 4575517749814592,
+      "outputModuleId": 8257203935208646,
+      "outputId": 14,
+      "inputModuleId": 626140580651461,
+      "inputId": 6,
+      "color": "#ffb437",
+      "inputPlugOrder": 50,
+      "outputPlugOrder": 49
+    },
+    {
+      "id": 5474922495084032,
+      "outputModuleId": 8044584459984612,
+      "outputId": 2,
+      "inputModuleId": 626140580651461,
+      "inputId": 7,
+      "color": "#ffb437",
+      "inputPlugOrder": 55,
+      "outputPlugOrder": 98
+    },
+    {
+      "id": 1269451679964069,
+      "outputModuleId": 4180501257517682,
+      "outputId": 0,
+      "inputModuleId": 8021584981405180,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 71,
+      "outputPlugOrder": 83
+    },
+    {
+      "id": 8350992241308014,
+      "outputModuleId": 1756900600995668,
+      "outputId": 4,
+      "inputModuleId": 8021584981405180,
+      "inputId": 6,
+      "color": "#ffb437",
+      "inputPlugOrder": 56,
+      "outputPlugOrder": 86
+    },
+    {
+      "id": 8981576809815178,
+      "outputModuleId": 887621289588497,
+      "outputId": 5,
+      "inputModuleId": 8021584981405180,
+      "inputId": 15,
+      "color": "#ffb437",
+      "inputPlugOrder": 129,
+      "outputPlugOrder": 128
+    },
+    {
+      "id": 2489214234287878,
+      "outputModuleId": 8044584459984612,
+      "outputId": 0,
+      "inputModuleId": 2683340536798514,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 97,
+      "outputPlugOrder": 96
+    },
+    {
+      "id": 695656415233646,
+      "outputModuleId": 8044584459984612,
+      "outputId": 4,
+      "inputModuleId": 2683340536798514,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 68,
+      "outputPlugOrder": 67
+    },
+    {
+      "id": 5816373677247928,
+      "outputModuleId": 8257203935208646,
+      "outputId": 9,
+      "inputModuleId": 8999151672642431,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 123,
+      "outputPlugOrder": 5
+    },
+    {
+      "id": 6037553298987177,
+      "outputModuleId": 8257203935208646,
+      "outputId": 13,
+      "inputModuleId": 8999151672642431,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 7,
+      "outputPlugOrder": 6
+    },
+    {
+      "id": 92453702191001,
+      "outputModuleId": 1756900600995668,
+      "outputId": 4,
+      "inputModuleId": 8999151672642431,
+      "inputId": 6,
+      "color": "#ffb437",
+      "inputPlugOrder": 31,
+      "outputPlugOrder": 87
+    },
+    {
+      "id": 4840272021664943,
+      "outputModuleId": 8044584459984612,
+      "outputId": 2,
+      "inputModuleId": 8894585707507943,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 19,
+      "outputPlugOrder": 28
+    },
+    {
+      "id": 7872163710410672,
+      "outputModuleId": 8044584459984612,
+      "outputId": 4,
+      "inputModuleId": 8894585707507943,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 20,
+      "outputPlugOrder": 30
+    },
+    {
+      "id": 8673407647408011,
+      "outputModuleId": 7522779505383418,
+      "outputId": 2,
+      "inputModuleId": 526348730824532,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 122,
+      "outputPlugOrder": 124
+    },
+    {
+      "id": 8349205267672062,
+      "outputModuleId": 6802437339609168,
+      "outputId": 0,
+      "inputModuleId": 526348730824532,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 119,
+      "outputPlugOrder": 101
+    },
+    {
+      "id": 7778448955712143,
+      "outputModuleId": 6652053351708728,
+      "outputId": 0,
+      "inputModuleId": 526348730824532,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 116,
+      "outputPlugOrder": 115
+    },
+    {
+      "id": 4472611022911875,
+      "outputModuleId": 6652053351708728,
+      "outputId": 1,
+      "inputModuleId": 526348730824532,
+      "inputId": 4,
+      "color": "#ffb437",
+      "inputPlugOrder": 118,
+      "outputPlugOrder": 117
+    },
+    {
+      "id": 4258261301567351,
+      "outputModuleId": 526348730824532,
+      "outputId": 2,
+      "inputModuleId": 6652053351708728,
+      "inputId": 5,
+      "color": "#ffb437",
+      "inputPlugOrder": 108,
+      "outputPlugOrder": 107
+    },
+    {
+      "id": 2690075477509945,
+      "outputModuleId": 526348730824532,
+      "outputId": 3,
+      "inputModuleId": 6652053351708728,
+      "inputId": 6,
+      "color": "#ffb437",
+      "inputPlugOrder": 110,
+      "outputPlugOrder": 109
+    },
+    {
+      "id": 3003419461220108,
+      "outputModuleId": 8044584459984612,
+      "outputId": 2,
+      "inputModuleId": 6652053351708728,
+      "inputId": 7,
+      "color": "#ffb437",
+      "inputPlugOrder": 121,
+      "outputPlugOrder": 120
+    },
+    {
+      "id": 4181214149254844,
+      "outputModuleId": 969613847551127,
+      "outputId": 1,
+      "inputModuleId": 8518972980240757,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 21,
+      "outputPlugOrder": 25
+    },
+    {
+      "id": 6197064083248006,
+      "outputModuleId": 969613847551127,
+      "outputId": 2,
+      "inputModuleId": 8518972980240757,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 22,
+      "outputPlugOrder": 26
+    },
+    {
+      "id": 3750050413565483,
+      "outputModuleId": 8171301276595344,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 0,
+      "color": "#ffb437",
+      "inputPlugOrder": 136,
+      "outputPlugOrder": 135
+    },
+    {
+      "id": 4939469659175101,
+      "outputModuleId": 8021584981405180,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 77,
+      "outputPlugOrder": 76
+    },
+    {
+      "id": 2322424822026562,
+      "outputModuleId": 274012221017285,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 2,
+      "color": "#ffb437",
+      "inputPlugOrder": 38,
+      "outputPlugOrder": 37
+    },
+    {
+      "id": 7417908845706685,
+      "outputModuleId": 6440568681380670,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 13,
+      "outputPlugOrder": 12
+    },
+    {
+      "id": 4227754589336531,
+      "outputModuleId": 8244416540271667,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 3,
+      "color": "#ffb437",
+      "inputPlugOrder": 35,
+      "outputPlugOrder": 33
+    },
+    {
+      "id": 740690606041923,
+      "outputModuleId": 195729029706814,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 4,
+      "color": "#ffb437",
+      "inputPlugOrder": 2,
+      "outputPlugOrder": 14
+    },
+    {
+      "id": 1374970121426220,
+      "outputModuleId": 5633202477712330,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 5,
+      "color": "#ffb437",
+      "inputPlugOrder": 81,
+      "outputPlugOrder": 46
+    },
+    {
+      "id": 7272640315070092,
+      "outputModuleId": 526348730824532,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 7,
+      "color": "#ffb437",
+      "inputPlugOrder": 112,
+      "outputPlugOrder": 111
+    },
+    {
+      "id": 8710389830886890,
+      "outputModuleId": 8999151672642431,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 13,
+      "color": "#ffb437",
+      "inputPlugOrder": 9,
+      "outputPlugOrder": 8
+    },
+    {
+      "id": 3168267067543958,
+      "outputModuleId": 626140580651461,
+      "outputId": 0,
+      "inputModuleId": 8257203935208646,
+      "inputId": 14,
+      "color": "#ffb437",
+      "inputPlugOrder": 52,
+      "outputPlugOrder": 51
+    },
+    {
+      "id": 2923267901604903,
+      "outputModuleId": 8021584981405180,
+      "outputId": 1,
+      "inputModuleId": 8257203935208646,
+      "inputId": 17,
+      "color": "#ffb437",
+      "inputPlugOrder": 75,
+      "outputPlugOrder": 74
+    },
+    {
+      "id": 2885231318895593,
+      "outputModuleId": 526348730824532,
+      "outputId": 1,
+      "inputModuleId": 8257203935208646,
+      "inputId": 23,
+      "color": "#ffb437",
+      "inputPlugOrder": 114,
+      "outputPlugOrder": 113
+    },
+    {
+      "id": 20944524544944,
+      "outputModuleId": 8999151672642431,
+      "outputId": 1,
+      "inputModuleId": 8257203935208646,
+      "inputId": 29,
+      "color": "#ffb437",
+      "inputPlugOrder": 11,
+      "outputPlugOrder": 10
+    },
+    {
+      "id": 2537281351230243,
+      "outputModuleId": 626140580651461,
+      "outputId": 1,
+      "inputModuleId": 8257203935208646,
+      "inputId": 30,
+      "color": "#ffb437",
+      "inputPlugOrder": 54,
+      "outputPlugOrder": 53
+    },
+    {
+      "id": 8303487986564778,
+      "outputModuleId": 1756900600995668,
+      "outputId": 4,
+      "inputModuleId": 8257203935208646,
+      "inputId": 35,
+      "color": "#ffb437",
+      "inputPlugOrder": 36,
+      "outputPlugOrder": 125
+    },
+    {
+      "id": 7606194492741625,
+      "outputModuleId": 6858725640028559,
+      "outputId": 4,
+      "inputModuleId": 3251897877550005,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 64,
+      "outputPlugOrder": 63
+    },
+    {
+      "id": 7938366304277121,
+      "outputModuleId": 6858725640028559,
+      "outputId": 4,
+      "inputModuleId": 5986747884000774,
+      "inputId": 1,
+      "color": "#ffb437",
+      "inputPlugOrder": 78,
+      "outputPlugOrder": 65
+    },
+    {
+      "id": 7589417415419030,
+      "outputModuleId": 8894585707507943,
+      "outputId": 1,
+      "inputModuleId": 2975378487850540,
+      "inputId": 5,
+      "color": "#ffb437",
+      "inputPlugOrder": 100,
+      "outputPlugOrder": 99
+    }
+  ],
+  "masterModuleId": 8518972980240757
+}

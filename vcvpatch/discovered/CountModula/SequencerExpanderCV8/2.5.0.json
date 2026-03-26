@@ -1,0 +1,70 @@
+{
+  "plugin": "CountModula",
+  "model": "SequencerExpanderCV8",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 1,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 2,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 3,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 4,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 5,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 6,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 7,
+      "name": "Step value",
+      "default": 0,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "id": 8,
+      "name": "Scale",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ]
+}

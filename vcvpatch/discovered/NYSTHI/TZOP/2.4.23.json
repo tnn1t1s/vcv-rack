@@ -1,0 +1,105 @@
+{
+  "plugin": "NYSTHI",
+  "model": "TZOP",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Octave",
+      "default": 0,
+      "min": -8,
+      "max": 8
+    },
+    {
+      "id": 1,
+      "name": "Semitone",
+      "default": 0,
+      "min": -11,
+      "max": 11
+    },
+    {
+      "id": 2,
+      "name": "Fine tune",
+      "default": 0,
+      "min": -0.0833333,
+      "max": 0.0833333
+    },
+    {
+      "id": 3,
+      "name": "FM Ratio",
+      "default": 8,
+      "min": 0,
+      "max": 21
+    },
+    {
+      "id": 4,
+      "name": "Phase input VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Phase Degrees",
+      "default": 0,
+      "min": 0,
+      "max": 360
+    },
+    {
+      "id": 6,
+      "name": "EXP FM1 input VCA",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Modulation index",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 8,
+      "name": "Modulation index input VCA",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "FM Feedback",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "FM Feedback input VCA",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Ouput Level",
+      "default": 1.41421,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 12,
+      "name": "Ouput Level input VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Detach expanders",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

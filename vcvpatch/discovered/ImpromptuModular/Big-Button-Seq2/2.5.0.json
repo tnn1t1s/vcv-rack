@@ -1,0 +1,105 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Big-Button-Seq2",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Channel",
+      "default": 0,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Length",
+      "default": 31,
+      "min": 0,
+      "max": 127
+    },
+    {
+      "id": 2,
+      "name": "Random",
+      "default": 0,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "id": 3,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Clear",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Bank",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Delete",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Fill",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Big button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Write fill",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Quantize big button",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Sample & hold",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Clock step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Display mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

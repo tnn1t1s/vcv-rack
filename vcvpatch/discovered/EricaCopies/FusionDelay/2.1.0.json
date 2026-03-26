@@ -1,0 +1,70 @@
+{
+  "plugin": "EricaCopies",
+  "model": "FusionDelay",
+  "version": "2.1.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "LONG",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "DRIVE",
+      "default": 0.2,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "INPUT_LEVEL",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "CV_LEVEL",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "TIME",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "FEEDBACK",
+      "default": 0.35,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "COLOUR",
+      "default": 0.9,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "MIX",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "INTERNAL LFO FREQ",
+      "default": 0.5,
+      "min": 0.1,
+      "max": 1
+    }
+  ]
+}

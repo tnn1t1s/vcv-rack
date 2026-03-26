@@ -1,0 +1,273 @@
+{
+  "plugin": "dBiz",
+  "model": "Bene",
+  "version": "2.1",
+  "params": [
+    {
+      "id": 0,
+      "name": "Root",
+      "default": 0,
+      "min": 0,
+      "max": 11.1
+    },
+    {
+      "id": 1,
+      "name": "Scale",
+      "default": 0,
+      "min": 0,
+      "max": 17.1
+    },
+    {
+      "id": 2,
+      "name": "Lock X",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Lock Y",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Direction X",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Direction Y",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 7,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 8,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 9,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 10,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 11,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 12,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 13,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 14,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 15,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 16,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 17,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 18,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 19,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 20,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 21,
+      "name": "Note Range",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 22,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 25,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 26,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 27,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 28,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 29,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 30,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 31,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 32,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 33,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 34,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 35,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 36,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 37,
+      "name": "Gate Step",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

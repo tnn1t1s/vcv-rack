@@ -1,0 +1,14 @@
+{
+  "plugin": "dbRackModules",
+  "model": "CVS",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Length",
+      "default": 16,
+      "min": 2,
+      "max": 16
+    }
+  ]
+}

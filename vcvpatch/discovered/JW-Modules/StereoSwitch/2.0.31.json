@@ -1,0 +1,63 @@
+{
+  "plugin": "JW-Modules",
+  "model": "StereoSwitch",
+  "version": "2.0.31",
+  "params": [
+    {
+      "id": 0,
+      "name": "Weight 1",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Weight 2",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Weight 3",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Weight 4",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Weight 5",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Weight 6",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Weight 7",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Weight 8",
+      "default": 0.125,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

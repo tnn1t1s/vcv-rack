@@ -1,0 +1,28 @@
+{
+  "plugin": "Bogaudio",
+  "model": "Bogaudio-Lgsw",
+  "version": "2.6.47",
+  "params": [
+    {
+      "id": 0,
+      "name": "Gate",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Latch",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Logic",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    }
+  ]
+}

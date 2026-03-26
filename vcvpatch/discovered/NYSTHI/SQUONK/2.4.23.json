@@ -1,0 +1,826 @@
+{
+  "plugin": "NYSTHI",
+  "model": "SQUONK",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Select Stage",
+      "default": 0,
+      "min": 0,
+      "max": 11
+    },
+    {
+      "id": 1,
+      "name": "Multiplier For Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Multiplier For Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Multiplier For Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Multiplier For Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Multiplier For Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Multiplier For Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Multiplier For Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Multiplier For Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Multiplier For Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Multiplier For Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Multiplier For Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Multiplier For Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "CV Line A Value For Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 14,
+      "name": "CV Line A Value For Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 15,
+      "name": "CV Line A Value For Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 16,
+      "name": "CV Line A Value For Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 17,
+      "name": "CV Line A Value For Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 18,
+      "name": "CV Line A Value For Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 19,
+      "name": "CV Line A Value For Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 20,
+      "name": "CV Line A Value For Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 21,
+      "name": "CV Line A Value For Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 22,
+      "name": "CV Line A Value For Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 23,
+      "name": "CV Line A Value For Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 24,
+      "name": "CV Line A Value For Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 25,
+      "name": "CV Line B Value For Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 26,
+      "name": "CV Line B Value For Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 27,
+      "name": "CV Line B Value For Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 28,
+      "name": "CV Line B Value For Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 29,
+      "name": "CV Line B Value For Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 30,
+      "name": "CV Line B Value For Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 31,
+      "name": "CV Line B Value For Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 32,
+      "name": "CV Line B Value For Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 33,
+      "name": "CV Line B Value For Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 34,
+      "name": "CV Line B Value For Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 35,
+      "name": "CV Line B Value For Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 36,
+      "name": "CV Line B Value For Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 37,
+      "name": "CV Line C Value For Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 38,
+      "name": "CV Line C Value For Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 39,
+      "name": "CV Line C Value For Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 40,
+      "name": "CV Line C Value For Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 41,
+      "name": "CV Line C Value For Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 42,
+      "name": "CV Line C Value For Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 43,
+      "name": "CV Line C Value For Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 44,
+      "name": "CV Line C Value For Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 45,
+      "name": "CV Line C Value For Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 46,
+      "name": "CV Line C Value For Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 47,
+      "name": "CV Line C Value For Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 48,
+      "name": "CV Line C Value For Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 49,
+      "name": "CV Line D Value For Stage 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 50,
+      "name": "CV Line D Value For Stage 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 51,
+      "name": "CV Line D Value For Stage 3",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 52,
+      "name": "CV Line D Value For Stage 4",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 53,
+      "name": "CV Line D Value For Stage 5",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 54,
+      "name": "CV Line D Value For Stage 6",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 55,
+      "name": "CV Line D Value For Stage 7",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 56,
+      "name": "CV Line D Value For Stage 8",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 57,
+      "name": "CV Line D Value For Stage 9",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 58,
+      "name": "CV Line D Value For Stage 10",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 59,
+      "name": "CV Line D Value For Stage 11",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 60,
+      "name": "CV Line D Value For Stage 12",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 61,
+      "name": "CV Line E Value For Stage 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 62,
+      "name": "CV Line E Value For Stage 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 63,
+      "name": "CV Line E Value For Stage 3",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 64,
+      "name": "CV Line E Value For Stage 4",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 65,
+      "name": "CV Line E Value For Stage 5",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 66,
+      "name": "CV Line E Value For Stage 6",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 67,
+      "name": "CV Line E Value For Stage 7",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 68,
+      "name": "CV Line E Value For Stage 8",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 69,
+      "name": "CV Line E Value For Stage 9",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 70,
+      "name": "CV Line E Value For Stage 10",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 71,
+      "name": "CV Line E Value For Stage 11",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 72,
+      "name": "CV Line E Value For Stage 12",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 73,
+      "name": "Select Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 74,
+      "name": "Select Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 75,
+      "name": "Select Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 76,
+      "name": "Select Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 77,
+      "name": "Select Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 78,
+      "name": "Select Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 79,
+      "name": "Select Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 80,
+      "name": "Select Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 81,
+      "name": "Select Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 82,
+      "name": "Select Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 83,
+      "name": "Select Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 84,
+      "name": "Select Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 85,
+      "name": "Mode For Stage 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 86,
+      "name": "Mode For Stage 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 87,
+      "name": "Mode For Stage 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 88,
+      "name": "Mode For Stage 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 89,
+      "name": "Mode For Stage 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 90,
+      "name": "Mode For Stage 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 91,
+      "name": "Mode For Stage 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 92,
+      "name": "Mode For Stage 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 93,
+      "name": "Mode For Stage 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 94,
+      "name": "Mode For Stage 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 95,
+      "name": "Mode For Stage 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 96,
+      "name": "Mode For Stage 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 97,
+      "name": "Ratchet Repetitions For Stage 1",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 98,
+      "name": "Ratchet Repetitions For Stage 2",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 99,
+      "name": "Ratchet Repetitions For Stage 3",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 100,
+      "name": "Ratchet Repetitions For Stage 4",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 101,
+      "name": "Ratchet Repetitions For Stage 5",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 102,
+      "name": "Ratchet Repetitions For Stage 6",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 103,
+      "name": "Ratchet Repetitions For Stage 7",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 104,
+      "name": "Ratchet Repetitions For Stage 8",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 105,
+      "name": "Ratchet Repetitions For Stage 9",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 106,
+      "name": "Ratchet Repetitions For Stage 10",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 107,
+      "name": "Ratchet Repetitions For Stage 11",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 108,
+      "name": "Ratchet Repetitions For Stage 12",
+      "default": 1,
+      "min": 1,
+      "max": 8
+    },
+    {
+      "id": 109,
+      "name": "Advance Direction",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 110,
+      "name": "START",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 111,
+      "name": "STOP",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 112,
+      "name": "RESET",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 113,
+      "name": "Randomize Stage Mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 114,
+      "name": "Randomize All Filtered (Use SHIFT KEY)",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 115,
+      "name": "Rotation Steps Per CLOCK IN",
+      "default": 0,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 116,
+      "name": "Rotation Steps CV In VCA",
+      "default": 0.1,
+      "min": 0,
+      "max": 0.2
+    }
+  ]
+}

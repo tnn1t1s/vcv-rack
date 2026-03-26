@@ -1,0 +1,182 @@
+{
+  "plugin": "dbRackModules",
+  "model": "Osc8",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "FM Amount 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "FM Amount 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Num Partials 1",
+      "default": 6,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 3,
+      "name": "Num Partials 2",
+      "default": 6,
+      "min": 1,
+      "max": 16
+    },
+    {
+      "id": 4,
+      "name": "Decay 1",
+      "default": 1,
+      "min": 0.1,
+      "max": 3
+    },
+    {
+      "id": 5,
+      "name": "Decay 2",
+      "default": 1,
+      "min": 0.1,
+      "max": 3
+    },
+    {
+      "id": 6,
+      "name": "Odd/Even 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Odd/Even 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "First Partial 1",
+      "default": 0,
+      "min": 0,
+      "max": 24
+    },
+    {
+      "id": 9,
+      "name": "First Partial 2",
+      "default": 0,
+      "min": 0,
+      "max": 24
+    },
+    {
+      "id": 10,
+      "name": "Stretch 1",
+      "default": 0,
+      "min": -1.25,
+      "max": 1.25
+    },
+    {
+      "id": 11,
+      "name": "Stretch 2",
+      "default": 0,
+      "min": -1.25,
+      "max": 1.25
+    },
+    {
+      "id": 12,
+      "name": "Ratio 1",
+      "default": 1,
+      "min": -32,
+      "max": 32
+    },
+    {
+      "id": 13,
+      "name": "Ratio 2",
+      "default": 1,
+      "min": -32,
+      "max": 32
+    },
+    {
+      "id": 14,
+      "name": "Fine 1",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Fine 2",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "FM CV 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "FM CV 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "Decay CV 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 19,
+      "name": "Decay CV 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 20,
+      "name": "Odd/Even CV 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Odd/Even CV 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Stretch CV 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Stretch CV 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 24,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

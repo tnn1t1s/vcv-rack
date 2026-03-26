@@ -1,0 +1,14 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Four-View",
+  "version": "2.5.0",
+  "params": [
+    {
+      "id": 0,
+      "name": "Display mode",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ]
+}

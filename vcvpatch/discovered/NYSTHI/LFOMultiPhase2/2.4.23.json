@@ -1,0 +1,126 @@
+{
+  "plugin": "NYSTHI",
+  "model": "LFOMultiPhase2",
+  "version": "2.4.23",
+  "params": [
+    {
+      "id": 0,
+      "name": "Frequency",
+      "default": 0.05,
+      "min": 0,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Frequency fine",
+      "default": 0,
+      "min": -0.1,
+      "max": 0.1
+    },
+    {
+      "id": 2,
+      "name": "Frequency multiplier",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "FM CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Pulse Width",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Pulse with modulation CV VCA",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "LFO wave shape",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 7,
+      "name": "UNI-BI polar",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Free Phase Degrees",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Tap Tempo",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Morph LFO wave shape",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Morph LFO wave shape CV VCA",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Tap Sync",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Free Phase Degrees CV VCA",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Scale outputs",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Offset outputs",
+      "default": 0,
+      "min": -10,
+      "max": 10
+    }
+  ]
+}
