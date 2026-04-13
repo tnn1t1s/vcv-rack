@@ -17,8 +17,8 @@ import json
 from typing import Any
 
 from vcvpatch.builder import PatchBuilder, PatchCompileError
+from vcvpatch.core import _load_discovered, _param_name_by_id
 from vcvpatch.graph.modules import NODE_REGISTRY
-from vcvpatch.registry import MODULES
 
 from . import state as _state
 
@@ -309,13 +309,30 @@ def list_modules(tool_context=None) -> dict:
     """
     List all modules known to the system, grouped by plugin.
 
-    Returns the NODE_REGISTRY keys (introspectable modules) and the full
-    MODULES registry (all registered port/param mappings).
+    Returns modules from the discovered/ directory and the NODE_REGISTRY.
     """
+    import os
+    import glob as _glob
+    from vcvpatch.core import DISCOVERED_DIR
+
     by_plugin: dict[str, list[str]] = {}
-    for key in sorted(MODULES):
-        plugin, model = key.split("/", 1)
-        by_plugin.setdefault(plugin, []).append(model)
+    total = 0
+    for plugin_dir in sorted(os.listdir(DISCOVERED_DIR)):
+        plugin_path = os.path.join(DISCOVERED_DIR, plugin_dir)
+        if not os.path.isdir(plugin_path):
+            continue
+        for model_dir in sorted(os.listdir(plugin_path)):
+            model_path = os.path.join(plugin_path, model_dir)
+            if not os.path.isdir(model_path):
+                continue
+            # Only include if a non-failed JSON exists
+            success = [
+                f for f in os.listdir(model_path)
+                if f.endswith(".json") and not f.startswith("failed")
+            ]
+            if success:
+                by_plugin.setdefault(plugin_dir, []).append(model_dir)
+                total += 1
 
     introspectable = sorted(NODE_REGISTRY.keys())
 
@@ -323,7 +340,7 @@ def list_modules(tool_context=None) -> dict:
         "status": "ok",
         "by_plugin": by_plugin,
         "introspectable": introspectable,
-        "total": len(MODULES),
+        "total": total,
     }
 
 
@@ -336,11 +353,14 @@ def describe_module(plugin: str, model: str, tool_context=None) -> dict:
         model:  Model slug, e.g. "VCO".
     """
     key = f"{plugin}/{model}"
-    defn = MODULES.get(key)
-    if defn is None:
+    discovered = _load_discovered(plugin, model)
+    if discovered is None:
         return {
             "status": "error",
-            "message": f"Module '{key}' not in registry. Use list_modules to see options.",
+            "message": (
+                f"Module '{key}' not found in discovered/. "
+                f"Run tools/populate_discovered.py to update metadata."
+            ),
         }
 
     node_cls = NODE_REGISTRY.get(key)
@@ -359,9 +379,9 @@ def describe_module(plugin: str, model: str, tool_context=None) -> dict:
         "status": "ok",
         "plugin": plugin,
         "model": model,
-        "params": defn["params"],
-        "inputs": defn["inputs"],
-        "outputs": defn["outputs"],
+        "params": discovered.get("params", []),
+        "inputs": discovered.get("inputs", []),
+        "outputs": discovered.get("outputs", []),
         "notes": notes,
     }
 
@@ -484,21 +504,17 @@ def read_live_state(tool_context=None) -> dict:
     except json.JSONDecodeError as exc:
         return {"status": "error", "message": f"Autosave JSON malformed: {exc}"}
 
-    id_to_name: dict[str, dict[int, str]] = {}
-    for key, defn in MODULES.items():
-        id_to_name[key] = {v: k for k, v in defn["params"].items()}
-
     result_modules = []
     for mod in state.get("modules", []):
         plugin = mod.get("plugin", "")
         model = mod.get("model", "")
-        key = f"{plugin}/{model}"
-        names = id_to_name.get(key, {})
+        discovered = _load_discovered(plugin, model)
+        param_list = discovered.get("params", []) if discovered else []
         params_out = {}
         for p in mod.get("params", []):
             pid = p.get("id")
             pval = p.get("value")
-            label = names.get(pid, str(pid))
+            label = _param_name_by_id(param_list, pid) or str(pid)
             params_out[label] = pval
         result_modules.append({
             "id": mod.get("id"),

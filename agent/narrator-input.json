@@ -1,0 +1,6 @@
+{
+  "state": {},
+  "queries": [
+    "Read the latest script from the vcv-script collaboration channel. The patch_id will be 02. Generate the ASMR narration audio and save to patches/rings-to-clouds/02/narration.wav."
+  ]
+}
