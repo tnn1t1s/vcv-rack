@@ -1,0 +1,46 @@
+{
+  "loop_set": "loops",
+  "lineage": {
+    "artist": "Cocteau Twins",
+    "track": "Fifty-Fifty Clown",
+    "source": "https://www.youtube.com/watch?v=b-WUAxgHgHw",
+    "playlist": "https://www.youtube.com/playlist?list=PLuzURgzrIc_1kWBV8Kkt1YPRd7nBTB-Ky",
+    "processing": [
+      "downloaded via yt-dlp as WAV",
+      "tempo detected: 89.10 BPM (librosa)",
+      "measures extracted at 4/4, 2.6935s each, starting at first onset (0.093s)"
+    ]
+  },
+  "inventory": [
+    {
+      "file": "loop_01.wav",
+      "start_sample": 0,
+      "end_sample": 127306
+    },
+    {
+      "file": "loop_02.wav",
+      "start_sample": 0,
+      "end_sample": 127306
+    },
+    {
+      "file": "loop_03.wav",
+      "start_sample": 0,
+      "end_sample": 127306
+    },
+    {
+      "file": "loop_04.wav",
+      "start_sample": 0,
+      "end_sample": 127306
+    },
+    {
+      "file": "loop_05.wav",
+      "start_sample": 0,
+      "end_sample": 127306
+    }
+  ],
+  "sample_rate": 48000,
+  "bpm": 89.1,
+  "time_signature": "4/4",
+  "loop_length_samples": 127306,
+  "loop_length_seconds": 2.652208
+}
