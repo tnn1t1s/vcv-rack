@@ -39,7 +39,7 @@ static void test_to_bipolar_unit() {
 static void test_parameter_modulate_core_law() {
     printf("\n[Parameter::modulate core law]\n");
     Parameter p = {"test", 0.5f, 0.f, 1.f};
-    CHECK(std::string(p.name) == "test", "parameter preserves semantic name");
+    CHECK(std::string(p.name()) == "test", "parameter preserves semantic name");
     CHECK_NEAR(p.modulate(1.f, 10.f), 1.f,   1e-6f, "positive full-scale CV adds +1 unit then clamps");
     CHECK_NEAR(p.modulate(1.f, -10.f), 0.f,  1e-6f, "negative full-scale CV subtracts 1 unit then clamps");
     CHECK_NEAR(p.modulate(0.5f, 10.f), 1.f,  1e-6f, "depth scales contribution before clamp");

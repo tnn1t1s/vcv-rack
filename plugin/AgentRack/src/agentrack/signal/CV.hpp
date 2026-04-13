@@ -10,15 +10,25 @@ inline float toBipolarUnit(float volts) {
     return volts / 10.f;
 }
 
-struct Parameter {
-    const char* name;
-    float base;
-    float min;
-    float max;
+class Parameter {
+public:
+    Parameter(const char* name, float base, float min, float max)
+    : name_(name), base_(base), min_(min), max_(max) {
+    }
 
     float modulate(float depth, float cvVolts) const {
-        return std::max(min, std::min(max, base + depth * toBipolarUnit(cvVolts)));
+        return std::max(min_, std::min(max_, base_ + depth * toBipolarUnit(cvVolts)));
     }
+
+    const char* name() const {
+        return name_;
+    }
+
+private:
+    const char* name_;
+    float base_;
+    float min_;
+    float max_;
 };
 
 } // namespace CV
