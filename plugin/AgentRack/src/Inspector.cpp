@@ -7,8 +7,8 @@ using namespace rack;
 extern Plugin* pluginInstance;
 
 /**
- * Inspector -- polls all AgentModule instances in the patch each second
- * and writes their manifests + current param values to:
+ * Inspector -- polls all AgentModule instances in the patch every 30 seconds
+ * and writes their current runtime-described state to:
  *   <Rack user dir>/agentrack_state.json
  *
  * The external Python agent reads this file to observe live patch state.
@@ -34,18 +34,6 @@ struct Inspector : AgentModule {
         }
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.inspector.v1",
-  "ensemble_role": "none",
-  "ports": [],
-  "params": [],
-  "guarantees": [
-    "writes agentrack_state.json to Rack user dir every ~1 second",
-    "output contains module_id and current param values for all AgentModules in patch"
-  ]
-})";
-    }
 };
 
 
@@ -71,35 +59,24 @@ static void dumpAgentState(int64_t inspectorId) {
         json_t* entry = json_object();
         json_object_set_new(entry, "rack_module_id", json_integer(id));
 
-        // Parse manifest to get module_id and param name -> rack_id mapping
-        json_t* manifest = agent->getAgentJson();
-        if (manifest) {
-            json_t* module_id_j = json_object_get(manifest, "module_id");
-            if (module_id_j)
-                json_object_set(entry, "module_id", module_id_j);
-
-            json_t* params_out = json_object();
-            json_t* params_arr_j = json_object_get(manifest, "params");
-            if (params_arr_j && json_is_array(params_arr_j)) {
-                size_t i;
-                json_t* param;
-                json_array_foreach(params_arr_j, i, param) {
-                    json_t* name_j    = json_object_get(param, "name");
-                    json_t* rack_id_j = json_object_get(param, "rack_id");
-                    if (!name_j || !rack_id_j) continue;
-
-                    const char* name = json_string_value(name_j);
-                    int rack_id = (int)json_integer_value(rack_id_j);
-
-                    if (rack_id >= 0 && rack_id < (int)mod->params.size()) {
-                        float val = mod->params[rack_id].getValue();
-                        json_object_set_new(params_out, name, json_real(val));
-                    }
-                }
+        if (mod->model) {
+            json_object_set_new(entry, "model_slug", json_string(mod->model->slug.c_str()));
+            json_object_set_new(entry, "model_name", json_string(mod->model->name.c_str()));
+            if (mod->model->plugin) {
+                json_object_set_new(entry, "plugin_slug",
+                                    json_string(mod->model->plugin->slug.c_str()));
             }
-            json_object_set_new(entry, "params", params_out);
-            json_decref(manifest);
         }
+
+        json_t* params_out = json_object();
+        for (int i = 0; i < (int)mod->params.size(); i++) {
+            ParamQuantity* q = mod->getParamQuantity(i);
+            std::string name = (q && !q->name.empty())
+                ? q->name
+                : string::f("PARAM_%d", i);
+            json_object_set_new(params_out, name.c_str(), json_real(mod->params[i].getValue()));
+        }
+        json_object_set_new(entry, "params", params_out);
 
         json_array_append_new(modules_arr, entry);
     }

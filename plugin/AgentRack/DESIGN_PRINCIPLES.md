@@ -136,14 +136,17 @@ enum ParamId { NEW_PARAM, EXISTING_A, EXISTING_B, NUM_PARAMS };  // breaks old p
 
 ---
 
-## Manifest / getManifest()
+## Semantics
 
-Every module inherits `AgentModule` and overrides `getManifest()`. The manifest
-is machine-readable JSON used by the Inspector and the agent.
+**Do not create a parallel manifest when Rack already knows the interface.**
+`configParam()`, `configInput()`, and `configOutput()` are the source of truth
+for module structure. The Inspector and any external agent should derive names
+and live values from Rack's runtime metadata instead of a second handwritten
+JSON description.
 
-Watch out: raw string literals `R"(...)"` terminate at the first `)"`. If any
-guarantee string contains `)"`, replace the closing paren with a comma or
-restructure the sentence.
+Semantics may become useful later, but only when there is clear meaning that
+Rack's native metadata cannot express without ambiguity. Do not add a
+`getManifest()`-style layer "just in case".
 
 ---
 

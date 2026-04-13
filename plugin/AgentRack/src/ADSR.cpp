@@ -113,38 +113,6 @@ struct ADSR : AgentModule {
         outputs[ENV_OUTPUT].setVoltage(env * 10.f);
     }
 
-    std::string getManifest() const override {
-        return R"ADSR({
-  "module_id": "agentrack.adsr.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "GATE",       "direction": "input",  "signal_class": "gate",        "semantic_role": "trigger",            "required": true},
-    {"name": "ATTACK_CV",  "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "attack_mod",         "required": false},
-    {"name": "DECAY_CV",   "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "decay_mod",          "required": false},
-    {"name": "SUSTAIN_CV", "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "sustain_mod",        "required": false},
-    {"name": "RELEASE_CV", "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "release_mod",        "required": false},
-    {"name": "ENV",        "direction": "output", "signal_class": "cv_unipolar", "semantic_role": "envelope_out"}
-  ],
-  "params": [
-    {"name": "ATTACK",  "rack_id": 0, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 2.0,  "default": 0.1},
-    {"name": "DECAY",   "rack_id": 1, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 2.0,  "default": 0.1},
-    {"name": "SUSTAIN", "rack_id": 2, "unit": "normalized", "scale": "linear", "min": 0.0,   "max": 1.0,  "default": 0.5},
-    {"name": "RELEASE", "rack_id": 3, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 4.0,  "default": 0.25},
-    {"name": "ATTACK_CV_DEPTH",  "rack_id": 4, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0, "default": 0.0},
-    {"name": "DECAY_CV_DEPTH",   "rack_id": 5, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0, "default": 0.0},
-    {"name": "SUSTAIN_CV_DEPTH", "rack_id": 6, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0, "default": 0.0},
-    {"name": "RELEASE_CV_DEPTH", "rack_id": 7, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0, "default": 0.0}
-  ],
-  "guarantees": [
-    "ENV output is 0-10V",
-    "rising GATE edge triggers ATTACK",
-    "falling GATE edge triggers RELEASE",
-    "SUSTAIN level is held while GATE is high after DECAY completes",
-    "embedded parameter modulation uses AgentRack Signal.CV bipolar-unit scaling (cv_volts / 10)",
-    "CV depth params are additive in parameter space and clamped to the native parameter range"
-  ]
-})ADSR";
-    }
 };
 
 

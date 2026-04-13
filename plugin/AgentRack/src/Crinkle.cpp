@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "PanelLayout.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -104,30 +105,6 @@ struct Crinkle : AgentModule {
         outputs[OUT_OUTPUT].setVoltage(out * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.crinkle.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "VOCT",   "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "pitch_cv",        "required": false},
-    {"name": "TIMBRE", "direction": "input",  "signal_class": "cv",          "semantic_role": "timbre_mod_cv",   "required": false},
-    {"name": "OUT",    "direction": "output", "signal_class": "audio",       "semantic_role": "oscillator_out"}
-  ],
-  "params": [
-    {"name": "TUNE",       "rack_id": 0, "unit": "octaves",    "scale": "linear", "min": -2.0, "max": 2.0,  "default": 0.0},
-    {"name": "TIMBRE",     "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.0},
-    {"name": "SYMMETRY",   "rack_id": 2, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 0.0},
-    {"name": "TIMBRE_CV",  "rack_id": 3, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 1.0}
-  ],
-  "guarantees": [
-    "output is audio-rate, +-5V",
-    "TIMBRE=0 produces a clean triangle wave",
-    "increasing TIMBRE progressively folds the waveform adding harmonics",
-    "SYMMETRY shifts fold center adding even-order harmonics",
-    "V/OCT tracks 1V/octave standard"
-  ]
-})";
-    }
 };
 
 
@@ -201,7 +178,7 @@ struct CrinkleWidget : rack::ModuleWidget {
 
         // 8HP = 40.64mm
         auto* panel = new CrinklePanel;
-        panel->box.size = mm2px(Vec(40.64f, 128.5f));
+        panel->box.size = AgentLayout::panelSize_8HP();
         addChild(panel);
         box.size = panel->box.size;
 
