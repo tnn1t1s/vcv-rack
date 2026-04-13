@@ -26,16 +26,16 @@
       "tags": ["Envelope generator"]
     },
     {
+      "slug": "Cassette",
+      "name": "Cassette",
+      "description": "Tape loop cassette player. 4 loop presets (CHORD/PAD/BASS/LEAD), tape quality modes (NEW/WORN/OLD), variable speed ±2 octaves, forward/reverse. Animated reel window.",
+      "tags": ["Sampler", "Effect", "Looper"]
+    },
+    {
       "slug": "Crinkle",
       "name": "Crinkle",
       "description": "Buchla 259-inspired wavefolder oscillator. Triangle core, 5-stage parallel center-clipper fold.",
       "tags": ["Oscillator", "Waveshaper"]
-    },
-    {
-      "slug": "Inspector",
-      "name": "Inspector",
-      "description": "Polls all AgentModules and writes agentrack_state.json every second.",
-      "tags": ["Utility"]
     },
     {
       "slug": "Ladder",
@@ -60,6 +60,36 @@
       "name": "Sonic",
       "description": "BBE-inspired spectral-phase maximizer. 3-band phase alignment + spectral tilt for perceived clarity and punch.",
       "tags": ["Effect", "Equalizer"]
+    },
+    {
+      "slug": "Steel",
+      "name": "Steel",
+      "description": "AI-driven wavetable stacker. Sidechain FFT analysis feeds Gemma inference to mix 16 wavetables in real time.",
+      "tags": ["Oscillator", "Wavetable"]
+    },
+    {
+      "slug": "BusCrush",
+      "name": "BusCrush",
+      "description": "8-channel summing bus with Mackie-style overload. Asymmetric rail clipping, envelope-dependent headroom, 8x oversampled bus stage. Pan CV per channel, stereo out.",
+      "tags": ["Mixer", "Effect", "Distortion"]
+    },
+    {
+      "slug": "ClockDiv",
+      "name": "ClockDiv",
+      "description": "Clock divider with /2, /4, /8, /16, /32 outputs. Replacement for Autodafe/ClockDivider (not available on macOS ARM64).",
+      "tags": ["Clock modulator"]
+    },
+    {
+      "slug": "Tonnetz",
+      "name": "Tonnetz",
+      "description": "Trigger-addressed Tonnetz chord generator. Navigates a 5x5 lattice to produce voice-led triads. CV-controlled center, spread, and focus.",
+      "tags": ["Sequencer", "Quantizer"]
+    },
+    {
+      "slug": "Maurizio",
+      "name": "Maurizio",
+      "description": "Clock-syncable dub delay with dotted/triplet ratio, HP-filtered feedback, and tape saturation. Basic Channel-style deep echo.",
+      "tags": ["Delay", "Effect"]
     }
   ]
 }
