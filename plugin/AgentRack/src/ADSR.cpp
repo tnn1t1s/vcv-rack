@@ -189,7 +189,9 @@ struct ADSRPanel : rack::widget::Widget {
 
         // Stage labels
         const char* labels[] = { "A", "D", "S", "R" };
-        float ypos[]         = { 26.f, 43.f, 60.f, 77.f };
+        const float* ypos    = AgentLayout::ROW_Y;
+        float depthX         = 21.f;
+        float ioX            = AgentLayout::RIGHT_8HP;
         nvgFontSize(args.vg, 6.f);
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
         for (int i = 0; i < 4; i++) {
@@ -197,15 +199,15 @@ struct ADSRPanel : rack::widget::Widget {
             nvgText(args.vg, mm2px(2.0f), mm2px(ypos[i]) - 8.f, labels[i], NULL);
             nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
             nvgFontSize(args.vg, 4.5f);
-            nvgText(args.vg, mm2px(21.f), mm2px(ypos[i]) - 8.f, "+/-", NULL);
+            nvgText(args.vg, mm2px(depthX), mm2px(ypos[i]) - 8.f, "+/-", NULL);
             nvgFontSize(args.vg, 6.f);
         }
 
         // Port labels
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
         nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgText(args.vg, mm2px(30.f), mm2px(94.f) - 10.f, "GATE", NULL);
-        nvgText(args.vg, mm2px(30.f), mm2px(111.f) - 10.f, "ENV",  NULL);
+        nvgText(args.vg, mm2px(ioX), mm2px(AgentLayout::ROW_Y[4]) - 10.f, "GATE", NULL);
+        nvgText(args.vg, mm2px(ioX), mm2px(AgentLayout::ROW_Y[5]) - 10.f, "ENV",  NULL);
     }
 };
 
