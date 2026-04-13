@@ -9,11 +9,12 @@
  * grid, so ports across adjacent modules are always horizontally aligned.
  *
  * ┌─────────────────────────────────────────────────────────┐
- * │ Template   │ HP │  Width  │ Rows │ Use                  │
+ * │ Template    │ HP │  Width  │ Rows │ Use                  │
  * ├─────────────────────────────────────────────────────────┤
- * │ T_8HP_6ROW │  8 │ 40.64mm │  6   │ Noise, Attenuate     │
- * │ T_8HP_FREE │  8 │ 40.64mm │  --  │ Saphire, Crinkle     │
- * │ T_6HP_FREE │  6 │ 30.48mm │  --  │ ADSR, Ladder         │
+ * │ T_8HP_6ROW  │  8 │ 40.64mm │  6   │ Noise, Attenuate, ADSR │
+ * │ T_8HP_FREE  │  8 │ 40.64mm │  --  │ Saphire, Crinkle     │
+ * │ T_6HP_FREE  │  6 │ 30.48mm │  --  │ Ladder               │
+ * │ T_12HP_FREE │ 12 │ 60.96mm │  --  │ BusCrush             │
  * └─────────────────────────────────────────────────────────┘
  *
  * Adding a new template:
@@ -43,7 +44,7 @@ static constexpr float W_8HP  = 40.64f;
 static constexpr float TITLE_BAR_H_PX = 20.f;   // pixels (Rack native coords)
 static constexpr float TITLE_Y_PX     = 10.f;   // center y of title text (px)
 
-// ── 6-row grid (shared by Noise, Attenuate, and any future 6-row module) ────
+// ── 6-row grid (shared by Noise, Attenuate, ADSR, and future 6-row modules) ─
 static constexpr int   ROWS         = 6;
 static constexpr float ROW_Y[ROWS]  = { 26.f, 43.f, 60.f, 77.f, 94.f, 111.f };
 static constexpr float ROW_SPACING  = 17.f;   // mm between row centres
@@ -90,6 +91,72 @@ inline rack::math::Vec panelSize_6HP() {
 }
 inline rack::math::Vec panelSize_4HP() {
     return rack::math::Vec(4.f * rack::RACK_GRID_WIDTH, rack::RACK_GRID_HEIGHT);
+}
+
+// ── Standard widths ─────────────────────────────────────────────────────────
+static constexpr float W_12HP = 60.96f;
+static constexpr float W_16HP = 81.28f;
+
+// ── Column x positions for 12HP panel (BusCrush compact: IN left, PAN right)
+static constexpr float LEFT_12HP  = 15.f;
+static constexpr float RIGHT_12HP = 46.f;
+static constexpr float CX_12HP    = 30.48f;
+
+// ── Column x positions for 16HP panel (BusCrush HAS_CONTROLS)
+//   Row layout: [amp_knob | audio_in | pan_cv | pan_knob]
+static constexpr float COL1_16HP = 12.f;   // amp knob
+static constexpr float COL2_16HP = 27.f;   // audio in jack
+static constexpr float COL3_16HP = 54.f;   // pan CV jack
+static constexpr float COL4_16HP = 69.f;   // pan knob
+static constexpr float CX_16HP   = 40.64f;
+
+// ── 8-row grid (BusCrush: 8 channels + output row) ──────────────────────────
+static constexpr int   ROWS_8          = 8;
+static constexpr float ROW_Y_8[ROWS_8] = { 22.f, 34.f, 46.f, 58.f, 70.f, 82.f, 94.f, 106.f };
+static constexpr float ROW_OUT_Y       = 120.f;
+
+// ── Panel size helpers ───────────────────────────────────────────────────────
+inline rack::math::Vec panelSize_12HP() {
+    return rack::math::Vec(12.f * rack::RACK_GRID_WIDTH, rack::RACK_GRID_HEIGHT);
+}
+inline rack::math::Vec panelSize_16HP() {
+    return rack::math::Vec(16.f * rack::RACK_GRID_WIDTH, rack::RACK_GRID_HEIGHT);
+}
+
+// ── Screw helpers ────────────────────────────────────────────────────────────
+inline void addScrews_12HP(rack::ModuleWidget* w) {
+    using namespace rack;
+    w->addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH,  0)));
+    w->addChild(createWidget<ThemedScrew>(Vec(10 * RACK_GRID_WIDTH, 0)));
+    w->addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH,  RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    w->addChild(createWidget<ThemedScrew>(Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+}
+inline void addScrews_16HP(rack::ModuleWidget* w) {
+    using namespace rack;
+    w->addChild(createWidget<ThemedScrew>(Vec(1  * RACK_GRID_WIDTH, 0)));
+    w->addChild(createWidget<ThemedScrew>(Vec(14 * RACK_GRID_WIDTH, 0)));
+    w->addChild(createWidget<ThemedScrew>(Vec(1  * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    w->addChild(createWidget<ThemedScrew>(Vec(14 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+}
+
+// ── Standard panel draw helper ───────────────────────────────────────────────
+inline void drawStandardPanel(NVGcontext* vg, rack::math::Vec size,
+                               int imgHandle, NVGcolor fallback,
+                               const char* title, NVGcolor titleColor) {
+    if (imgHandle > 0) {
+        NVGpaint paint = nvgImagePattern(vg, 0, 0, size.x, size.y, 0.f, imgHandle, 1.f);
+        nvgBeginPath(vg); nvgRect(vg, 0, 0, size.x, size.y);
+        nvgFillPaint(vg, paint); nvgFill(vg);
+    } else {
+        nvgBeginPath(vg); nvgRect(vg, 0, 0, size.x, size.y);
+        nvgFillColor(vg, fallback); nvgFill(vg);
+    }
+    nvgBeginPath(vg); nvgRect(vg, 0, 0, size.x, TITLE_BAR_H_PX);
+    nvgFillColor(vg, nvgRGBA(0, 0, 0, 180)); nvgFill(vg);
+    nvgFontSize(vg, 7.f);
+    nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+    nvgFillColor(vg, titleColor);
+    nvgText(vg, size.x / 2.f, TITLE_Y_PX, title, nullptr);
 }
 
 } // namespace AgentLayout
