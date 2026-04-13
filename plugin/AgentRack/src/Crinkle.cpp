@@ -74,10 +74,11 @@ struct Crinkle : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        // Pitch
-        float pitch  = params[TUNE_PARAM].getValue();
-        pitch       += inputs[VOCT_INPUT].getVoltage();
-        float freq   = dsp::FREQ_C4 * std::pow(2.f, pitch);
+        AgentRack::Signal::CV::VoctParameter pitchParam{
+            "pitch", params[TUNE_PARAM].getValue(), -12.f, 12.f
+        };
+        float pitch = pitchParam.modulate(inputs[VOCT_INPUT].getVoltage());
+        float freq  = dsp::FREQ_C4 * std::pow(2.f, pitch);
 
         AgentRack::Signal::CV::Parameter timbreParam{
             "timbre", params[TIMBRE_PARAM].getValue(), 0.f, 1.f

@@ -26,6 +26,7 @@ static int failed = 0;
 } while(0)
 
 using AgentRack::Signal::CV::Parameter;
+using AgentRack::Signal::CV::VoctParameter;
 using AgentRack::Signal::CV::toBipolarUnit;
 
 static void test_to_bipolar_unit() {
@@ -57,12 +58,24 @@ static void test_parameter_modulate_unclamped_interior() {
                "negative CV reduces the parameter before clamp");
 }
 
+static void test_voct_parameter_core_law() {
+    printf("\n[VoctParameter::modulate]\n");
+    VoctParameter p = {"pitch", 0.f, -4.f, 4.f};
+    CHECK(std::string(p.name()) == "pitch", "V/oct parameter preserves semantic name");
+    CHECK_NEAR(p.modulate(0.f),   0.f, 1e-6f, "0V leaves base unchanged");
+    CHECK_NEAR(p.modulate(1.f),   1.f, 1e-6f, "+1V adds one octave");
+    CHECK_NEAR(p.modulate(-2.f), -2.f, 1e-6f, "-2V subtracts two octaves");
+    CHECK_NEAR(p.modulate(10.f),  4.f, 1e-6f, "positive V/oct CV clamps at max");
+    CHECK_NEAR(p.modulate(-10.f), -4.f, 1e-6f, "negative V/oct CV clamps at min");
+}
+
 int main() {
     printf("=== AgentRack Signal.CV test suite ===\n");
 
     test_to_bipolar_unit();
     test_parameter_modulate_core_law();
     test_parameter_modulate_unclamped_interior();
+    test_voct_parameter_core_law();
 
     printf("\n=== Results: %d passed, %d failed ===\n", passed, failed);
     return failed > 0 ? 1 : 0;

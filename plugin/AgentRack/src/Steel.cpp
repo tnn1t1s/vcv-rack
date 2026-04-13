@@ -23,6 +23,7 @@
 #include "osdialog.h"
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 #include "ai/AIModule.hpp"
 
 using namespace rack;
@@ -468,9 +469,10 @@ struct Steel : AIModule {
         lights[INFER_LIGHT].setBrightness(inferFlash_ > 0.f ? 1.f : 0.f);
 
         // ── Wavetable oscillator ─────────────────────────────────────────────
-        float pitch = params[PITCH_PARAM].getValue();
-        if (inputs[VOCT_INPUT].isConnected())
-            pitch += inputs[VOCT_INPUT].getVoltage();
+        AgentRack::Signal::CV::VoctParameter pitchParam{
+            "pitch", params[PITCH_PARAM].getValue(), -12.f, 12.f
+        };
+        float pitch = pitchParam.modulate(inputs[VOCT_INPUT].getVoltage());
 
         float freq     = 261.63f * powf(2.f, pitch);  // C4 * 2^pitch
         float advance  = freq * (float)WT_LEN / args.sampleRate;

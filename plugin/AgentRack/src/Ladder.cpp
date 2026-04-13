@@ -91,8 +91,11 @@ struct Ladder : AgentModule {
 
     void process(const ProcessArgs& args) override {
         // --- Cutoff: stored in log2(Hz), CV input is V/oct (1V = 1 octave) ---
-        float freq_log = params[FREQ_PARAM].getValue()
-                       + inputs[CUTOFF_MOD_INPUT].getVoltage();
+        AgentRack::Signal::CV::VoctParameter cutoffParam{
+            "cutoff", params[FREQ_PARAM].getValue(),
+            std::log2(20.f), std::log2(20000.f)
+        };
+        float freq_log = cutoffParam.modulate(inputs[CUTOFF_MOD_INPUT].getVoltage());
         float fc = std::pow(2.f, freq_log);
 
         // freq_p: normalized 0..1 position in log Hz range (used for mode A k-scaling)
