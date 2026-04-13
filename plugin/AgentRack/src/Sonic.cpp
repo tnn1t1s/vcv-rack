@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 #include <cstring>
 
@@ -138,11 +139,14 @@ struct Sonic : AgentModule {
             last_sr = args.sampleRate;
         }
 
-        // Parameters (with CV mod)
-        float amount = clamp(params[AMOUNT_PARAM].getValue()
-                           + inputs[CV_AMOUNT_INPUT].getVoltage() / 10.f, 0.f, 1.f);
-        float color  = clamp(params[COLOR_PARAM].getValue()
-                           + inputs[CV_COLOR_INPUT].getVoltage() / 10.f,  0.f, 1.f);
+        AgentRack::Signal::CV::Parameter amountParam{
+            "amount", params[AMOUNT_PARAM].getValue(), 0.f, 1.f
+        };
+        AgentRack::Signal::CV::Parameter colorParam{
+            "color", params[COLOR_PARAM].getValue(), 0.f, 1.f
+        };
+        float amount = amountParam.modulate(1.f, inputs[CV_AMOUNT_INPUT].getVoltage());
+        float color  = colorParam.modulate(1.f, inputs[CV_COLOR_INPUT].getVoltage());
         float low_c  = params[LOW_CONTOUR_PARAM].getValue();
         float proc   = params[PROCESS_PARAM].getValue();
 

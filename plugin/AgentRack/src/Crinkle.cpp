@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -78,13 +79,11 @@ struct Crinkle : AgentModule {
         pitch       += inputs[VOCT_INPUT].getVoltage();
         float freq   = dsp::FREQ_C4 * std::pow(2.f, pitch);
 
-        // Timbre with optional CV
-        float timbre = params[TIMBRE_PARAM].getValue();
-        if (inputs[TIMBRE_INPUT].isConnected()) {
-            timbre += inputs[TIMBRE_INPUT].getVoltage() / 10.f
-                      * params[TIMBRE_CV_PARAM].getValue();
-        }
-        timbre = clamp(timbre, 0.f, 1.f);
+        AgentRack::Signal::CV::Parameter timbreParam{
+            "timbre", params[TIMBRE_PARAM].getValue(), 0.f, 1.f
+        };
+        float timbre = timbreParam.modulate(params[TIMBRE_CV_PARAM].getValue(),
+                                            inputs[TIMBRE_INPUT].getVoltage());
 
         float symmetry = params[SYMMETRY_PARAM].getValue();
 

@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -100,12 +101,19 @@ struct Ladder : AgentModule {
         float freq_p = (freq_log - LOG_MIN) / (LOG_MAX - LOG_MIN);
         freq_p = clamp(freq_p, 0.f, 1.f);
 
-        float res    = clamp(params[RES_PARAM].getValue()
-                     + inputs[RES_MOD_INPUT].getVoltage() / 10.f,    0.1f, 1.2f);
-        float spread = clamp(params[SPREAD_PARAM].getValue()
-                     + inputs[SPREAD_MOD_INPUT].getVoltage() / 10.f, 0.f,  1.f);
-        float shape  = clamp(params[SHAPE_PARAM].getValue()
-                     + inputs[SHAPE_MOD_INPUT].getVoltage() / 10.f,  0.f,  1.f);
+        AgentRack::Signal::CV::Parameter resParam{
+            "resonance", params[RES_PARAM].getValue(), 0.1f, 1.2f
+        };
+        AgentRack::Signal::CV::Parameter spreadParam{
+            "spread", params[SPREAD_PARAM].getValue(), 0.f, 1.f
+        };
+        AgentRack::Signal::CV::Parameter shapeParam{
+            "shape", params[SHAPE_PARAM].getValue(), 0.f, 1.f
+        };
+
+        float res    = resParam.modulate(1.f, inputs[RES_MOD_INPUT].getVoltage());
+        float spread = spreadParam.modulate(1.f, inputs[SPREAD_MOD_INPUT].getVoltage());
+        float shape  = shapeParam.modulate(1.f, inputs[SHAPE_MOD_INPUT].getVoltage());
 
         // 2x oversampling -- use doubled sample rate for coefficient computation
         float sr_over = args.sampleRate * 2.f;
