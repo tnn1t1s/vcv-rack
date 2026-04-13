@@ -1,5 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -72,18 +74,17 @@ struct Crinkle : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        // Pitch
-        float pitch  = params[TUNE_PARAM].getValue();
-        pitch       += inputs[VOCT_INPUT].getVoltage();
-        float freq   = dsp::FREQ_C4 * std::pow(2.f, pitch);
+        AgentRack::Signal::CV::VoctParameter pitchParam{
+            "pitch", params[TUNE_PARAM].getValue(), -12.f, 12.f
+        };
+        float pitch = pitchParam.modulate(inputs[VOCT_INPUT].getVoltage());
+        float freq  = dsp::FREQ_C4 * std::pow(2.f, pitch);
 
-        // Timbre with optional CV
-        float timbre = params[TIMBRE_PARAM].getValue();
-        if (inputs[TIMBRE_INPUT].isConnected()) {
-            timbre += inputs[TIMBRE_INPUT].getVoltage() / 10.f
-                      * params[TIMBRE_CV_PARAM].getValue();
-        }
-        timbre = clamp(timbre, 0.f, 1.f);
+        AgentRack::Signal::CV::Parameter timbreParam{
+            "timbre", params[TIMBRE_PARAM].getValue(), 0.f, 1.f
+        };
+        float timbre = timbreParam.modulate(params[TIMBRE_CV_PARAM].getValue(),
+                                            inputs[TIMBRE_INPUT].getVoltage());
 
         float symmetry = params[SYMMETRY_PARAM].getValue();
 
@@ -104,30 +105,6 @@ struct Crinkle : AgentModule {
         outputs[OUT_OUTPUT].setVoltage(out * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.crinkle.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "VOCT",   "direction": "input",  "signal_class": "cv_bipolar",  "semantic_role": "pitch_cv",        "required": false},
-    {"name": "TIMBRE", "direction": "input",  "signal_class": "cv",          "semantic_role": "timbre_mod_cv",   "required": false},
-    {"name": "OUT",    "direction": "output", "signal_class": "audio",       "semantic_role": "oscillator_out"}
-  ],
-  "params": [
-    {"name": "TUNE",       "rack_id": 0, "unit": "octaves",    "scale": "linear", "min": -2.0, "max": 2.0,  "default": 0.0},
-    {"name": "TIMBRE",     "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.0},
-    {"name": "SYMMETRY",   "rack_id": 2, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 0.0},
-    {"name": "TIMBRE_CV",  "rack_id": 3, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 1.0}
-  ],
-  "guarantees": [
-    "output is audio-rate, +-5V",
-    "TIMBRE=0 produces a clean triangle wave",
-    "increasing TIMBRE progressively folds the waveform adding harmonics",
-    "SYMMETRY shifts fold center adding even-order harmonics",
-    "V/OCT tracks 1V/octave standard"
-  ]
-})";
-    }
 };
 
 
@@ -201,7 +178,7 @@ struct CrinkleWidget : rack::ModuleWidget {
 
         // 8HP = 40.64mm
         auto* panel = new CrinklePanel;
-        panel->box.size = mm2px(Vec(40.64f, 128.5f));
+        panel->box.size = AgentLayout::panelSize_8HP();
         addChild(panel);
         box.size = panel->box.size;
 

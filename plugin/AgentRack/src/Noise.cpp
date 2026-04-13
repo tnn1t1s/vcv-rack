@@ -95,30 +95,6 @@ struct Noise : AgentModule {
         outputs[CRACKLE_OUTPUT].setVoltage(crackle * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.noise.v1",
-  "ensemble_role": "source",
-  "ports": [
-    {"name": "WHITE",   "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"},
-    {"name": "PINK",    "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"},
-    {"name": "BROWN",   "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"},
-    {"name": "BLUE",    "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"},
-    {"name": "VIOLET",  "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"},
-    {"name": "CRACKLE", "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"}
-  ],
-  "params": [],
-  "guarantees": [
-    "all outputs always active, ±5V",
-    "WHITE: flat spectrum",
-    "PINK: 1/f equal-power per octave",
-    "BROWN: 1/f² Brownian motion, low-passed",
-    "BLUE: first-difference of white, boosted highs",
-    "VIOLET: second-difference of white, very bright",
-    "CRACKLE: sparse impulses (~15/sec) for IR auditioning"
-  ]
-})";
-    }
 };
 
 

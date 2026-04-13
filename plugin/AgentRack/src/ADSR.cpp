@@ -1,5 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 
 using namespace rack;
 extern Plugin* pluginInstance;
@@ -10,14 +12,19 @@ extern Plugin* pluginInstance;
  * ENV output is 0-10V.
  *
  * Rack IDs (stable, never reorder):
- *   Params:  ATTACK_PARAM=0, DECAY_PARAM=1, SUSTAIN_PARAM=2, RELEASE_PARAM=3
- *   Inputs:  GATE_INPUT=0
+ *   Params:  ATTACK_PARAM=0, DECAY_PARAM=1, SUSTAIN_PARAM=2, RELEASE_PARAM=3,
+ *            ATTACK_CV_PARAM=4, DECAY_CV_PARAM=5, SUSTAIN_CV_PARAM=6, RELEASE_CV_PARAM=7
+ *   Inputs:  GATE_INPUT=0, ATTACK_INPUT=1, DECAY_INPUT=2, SUSTAIN_INPUT=3, RELEASE_INPUT=4
  *   Outputs: ENV_OUTPUT=0
  */
 struct ADSR : AgentModule {
 
-    enum ParamId  { ATTACK_PARAM, DECAY_PARAM, SUSTAIN_PARAM, RELEASE_PARAM, NUM_PARAMS };
-    enum InputId  { GATE_INPUT,   NUM_INPUTS  };
+    enum ParamId  {
+        ATTACK_PARAM, DECAY_PARAM, SUSTAIN_PARAM, RELEASE_PARAM,
+        ATTACK_CV_PARAM, DECAY_CV_PARAM, SUSTAIN_CV_PARAM, RELEASE_CV_PARAM,
+        NUM_PARAMS
+    };
+    enum InputId  { GATE_INPUT, ATTACK_INPUT, DECAY_INPUT, SUSTAIN_INPUT, RELEASE_INPUT, NUM_INPUTS  };
     enum OutputId { ENV_OUTPUT,   NUM_OUTPUTS };
 
     float env    = 0.f;
@@ -30,7 +37,15 @@ struct ADSR : AgentModule {
         configParam(DECAY_PARAM,   0.001f, 2.0f, 0.1f,  "Decay",   " s");
         configParam(SUSTAIN_PARAM, 0.0f,   1.0f, 0.5f,  "Sustain", "%", 0.f, 100.f);
         configParam(RELEASE_PARAM, 0.001f, 4.0f, 0.25f, "Release", " s");
+        configParam(ATTACK_CV_PARAM,  -1.f, 1.f, 0.f, "Attack CV depth",  "x");
+        configParam(DECAY_CV_PARAM,   -1.f, 1.f, 0.f, "Decay CV depth",   "x");
+        configParam(SUSTAIN_CV_PARAM, -1.f, 1.f, 0.f, "Sustain CV depth", "x");
+        configParam(RELEASE_CV_PARAM, -1.f, 1.f, 0.f, "Release CV depth", "x");
         configInput (GATE_INPUT,  "Gate");
+        configInput (ATTACK_INPUT,  "Attack CV");
+        configInput (DECAY_INPUT,   "Decay CV");
+        configInput (SUSTAIN_INPUT, "Sustain CV");
+        configInput (RELEASE_INPUT, "Release CV");
         configOutput(ENV_OUTPUT,  "Envelope");
     }
 
@@ -46,10 +61,27 @@ struct ADSR : AgentModule {
         if (!gate && lastGate && stage == SUSTAIN_STAGE)  stage = RELEASE;
         lastGate = gate;
 
-        float attack  = params[ATTACK_PARAM].getValue();
-        float decay   = params[DECAY_PARAM].getValue();
-        float sustain = params[SUSTAIN_PARAM].getValue();
-        float release = params[RELEASE_PARAM].getValue();
+        AgentRack::Signal::CV::Parameter attackParam{
+            "attack", params[ATTACK_PARAM].getValue(), 0.001f, 2.0f
+        };
+        AgentRack::Signal::CV::Parameter decayParam{
+            "decay", params[DECAY_PARAM].getValue(), 0.001f, 2.0f
+        };
+        AgentRack::Signal::CV::Parameter sustainParam{
+            "sustain", params[SUSTAIN_PARAM].getValue(), 0.0f, 1.0f
+        };
+        AgentRack::Signal::CV::Parameter releaseParam{
+            "release", params[RELEASE_PARAM].getValue(), 0.001f, 4.0f
+        };
+
+        float attack  = attackParam.modulate(params[ATTACK_CV_PARAM].getValue(),
+                                             inputs[ATTACK_INPUT].getVoltage());
+        float decay   = decayParam.modulate(params[DECAY_CV_PARAM].getValue(),
+                                            inputs[DECAY_INPUT].getVoltage());
+        float sustain = sustainParam.modulate(params[SUSTAIN_CV_PARAM].getValue(),
+                                              inputs[SUSTAIN_INPUT].getVoltage());
+        float release = releaseParam.modulate(params[RELEASE_CV_PARAM].getValue(),
+                                              inputs[RELEASE_INPUT].getVoltage());
         float dt      = args.sampleTime;
 
         switch (stage) {
@@ -81,28 +113,6 @@ struct ADSR : AgentModule {
         outputs[ENV_OUTPUT].setVoltage(env * 10.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.adsr.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "GATE", "direction": "input",  "signal_class": "gate",     "semantic_role": "trigger",  "required": true},
-    {"name": "ENV",  "direction": "output", "signal_class": "cv_unipolar", "semantic_role": "envelope_out"}
-  ],
-  "params": [
-    {"name": "ATTACK",  "rack_id": 0, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 2.0,  "default": 0.1},
-    {"name": "DECAY",   "rack_id": 1, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 2.0,  "default": 0.1},
-    {"name": "SUSTAIN", "rack_id": 2, "unit": "normalized", "scale": "linear", "min": 0.0,   "max": 1.0,  "default": 0.5},
-    {"name": "RELEASE", "rack_id": 3, "unit": "seconds",    "scale": "linear", "min": 0.001, "max": 4.0,  "default": 0.25}
-  ],
-  "guarantees": [
-    "ENV output is 0-10V",
-    "rising GATE edge triggers ATTACK",
-    "falling GATE edge triggers RELEASE",
-    "SUSTAIN level is held while GATE is high after DECAY completes"
-  ]
-})";
-    }
 };
 
 
@@ -145,26 +155,33 @@ struct ADSRPanel : rack::widget::Widget {
         nvgFillColor(args.vg, nvgRGB(255, 220, 0));
         nvgText(args.vg, box.size.x / 2.f, 10.f, "ADSR", NULL);
 
-        // Knob labels
+        // Stage labels
         const char* labels[] = { "A", "D", "S", "R" };
-        float ypos[]         = { 28.f, 46.f, 64.f, 82.f };
+        const float* ypos    = AgentLayout::ROW_Y;
+        float depthX         = 21.f;
+        float ioX            = AgentLayout::RIGHT_8HP;
         nvgFontSize(args.vg, 6.f);
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
         for (int i = 0; i < 4; i++) {
-            nvgText(args.vg, box.size.x / 2.f,
-                    mm2px(ypos[i]) - 10.f, labels[i], NULL);
+            nvgTextAlign(args.vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
+            nvgText(args.vg, mm2px(2.0f), mm2px(ypos[i]) - 8.f, labels[i], NULL);
+            nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+            nvgFontSize(args.vg, 4.5f);
+            nvgText(args.vg, mm2px(depthX), mm2px(ypos[i]) - 8.f, "+/-", NULL);
+            nvgFontSize(args.vg, 6.f);
         }
 
         // Port labels
         nvgFillColor(args.vg, nvgRGB(0, 0, 0));
-        nvgText(args.vg, box.size.x / 2.f, mm2px(100.f) - 10.f, "GATE", NULL);
-        nvgText(args.vg, box.size.x / 2.f, mm2px(115.f) - 10.f, "ENV",  NULL);
+        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+        nvgText(args.vg, mm2px(ioX), mm2px(AgentLayout::ROW_Y[4]) - 10.f, "GATE", NULL);
+        nvgText(args.vg, mm2px(ioX), mm2px(AgentLayout::ROW_Y[5]) - 10.f, "ENV",  NULL);
     }
 };
 
 
 // ---------------------------------------------------------------------------
-// Widget -- 6HP
+// Widget -- 8HP
 // ---------------------------------------------------------------------------
 
 struct ADSRWidget : rack::ModuleWidget {
@@ -172,26 +189,34 @@ struct ADSRWidget : rack::ModuleWidget {
     ADSRWidget(ADSR* module) {
         setModule(module);
 
-        // 6HP = 30.48mm
         auto* panel = new ADSRPanel;
-        panel->box.size = mm2px(Vec(30.48f, 128.5f));
+        panel->box.size = AgentLayout::panelSize_8HP();
         addChild(panel);
         box.size = panel->box.size;
 
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(4 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(createWidget<ThemedScrew>(Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        AgentLayout::addScrews_8HP(this);
 
-        float cx = 15.24f;  // center x of 6HP
+        const float* ys = AgentLayout::ROW_Y;
+        float paramX = 11.f;
+        float depthX = 21.f;
+        float cvX    = AgentLayout::RIGHT_8HP;
 
-        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(cx, 28.f)),  module, ADSR::ATTACK_PARAM));
-        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(cx, 46.f)),  module, ADSR::DECAY_PARAM));
-        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(cx, 64.f)),  module, ADSR::SUSTAIN_PARAM));
-        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(cx, 82.f)),  module, ADSR::RELEASE_PARAM));
+        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(paramX, ys[0])), module, ADSR::ATTACK_PARAM));
+        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(paramX, ys[1])), module, ADSR::DECAY_PARAM));
+        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(paramX, ys[2])), module, ADSR::SUSTAIN_PARAM));
+        addParam(createParamCentered<rack::RoundSmallBlackKnob>(mm2px(rack::Vec(paramX, ys[3])), module, ADSR::RELEASE_PARAM));
 
-        addInput (createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cx, 100.f)), module, ADSR::GATE_INPUT));
-        addOutput(createOutputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cx, 115.f)), module, ADSR::ENV_OUTPUT));
+        addParam(createParamCentered<rack::Trimpot>(mm2px(rack::Vec(depthX, ys[0])), module, ADSR::ATTACK_CV_PARAM));
+        addParam(createParamCentered<rack::Trimpot>(mm2px(rack::Vec(depthX, ys[1])), module, ADSR::DECAY_CV_PARAM));
+        addParam(createParamCentered<rack::Trimpot>(mm2px(rack::Vec(depthX, ys[2])), module, ADSR::SUSTAIN_CV_PARAM));
+        addParam(createParamCentered<rack::Trimpot>(mm2px(rack::Vec(depthX, ys[3])), module, ADSR::RELEASE_CV_PARAM));
+
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[0])), module, ADSR::ATTACK_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[1])), module, ADSR::DECAY_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[2])), module, ADSR::SUSTAIN_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[3])), module, ADSR::RELEASE_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[4])), module, ADSR::GATE_INPUT));
+        addOutput(createOutputCentered<rack::PJ301MPort>(mm2px(rack::Vec(cvX, ys[5])), module, ADSR::ENV_OUTPUT));
     }
 };
 

@@ -371,11 +371,23 @@ struct Saphire : AgentModule {
             launchRebuild(ir_idx, time_p, bend_p);
         }
 
-        // Inputs (mono fold if R unpatched)
-        float in_L = inputs[IN_L_INPUT].getVoltage() / 5.f;
-        float in_R = inputs[IN_R_INPUT].isConnected()
-                   ? inputs[IN_R_INPUT].getVoltage() / 5.f
-                   : in_L;
+        // Inputs: sum polyphonic channels, then mono-fold if R unpatched
+        float in_L = 0.f;
+        int ch_L = std::max(1, inputs[IN_L_INPUT].getChannels());
+        for (int c = 0; c < ch_L; c++)
+            in_L += inputs[IN_L_INPUT].getPolyVoltage(c);
+        in_L /= 5.f;
+
+        float in_R;
+        if (inputs[IN_R_INPUT].isConnected()) {
+            in_R = 0.f;
+            int ch_R = inputs[IN_R_INPUT].getChannels();
+            for (int c = 0; c < ch_R; c++)
+                in_R += inputs[IN_R_INPUT].getPolyVoltage(c);
+            in_R /= 5.f;
+        } else {
+            in_R = in_L;
+        }
 
         // Pre-delay
         int pre_samp = (int)(pre_p * (MAX_PRE - 1));
@@ -418,33 +430,6 @@ struct Saphire : AgentModule {
         outputs[OUT_R_OUTPUT].setVoltage((in_R * dry_g + tone_R * wet_g) * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.saphire.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "IN_L",  "direction": "input",  "signal_class": "audio", "semantic_role": "audio_in_l",  "required": true},
-    {"name": "IN_R",  "direction": "input",  "signal_class": "audio", "semantic_role": "audio_in_r",  "required": false},
-    {"name": "OUT_L", "direction": "output", "signal_class": "audio", "semantic_role": "audio_out_l"},
-    {"name": "OUT_R", "direction": "output", "signal_class": "audio", "semantic_role": "audio_out_r"}
-  ],
-  "params": [
-    {"name": "MIX",  "rack_id": 0, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.5},
-    {"name": "TIME", "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.5},
-    {"name": "BEND", "rack_id": 2, "unit": "normalized", "scale": "linear", "min": -1.0, "max": 1.0,  "default": 0.0},
-    {"name": "TONE", "rack_id": 3, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.65},
-    {"name": "PRE",  "rack_id": 4, "unit": "normalized", "scale": "linear", "min": 0.0,  "max": 1.0,  "default": 0.0},
-    {"name": "IR",   "rack_id": 5, "unit": "index",      "scale": "integer","min": 0.0,  "max": 49.0, "default": 38.0}
-  ],
-  "guarantees": [
-    "stereo in/out, mono input folds to both channels",
-    "BEND=0 TIME=1 is the unmodified Lex Hall IR",
-    "BEND negative pulls energy forward, positive smears tail",
-    "TONE=0 is dark (~100Hz lowpass on wet), TONE=1 is fully open",
-    "constant-power MIX crossfade: level flat at all blend positions"
-  ]
-})";
-    }
 };
 
 

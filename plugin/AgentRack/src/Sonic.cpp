@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 #include <cstring>
 
@@ -138,11 +139,14 @@ struct Sonic : AgentModule {
             last_sr = args.sampleRate;
         }
 
-        // Parameters (with CV mod)
-        float amount = clamp(params[AMOUNT_PARAM].getValue()
-                           + inputs[CV_AMOUNT_INPUT].getVoltage() / 10.f, 0.f, 1.f);
-        float color  = clamp(params[COLOR_PARAM].getValue()
-                           + inputs[CV_COLOR_INPUT].getVoltage() / 10.f,  0.f, 1.f);
+        AgentRack::Signal::CV::Parameter amountParam{
+            "amount", params[AMOUNT_PARAM].getValue(), 0.f, 1.f
+        };
+        AgentRack::Signal::CV::Parameter colorParam{
+            "color", params[COLOR_PARAM].getValue(), 0.f, 1.f
+        };
+        float amount = amountParam.modulate(1.f, inputs[CV_AMOUNT_INPUT].getVoltage());
+        float color  = colorParam.modulate(1.f, inputs[CV_COLOR_INPUT].getVoltage());
         float low_c  = params[LOW_CONTOUR_PARAM].getValue();
         float proc   = params[PROCESS_PARAM].getValue();
 
@@ -191,34 +195,6 @@ struct Sonic : AgentModule {
         outputs[OUT_OUTPUT].setVoltage(out * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"json({
-  "module_id": "agentrack.sonic.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "IN",        "direction": "input",  "signal_class": "audio", "semantic_role": "audio_in",   "required": false},
-    {"name": "CV_AMOUNT", "direction": "input",  "signal_class": "cv",    "semantic_role": "amount_mod", "required": false},
-    {"name": "CV_COLOR",  "direction": "input",  "signal_class": "cv",    "semantic_role": "color_mod",  "required": false},
-    {"name": "OUT",       "direction": "output", "signal_class": "audio", "semantic_role": "audio_out"}
-  ],
-  "params": [
-    {"name": "AMOUNT",      "rack_id": 0, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 0.5},
-    {"name": "COLOR",       "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 0.5},
-    {"name": "LOW_CONTOUR", "rack_id": 2, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 0.5},
-    {"name": "PROCESS",     "rack_id": 3, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 0.5}
-  ],
-  "guarantees": [
-    "fully deterministic: output is a pure function of current inputs and params",
-    "all bands always active, no bypass or enable flags",
-    "3-band split at 150 Hz and 2 kHz via 2nd-order Butterworth crossovers",
-    "LOW delayed by 2ms * AMOUNT * (1 + LOW_CONTOUR), MID by 1ms * AMOUNT",
-    "HIGH band is the timing reference (zero delay)",
-    "spectral tilt gains clamped to [0.5, 2.0]",
-    "high-band saturation: tanh with drive=(1+2*PROCESS), normalized at unity input",
-    "output trim: 1/(1+0.5*AMOUNT) compensates loudness bias"
-  ]
-})json";
-    }
 };
 
 

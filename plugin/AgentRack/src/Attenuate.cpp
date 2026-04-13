@@ -53,40 +53,6 @@ struct Attenuate : AgentModule {
         }
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.attenuate.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "IN_0",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_0", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"},
-    {"name": "IN_1",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_1", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"},
-    {"name": "IN_2",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_2", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"},
-    {"name": "IN_3",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_3", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"},
-    {"name": "IN_4",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_4", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"},
-    {"name": "IN_5",  "direction": "input",  "signal_class": "cv", "semantic_role": "passthrough", "required": true},
-    {"name": "OUT_5", "direction": "output", "signal_class": "cv", "semantic_role": "passthrough"}
-  ],
-  "params": [
-    {"name": "SCALE_0", "rack_id": 0, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0},
-    {"name": "SCALE_1", "rack_id": 1, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0},
-    {"name": "SCALE_2", "rack_id": 2, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0},
-    {"name": "SCALE_3", "rack_id": 3, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0},
-    {"name": "SCALE_4", "rack_id": 4, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0},
-    {"name": "SCALE_5", "rack_id": 5, "unit": "normalized", "scale": "linear", "min": 0.0, "max": 1.0, "default": 1.0}
-  ],
-  "guarantees": [
-    "OUT_n = IN_n x SCALE_n at every sample for n in 0..5",
-    "SCALE=1.0 is unity gain, SCALE=0.0 produces 0V",
-    "signal class and semantic role of IN_n preserved at OUT_n",
-    "row 0 IDs match old single-channel Attenuate -- backwards compatible"
-  ]
-})";
-    }
 };
 
 

@@ -2,18 +2,26 @@ CXX      := c++
 CXXFLAGS := -std=c++11 -stdlib=libc++ -O2 -I.. -I../src
 LDFLAGS  := -framework Accelerate
 
-SRCS := test_fft.cpp ../src/FFTProvider.cpp ../src/FFTvDSP.cpp
-BIN  := test_fft
+FFT_SRCS := test_fft.cpp ../src/FFTProvider.cpp ../src/FFTvDSP.cpp
+FFT_BIN  := test_fft
+CV_SRCS  := test_signal_cv.cpp
+CV_BIN   := test_signal_cv
 
-all: $(BIN)
+all: $(FFT_BIN) $(CV_BIN)
 
-$(BIN): $(SRCS)
-	$(CXX) $(CXXFLAGS) $(SRCS) $(LDFLAGS) -o $(BIN)
+$(FFT_BIN): $(FFT_SRCS)
+	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
 
-run: $(BIN)
-	./$(BIN)
+$(CV_BIN): $(CV_SRCS)
+	$(CXX) $(CXXFLAGS) $(CV_SRCS) -o $(CV_BIN)
+
+run: $(FFT_BIN)
+	./$(FFT_BIN)
+
+run-cv: $(CV_BIN)
+	./$(CV_BIN)
 
 clean:
-	rm -f $(BIN)
+	rm -f $(FFT_BIN) $(CV_BIN)
 
-.PHONY: all run clean
+.PHONY: all run run-cv clean

@@ -55,10 +55,60 @@ buffer or table: normalize the source, not the output.
 
 ## Attenuators
 
-**Attenuators belong in the Attenuate module, not embedded in other modules.**
-Do not add a dedicated attenuator knob to a CV input just to make it convenient.
-Route CV through Attenuate. This keeps modules smaller and the signal graph
-explicit.
+**Prefer explicit graph attenuation, but allow embedded modulation depth when it
+is intrinsic to the module contract.** Do not add ad hoc CV attenuators just to
+make a panel more convenient. Route general-purpose CV through Attenuate so the
+signal graph stays explicit.
+
+Embedded depth controls are allowed when they are part of the meaning of the
+module itself, for example per-stage ADSR modulation. In those cases:
+
+- `Attenuate` remains the behavioral reference.
+- Use a shared AgentRack component/library implementation rather than inline
+  one-off math.
+- Keep the modulation law explicit and consistent across modules.
+- Clamp after modulation in the native parameter domain.
+
+This keeps the signal graph legible without forcing obviously intrinsic control
+contracts out into a separate patching step.
+
+---
+
+## Shared library design
+
+**Prefer semantic value types over utility piles or class hierarchies.** When a
+shared internal library is needed, start from the smallest domain object that
+matches the behavior.
+
+Prefer:
+
+- a small value type with explicit fields
+- one or two meaningful methods
+- namespacing that states the domain before the operation
+
+Avoid:
+
+- loose `Utils` / `Helpers` headers
+- abstract base class trees when behavior does not actually differ
+- generic frameworks introduced before repeated need is proven
+
+Example:
+
+```cpp
+struct Parameter {
+    const char* name;
+    float base;
+    float min;
+    float max;
+
+    float modulate(float depth, float cvVolts) const;
+};
+```
+
+This is better than a `Parameter` ABC with subclasses such as
+`CutoffFrequency`, `Mix`, or `DecayTime` when the actual behavior is still just
+"bounded scalar with modulation". Keep one behavior, let meaning come from
+names, manifests, and surrounding semantics.
 
 ---
 
@@ -86,14 +136,17 @@ enum ParamId { NEW_PARAM, EXISTING_A, EXISTING_B, NUM_PARAMS };  // breaks old p
 
 ---
 
-## Manifest / getManifest()
+## Semantics
 
-Every module inherits `AgentModule` and overrides `getManifest()`. The manifest
-is machine-readable JSON used by the Inspector and the agent.
+**Do not create a parallel manifest when Rack already knows the interface.**
+`configParam()`, `configInput()`, and `configOutput()` are the source of truth
+for module structure. The Inspector and any external agent should derive names
+and live values from Rack's runtime metadata instead of a second handwritten
+JSON description.
 
-Watch out: raw string literals `R"(...)"` terminate at the first `)"`. If any
-guarantee string contains `)"`, replace the closing paren with a comma or
-restructure the sentence.
+Semantics may become useful later, but only when there is clear meaning that
+Rack's native metadata cannot express without ambiguity. Do not add a
+`getManifest()`-style layer "just in case".
 
 ---
 

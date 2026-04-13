@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "agentrack/signal/CV.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -62,21 +63,24 @@ extern Plugin* pluginInstance;
 
 struct Ladder : AgentModule {
 
-    enum ParamId  { FREQ_PARAM, RES_PARAM, SPREAD_PARAM, SHAPE_PARAM, MODE_PARAM, NUM_PARAMS };
+    enum ParamId  { FREQ_PARAM, RES_PARAM, SPREAD_PARAM, SHAPE_PARAM, NUM_PARAMS };
     enum InputId  { IN_INPUT, CUTOFF_MOD_INPUT, RES_MOD_INPUT, SPREAD_MOD_INPUT, SHAPE_MOD_INPUT, NUM_INPUTS };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
-    // Per-stage state, normalized +-1 internally
-    float y[4] = {};
+    // Per-stage state, normalized +-1 internally -- one set per poly channel
+    static constexpr int MAX_POLY = 16;
+    float y[MAX_POLY][4] = {};
 
     Ladder() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
-        configParam(FREQ_PARAM,   0.f, 1.f, 0.5f, "Cutoff");
-        configParam(RES_PARAM,    0.f, 1.f, 0.f,  "Resonance", "%", 0.f, 100.f);
-        configParam(SPREAD_PARAM, 0.f, 1.f, 0.f,  "Spread",    "%", 0.f, 100.f);
-        configParam(SHAPE_PARAM,  0.f, 1.f, 0.f,  "Shape",     "%", 0.f, 100.f);
-        configSwitch(MODE_PARAM, 0.f, 2.f, 2.f, "Resonance mode",
-                     {"A: freq-compensated", "B: noise-kick", "C: standard"});
+        // Stored in log2(Hz); displayBase=2 converts back to Hz for the tooltip.
+        // CV input tracks V/oct naturally: 1V shifts stored value by 1 = 1 octave.
+        configParam(FREQ_PARAM,   std::log2(20.f), std::log2(20000.f),
+                                  std::log2(440.f), "Cutoff", " Hz", 2.f);
+        // Stored 0.1..1.2; displayMultiplier=100 shows 10%..120%.
+        configParam(RES_PARAM,    0.1f, 1.2f, 0.1f, "Resonance", "%", 0.f, 100.f);
+        configParam(SPREAD_PARAM, 0.f,  1.f,  0.f,  "Spread",    "%", 0.f, 100.f);
+        configParam(SHAPE_PARAM,  0.f,  1.f,  0.f,  "Shape",     "%", 0.f, 100.f);
         configInput(IN_INPUT,          "Audio");
         configInput(CUTOFF_MOD_INPUT,  "Cutoff mod");
         configInput(RES_MOD_INPUT,     "Resonance mod");
@@ -86,20 +90,33 @@ struct Ladder : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        // --- Parameters with CV mod (cv/10 maps +-5V to +-0.5 on 0..1 range) ---
-        float freq_p = params[FREQ_PARAM].getValue()
-                     + inputs[CUTOFF_MOD_INPUT].getVoltage() / 10.f;
+        // --- Cutoff: stored in log2(Hz), CV input is V/oct (1V = 1 octave) ---
+        AgentRack::Signal::CV::VoctParameter cutoffParam{
+            "cutoff", params[FREQ_PARAM].getValue(),
+            std::log2(20.f), std::log2(20000.f)
+        };
+        float freq_log = cutoffParam.modulate(inputs[CUTOFF_MOD_INPUT].getVoltage());
+        float fc = std::pow(2.f, freq_log);
+
+        // freq_p: normalized 0..1 position in log Hz range (used for mode A k-scaling)
+        static constexpr float LOG_MIN = 4.321928f;  // log2(20)
+        static constexpr float LOG_MAX = 14.28771f;  // log2(20000)
+        float freq_p = (freq_log - LOG_MIN) / (LOG_MAX - LOG_MIN);
         freq_p = clamp(freq_p, 0.f, 1.f);
 
-        float res    = clamp(params[RES_PARAM].getValue()
-                     + inputs[RES_MOD_INPUT].getVoltage() / 10.f,    0.f, 1.f);
-        float spread = clamp(params[SPREAD_PARAM].getValue()
-                     + inputs[SPREAD_MOD_INPUT].getVoltage() / 10.f, 0.f, 1.f);
-        float shape  = clamp(params[SHAPE_PARAM].getValue()
-                     + inputs[SHAPE_MOD_INPUT].getVoltage() / 10.f,  0.f, 1.f);
+        AgentRack::Signal::CV::Parameter resParam{
+            "resonance", params[RES_PARAM].getValue(), 0.1f, 1.2f
+        };
+        AgentRack::Signal::CV::Parameter spreadParam{
+            "spread", params[SPREAD_PARAM].getValue(), 0.f, 1.f
+        };
+        AgentRack::Signal::CV::Parameter shapeParam{
+            "shape", params[SHAPE_PARAM].getValue(), 0.f, 1.f
+        };
 
-        // --- Cutoff frequency: 0..1 -> 20 Hz..20 kHz (log) ---
-        float fc = 20.f * std::pow(1000.f, freq_p);
+        float res    = resParam.modulate(1.f, inputs[RES_MOD_INPUT].getVoltage());
+        float spread = spreadParam.modulate(1.f, inputs[SPREAD_MOD_INPUT].getVoltage());
+        float shape  = shapeParam.modulate(1.f, inputs[SHAPE_MOD_INPUT].getVoltage());
 
         // 2x oversampling -- use doubled sample rate for coefficient computation
         float sr_over = args.sampleRate * 2.f;
@@ -122,70 +139,34 @@ struct Ladder : AgentModule {
             g[i] = std::tan(float(M_PI) * fc_i / sr_over);
         }
 
-        // --- Resonance mode ---
-        // A=0: freq-compensated k (self-oscillates evenly across cutoff range)
-        // B=1: noise-kick (small perturbation to start oscillation at any cutoff)
-        // C=2: standard Huovilainen (default, as before)
-        int mode = (int)params[MODE_PARAM].getValue();
+        // Standard Huovilainen k: res=1.0 → k=4.1 (self-oscillation threshold)
+        float k = res * 4.1f;
 
-        float k;
-        if (mode == 0) {
-            // A: raise k at low cutoffs so oscillation builds fast regardless of fc
-            k = res * (4.1f + 2.5f * (1.f - freq_p));
-        } else {
-            k = res * 4.1f;  // B and C share the same k
+        // Polyphonic: process each channel independently
+        int channels = std::max(1, inputs[IN_INPUT].getChannels());
+        outputs[OUT_OUTPUT].setChannels(channels);
+
+        for (int c = 0; c < channels; c++) {
+            float vin = inputs[IN_INPUT].getPolyVoltage(c) / 5.f;
+
+            // --- 2x oversampled Huovilainen nonlinear update ---
+            float out = 0.f;
+            for (int os = 0; os < 2; os++) {
+                float x0 = vin - k * y[c][3];
+
+                // 4-stage cascade: each stage y_k += g_k * (tanh(x_k) - tanh(y_k))
+                y[c][0] += g[0] * (std::tanh(x0)      - std::tanh(y[c][0]));
+                y[c][1] += g[1] * (std::tanh(y[c][0]) - std::tanh(y[c][1]));
+                y[c][2] += g[2] * (std::tanh(y[c][1]) - std::tanh(y[c][2]));
+                y[c][3] += g[3] * (std::tanh(y[c][2]) - std::tanh(y[c][3]));
+                out  += y[c][3];
+            }
+            out /= 2.f;  // decimate
+
+            outputs[OUT_OUTPUT].setVoltage(out * 5.f, c);
         }
-
-        // Input: +-5V -> +-1 (Huovilainen model works in normalized amplitude)
-        float vin = inputs[IN_INPUT].getVoltage() / 5.f;
-
-        // --- 2x oversampled Huovilainen nonlinear update ---
-        float out = 0.f;
-        for (int os = 0; os < 2; os++) {
-            // B: tiny noise perturbation kicks oscillation without waiting for signal
-            float noise = (mode == 1) ? (random::uniform() - 0.5f) * 0.001f : 0.f;
-            float x0 = vin + noise - k * y[3];
-
-            // 4-stage cascade: each stage y_k += g_k * (tanh(x_k) - tanh(y_k))
-            y[0] += g[0] * (std::tanh(x0)   - std::tanh(y[0]));
-            y[1] += g[1] * (std::tanh(y[0]) - std::tanh(y[1]));
-            y[2] += g[2] * (std::tanh(y[1]) - std::tanh(y[2]));
-            y[3] += g[3] * (std::tanh(y[2]) - std::tanh(y[3]));
-            out  += y[3];
-        }
-        out /= 2.f;  // decimate
-
-        outputs[OUT_OUTPUT].setVoltage(out * 5.f);
     }
 
-    std::string getManifest() const override {
-        return R"({
-  "module_id": "agentrack.ladder.v1",
-  "ensemble_role": "none",
-  "ports": [
-    {"name": "IN",         "direction": "input",  "signal_class": "audio", "semantic_role": "audio_in",   "required": false},
-    {"name": "CUTOFF_MOD", "direction": "input",  "signal_class": "cv",    "semantic_role": "cutoff_mod", "required": false},
-    {"name": "RES_MOD",    "direction": "input",  "signal_class": "cv",    "semantic_role": "res_mod",    "required": false},
-    {"name": "SPREAD_MOD", "direction": "input",  "signal_class": "cv",    "semantic_role": "spread_mod", "required": false},
-    {"name": "SHAPE_MOD",  "direction": "input",  "signal_class": "cv",    "semantic_role": "shape_mod",  "required": false},
-    {"name": "OUT",        "direction": "output", "signal_class": "audio", "semantic_role": "filter_out"}
-  ],
-  "params": [
-    {"name": "FREQ",   "rack_id": 0, "unit": "normalized", "scale": "log_20_20000", "min": 0.0, "max": 1.0, "default": 0.5},
-    {"name": "RES",    "rack_id": 1, "unit": "normalized", "scale": "linear",       "min": 0.0, "max": 1.0, "default": 0.0},
-    {"name": "SPREAD", "rack_id": 2, "unit": "normalized", "scale": "linear",       "min": 0.0, "max": 1.0, "default": 0.0},
-    {"name": "SHAPE",  "rack_id": 3, "unit": "normalized", "scale": "linear",       "min": 0.0, "max": 1.0, "default": 0.0}
-  ],
-  "guarantees": [
-    "4-pole Huovilainen nonlinear ladder filter, 24 dB/oct at SPREAD=0",
-    "SPREAD=0 SHAPE=0 output is identical to the unmodified Huovilainen nonlinear model",
-    "self-oscillation at RES >= 1.0",
-    "VOCT tracks 1V/octave standard for cutoff modulation",
-    "output is audio-rate, +-5V",
-    "2x oversampled to suppress tanh-generated aliasing"
-  ]
-})";
-    }
 };
 
 
@@ -265,27 +246,23 @@ struct LadderWidget : rack::ModuleWidget {
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(rack::Vec(R, 55.f)), module, Ladder::SHAPE_PARAM));
 
-        // Mode switch: A / B / C (snap knob 0-2)
-        addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(cx, 67.f)), module, Ladder::MODE_PARAM));
-
         // Row 1: IN (left) + OUT (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 76.f)), module, Ladder::IN_INPUT));
+            mm2px(rack::Vec(L, 67.f)), module, Ladder::IN_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 76.f)), module, Ladder::OUT_OUTPUT));
+            mm2px(rack::Vec(R, 67.f)), module, Ladder::OUT_OUTPUT));
 
         // Row 2: cutoff mod (left) + res mod (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 94.f)), module, Ladder::CUTOFF_MOD_INPUT));
+            mm2px(rack::Vec(L, 85.f)), module, Ladder::CUTOFF_MOD_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 94.f)), module, Ladder::RES_MOD_INPUT));
+            mm2px(rack::Vec(R, 85.f)), module, Ladder::RES_MOD_INPUT));
 
         // Row 3: spread mod (left) + shape mod (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 112.f)), module, Ladder::SPREAD_MOD_INPUT));
+            mm2px(rack::Vec(L, 103.f)), module, Ladder::SPREAD_MOD_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 112.f)), module, Ladder::SHAPE_MOD_INPUT));
+            mm2px(rack::Vec(R, 103.f)), module, Ladder::SHAPE_MOD_INPUT));
     }
 };
 
