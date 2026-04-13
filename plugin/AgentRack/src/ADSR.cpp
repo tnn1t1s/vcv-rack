@@ -61,26 +61,27 @@ struct ADSR : AgentModule {
         if (!gate && lastGate && stage == SUSTAIN_STAGE)  stage = RELEASE;
         lastGate = gate;
 
-        float attack  = AgentRack::Signal::CV::modulateParam(
-            params[ATTACK_PARAM].getValue(),
-            params[ATTACK_CV_PARAM].getValue(),
-            inputs[ATTACK_INPUT].getVoltage(),
-            0.001f, 2.0f);
-        float decay   = AgentRack::Signal::CV::modulateParam(
-            params[DECAY_PARAM].getValue(),
-            params[DECAY_CV_PARAM].getValue(),
-            inputs[DECAY_INPUT].getVoltage(),
-            0.001f, 2.0f);
-        float sustain = AgentRack::Signal::CV::modulateParam(
-            params[SUSTAIN_PARAM].getValue(),
-            params[SUSTAIN_CV_PARAM].getValue(),
-            inputs[SUSTAIN_INPUT].getVoltage(),
-            0.0f, 1.0f);
-        float release = AgentRack::Signal::CV::modulateParam(
-            params[RELEASE_PARAM].getValue(),
-            params[RELEASE_CV_PARAM].getValue(),
-            inputs[RELEASE_INPUT].getVoltage(),
-            0.001f, 4.0f);
+        AgentRack::Signal::CV::Parameter attackParam{
+            "attack", params[ATTACK_PARAM].getValue(), 0.001f, 2.0f
+        };
+        AgentRack::Signal::CV::Parameter decayParam{
+            "decay", params[DECAY_PARAM].getValue(), 0.001f, 2.0f
+        };
+        AgentRack::Signal::CV::Parameter sustainParam{
+            "sustain", params[SUSTAIN_PARAM].getValue(), 0.0f, 1.0f
+        };
+        AgentRack::Signal::CV::Parameter releaseParam{
+            "release", params[RELEASE_PARAM].getValue(), 0.001f, 4.0f
+        };
+
+        float attack  = attackParam.modulate(params[ATTACK_CV_PARAM].getValue(),
+                                             inputs[ATTACK_INPUT].getVoltage());
+        float decay   = decayParam.modulate(params[DECAY_CV_PARAM].getValue(),
+                                            inputs[DECAY_INPUT].getVoltage());
+        float sustain = sustainParam.modulate(params[SUSTAIN_CV_PARAM].getValue(),
+                                              inputs[SUSTAIN_INPUT].getVoltage());
+        float release = releaseParam.modulate(params[RELEASE_CV_PARAM].getValue(),
+                                              inputs[RELEASE_INPUT].getVoltage());
         float dt      = args.sampleTime;
 
         switch (stage) {
