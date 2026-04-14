@@ -1,16 +1,19 @@
 """
 Module param introspection via rack_introspect (headless C++ shim).
 
-Cache layer: vcvpatch/discovered/<plugin>/<model>/<version>.json
+Local cache layer: vcvpatch/discovered/<plugin>/<model>/<version>.json
 - Keyed by plugin version from plugin.json
 - Auto-discovers on cache miss
-- Committed to repo so CI works without VCV Rack installed
+- Treated as local/generated cache, not committed source
 
 Failed modules: vcvpatch/discovered/<plugin>/<model>/failed.<version>.json
 - Recorded when createModule() crashes headlessly
 - Introspectability is a first-class selection criterion:
   if we can't introspect a module, we can't prove its params are correct,
   so the agent should prefer introspectable alternatives.
+
+CLI:
+    python -m vcvpatch.introspect Fundamental VCO
 
 Public API:
     get_params(plugin, model)      -> list[dict]  # {id, name, default, min, max}
@@ -21,6 +24,7 @@ Public API:
 import json
 import os
 import subprocess
+import sys
 
 PLUGINS_DIR = os.path.expanduser(
     "~/Library/Application Support/Rack2/plugins-mac-arm64"
@@ -187,3 +191,17 @@ def param_by_name(plugin: str, model: str, name: str) -> dict | None:
         if p.get("name", "").lower() == name_lower:
             return p
     return None
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python -m vcvpatch.introspect <Plugin> <Model>", file=sys.stderr)
+        raise SystemExit(2)
+
+    plugin, model = sys.argv[1], sys.argv[2]
+    params = get_params(plugin, model)
+    print(json.dumps({
+        "plugin": plugin,
+        "model": model,
+        "params": params,
+    }, indent=2))

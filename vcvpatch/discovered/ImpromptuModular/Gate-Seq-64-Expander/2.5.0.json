@@ -1,6 +1,0 @@
-{
-  "plugin": "ImpromptuModular",
-  "model": "Gate-Seq-64-Expander",
-  "version": "2.5.0",
-  "params": []
-}

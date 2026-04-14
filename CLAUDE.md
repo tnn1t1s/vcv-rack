@@ -221,3 +221,15 @@ file, completing a build, or hitting an error worth surfacing. Keep it short.
 - No hardcoded magic numbers; use named params via `registry.py`
 - Attenuator params must be opened when connecting CV (see `docs/module-param-patterns.md`)
 - `UnknownNode` is opaque: blocks audio propagation, prevents proof
+
+## Patch Layout Convention
+
+**Always declare modules in signal flow order** -- left to right as they would appear
+on the rack. The builder assigns positions in declaration order, so the visual layout
+in VCV Rack directly reflects the signal chain.
+
+Convention: source → pitch/gate generators → audio processors → effects → audio output
+
+Example: `sampler → resonator → texture → ladder → saphire → audio`
+
+Add a comment at the top of the cables section: `# Signal flow: a -> b -> c -> d`

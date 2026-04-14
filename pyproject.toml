@@ -3,27 +3,38 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vcvpatch"
+name = "vcv-rack"
 version = "0.1.0"
-description = "Programmatic VCV Rack patch builder with formal signal-graph proof"
+description = "Programmatic VCV Rack patch builder with formal signal-graph proof and agentic workflow"
 requires-python = ">=3.11"
 dependencies = [
-    "zstandard",
+    "zstandard>=0.21.0",
     "pillow",
+    "google-adk>=1.0.0",
+    "litellm>=1.0.0",
+    "google-genai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0",
+    "opentelemetry-sdk>=1.20.0",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.20.0",
+    "substrait @ file:///Users/palaitis/Development/substrait",
+    "numpy>=2.4.4",
+    "scipy>=1.17.1",
+    "matplotlib>=3.10.8",
 ]
 
 [project.optional-dependencies]
-agent = [
-    "google-adk",
-]
 runtime = [
     "mido",
     "python-rtmidi",
 ]
 dev = [
-    "pytest",
-    "pytest-asyncio",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
 ]
+
+[tool.uv]
+dev-dependencies = ["pytest>=8.0", "pytest-asyncio>=0.23"]
 
 [tool.setuptools.packages.find]
 where = ["."]

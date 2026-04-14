@@ -2,9 +2,11 @@
 Core classes: Patch, Module, Port, Cable.
 """
 
+import os
+import json
+import glob
 import random
 from typing import Optional, Union
-from .registry import MODULES
 
 
 # Cable colors (VCV Rack default palette)
@@ -23,6 +25,243 @@ COLORS = {
 
 _DEFAULT_COLOR = COLORS["yellow"]
 
+# ---------------------------------------------------------------------------
+# Discovered metadata loader (sole source of truth for port/param IDs)
+# ---------------------------------------------------------------------------
+
+DISCOVERED_DIR = os.path.join(os.path.dirname(__file__), "discovered")
+
+# Minimal legacy supplement for preserved param-only fixture files.
+# This is intentionally tiny: just enough to keep the committed test subset
+# usable while the broader discovered cache remains local/generated.
+_LEGACY_PORTS: dict[tuple[str, str], dict[str, list[dict]]] = {
+    ("Fundamental", "VCO"): {
+        "inputs": [
+            {"id": 0, "name": "1V/octave pitch"},
+            {"id": 1, "name": "Frequency modulation"},
+            {"id": 2, "name": "Sync"},
+            {"id": 3, "name": "Pulse width modulation"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Sine"},
+            {"id": 1, "name": "Triangle"},
+            {"id": 2, "name": "Sawtooth"},
+            {"id": 3, "name": "Square"},
+        ],
+    },
+    ("Fundamental", "VCF"): {
+        "inputs": [
+            {"id": 0, "name": "Frequency"},
+            {"id": 1, "name": "Resonance"},
+            {"id": 2, "name": "Drive"},
+            {"id": 3, "name": "Audio"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "LPF"},
+            {"id": 1, "name": "HPF"},
+        ],
+    },
+    ("Fundamental", "VCA"): {
+        "inputs": [
+            {"id": 1, "name": "CV"},
+            {"id": 2, "name": "IN"},
+            {"id": 4, "name": "CV 2"},
+            {"id": 5, "name": "IN 2"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "OUT"},
+            {"id": 1, "name": "OUT 2"},
+        ],
+    },
+    ("Fundamental", "ADSR"): {
+        "inputs": [
+            {"id": 0, "name": "Attack"},
+            {"id": 1, "name": "Decay"},
+            {"id": 2, "name": "Sustain"},
+            {"id": 3, "name": "Release"},
+            {"id": 4, "name": "Gate"},
+            {"id": 5, "name": "Retrig"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "ENV"},
+        ],
+    },
+    ("Fundamental", "LFO"): {
+        "inputs": [
+            {"id": 0, "name": "Frequency modulation"},
+            {"id": 2, "name": "Reset"},
+            {"id": 3, "name": "Pulse width"},
+            {"id": 4, "name": "Clock"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Sine"},
+            {"id": 1, "name": "Triangle"},
+            {"id": 2, "name": "Sawtooth"},
+            {"id": 3, "name": "Square"},
+        ],
+    },
+    ("Fundamental", "SEQ3"): {
+        "inputs": [
+            {"id": 0, "name": "Tempo"},
+            {"id": 1, "name": "Clock"},
+            {"id": 2, "name": "Reset"},
+            {"id": 3, "name": "Steps"},
+            {"id": 4, "name": "Run"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Trigger"},
+            {"id": 1, "name": "CV 1"},
+            {"id": 2, "name": "CV 2"},
+            {"id": 3, "name": "CV 3"},
+            {"id": 12, "name": "Steps"},
+            {"id": 13, "name": "Clock"},
+            {"id": 14, "name": "Run"},
+            {"id": 15, "name": "Reset"},
+        ],
+    },
+    ("ImpromptuModular", "Clocked-Clkd"): {
+        "inputs": [
+            {"id": 0, "name": "Reset"},
+            {"id": 1, "name": "Run"},
+            {"id": 2, "name": "BPM input"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Clock 0"},
+            {"id": 1, "name": "Clock 1"},
+            {"id": 2, "name": "Clock 2"},
+            {"id": 3, "name": "Clock 3"},
+            {"id": 4, "name": "Reset"},
+            {"id": 5, "name": "Run"},
+            {"id": 6, "name": "BPM"},
+        ],
+    },
+    ("Valley", "Plateau"): {
+        "inputs": [
+            {"id": 0, "name": "Left"},
+            {"id": 1, "name": "Right"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Left"},
+            {"id": 1, "name": "Right"},
+        ],
+    },
+    ("AudibleInstruments", "Rings"): {
+        "inputs": [
+            {"id": 0, "name": "Pitch (1V/oct)"},
+            {"id": 7, "name": "Strum"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Odd"},
+            {"id": 1, "name": "Even"},
+        ],
+    },
+    ("AudibleInstruments", "Clouds"): {
+        "inputs": [
+            {"id": 6, "name": "Left"},
+            {"id": 7, "name": "Right"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Left"},
+            {"id": 1, "name": "Right"},
+        ],
+    },
+}
+
+
+def _load_discovered(plugin: str, model: str) -> dict | None:
+    """
+    Load the newest discovered JSON for plugin/model.
+
+    Returns a normalised dict with keys:
+        params:  list of {id, name, default, min, max}
+        inputs:  list of {id, name}
+        outputs: list of {id, name}
+    Returns None if no discovered file exists.
+    """
+    pattern = os.path.join(DISCOVERED_DIR, plugin, model, "*.json")
+    files = [
+        f for f in glob.glob(pattern)
+        if not os.path.basename(f).startswith("failed")
+    ]
+    if not files:
+        return None
+    # Sort by filename (semver sorts lexicographically for most common versions)
+    latest = sorted(files)[-1]
+    with open(latest) as fh:
+        data = json.load(fh)
+
+    legacy = _LEGACY_PORTS.get((plugin, model))
+    if legacy is not None:
+        if not data.get("inputs"):
+            data["inputs"] = legacy["inputs"]
+        if not data.get("outputs"):
+            data["outputs"] = legacy["outputs"]
+    return data
+
+
+def _normalize(s: str) -> str:
+    """
+    Normalize a port/param name for fuzzy matching.
+    - Strip leading/trailing whitespace
+    - Lowercase
+    - Replace underscores with spaces
+    - Collapse multiple spaces
+    """
+    return " ".join(s.strip().lower().replace("_", " ").replace("/", " ").replace("(", " ").replace(")", " ").split())
+
+
+def _name_matches(candidate: str, query: str) -> bool:
+    """
+    Case-insensitive port/param name match.
+    Strips whitespace, normalizes underscores to spaces.
+    Returns True if `query` matches `candidate`.
+    """
+    return _normalize(candidate) == _normalize(query)
+
+
+def _find_port_id(port_list: list, name: str) -> int | None:
+    """
+    Search a list of {id, name} dicts for a port matching `name`.
+    Returns the integer id or None if not found.
+    Matching is case-insensitive, strips spaces, treats underscores as spaces.
+    """
+    for entry in port_list:
+        if _name_matches(entry["name"], name):
+            return entry["id"]
+    return None
+
+
+def _find_param_id(param_list: list, name: str) -> int | None:
+    """
+    Search a list of {id, name, ...} dicts for a param matching `name`.
+    Case-insensitive, strips spaces, treats underscores as spaces.
+    """
+    for entry in param_list:
+        if _name_matches(entry["name"], name):
+            return entry["id"]
+    return None
+
+
+def _port_name_by_id(port_list: list, port_id: int) -> str | None:
+    """Reverse lookup: port id -> name string, or None."""
+    for entry in port_list:
+        if entry["id"] == port_id:
+            return entry["name"].strip()
+    return None
+
+
+def _param_name_by_id(param_list: list, param_id: int) -> str | None:
+    """Reverse lookup: param id -> name string, or None."""
+    for entry in param_list:
+        if entry["id"] == param_id:
+            name = entry["name"].strip()
+            return name if name else None
+    return None
+
+
+# ---------------------------------------------------------------------------
+# Port
+# ---------------------------------------------------------------------------
 
 class Port:
     """A reference to a specific input or output on a module."""
@@ -43,6 +282,10 @@ class Port:
         direction = "out" if self.is_output else "in"
         return f"Port({self.module.model}[{direction} {self.port_id}])"
 
+
+# ---------------------------------------------------------------------------
+# Module
+# ---------------------------------------------------------------------------
 
 class Module:
     """
@@ -66,43 +309,55 @@ class Module:
         self._extra_data = extra_data or {}
         self.id = random.randint(10**14, 10**16)
 
-        key = f"{plugin}/{model}"
-        self._def = MODULES.get(key)
+        self._discovered = _load_discovered(plugin, model)
 
     # -- Port access by name -------------------------------------------------
 
     def _lookup_port(self, name: str, prefer_output=None) -> Port:
         """Resolve a port name to a Port, checking outputs then inputs (or vice versa)."""
-        d = self._def
+        d = self._discovered
         if d is None:
             raise ValueError(
-                f"Module {self.plugin}/{self.model} not in registry. "
-                f"Use .i(id) or .o(id) for raw port access."
+                f"Module {self.plugin}/{self.model} not found in discovered/. "
+                f"Use .i(id) or .o(id) for raw port access, or generate local cache "
+                f"with `python -m vcvpatch.introspect {self.plugin} {self.model}`."
             )
-        name_upper = name.upper()
-        outputs = d["outputs"]
-        inputs = d["inputs"]
+
+        outputs = d.get("outputs", [])
+        inputs  = d.get("inputs",  [])
 
         if prefer_output is True:
-            if name_upper in outputs:
-                return Port(self, outputs[name_upper], is_output=True)
-            raise AttributeError(f"No output '{name}' on {self.model}. Available: {list(outputs)}")
+            pid = _find_port_id(outputs, name)
+            if pid is not None:
+                return Port(self, pid, is_output=True)
+            avail = [e["name"] for e in outputs]
+            raise AttributeError(
+                f"No output '{name}' on {self.model}. Available: {avail}"
+            )
 
         if prefer_output is False:
-            if name_upper in inputs:
-                return Port(self, inputs[name_upper], is_output=False)
-            raise AttributeError(f"No input '{name}' on {self.model}. Available: {list(inputs)}")
+            pid = _find_port_id(inputs, name)
+            if pid is not None:
+                return Port(self, pid, is_output=False)
+            avail = [e["name"] for e in inputs]
+            raise AttributeError(
+                f"No input '{name}' on {self.model}. Available: {avail}"
+            )
 
         # Auto: try outputs first, then inputs
-        if name_upper in outputs:
-            return Port(self, outputs[name_upper], is_output=True)
-        if name_upper in inputs:
-            return Port(self, inputs[name_upper], is_output=False)
+        pid = _find_port_id(outputs, name)
+        if pid is not None:
+            return Port(self, pid, is_output=True)
+        pid = _find_port_id(inputs, name)
+        if pid is not None:
+            return Port(self, pid, is_output=False)
 
+        avail_out = [e["name"] for e in outputs]
+        avail_in  = [e["name"] for e in inputs]
         raise AttributeError(
             f"No port '{name}' on {self.model}.\n"
-            f"  Outputs: {list(outputs)}\n"
-            f"  Inputs:  {list(inputs)}"
+            f"  Outputs: {avail_out}\n"
+            f"  Inputs:  {avail_in}"
         )
 
     def __getattr__(self, name: str) -> Port:
@@ -162,6 +417,10 @@ class _OutputAccessor:
         return self._m.output(id_or_name)
 
 
+# ---------------------------------------------------------------------------
+# Cable
+# ---------------------------------------------------------------------------
+
 class Cable:
     def __init__(self, output: Port, input: Port, color: str = _DEFAULT_COLOR):
         assert output.is_output, "First argument must be an output port"
@@ -170,6 +429,10 @@ class Cable:
         self.input = input
         self.color = color
 
+
+# ---------------------------------------------------------------------------
+# Patch
+# ---------------------------------------------------------------------------
 
 class Patch:
     """
@@ -213,25 +476,25 @@ class Patch:
             pos = [self._col, self._row]
             self._col += 8  # advance by ~8HP per module (rough)
 
-        # Resolve param names -> param IDs
-        key = f"{plugin}/{model}"
-        defn = MODULES.get(key)
+        # Resolve param names -> param IDs using discovered metadata
+        discovered = _load_discovered(plugin, model)
         param_values = {}
         for name, value in params.items():
-            if defn and name.upper() in defn["params"]:
-                pid = defn["params"][name.upper()]
-            elif defn and name in defn["params"]:
-                pid = defn["params"][name]
-            elif isinstance(name, int):
-                pid = name
-            else:
-                # Try interpreting as integer string
+            pid = None
+            if discovered:
+                pid = _find_param_id(discovered.get("params", []), name)
+            if pid is None:
+                # Try raw integer
                 try:
                     pid = int(name)
-                except ValueError:
+                except (ValueError, TypeError):
+                    avail = (
+                        [p["name"] for p in discovered["params"]]
+                        if discovered else "module not in discovered/"
+                    )
                     raise ValueError(
                         f"Unknown param '{name}' for {plugin}/{model}. "
-                        f"Known: {list(defn['params']) if defn else 'module not in registry'}"
+                        f"Known params: {avail}"
                     )
             param_values[pid] = float(value)
 

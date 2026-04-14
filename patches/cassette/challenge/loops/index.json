@@ -1,0 +1,99 @@
+{
+  "loop_set": "loops",
+  "lineage": {
+    "artist": "Rickie Lee Jones",
+    "track": "Little Flux Clouds",
+    "source": "https://www.youtube.com/watch?v=Erba5If9f30",
+    "processing": [
+      "downloaded via yt-dlp",
+      "first 40s extracted",
+      "silence detected at -28dB to find phrase boundaries",
+      "10 phrases padded to 5s (240000 samples @ 48kHz)"
+    ]
+  },
+  "inventory": [
+    {
+      "file": "loop_01.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 3.809,
+      "source_start": 0.0,
+      "source_end": 3.809
+    },
+    {
+      "file": "loop_02.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 3.381,
+      "source_start": 3.809,
+      "source_end": 7.19
+    },
+    {
+      "file": "loop_03.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.146,
+      "source_start": 7.19,
+      "source_end": 11.336
+    },
+    {
+      "file": "loop_04.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.0,
+      "source_start": 11.336,
+      "source_end": 15.336
+    },
+    {
+      "file": "loop_05.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.0,
+      "source_start": 15.336,
+      "source_end": 19.336
+    },
+    {
+      "file": "loop_06.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.0,
+      "source_start": 19.336,
+      "source_end": 23.336
+    },
+    {
+      "file": "loop_07.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.302,
+      "source_start": 23.336,
+      "source_end": 27.638
+    },
+    {
+      "file": "loop_08.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.0,
+      "source_start": 27.638,
+      "source_end": 31.638
+    },
+    {
+      "file": "loop_09.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.0,
+      "source_start": 31.638,
+      "source_end": 35.638
+    },
+    {
+      "file": "loop_10.wav",
+      "start_sample": 0,
+      "end_sample": 240000,
+      "content_seconds": 4.8057,
+      "source_start": 35.638,
+      "source_end": 40.4437
+    }
+  ],
+  "sample_rate": 48000,
+  "loop_length_samples": 240000,
+  "loop_length_seconds": 5.0
+}

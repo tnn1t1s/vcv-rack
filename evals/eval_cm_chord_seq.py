@@ -25,7 +25,6 @@ from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 from vcvpatch.serialize import load_vcv
-from vcvpatch.registry import MODULES
 
 # ---------------------------------------------------------------------------
 # The prompt under test -- this is the artifact being stored

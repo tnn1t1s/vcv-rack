@@ -1,0 +1,68 @@
+{
+  "loop_set": "3s",
+  "lineage": {
+    "artist": "Angelo Badalamenti",
+    "track": "Twin Peaks Theme",
+    "source": "https://www.youtube.com/watch?v=woUt7wPe8Ow",
+    "processing": [
+      "downloaded via yt-dlp as MP3",
+      "high-pass filtered at 100Hz (ffmpeg)",
+      "10 random 3-second clips extracted (seed=42)"
+    ]
+  },
+  "inventory": [
+    {
+      "file": "01.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "02.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "03.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "04.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "05.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "06.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "07.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "08.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "09.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    },
+    {
+      "file": "10.wav",
+      "start_sample": 0,
+      "end_sample": 143360
+    }
+  ],
+  "sample_rate": 48000,
+  "loop_length_samples": 143360,
+  "loop_length_seconds": 2.986667
+}
