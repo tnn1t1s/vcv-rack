@@ -12,7 +12,7 @@ Run:
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from vcvpatch import Patch, COLORS
+from vcvpatch import Patch
 from vcvpatch.graph import PatchLoader
 
 OUT_PATH = os.path.join(os.path.dirname(__file__), "square_to_output.vcv")
@@ -27,8 +27,8 @@ patch = Patch(zoom=1.0)
 vco   = patch.add("Fundamental", "VCO",           pos=[0, 0], FREQ=0.0)
 audio = patch.add("Core",        "AudioInterface2", pos=[8, 0])
 
-patch.connect(vco.SQR, audio.i.IN_L, color=COLORS["yellow"])
-patch.connect(vco.SQR, audio.i.IN_R, color=COLORS["yellow"])
+patch.connect(vco.SQR, audio.i.IN_L)
+patch.connect(vco.SQR, audio.i.IN_R)
 
 patch.save(OUT_PATH)
 print()

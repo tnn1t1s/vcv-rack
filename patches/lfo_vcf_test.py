@@ -47,7 +47,7 @@ def build():
     print(pb.report())
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-    pb.compile().save(OUTPUT)
+    pb.build().save(OUTPUT)
     print(f"Saved: {OUTPUT}")
 
 

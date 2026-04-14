@@ -6,24 +6,27 @@ import os
 import json
 import glob
 import random
+from enum import Enum
 from typing import Optional, Union
 
 
-# Cable colors (VCV Rack default palette)
-COLORS = {
-    "yellow":  "#ffb437",
-    "red":     "#f44336",
-    "blue":    "#2196f3",
-    "green":   "#4caf50",
-    "white":   "#e0e0e0",
-    "purple":  "#9c27b0",
-    "orange":  "#ff9800",
-    "cyan":    "#00bcd4",
-    "pink":    "#e91e63",
-    "lime":    "#8bc34a",
+# ---------------------------------------------------------------------------
+# Cable type enum + color palette
+# ---------------------------------------------------------------------------
+
+class CableType(Enum):
+    AUDIO = "audio"
+    CV    = "cv"
+    GATE  = "gate"
+    CLOCK = "clock"
+
+CABLE_COLORS = {
+    CableType.AUDIO: "#ffb437",   # yellow
+    CableType.CV:    "#2196f3",   # blue
+    CableType.GATE:  "#f44336",   # red
+    CableType.CLOCK: "#4caf50",   # green
 }
 
-_DEFAULT_COLOR = COLORS["yellow"]
 
 # ---------------------------------------------------------------------------
 # Discovered metadata loader (sole source of truth for port/param IDs)
@@ -422,12 +425,17 @@ class _OutputAccessor:
 # ---------------------------------------------------------------------------
 
 class Cable:
-    def __init__(self, output: Port, input: Port, color: str = _DEFAULT_COLOR):
+    def __init__(self, output: Port, input: Port,
+                 cable_type: CableType = CableType.AUDIO):
         assert output.is_output, "First argument must be an output port"
         assert not input.is_output, "Second argument must be an input port"
         self.output = output
         self.input = input
-        self.color = color
+        self.cable_type = cable_type
+
+    @property
+    def color(self) -> str:
+        return CABLE_COLORS[self.cable_type]
 
 
 # ---------------------------------------------------------------------------
@@ -504,19 +512,22 @@ class Patch:
 
     # -- Cable connections ---------------------------------------------------
 
-    def _cable(self, output: Port, input: Port, color: str = None) -> Cable:
-        c = Cable(output, input, color or _DEFAULT_COLOR)
+    def _cable(self, output: Port, input: Port,
+               cable_type: CableType = CableType.AUDIO) -> Cable:
+        c = Cable(output, input, cable_type)
         self.cables.append(c)
         return c
 
-    def connect(self, output: Port, input: Port, color: str = None) -> Cable:
+    def connect(self, output: Port, input: Port,
+                cable_type: CableType = CableType.AUDIO) -> Cable:
         """Explicitly connect two ports. Also works via >> operator."""
-        return self._cable(output, input, color)
+        return self._cable(output, input, cable_type)
 
-    def connect_all(self, source: Port, *destinations: Port, color: str = None):
+    def connect_all(self, source: Port, *destinations: Port,
+                    cable_type: CableType = CableType.AUDIO):
         """Fan out one output to multiple inputs."""
         for dst in destinations:
-            self._cable(source, dst, color)
+            self._cable(source, dst, cable_type)
 
     # -- Layout helpers ------------------------------------------------------
 
@@ -587,4 +598,4 @@ class Patch:
         print("\nCables:")
         for c in self.cables:
             o, i = c.output, c.input
-            print(f"  {o.module.model}[out {o.port_id}] -> {i.module.model}[in {i.port_id}]  {c.color}")
+            print(f"  {o.module.model}[out {o.port_id}] -> {i.module.model}[in {i.port_id}]  {c.cable_type.value}")

@@ -119,8 +119,8 @@ def build() -> str:
         sys.exit(1)
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-    compiled = pb.compile()
-    compiled.save(OUTPUT)
+    patch = pb.build()
+    patch.save(OUTPUT)
     print(f"Saved: {OUTPUT}")
     return OUTPUT
 

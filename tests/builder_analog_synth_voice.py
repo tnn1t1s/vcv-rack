@@ -20,7 +20,7 @@ Run:
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from vcvpatch import PatchBuilder, PatchCompileError, COLORS
+from vcvpatch import PatchBuilder
 
 OUT_PATH = os.path.join(os.path.dirname(__file__), "builder_analog_synth_voice.vcv")
 
@@ -34,19 +34,19 @@ audio = pb.module("Core",        "AudioInterface2")
 # Audio chain -- reads left-to-right as signal flow.
 # fan_out automatically uses VCF.LPF (port 0) as the source.
 (pb.chain(vco.SQR, vcf.i.IN)
-     .fan_out(audio.i.IN_L, audio.i.IN_R, color=COLORS["green"]))
+     .fan_out(audio.i.IN_L, audio.i.IN_R))
 
 # Modulation -- auto-opens attenuators; no need to know param IDs.
-(lfo.modulates(vco.i.PWM,    attenuation=0.5, color=COLORS["blue"])
-    .modulates(vcf.i.CUTOFF, attenuation=0.5, color=COLORS["purple"]))
+# Cable type auto-detected: LFO outputs are CV -> blue cables.
+(lfo.modulates(vco.i.PWM,    attenuation=0.5)
+    .modulates(vcf.i.CUTOFF, attenuation=0.5))
 
 print(pb.describe())
 print()
 
-# compile() validates proof state and returns a CompiledPatch.
-# It raises PatchCompileError (with the full graph report) if not proven.
-compiled = pb.compile()
-compiled.save(OUT_PATH)
+# build() validates proof state and returns the proven Patch.
+patch = pb.build()
+patch.save(OUT_PATH)
 
 print("All assertions passed.")
 print(f'\n  open -a "VCV Rack 2 Free" "{OUT_PATH}"')

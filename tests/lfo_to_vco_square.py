@@ -24,7 +24,7 @@ Run:
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from vcvpatch import Patch, COLORS
+from vcvpatch import Patch
 from vcvpatch.graph import PatchLoader
 from vcvpatch.graph.modules import VCONode
 
@@ -60,9 +60,9 @@ vco   = patch.add("Fundamental", "VCO",            pos=[8,  0],
 
 audio = patch.add("Core",        "AudioInterface2", pos=[16, 0])
 
-patch.connect(lfo.SIN,  vco.i.PWM,    color=COLORS["blue"])   # CV
-patch.connect(vco.SQR,  audio.i.IN_L, color=COLORS["yellow"]) # audio
-patch.connect(vco.SQR,  audio.i.IN_R, color=COLORS["yellow"])
+patch.connect(lfo.SIN,  vco.i.PWM)       # CV
+patch.connect(vco.SQR,  audio.i.IN_L)   # audio
+patch.connect(vco.SQR,  audio.i.IN_R)
 
 patch.save(OUT_PATH)
 print()

@@ -59,7 +59,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from vcvpatch.builder import PatchBuilder
-from vcvpatch.core import COLORS
 
 OUTPUT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -204,8 +203,8 @@ def build() -> str:
         sys.exit(1)
 
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-    compiled = pb.compile()
-    compiled.save(OUTPUT)
+    patch = pb.build()
+    patch.save(OUTPUT)
     print(f"Saved: {OUTPUT}")
     return OUTPUT
 
