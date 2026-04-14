@@ -1,12 +1,24 @@
 # vcv-rack
 
-An agentic patch-building system for VCV Rack. The project has three layers:
-a custom C++ plugin (AgentRack), a Python library for writing patches as code
-(vcvpatch), and agent infrastructure for autonomous patch generation.
+[VCV Rack](https://vcvrack.com/) is an open-source virtual modular synthesizer.
+You patch together modules (oscillators, filters, sequencers, effects) with
+virtual cables, the same way you would with hardware Eurorack.
 
-The design goal is a fully autonomous patch writer: an agent that can compose,
-wire, and validate VCV Rack patches programmatically, with no human in the loop
-and no reliance on VCV Rack being open at build time.
+This project builds patches with code instead of by hand. It has three layers:
+
+- **AgentRack** -- a custom C++ plugin with 14 modules (oscillators, filters,
+  reverb, a Tonnetz chord generator, a dub delay, and more)
+- **vcvpatch** -- a Python library that writes `.vcv` patch files
+  programmatically and proves they are correctly wired before you open them
+- **agent** -- an autonomous agent (Google ADK) that takes a musical description
+  and produces a finished patch with no human in the loop
+
+![dub_cm patch in VCV Rack](docs/dub_cm_patch_hero.png)
+*A Basic Channel-style dub techno patch: clock, sequencer, Tonnetz chord
+generator, three Crinkle wavefolder oscillators, Ladder filter, and Saphire
+convolution reverb.*
+
+https://github.com/tnn1t1s/vcv-rack/raw/main/tests/videos/dub_cm_demo_sm.mp4
 
 ## Repository layout
 
