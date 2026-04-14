@@ -7,11 +7,11 @@ Module IDs are random per run, so comparison normalises them to
   - same set of cables by (src_plugin/model:port, dst_plugin/model:port)
 
 Usage:
-    python3 tests/compare_patches.py <patch_a.vcv> <patch_b.vcv>
+    uv run python -m tests.compare_patches <patch_a.vcv> <patch_b.vcv>
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import os
+import sys
 
 from vcvpatch.serialize import load_vcv
 

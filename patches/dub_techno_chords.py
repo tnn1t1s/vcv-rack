@@ -32,8 +32,6 @@ Key dub techno settings:
   - Clock triggers at quarter notes: chords hit on every beat
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

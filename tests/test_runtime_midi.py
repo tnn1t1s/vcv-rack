@@ -8,15 +8,11 @@ What this tests:
   4. Read back via autosave and confirm the value changed
 
 Run with:
-  .venv/bin/python3 tests/test_runtime_midi.py
+  uv run python -m tests.test_runtime_midi
 """
 
 import math
 import time
-import sys
-import os
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from vcvpatch.builder import PatchBuilder
 from vcvpatch.runtime import RackSession, MidiMapBuilder

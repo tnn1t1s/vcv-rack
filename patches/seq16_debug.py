@@ -2,8 +2,9 @@
 Seq16 debug: SlimeChild Clock -> Sequencer16 -> VCO + Envelope -> Audio
 4 obvious pitches to verify CV port. Envelope on TRIG to verify gate port.
 """
-import math, os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import math
+import os
+import sys
 from vcvpatch.builder import PatchBuilder
 
 OUTPUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),

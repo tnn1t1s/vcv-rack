@@ -27,8 +27,6 @@ Modulation (matching tutorial):
   Random -> VCO1+2 FM and PWM
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

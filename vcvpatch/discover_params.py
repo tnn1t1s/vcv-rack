@@ -9,12 +9,14 @@ This is runtime introspection via VCV Rack's own serialization --
 no source code parsing, no user interaction.
 
 Usage:
-    python3 vcvpatch/discover_params.py Fundamental VCO
-    python3 vcvpatch/discover_params.py Fundamental LFO
+    uv run python -m vcvpatch.discover_params Fundamental VCO
+    uv run python -m vcvpatch.discover_params Fundamental LFO
 """
 
-import sys, os, time, json
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import json
+import os
+import sys
+import time
 
 from vcvpatch.serialize import save_vcv, load_vcv
 

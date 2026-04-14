@@ -5,8 +5,6 @@ Clock -> ADSR -> VCA + Ladder cutoff
 ChordCV (Cm7) -> VCO1 + VCO2 -> VCMixer -> VCA -> Sum -> Ladder -> Audio
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

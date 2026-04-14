@@ -15,10 +15,6 @@ Usage:
 """
 
 from pathlib import Path
-import sys
-
-_ROOT = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(_ROOT))
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent.parent / ".env")

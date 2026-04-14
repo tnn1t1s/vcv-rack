@@ -18,11 +18,10 @@ VCONode._port_attenuators maps port->param so the generator can read
 and set this without hardcoding.
 
 Run:
-    python3 tests/lfo_to_vco_square.py
+    uv run python -m tests.lfo_to_vco_square
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import os
 
 from vcvpatch import Patch
 from vcvpatch.graph import PatchLoader

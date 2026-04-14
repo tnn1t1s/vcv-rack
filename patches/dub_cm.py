@@ -25,8 +25,9 @@ Signal flow:
   Saphire OUT     --> Audio
 """
 
-import math, os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import math
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

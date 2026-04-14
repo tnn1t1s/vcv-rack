@@ -6,11 +6,10 @@ Proves in order:
   2. Audio reaches the sink
 
 Run:
-    python3 tests/square_to_output.py
+    uv run python -m tests.square_to_output
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import os
 
 from vcvpatch import Patch
 from vcvpatch.graph import PatchLoader

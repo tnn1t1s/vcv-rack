@@ -14,11 +14,10 @@ Proof state progression:
   after .fan_out(audio.i.IN_L, IN_R):      proven=True  <-- before save()
 
 Run:
-    python3 tests/builder_analog_synth_voice.py
+    uv run python -m tests.builder_analog_synth_voice
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import os
 
 from vcvpatch import PatchBuilder
 

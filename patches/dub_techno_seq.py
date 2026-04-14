@@ -14,8 +14,6 @@ Chord roots (V/oct, 1/12V per semitone from C4=0V):
 AgentRack: Ladder (LPF), Saphire (reverb), ADSR x2 (when #1 adds CV inputs -- using Fundamental for now)
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

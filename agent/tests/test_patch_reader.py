@@ -15,8 +15,6 @@ import os
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-
 from agent.tools.patch_reader import read_patch
 
 
@@ -24,7 +22,7 @@ from agent.tools.patch_reader import read_patch
 # Tests using a real patch (rings-to-clouds/01)
 # ---------------------------------------------------------------------------
 
-PATCH_01 = Path("/Users/palaitis/Development/vcv-rack/patches/rings-to-clouds/01/patch.py")
+PATCH_01 = Path(__file__).resolve().parents[2] / "patches" / "rings-to-clouds" / "01" / "patch.py"
 
 
 @pytest.mark.skipif(not PATCH_01.exists(), reason="patch 01 not present")

@@ -1,15 +1,11 @@
 """Tests for agent/tools/build_patch.py"""
-import sys
 from pathlib import Path
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from agent.tools.build_patch import build_patch
 
 
 MINIMAL_PROVEN_PATCH = """
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()
@@ -38,8 +34,6 @@ pb.save("{out_path}")
 """
 
 BROKEN_PATCH = """
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 pb = PatchBuilder()
 # No modules, no connections -- not proven

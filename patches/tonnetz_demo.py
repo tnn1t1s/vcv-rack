@@ -20,8 +20,9 @@ All modules are AgentRack except Core/AudioInterface2.
 The patch showcases Tonnetz chord generation with voice leading.
 """
 
-import math, os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import math
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 
