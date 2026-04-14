@@ -13,6 +13,7 @@ import uuid
 
 import pytest
 
+from vcvpatch.builder import PatchBuilder
 from agent.state import get as state_get, reset as state_reset
 from agent.patch_tools import (
     add_module,
@@ -117,15 +118,18 @@ class TestDescribeModule:
 
     def test_vco_inputs(self, ctx):
         r = describe_module("Fundamental", "VCO", tool_context=ctx)
-        # '1V/octave pitch' is the canonical name for VOCT
-        input_names = [i["name"] for i in r["inputs"]]
-        assert any("octave" in n.lower() for n in input_names), \
-            f"No V/oct input found; inputs={input_names}"
+        api_names = [i["api_name"] for i in r["inputs"]]
+        assert "_1V_octave_pitch" in api_names
 
     def test_vcf_has_attenuator_note(self, ctx):
         r = describe_module("Fundamental", "VCF", tool_context=ctx)
         notes_text = " ".join(r["notes"])
         assert "attenuator" in notes_text.lower()
+
+    def test_describe_module_exposes_api_names(self, ctx):
+        r = _ok(describe_module("Fundamental", "VCO", tool_context=ctx))
+        assert r["params"][2]["api_name"] == "Frequency"
+        assert r["outputs"][3]["api_name"] == "Square"
 
     def test_unknown_module_returns_error(self, ctx):
         _err(describe_module("NoPlugin", "NoModel", tool_context=ctx))
@@ -158,6 +162,10 @@ class TestAddModule:
     def test_invalid_params_json(self, ctx):
         _err(add_module("x", "Fundamental", "VCO", params_json="not json",
                          tool_context=ctx))
+
+    def test_noncanonical_param_name_errors(self, ctx):
+        _err(add_module("lfo1", "Fundamental", "LFO",
+                        params_json='{"frequency": 0.3}', tool_context=ctx))
 
     def test_duplicate_name_overwrites(self, ctx):
         add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
@@ -258,6 +266,13 @@ class TestModulate:
 
     def test_bad_dst_port_errors(self):
         _err(modulate("lfo1.Sine", "vcf1.i.NOSUCH", tool_context=self.ctx))
+
+    def test_builder_modulate_requires_explicit_via_for_multi_output_sources(self):
+        pb = PatchBuilder()
+        lfo = pb.module("Fundamental", "LFO")
+        vcf = pb.module("Fundamental", "VCF")
+        with pytest.raises(ValueError, match="Pass via= explicitly"):
+            lfo.modulates(vcf.i.Frequency)
 
 
 # ---------------------------------------------------------------------------

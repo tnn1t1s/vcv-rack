@@ -5,8 +5,8 @@ Signal chain:
   VCO (square) --> VCF (low-pass) --> AudioInterface2
 
 Modulation:
-  LFO.SIN --> VCO PWM input   (param 6: PWM attenuator must be opened)
-  LFO.SIN --> VCF cutoff input (param 3: FREQ_CV attenuator must be opened)
+  LFO.Sine --> VCO Pulse_width_modulation input
+  LFO.Sine --> VCF Frequency input
 
 The LFO simultaneously sweeps the pulse width and the filter cutoff,
 giving the classic "breathing" sound of an analog lead.
@@ -32,27 +32,27 @@ CUTOFF_MOD = 0.5   # LFO moves cutoff by ±50%
 patch = Patch(zoom=1.0)
 
 lfo  = patch.add("Fundamental", "LFO",            pos=[0,  0],
-                 FREQ=LFO_RATE)
+                 Frequency=LFO_RATE)
 
 vco  = patch.add("Fundamental", "VCO",            pos=[8,  0],
-                 FREQ=VCO_FREQ,
-                 PW=PW_BASE,
-                 PWM=PWM_DEPTH)     # open PWM attenuator
+                 Frequency=VCO_FREQ,
+                 Pulse_width=PW_BASE,
+                 Pulse_width_modulation=PWM_DEPTH)
 
 vcf  = patch.add("Fundamental", "VCF",            pos=[16, 0],
-                 FREQ=CUTOFF,
-                 FREQ_CV=CUTOFF_MOD) # open cutoff CV attenuator
+                 Cutoff_frequency=CUTOFF,
+                 Cutoff_frequency_CV=CUTOFF_MOD)
 
 audio = patch.add("Core", "AudioInterface2",      pos=[24, 0])
 
 # Modulation routing
-patch.connect(lfo.SIN, vco.i.PWM)       # LFO -> PWM
-patch.connect(lfo.SIN, vcf.i.CUTOFF)    # LFO -> filter cutoff
+patch.connect(lfo.o.Sine, vco.i.Pulse_width_modulation)
+patch.connect(lfo.o.Sine, vcf.i.Frequency)
 
 # Audio routing
-patch.connect(vco.SQR, vcf.i.IN)        # VCO -> filter
-patch.connect(vcf.LPF, audio.i.IN_L)    # filter -> output
-patch.connect(vcf.LPF, audio.i.IN_R)
+patch.connect(vco.o.Square, vcf.i.Audio)
+patch.connect(vcf.o.LPF, audio.i.Left_input)
+patch.connect(vcf.o.LPF, audio.i.Right_input)
 
 patch.save(OUT_PATH)
 print()

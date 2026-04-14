@@ -6,6 +6,7 @@ import os
 import json
 import glob
 import random
+import re
 from enum import Enum
 from typing import Optional, Union
 
@@ -199,48 +200,49 @@ def _load_discovered(plugin: str, model: str) -> dict | None:
             data["inputs"] = legacy["inputs"]
         if not data.get("outputs"):
             data["outputs"] = legacy["outputs"]
+    _add_api_names(data)
     return data
 
 
-def _normalize(s: str) -> str:
+def _api_name(name: str) -> str:
     """
-    Normalize a port/param name for fuzzy matching.
-    - Strip leading/trailing whitespace
-    - Lowercase
-    - Replace underscores with spaces
-    - Collapse multiple spaces
+    Convert a discovered display name into the canonical Python-facing API name.
+
+    This mapping is deterministic and exact. Core lookup resolves only against
+    these API names; it does not perform fuzzy matching or historical aliasing.
     """
-    return " ".join(s.strip().lower().replace("_", " ").replace("/", " ").replace("(", " ").replace(")", " ").split())
+    text = re.sub(r"[^0-9A-Za-z]+", "_", name.strip()).strip("_")
+    if not text:
+        return ""
+    if text[0].isdigit():
+        return f"_{text}"
+    return text
 
 
-def _name_matches(candidate: str, query: str) -> bool:
-    """
-    Case-insensitive port/param name match.
-    Strips whitespace, normalizes underscores to spaces.
-    Returns True if `query` matches `candidate`.
-    """
-    return _normalize(candidate) == _normalize(query)
+def _add_api_names(data: dict) -> None:
+    """Annotate discovered params/ports with deterministic API names."""
+    for bucket in ("params", "inputs", "outputs"):
+        for entry in data.get(bucket, []):
+            entry["api_name"] = _api_name(entry.get("name", ""))
 
 
 def _find_port_id(port_list: list, name: str) -> int | None:
     """
-    Search a list of {id, name} dicts for a port matching `name`.
+    Search a list of {id, name, api_name} dicts for an exact API-name match.
     Returns the integer id or None if not found.
-    Matching is case-insensitive, strips spaces, treats underscores as spaces.
     """
     for entry in port_list:
-        if _name_matches(entry["name"], name):
+        if entry.get("api_name") == name:
             return entry["id"]
     return None
 
 
 def _find_param_id(param_list: list, name: str) -> int | None:
     """
-    Search a list of {id, name, ...} dicts for a param matching `name`.
-    Case-insensitive, strips spaces, treats underscores as spaces.
+    Search a list of {id, name, api_name, ...} dicts for an exact API-name match.
     """
     for entry in param_list:
-        if _name_matches(entry["name"], name):
+        if entry.get("api_name") == name:
             return entry["id"]
     return None
 
@@ -317,7 +319,7 @@ class Module:
     # -- Port access by name -------------------------------------------------
 
     def _lookup_port(self, name: str, prefer_output=None) -> Port:
-        """Resolve a port name to a Port, checking outputs then inputs (or vice versa)."""
+        """Resolve an exact canonical API port name to a Port."""
         d = self._discovered
         if d is None:
             raise ValueError(
@@ -333,18 +335,18 @@ class Module:
             pid = _find_port_id(outputs, name)
             if pid is not None:
                 return Port(self, pid, is_output=True)
-            avail = [e["name"] for e in outputs]
+            avail = [e["api_name"] for e in outputs if e.get("api_name")]
             raise AttributeError(
-                f"No output '{name}' on {self.model}. Available: {avail}"
+                f"No output '{name}' on {self.model}. Available API outputs: {avail}"
             )
 
         if prefer_output is False:
             pid = _find_port_id(inputs, name)
             if pid is not None:
                 return Port(self, pid, is_output=False)
-            avail = [e["name"] for e in inputs]
+            avail = [e["api_name"] for e in inputs if e.get("api_name")]
             raise AttributeError(
-                f"No input '{name}' on {self.model}. Available: {avail}"
+                f"No input '{name}' on {self.model}. Available API inputs: {avail}"
             )
 
         # Auto: try outputs first, then inputs
@@ -355,12 +357,12 @@ class Module:
         if pid is not None:
             return Port(self, pid, is_output=False)
 
-        avail_out = [e["name"] for e in outputs]
-        avail_in  = [e["name"] for e in inputs]
+        avail_out = [e["api_name"] for e in outputs if e.get("api_name")]
+        avail_in  = [e["api_name"] for e in inputs if e.get("api_name")]
         raise AttributeError(
             f"No port '{name}' on {self.model}.\n"
-            f"  Outputs: {avail_out}\n"
-            f"  Inputs:  {avail_in}"
+            f"  API outputs: {avail_out}\n"
+            f"  API inputs:  {avail_in}"
         )
 
     def __getattr__(self, name: str) -> Port:
@@ -475,8 +477,8 @@ class Patch:
         """
         Add a module to the patch.
 
-        params are keyword args matching the module's param names (case-insensitive).
-        E.g.: patch.add("Fundamental", "VCF", FREQ=0.5, RES=0.3)
+        params are keyword args matching the module's canonical API param names.
+        E.g.: patch.add("Fundamental", "VCF", Cutoff_frequency=0.5, Resonance=0.3)
 
         pos=[col, row] in HP units. If omitted, auto-layout left-to-right.
         """
@@ -484,7 +486,7 @@ class Patch:
             pos = [self._col, self._row]
             self._col += 8  # advance by ~8HP per module (rough)
 
-        # Resolve param names -> param IDs using discovered metadata
+        # Resolve canonical API param names -> param IDs using discovered metadata
         discovered = _load_discovered(plugin, model)
         param_values = {}
         for name, value in params.items():
@@ -497,12 +499,12 @@ class Patch:
                     pid = int(name)
                 except (ValueError, TypeError):
                     avail = (
-                        [p["name"] for p in discovered["params"]]
+                        [p["api_name"] for p in discovered["params"] if p.get("api_name")]
                         if discovered else "module not in discovered/"
                     )
                     raise ValueError(
                         f"Unknown param '{name}' for {plugin}/{model}. "
-                        f"Known params: {avail}"
+                        f"Known API params: {avail}"
                     )
             param_values[pid] = float(value)
 

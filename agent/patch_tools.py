@@ -6,9 +6,9 @@ the ToolContext object there at call time. All return a dict with at least
 {"status": "ok"} or {"status": "error", "message": str}.
 
 Port notation accepted by connect_* tools:
-  "vco1.SAW"      -- auto-detect direction (output preferred)
-  "vco1.i.PWM"    -- force input
-  "vco1.o.SAW"    -- force output
+  "vco1.Sawtooth"               -- auto-detect direction (output preferred)
+  "vco1.i.Pulse_width_modulation" -- force input
+  "vco1.o.Sawtooth"             -- force output
 """
 
 from __future__ import annotations
@@ -45,9 +45,9 @@ def _resolve_port(port_str: str, modules: dict):
     """
     Parse dot-notation port string and return a Port object.
 
-    "vco1.SAW"     -> modules["vco1"]._module._lookup_port("SAW", prefer_output=True)
-    "vco1.i.PWM"   -> prefer_output=False
-    "vco1.o.SAW"   -> prefer_output=True
+    "vco1.Sawtooth" -> modules["vco1"]._module._lookup_port("Sawtooth", prefer_output=True)
+    "vco1.i.Pulse_width_modulation" -> prefer_output=False
+    "vco1.o.Sawtooth" -> prefer_output=True
     """
     parts = port_str.split(".")
     if len(parts) == 2:
@@ -101,7 +101,8 @@ def add_module(name: str, plugin: str, model: str,
         name:        Friendly name used in subsequent port references (e.g. "vco1").
         plugin:      Plugin slug (e.g. "Fundamental", "Valley").
         model:       Model slug (e.g. "VCO", "Plateau").
-        params_json: JSON object of param overrides: '{"FREQ": 0.4, "PW": 0.5}'.
+        params_json: JSON object of param overrides using canonical API names,
+                     e.g. '{"Frequency": 0.4, "Pulse_width": 0.5}'.
     """
     try:
         params = json.loads(params_json)
@@ -138,8 +139,8 @@ def connect_audio(from_port: str, to_port: str,
     Cable color is auto-detected from the source port's signal type.
 
     Args:
-        from_port: Output port in dot-notation, e.g. "vco1.SAW".
-        to_port:   Input port in dot-notation, e.g. "vcf1.i.IN".
+        from_port: Output port in dot-notation, e.g. "vco1.Sawtooth".
+        to_port:   Input port in dot-notation, e.g. "vcf1.i.Audio".
     """
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
@@ -163,8 +164,8 @@ def fan_out_audio(from_port: str, to_ports: list[str],
     Cable color is auto-detected from the source port's signal type.
 
     Args:
-        from_port: Source output port, e.g. "reverb.o.OUT_L".
-        to_ports:  List of destination input ports, e.g. ["audio.i.IN_L", "audio.i.IN_R"].
+        from_port: Source output port, e.g. "reverb.o.Left".
+        to_ports:  List of destination input ports, e.g. ["audio.i.Left_input", "audio.i.Right_input"].
     """
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
@@ -191,8 +192,8 @@ def modulate(src_port: str, dst_port: str,
     Cable color is always CV (blue).
 
     Args:
-        src_port:    Source output port, e.g. "lfo1.SIN".
-        dst_port:    Destination input port, e.g. "vcf1.i.FREQ".
+        src_port:    Source output port, e.g. "lfo1.Sine".
+        dst_port:    Destination input port, e.g. "vcf1.i.Frequency".
         attenuation: Attenuator value 0..1 (default 0.5). Written to the
                      destination module's attenuator param if one exists.
     """
@@ -238,8 +239,8 @@ def connect_cv(src_port: str, dst_port: str,
     Cable type is auto-detected from the source port's signal type.
 
     Args:
-        src_port: Source output port, e.g. "clock1.o.CLK0".
-        dst_port: Destination input port, e.g. "seq1.i.CLOCK".
+        src_port: Source output port, e.g. "clock1.o.Clock_0".
+        dst_port: Destination input port, e.g. "seq1.i.Clock".
     """
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
@@ -332,7 +333,7 @@ def list_modules(tool_context=None) -> dict:
 
 def describe_module(plugin: str, model: str, tool_context=None) -> dict:
     """
-    Return the param, input, and output port names for a specific module.
+    Return the canonical API params and ports for a specific module.
 
     Args:
         plugin: Plugin slug, e.g. "Fundamental".
