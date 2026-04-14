@@ -11,52 +11,40 @@ at save time.
     vcf   = pb.module("Fundamental", "VCF",  FREQ=0.6)
     audio = pb.module("Core", "AudioInterface2")
 
+    # Cable colors are auto-detected from the source port's signal type:
+    #   audio -> yellow, CV -> blue, gate -> red, clock -> green
     (pb.chain(vco.SQR, vcf.i.IN)
-         .fan_out(audio.i.IN_L, audio.i.IN_R, color=COLORS["green"]))
+         .fan_out(audio.i.IN_L, audio.i.IN_R))
 
-    (lfo.modulates(vco.i.PWM,    attenuation=0.5, color=COLORS["blue"])
-        .modulates(vcf.i.CUTOFF, attenuation=0.5, color=COLORS["purple"]))
+    (lfo.modulates(vco.i.PWM,    attenuation=0.5)
+        .modulates(vcf.i.CUTOFF, attenuation=0.5))
 
-    compiled = pb.compile()   # raises PatchCompileError if not proven
-    compiled.save("patch.vcv")
+    patch = pb.build()   # raises PatchCompileError if not proven
+    patch.save("patch.vcv")
     # or in one step: pb.save("patch.vcv")
 """
 
 from __future__ import annotations
 from typing import Optional
-from .core import Patch, Module, Port, COLORS, _load_discovered, _port_name_by_id, _param_name_by_id
+from .core import Patch, Module, Port, CableType, _load_discovered, _port_name_by_id, _param_name_by_id
 from .graph import SignalGraph, Edge
 from .graph.modules import NODE_REGISTRY
-from .graph.node import UnknownNode
+from .graph.node import SignalType, UnknownNode
 
-_YELLOW = COLORS["yellow"]
+_SIGNAL_TO_CABLE = {
+    SignalType.AUDIO: CableType.AUDIO,
+    SignalType.CV:    CableType.CV,
+    SignalType.GATE:  CableType.GATE,
+    SignalType.CLOCK: CableType.CLOCK,
+}
 
 
 # ---------------------------------------------------------------------------
-# Compile output and error
+# Build error
 # ---------------------------------------------------------------------------
 
 class PatchCompileError(Exception):
-    """Raised by PatchBuilder.compile() when the patch is not proven."""
-
-
-class CompiledPatch:
-    """
-    The validated output of PatchBuilder.compile().
-
-    Holds the frozen patch dict and the proven SignalGraph.
-    Call .save(path) to write to disk.
-    """
-
-    def __init__(self, patch_dict: dict, graph: SignalGraph):
-        self.patch_dict = patch_dict
-        self.graph      = graph
-
-    def save(self, path: str) -> str:
-        """Write the patch to a .vcv file. Returns the path on success."""
-        from .serialize import save_vcv
-        save_vcv(self.patch_dict, path)
-        return path
+    """Raised by PatchBuilder.build()/save() when the patch is not proven."""
 
 
 # ---------------------------------------------------------------------------
@@ -64,14 +52,13 @@ class CompiledPatch:
 # ---------------------------------------------------------------------------
 
 class _ConnectionRecord:
-    __slots__ = ("src_label", "dst_label", "color", "role", "attenuation")
+    __slots__ = ("src_label", "dst_label", "cable_type", "attenuation")
 
     def __init__(self, src_label: str, dst_label: str,
-                 color: str, role: str, attenuation: float = None):
-        self.src_label  = src_label
-        self.dst_label  = dst_label
-        self.color      = color
-        self.role       = role          # "audio" | "modulation"
+                 cable_type: CableType, attenuation: float = None):
+        self.src_label   = src_label
+        self.dst_label   = dst_label
+        self.cable_type  = cable_type
         self.attenuation = attenuation
 
 
@@ -94,20 +81,20 @@ class SignalChain:
         """Last port in the chain (may be input or output)."""
         return self._tail
 
-    def to(self, port: Port, color: str = None) -> "SignalChain":
+    def to(self, port: Port, cable_type: CableType = None) -> "SignalChain":
         """Extend chain: tail -> port.  Advances tail to the computed output."""
         src = self._resolve_src()
-        self._builder._add_cable(src, port, color or _YELLOW, role="audio")
+        self._builder._add_cable(src, port, cable_type=cable_type or CableType.AUDIO)
         computed = self._builder._compute_output(port)
         self._tail = computed if computed is not None else port
         return self
 
-    def fan_out(self, *ports: Port, color: str = None) -> "SignalChain":
+    def fan_out(self, *ports: Port, cable_type: CableType = None) -> "SignalChain":
         """Create cables from tail to every destination in ports."""
         src = self._resolve_src()
-        cable_color = color or _YELLOW
+        ct = cable_type or CableType.AUDIO
         for port in ports:
-            self._builder._add_cable(src, port, cable_color, role="audio")
+            self._builder._add_cable(src, port, cable_type=ct)
         return self
 
     # -- Internal ------------------------------------------------------------
@@ -165,7 +152,6 @@ class ModuleHandle:
     def modulates(self, target_port: Port, *,
                   via: str = "SIN",
                   attenuation: float = 0.5,
-                  color: str = None,
                   open_attenuator: bool = True) -> "ModuleHandle":
         """
         Create a CV cable from this module's output (via) to target_port.
@@ -185,13 +171,11 @@ class ModuleHandle:
             if node_cls is not None:
                 param_id = node_cls._port_attenuators.get(target_port.port_id)
                 if param_id is not None:
-                    # Mutate _param_values -- shared with node.params by reference.
                     dst_module._param_values[param_id] = attenuation
 
-        cable_color = color or COLORS["blue"]
         self._builder._add_cable(
-            src_port, target_port, cable_color,
-            role="modulation", attenuation=attenuation,
+            src_port, target_port, cable_type=CableType.CV,
+            attenuation=attenuation,
         )
         return self
 
@@ -292,7 +276,7 @@ class PatchBuilder:
         for i in range(0, len(ports), 2):
             out_port = ports[i]
             in_port  = ports[i + 1]
-            self._add_cable(out_port, in_port, _YELLOW, role="audio")
+            self._add_cable(out_port, in_port, cable_type=CableType.AUDIO)
             last_in = in_port
 
         return SignalChain(last_in, self)
@@ -345,27 +329,35 @@ class PatchBuilder:
         lines.append("")
 
         # Signal flow
-        audio = [r for r in self._records if r.role == "audio"]
+        audio = [r for r in self._records if r.cable_type == CableType.AUDIO]
         if audio:
             lines.append("Signal flow (audio):")
             for r in audio:
                 lines.append(f"  {r.src_label}  ->  {r.dst_label}")
             lines.append("")
 
-        # Modulation
-        mods = [r for r in self._records if r.role == "modulation"]
-        if mods:
+        # CV / modulation
+        cv = [r for r in self._records if r.cable_type == CableType.CV]
+        if cv:
             lines.append("Modulation (CV):")
-            for r in mods:
+            for r in cv:
                 atn = f"  [attenuation={r.attenuation}]" if r.attenuation is not None else ""
                 lines.append(f"  {r.src_label}  ->  {r.dst_label}{atn}")
             lines.append("")
 
-        # Other roles
-        other = [r for r in self._records if r.role not in ("audio", "modulation")]
-        if other:
-            lines.append("Other:")
-            for r in other:
+        # Gate / trigger
+        gate = [r for r in self._records if r.cable_type == CableType.GATE]
+        if gate:
+            lines.append("Gate / trigger:")
+            for r in gate:
+                lines.append(f"  {r.src_label}  ->  {r.dst_label}")
+            lines.append("")
+
+        # Clock
+        clock = [r for r in self._records if r.cable_type == CableType.CLOCK]
+        if clock:
+            lines.append("Clock:")
+            for r in clock:
                 lines.append(f"  {r.src_label}  ->  {r.dst_label}")
             lines.append("")
 
@@ -375,17 +367,19 @@ class PatchBuilder:
     # -- Save / escape hatch -------------------------------------------------
 
     def connect(self, src: Port, dst: Port,
-                color: str = None, role: str = "cv") -> "PatchBuilder":
+                cable_type: CableType = None) -> "PatchBuilder":
         """
         Connect any two ports directly. Use for clock, gate, and plain CV routing
         that does not need auto-attenuator handling. Returns self for chaining.
+
+        If cable_type is omitted, auto-detects from the source port's signal type.
         """
-        self._add_cable(src, dst, color or _YELLOW, role=role)
+        self._add_cable(src, dst, cable_type=cable_type)
         return self
 
-    def compile(self) -> CompiledPatch:
+    def build(self) -> Patch:
         """
-        Validate and freeze the patch, returning a CompiledPatch ready for saving.
+        Validate proof state and return the built Patch.
 
         Raises PatchCompileError (with the full graph report) if:
           - any module is missing
@@ -393,30 +387,29 @@ class PatchBuilder:
           - required control inputs are unconnected
           - any wired CV input has a zero attenuator (cable present but ignored)
 
-        Advisory warnings do not block compilation.
+        Advisory warnings do not block building.
         """
         if not self._graph.patch_proven:
             raise PatchCompileError(
-                f"Patch is not proven -- cannot compile.\n\n"
+                f"Patch is not proven -- cannot build.\n\n"
                 f"{self._graph.report()}"
             )
-        return CompiledPatch(self._patch.to_dict(), self._graph)
+        return self._patch
 
     def save(self, path: str) -> "PatchBuilder":
-        """Compile (raising PatchCompileError if not proven) and save to .vcv."""
-        self.compile().save(path)
+        """Build (raising PatchCompileError if not proven) and save to .vcv."""
+        self.build().save(path)
         return self
-
-    def build(self) -> Patch:
-        """Return the underlying Patch object (escape hatch)."""
-        return self._patch
 
     # -- Internal helpers ----------------------------------------------------
 
-    def _add_cable(self, src: Port, dst: Port, color: str, role: str,
+    def _add_cable(self, src: Port, dst: Port,
+                   cable_type: CableType = None,
                    attenuation: float = None) -> None:
         """Create cable in patch + edge in graph, record for describe()."""
-        self._patch.connect(src, dst, color=color)
+        if cable_type is None:
+            cable_type = self._infer_cable_type(src)
+        self._patch.connect(src, dst, cable_type=cable_type)
         self._graph.add_edge(Edge(
             src_node=src.module.id,
             src_port=src.port_id,
@@ -426,8 +419,17 @@ class PatchBuilder:
         src_label = f"{src.module.model}.{self._port_name(src)}"
         dst_label = f"{dst.module.model}.{self._port_name(dst)}"
         self._records.append(
-            _ConnectionRecord(src_label, dst_label, color, role, attenuation)
+            _ConnectionRecord(src_label, dst_label, cable_type, attenuation)
         )
+
+    def _infer_cable_type(self, src: Port) -> CableType:
+        """Look up the source port's SignalType from the graph node and map to CableType."""
+        node = self._graph._nodes.get(src.module.id)
+        if node is not None:
+            sig = node._output_types.get(src.port_id)
+            if sig is not None:
+                return _SIGNAL_TO_CABLE[sig]
+        return CableType.AUDIO
 
     def _compute_output(self, in_port: Port) -> Optional[Port]:
         """

@@ -178,7 +178,7 @@ class SignalGraph:
     def warnings(self) -> list[str]:
         """
         Non-fatal advisory issues. Does not include attenuator_errors (those
-        are hard errors checked by compile()).
+        are hard errors checked by build()).
         """
         issues = []
         audio_in = self._propagate()

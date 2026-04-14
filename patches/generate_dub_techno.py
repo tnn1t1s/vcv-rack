@@ -17,7 +17,7 @@ Usage:
 import sys, os, random, argparse
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from vcvpatch import Patch, COLORS
+from vcvpatch import Patch
 
 
 # ---------------------------------------------------------------------------
@@ -183,62 +183,62 @@ def build(
     print("  Wiring...")
 
     # Clock -> sequencer (16th-note clock for tight sequencing)
-    patch.connect(clock.o.CLK1, seq.i.CLOCK,  color=COLORS["white"])
-    patch.connect(clock.o.RESET, seq.i.RESET, color=COLORS["white"])
+    patch.connect(clock.o.CLK1, seq.i.CLOCK)
+    patch.connect(clock.o.RESET, seq.i.RESET)
 
     # Sequencer -> oscillator pitch
-    patch.connect(seq.o.CV1, osc1.VOCT, color=COLORS["yellow"])
-    patch.connect(seq.o.CV1, osc2.VOCT, color=COLORS["yellow"])
+    patch.connect(seq.o.CV1, osc1.VOCT)
+    patch.connect(seq.o.CV1, osc2.VOCT)
 
     # Sequencer trigger -> both envelopes
-    patch.connect(seq.TRIG, adsr_amp.i.GATE,  color=COLORS["green"])
-    patch.connect(seq.TRIG, adsr_filt.i.GATE, color=COLORS["green"])
+    patch.connect(seq.TRIG, adsr_amp.i.GATE)
+    patch.connect(seq.TRIG, adsr_filt.i.GATE)
 
     # S&H: 8th-note clock samples white noise -> slow random CV
-    patch.connect(clock.o.CLK2, sh.i.CLOCK1,  color=COLORS["white"])
-    patch.connect(noise.WHITE,  sh.i.IN1,     color=COLORS["purple"])
+    patch.connect(clock.o.CLK2, sh.i.CLOCK1)
+    patch.connect(noise.WHITE,  sh.i.IN1)
 
     # Both oscillators -> VCF1 (VCV sums multiple cables into one input)
-    patch.connect(osc1.SAW,  vcf1.IN, color=COLORS["red"])
-    patch.connect(osc2.SAW,  vcf1.IN, color=COLORS["orange"])
+    patch.connect(osc1.SAW,  vcf1.IN)
+    patch.connect(osc2.SAW,  vcf1.IN)
 
     # Cascade filters
-    patch.connect(vcf1.LPF, vcf2.IN, color=COLORS["red"])
+    patch.connect(vcf1.LPF, vcf2.IN)
 
     # Filter envelope -> VCF1 cutoff
-    patch.connect(adsr_filt.ENV, vcf1.i.FREQ, color=COLORS["cyan"])
+    patch.connect(adsr_filt.ENV, vcf1.i.FREQ)
 
     # LFO1 slow triangle -> VCF1 cutoff (dub wobble)
-    patch.connect(lfo1.o.TRI, vcf1.i.FREQ, color=COLORS["blue"])
+    patch.connect(lfo1.o.TRI, vcf1.i.FREQ)
 
     # LFO2 sine -> VCF2 cutoff (second filter drifts)
-    patch.connect(lfo2.o.SIN, vcf2.i.FREQ, color=COLORS["blue"])
+    patch.connect(lfo2.o.SIN, vcf2.i.FREQ)
 
     # S&H random -> VCF2 resonance (subtle unpredictability)
-    patch.connect(sh.o.OUT1, vcf2.i.RES, color=COLORS["purple"])
+    patch.connect(sh.o.OUT1, vcf2.i.RES)
 
     # VCF2 LPF -> VCA
-    patch.connect(vcf2.LPF, vca.IN, color=COLORS["red"])
+    patch.connect(vcf2.LPF, vca.IN)
 
     # Amp envelope -> VCA
-    patch.connect(adsr_amp.ENV, vca.CV, color=COLORS["green"])
+    patch.connect(adsr_amp.ENV, vca.CV)
 
     # LFO3 -> VCA (tremolo)
-    patch.connect(lfo3.o.TRI, vca.CV, color=COLORS["blue"])
+    patch.connect(lfo3.o.TRI, vca.CV)
 
     # VCA -> reverb (mono in, stereo processing)
-    patch.connect(vca.OUT, reverb.i.IN_L, color=COLORS["red"])
-    patch.connect(vca.OUT, reverb.i.IN_R, color=COLORS["red"])
+    patch.connect(vca.OUT, reverb.i.IN_L)
+    patch.connect(vca.OUT, reverb.i.IN_R)
 
     # LFO2 -> reverb size (reverb character breathes with LFO)
-    patch.connect(lfo2.o.SIN, reverb.i.SIZE_CV, color=COLORS["blue"])
+    patch.connect(lfo2.o.SIN, reverb.i.SIZE_CV)
 
     # Reverb -> delay -> audio out
-    patch.connect(reverb.o.OUT_L, delay.i.IN_L,  color=COLORS["yellow"])
-    patch.connect(reverb.o.OUT_R, delay.i.IN_R,  color=COLORS["yellow"])
-    patch.connect(clock.o.CLK2,   delay.i.CLOCK, color=COLORS["white"])
-    patch.connect(delay.o.OUT_L,  audio.i.IN_L,  color=COLORS["yellow"])
-    patch.connect(delay.o.OUT_R,  audio.i.IN_R,  color=COLORS["yellow"])
+    patch.connect(reverb.o.OUT_L, delay.i.IN_L)
+    patch.connect(reverb.o.OUT_R, delay.i.IN_R)
+    patch.connect(clock.o.CLK2,   delay.i.CLOCK)
+    patch.connect(delay.o.OUT_L,  audio.i.IN_L)
+    patch.connect(delay.o.OUT_R,  audio.i.IN_R)
 
     return patch
 

@@ -196,12 +196,11 @@ class TestConnectAudio:
     def test_unknown_port_errors(self):
         _err(connect_audio("vco1.NOSUCHPORT", "vcf1.i.Audio", tool_context=self.ctx))
 
-    def test_color_stored(self):
-        # AudioInterface2 input canonical name: 'Left input' -> normalizes to 'left input'
-        # Use 'Left_input' (underscore -> space in normalization)
+    def test_cable_type_auto_detected(self):
+        # Audio output should auto-detect as audio cable type
         r = _ok(connect_audio("vco1.Sawtooth", "audio.i.Left_input",
-                               color="red", tool_context=self.ctx))
-        assert r["color"] == "red"
+                               tool_context=self.ctx))
+        assert r["status"] == "ok"
 
 
 # ---------------------------------------------------------------------------
@@ -274,12 +273,12 @@ class TestConnectCV:
 
     def test_clock_cable(self):
         # Clocked-Clkd 'Clock 1' output (id=1) -> SEQ3 'Clock' input (id=1)
+        # Cable type auto-detected from source port's signal type
         r = _ok(connect_cv(
             "clock1.o.Clock_1", "seq1.i.Clock",
-            color="white", role="clock",
             tool_context=self.ctx,
         ))
-        assert r["role"] == "clock"
+        assert r["status"] == "ok"
 
     def test_bad_port_errors(self):
         _err(connect_cv("clock1.o.NOPE", "seq1.i.Clock", tool_context=self.ctx))
@@ -365,7 +364,7 @@ class TestDronePatch:
         _ok(connect_audio("vco1.Sawtooth", "reverb.i.Left", tool_context=ctx))
         _ok(fan_out_audio("reverb.o.Left",
                           ["audio.i.Left_input", "audio.i.Right_input"],
-                          color="green", tool_context=ctx))
+                          tool_context=ctx))
 
         status = _ok(get_status(ctx))
         assert status["proven"] is True, status["report"]

@@ -23,7 +23,6 @@ import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from vcvpatch.builder import PatchBuilder
-from vcvpatch import COLORS
 
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "rings-clouds")
 
@@ -40,28 +39,27 @@ def _build(n: int, pb: PatchBuilder = None) -> str:
     _     = pb.module("DanTModules",        "Purfenator",      pos=[36, 4])
 
     # Core audio chain: Rings -> Clouds -> output
-    pb.connect(rings.ODD,    clouds.i.IN_L,    color=COLORS["yellow"])
+    pb.connect(rings.ODD,    clouds.i.IN_L)
     if n in RINGS_EVEN_TO_CLOUDS_R:
-        pb.connect(rings.EVEN, clouds.i.IN_R,  color=COLORS["yellow"])
-    pb.connect(clouds.OUT_L, audio.i.IN_L,     color=COLORS["green"])
-    pb.connect(clouds.OUT_R, audio.i.IN_R,     color=COLORS["green"])
+        pb.connect(rings.EVEN, clouds.i.IN_R)
+    pb.connect(clouds.OUT_L, audio.i.IN_L)
+    pb.connect(clouds.OUT_R, audio.i.IN_R)
 
     # Marbles -> Rings: gate (strum) and pitch
     strum_out, pitch_out = MARBLES_TO_RINGS[n]
-    pb.connect(getattr(marbles, strum_out), rings.i.STRUM,    color=COLORS["white"])
+    pb.connect(getattr(marbles, strum_out), rings.i.STRUM)
     if pitch_out:
-        pb.connect(getattr(marbles, pitch_out), rings.i.PITCH, color=COLORS["cyan"])
+        pb.connect(getattr(marbles, pitch_out), rings.i.PITCH)
 
     # Patch-specific extra connections
-    for src, dst, color in EXTRA_CABLES.get(n, []):
+    for src, dst in EXTRA_CABLES.get(n, []):
         src_mod, src_port = src
         dst_mod, dst_port = dst
         mods = {"rings": rings, "clouds": clouds, "marbles": marbles}
         pb.connect(mods[src_mod].output(src_port) if isinstance(src_port, int)
                    else getattr(mods[src_mod], src_port),
                    mods[dst_mod].input(dst_port) if isinstance(dst_port, int)
-                   else mods[dst_mod].i.__getattr__(dst_port),
-                   color=COLORS[color])
+                   else mods[dst_mod].i.__getattr__(dst_port))
 
     out_path = os.path.join(OUT_DIR, f"Rings into Clouds {n:02d}.vcv")
     pb.save(out_path)
@@ -107,43 +105,44 @@ MARBLES_TO_RINGS = {
 
 # ---------------------------------------------------------------------------
 # Extra cables beyond the standard Marbles->Rings->Clouds->Audio spine.
-# Each entry: (src_mod, src_port_name), (dst_mod, dst_port_name), color
+# Each entry: (src_mod, src_port_name), (dst_mod, dst_port_name)
+# Cable type is auto-detected from the source port's signal type.
 # ---------------------------------------------------------------------------
 EXTRA_CABLES = {
-    2:  [(("marbles", "Y"),  ("rings",   "POSITION_MOD"), "blue")],
-    6:  [(("marbles", "Y"),  ("clouds",  "PITCH"),        "cyan"),
-         (("marbles", "X2"), ("rings",   "STRUCTURE_MOD"),"blue")],
-    7:  [(("marbles", "T2"), ("clouds",  "FREEZE"),       "white"),
-         (("marbles", "Y"),  ("clouds",  "TEXTURE"),      "blue")],
-    9:  [(("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue")],
-    10: [(("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue")],
-    11: [(("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue")],
-    12: [(("marbles", "T2"), ("clouds",  "TRIG"),         "white"),
-         (("marbles", "X2"), ("rings",   "STRUCTURE_MOD"),"blue")],
-    14: [(("marbles", "X3"), ("marbles", "X_BIAS"),       "blue"),
-         (("marbles", "Y"),  ("marbles", "DEJA_VU"),      "blue")],
-    16: [(("marbles", "Y"),  ("clouds",  "TEXTURE"),      "blue"),
-         (("marbles", "Y"),  ("rings",   "BRIGHTNESS_MOD"),"blue"),
-         (("marbles", "Y"),  ("rings",   "STRUCTURE_MOD"), "blue")],
-    17: [(("marbles", "X2"), ("clouds",  "PITCH"),        "cyan"),
-         (("marbles", "Y"),  ("marbles", "T_RATE"),       "blue")],
-    18: [(("marbles", "Y"),  ("marbles", "X_BIAS"),       "blue"),
-         (("marbles", "X2"), ("marbles", "T_RATE"),       "blue"),
-         (("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue"),
-         (("marbles", "Y"),  ("rings",   "POSITION_MOD"), "blue")],
-    19: [(("marbles", "T1"), ("clouds",  "TRIG"),         "white"),
-         (("marbles", "X2"), ("marbles", "T_RATE"),       "blue"),
-         (("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue"),
-         (("marbles", "X3"), ("rings",   "BRIGHTNESS_MOD"),"blue")],
-    20: [(("marbles", "X2"), ("clouds",  "PITCH"),        "cyan"),
-         (("marbles", "Y"),  ("clouds",  "TEXTURE"),      "blue"),
-         (("marbles", "X2"), ("marbles", "T_RATE"),       "blue"),
-         (("marbles", "Y"),  ("marbles", "T_JITTER"),     "blue"),
-         (("marbles", "X3"), ("rings",   "BRIGHTNESS_MOD"),"blue")],
-    21: [(("marbles", "X2"), ("clouds",  "PITCH"),        "cyan"),
-         (("marbles", "Y"),  ("marbles", "X_BIAS"),       "blue")],
-    22: [(("marbles", "X2"), ("clouds",  "PITCH"),        "cyan"),
-         (("marbles", "Y"),  ("marbles", "X_BIAS"),       "blue")],
+    2:  [(("marbles", "Y"),  ("rings",   "POSITION_MOD"))],
+    6:  [(("marbles", "Y"),  ("clouds",  "PITCH")),
+         (("marbles", "X2"), ("rings",   "STRUCTURE_MOD"))],
+    7:  [(("marbles", "T2"), ("clouds",  "FREEZE")),
+         (("marbles", "Y"),  ("clouds",  "TEXTURE"))],
+    9:  [(("marbles", "Y"),  ("marbles", "T_JITTER"))],
+    10: [(("marbles", "Y"),  ("marbles", "T_JITTER"))],
+    11: [(("marbles", "Y"),  ("marbles", "T_JITTER"))],
+    12: [(("marbles", "T2"), ("clouds",  "TRIG")),
+         (("marbles", "X2"), ("rings",   "STRUCTURE_MOD"))],
+    14: [(("marbles", "X3"), ("marbles", "X_BIAS")),
+         (("marbles", "Y"),  ("marbles", "DEJA_VU"))],
+    16: [(("marbles", "Y"),  ("clouds",  "TEXTURE")),
+         (("marbles", "Y"),  ("rings",   "BRIGHTNESS_MOD")),
+         (("marbles", "Y"),  ("rings",   "STRUCTURE_MOD"))],
+    17: [(("marbles", "X2"), ("clouds",  "PITCH")),
+         (("marbles", "Y"),  ("marbles", "T_RATE"))],
+    18: [(("marbles", "Y"),  ("marbles", "X_BIAS")),
+         (("marbles", "X2"), ("marbles", "T_RATE")),
+         (("marbles", "Y"),  ("marbles", "T_JITTER")),
+         (("marbles", "Y"),  ("rings",   "POSITION_MOD"))],
+    19: [(("marbles", "T1"), ("clouds",  "TRIG")),
+         (("marbles", "X2"), ("marbles", "T_RATE")),
+         (("marbles", "Y"),  ("marbles", "T_JITTER")),
+         (("marbles", "X3"), ("rings",   "BRIGHTNESS_MOD"))],
+    20: [(("marbles", "X2"), ("clouds",  "PITCH")),
+         (("marbles", "Y"),  ("clouds",  "TEXTURE")),
+         (("marbles", "X2"), ("marbles", "T_RATE")),
+         (("marbles", "Y"),  ("marbles", "T_JITTER")),
+         (("marbles", "X3"), ("rings",   "BRIGHTNESS_MOD"))],
+    21: [(("marbles", "X2"), ("clouds",  "PITCH")),
+         (("marbles", "Y"),  ("marbles", "X_BIAS"))],
+    22: [(("marbles", "X2"), ("clouds",  "PITCH")),
+         (("marbles", "Y"),  ("marbles", "X_BIAS"))],
 }
 
 # ---------------------------------------------------------------------------

@@ -131,49 +131,45 @@ def add_module(name: str, plugin: str, model: str,
 
 
 def connect_audio(from_port: str, to_port: str,
-                  color: str = "yellow", tool_context=None) -> dict:
+                  tool_context=None) -> dict:
     """
     Connect one audio output to one audio input.
+
+    Cable color is auto-detected from the source port's signal type.
 
     Args:
         from_port: Output port in dot-notation, e.g. "vco1.SAW".
         to_port:   Input port in dot-notation, e.g. "vcf1.i.IN".
-        color:     Cable color name (yellow, green, red, blue, ...).
     """
-    from vcvpatch.core import COLORS
-
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
     modules: dict = sess["modules"]
 
-    cable_color = COLORS.get(color, COLORS["yellow"])
     try:
         src = _resolve_port(from_port, modules)
         dst = _resolve_port(to_port, modules)
-        pb._add_cable(src, dst, cable_color, role="audio")
+        pb._add_cable(src, dst)
     except Exception as exc:
         return {"status": "error", "message": str(exc)}
 
-    return {"status": "ok", "from": from_port, "to": to_port, "color": color}
+    return {"status": "ok", "from": from_port, "to": to_port}
 
 
 def fan_out_audio(from_port: str, to_ports: list[str],
-                  color: str = "green", tool_context=None) -> dict:
+                  tool_context=None) -> dict:
     """
     Connect one audio output to multiple inputs (fan-out).
+
+    Cable color is auto-detected from the source port's signal type.
 
     Args:
         from_port: Source output port, e.g. "reverb.o.OUT_L".
         to_ports:  List of destination input ports, e.g. ["audio.i.IN_L", "audio.i.IN_R"].
-        color:     Cable color for all cables.
     """
-    from vcvpatch.core import COLORS
-
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
     modules: dict = sess["modules"]
 
-    cable_color = COLORS.get(color, COLORS["yellow"])
     try:
         src = _resolve_port(from_port, modules)
         destinations = [_resolve_port(p, modules) for p in to_ports]
@@ -181,30 +177,27 @@ def fan_out_audio(from_port: str, to_ports: list[str],
         return {"status": "error", "message": str(exc)}
 
     for dst in destinations:
-        pb._add_cable(src, dst, cable_color, role="audio")
+        pb._add_cable(src, dst)
 
-    return {"status": "ok", "from": from_port, "to": to_ports, "color": color}
+    return {"status": "ok", "from": from_port, "to": to_ports}
 
 
 def modulate(src_port: str, dst_port: str,
-             attenuation: float = 0.5, color: str = "blue",
+             attenuation: float = 0.5,
              tool_context=None) -> dict:
     """
     Connect a CV modulation cable and auto-open the destination attenuator.
+
+    Cable color is always CV (blue).
 
     Args:
         src_port:    Source output port, e.g. "lfo1.SIN".
         dst_port:    Destination input port, e.g. "vcf1.i.FREQ".
         attenuation: Attenuator value 0..1 (default 0.5). Written to the
                      destination module's attenuator param if one exists.
-        color:       Cable color (default "blue").
     """
-    from vcvpatch.core import COLORS
-
     sess = _session(tool_context)
     modules: dict = sess["modules"]
-
-    cable_color = COLORS.get(color, COLORS["blue"])
 
     # Parse module name from src_port to get the ModuleHandle.
     src_parts = src_port.split(".")
@@ -224,7 +217,6 @@ def modulate(src_port: str, dst_port: str,
             dst,
             via=via,
             attenuation=attenuation,
-            color=cable_color,
             open_attenuator=True,
         )
     except Exception as exc:
@@ -235,38 +227,32 @@ def modulate(src_port: str, dst_port: str,
         "from": src_port,
         "to": dst_port,
         "attenuation": attenuation,
-        "color": color,
     }
 
 
 def connect_cv(src_port: str, dst_port: str,
-               color: str = "white", role: str = "cv",
                tool_context=None) -> dict:
     """
     Connect a clock, gate, or plain CV cable (no attenuator handling).
 
+    Cable type is auto-detected from the source port's signal type.
+
     Args:
         src_port: Source output port, e.g. "clock1.o.CLK0".
         dst_port: Destination input port, e.g. "seq1.i.CLOCK".
-        color:    Cable color (default "white").
-        role:     Semantic role: "cv", "gate", or "clock".
     """
-    from vcvpatch.core import COLORS
-
     sess = _session(tool_context)
     pb: PatchBuilder = sess["pb"]
     modules: dict = sess["modules"]
 
-    cable_color = COLORS.get(color, COLORS["yellow"])
     try:
         src = _resolve_port(src_port, modules)
         dst = _resolve_port(dst_port, modules)
-        pb.connect(src, dst, color=cable_color, role=role)
+        pb.connect(src, dst)
     except Exception as exc:
         return {"status": "error", "message": str(exc)}
 
-    return {"status": "ok", "from": src_port, "to": dst_port,
-            "color": color, "role": role}
+    return {"status": "ok", "from": src_port, "to": dst_port}
 
 
 def get_status(tool_context=None) -> dict:
@@ -287,7 +273,7 @@ def get_status(tool_context=None) -> dict:
 
 def compile_and_save(output_path: str, tool_context=None) -> dict:
     """
-    Compile the patch (raises if not proven) and save it to a .vcv file.
+    Build the patch (raises if not proven) and save it to a .vcv file.
 
     Args:
         output_path: Destination path, e.g. "tests/cm_drone.vcv".

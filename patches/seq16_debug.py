@@ -46,5 +46,5 @@ if not pb.proven:
     sys.exit(1)
 
 os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-pb.compile().save(OUTPUT)
+pb.build().save(OUTPUT)
 print(f"Saved: {OUTPUT}")

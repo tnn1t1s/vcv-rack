@@ -9,7 +9,7 @@ Verifies:
 """
 
 import pytest
-from vcvpatch.core import _load_discovered, _find_port_id, _find_param_id
+from vcvpatch.core import Patch, _load_discovered, _find_port_id, _find_param_id
 from vcvpatch.graph.modules import NODE_REGISTRY, SaphireNode
 from vcvpatch.graph.installed import InstalledRegistry
 from vcvpatch.builder import PatchBuilder
@@ -111,9 +111,9 @@ class TestSaphirePatchProof:
         pb.chain(sph.o.Out_L, out.i.Left_input)
         pb.chain(sph.o.Out_R, out.i.Right_input)
 
-        patch = pb.compile()
-        assert patch.graph.patch_proven, \
-            f"Patch not proven:\n{patch.graph.describe()}"
+        patch = pb.build()
+        assert isinstance(patch, Patch)
+        assert pb.proven, f"Patch not proven:\n{pb.report()}"
 
     def test_mono_input_patch_proves(self):
         """VCO -> Saphire In L only (mono fold) -> Audio should prove."""
@@ -126,9 +126,9 @@ class TestSaphirePatchProof:
         pb.chain(sph.o.Out_L, out.i.Left_input)
         pb.chain(sph.o.Out_R, out.i.Right_input)
 
-        patch = pb.compile()
-        assert patch.graph.patch_proven, \
-            f"Patch not proven:\n{patch.graph.describe()}"
+        patch = pb.build()
+        assert isinstance(patch, Patch)
+        assert pb.proven, f"Patch not proven:\n{pb.report()}"
 
     def test_saphire_without_output_does_not_prove(self):
         """Saphire with no output connected should raise PatchCompileError."""
@@ -139,4 +139,4 @@ class TestSaphirePatchProof:
         pb.chain(vco.o.Sine, sph.i.In_L)
         # deliberately no output connection
         with pytest.raises(PatchCompileError):
-            pb.compile()
+            pb.build()

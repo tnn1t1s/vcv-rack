@@ -18,7 +18,7 @@ Run:
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from vcvpatch import PatchBuilder, COLORS
+from vcvpatch import PatchBuilder
 
 OUT_PATH = os.path.join(os.path.dirname(__file__), "cm_chord_seq.vcv")
 
@@ -36,35 +36,35 @@ vca   = pb.module("Fundamental",      "VCA",   LEVEL1=1.0)
 delay = pb.module("AlrightDevices",   "Chronoblob2",   TIME=0.4, FEEDBACK=0.35, MIX=0.5)
 audio = pb.module("Core",             "AudioInterface2")
 
-# Clock and sequencer
-pb.connect(clock.CLK0,  seq.i.CLOCK,  color=COLORS["white"])
-pb.connect(seq.TRIG,    adsr.i.GATE,  color=COLORS["white"], role="gate")
+# Clock and sequencer (cable types auto-detected)
+pb.connect(clock.CLK0,  seq.i.CLOCK)
+pb.connect(seq.TRIG,    adsr.i.GATE)
 
 # Sequencer CV -> chord generator root
-pb.connect(seq.CV1,     chord.i.ROOT, color=COLORS["cyan"])
+pb.connect(seq.CV1,     chord.i.ROOT)
 
 # Chord voices -> VCO pitches
-pb.connect(chord.o.NOTE1, vco1.i.PITCH, color=COLORS["cyan"])
-pb.connect(chord.o.NOTE2, vco2.i.PITCH, color=COLORS["cyan"])
-pb.connect(chord.o.NOTE3, vco3.i.PITCH, color=COLORS["cyan"])
+pb.connect(chord.o.NOTE1, vco1.i.PITCH)
+pb.connect(chord.o.NOTE2, vco2.i.PITCH)
+pb.connect(chord.o.NOTE3, vco3.i.PITCH)
 
 # Envelope -> VCA CV
-pb.connect(adsr.ENV, vca.i.CV, color=COLORS["orange"], role="cv")
+pb.connect(adsr.ENV, vca.i.CV)
 
 # Audio chain: 3 VCOs -> mixer -> VCA -> tape delay -> output
 pb.chain(vco2.SAW, mix.i.IN2)
 pb.chain(vco3.SAW, mix.i.IN3)
 
 (pb.chain(vco1.SAW, mix.i.IN1)
-     .to(vca.i.IN,     color=COLORS["yellow"])   # mix.OUT_L -> vca.IN
-     .to(delay.i.IN_L, color=COLORS["yellow"])   # vca.OUT   -> delay.IN_L
-     .fan_out(audio.i.IN_L, audio.i.IN_R, color=COLORS["green"]))
+     .to(vca.i.IN)           # mix.OUT_L -> vca.IN
+     .to(delay.i.IN_L)       # vca.OUT   -> delay.IN_L
+     .fan_out(audio.i.IN_L, audio.i.IN_R))
 
 print(pb.describe())
 print()
 
-compiled = pb.compile()
-compiled.save(OUT_PATH)
+patch = pb.build()
+patch.save(OUT_PATH)
 
 print("Done.")
 print(f'\n  open -a "VCV Rack 2 Free" "{OUT_PATH}"')

@@ -18,7 +18,7 @@ Run:
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from vcvpatch import Patch, COLORS
+from vcvpatch import Patch
 from vcvpatch.graph import PatchLoader
 
 OUT_PATH = os.path.join(os.path.dirname(__file__), "analog_synth_voice.vcv")
@@ -47,13 +47,13 @@ vcf  = patch.add("Fundamental", "VCF",            pos=[16, 0],
 audio = patch.add("Core", "AudioInterface2",      pos=[24, 0])
 
 # Modulation routing
-patch.connect(lfo.SIN, vco.i.PWM,    color=COLORS["blue"])    # LFO -> PWM
-patch.connect(lfo.SIN, vcf.i.CUTOFF, color=COLORS["purple"])  # LFO -> filter cutoff
+patch.connect(lfo.SIN, vco.i.PWM)       # LFO -> PWM
+patch.connect(lfo.SIN, vcf.i.CUTOFF)    # LFO -> filter cutoff
 
 # Audio routing
-patch.connect(vco.SQR, vcf.i.IN,     color=COLORS["yellow"])  # VCO -> filter
-patch.connect(vcf.LPF, audio.i.IN_L, color=COLORS["green"])   # filter -> output
-patch.connect(vcf.LPF, audio.i.IN_R, color=COLORS["green"])
+patch.connect(vco.SQR, vcf.i.IN)        # VCO -> filter
+patch.connect(vcf.LPF, audio.i.IN_L)    # filter -> output
+patch.connect(vcf.LPF, audio.i.IN_R)
 
 patch.save(OUT_PATH)
 print()
