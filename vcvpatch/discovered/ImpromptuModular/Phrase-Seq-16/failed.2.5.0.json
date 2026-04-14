@@ -1,7 +1,0 @@
-{
-  "plugin": "ImpromptuModular",
-  "model": "Phrase-Seq-16",
-  "version": "2.5.0",
-  "introspectable": false,
-  "reason": "createModule() crashed or produced invalid output"
-}

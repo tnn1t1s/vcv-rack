@@ -1,0 +1,17 @@
+{
+  "plugin": "Core",
+  "model": "AudioInterface2",
+  "plugin_version": "2.6.4",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {"id": 0, "name": "Level", "default": 1.0, "min": 0.0, "max": 2.0}
+  ],
+  "inputs": [
+    {"id": 0, "name": "Left input"},
+    {"id": 1, "name": "Right input"}
+  ],
+  "outputs": [
+    {"id": 0, "name": "Left output"},
+    {"id": 1, "name": "Right output"}
+  ]
+}

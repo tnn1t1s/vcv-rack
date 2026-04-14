@@ -24,7 +24,7 @@ at save time.
 
 from __future__ import annotations
 from typing import Optional
-from .core import Patch, Module, Port, COLORS
+from .core import Patch, Module, Port, COLORS, _load_discovered, _port_name_by_id, _param_name_by_id
 from .graph import SignalGraph, Edge
 from .graph.modules import NODE_REGISTRY
 from .graph.node import UnknownNode
@@ -152,6 +152,14 @@ class ModuleHandle:
     def o(self) -> "_OutputAccessorProxy":
         return _OutputAccessorProxy(self._module)
 
+    def out_id(self, port_id: int) -> Port:
+        """Return an output Port by numeric ID (for modules with unnamed ports)."""
+        return self._module.output(port_id)
+
+    def in_id(self, port_id: int) -> Port:
+        """Return an input Port by numeric ID (for modules with unnamed ports)."""
+        return self._module.input(port_id)
+
     # -- Modulation ----------------------------------------------------------
 
     def modulates(self, target_port: Port, *,
@@ -197,7 +205,7 @@ class _InputAccessorProxy:
     def __init__(self, module: Module):
         self._m = module
     def __getattr__(self, name: str) -> Port:
-        if name.startswith("_"):
+        if name.startswith("__"):
             raise AttributeError(name)
         return self._m._lookup_port(name, prefer_output=False)
 
@@ -208,7 +216,7 @@ class _OutputAccessorProxy:
     def __init__(self, module: Module):
         self._m = module
     def __getattr__(self, name: str) -> Port:
-        if name.startswith("_"):
+        if name.startswith("__"):
             raise AttributeError(name)
         return self._m._lookup_port(name, prefer_output=True)
 
@@ -233,7 +241,7 @@ class PatchBuilder:
 
     # -- Module addition -----------------------------------------------------
 
-    def module(self, plugin: str, model: str, pos=None, **params) -> ModuleHandle:
+    def module(self, plugin: str, model: str, pos=None, data=None, **params) -> ModuleHandle:
         """
         Add a module, sync the graph node, return a ModuleHandle.
 
@@ -244,7 +252,7 @@ class PatchBuilder:
         row is row index (0=top row, 1=second row, ...).
         If omitted, auto-layout left-to-right on row 0.
         """
-        m = self._patch.add(plugin, model, pos=pos, **params)
+        m = self._patch.add(plugin, model, pos=pos, extra_data=data, **params)
 
         key = f"{plugin}/{model}"
         node_cls = NODE_REGISTRY.get(key)
@@ -440,33 +448,25 @@ class PatchBuilder:
 
     def _port_name(self, port: Port) -> str:
         """Resolve port_id to a human-readable name, falling back to the int."""
-        from .registry import MODULES
-        key  = f"{port.module.plugin}/{port.module.model}"
-        defn = MODULES.get(key)
-        if defn is None:
+        discovered = _load_discovered(port.module.plugin, port.module.model)
+        if discovered is None:
             return str(port.port_id)
         bucket = "outputs" if port.is_output else "inputs"
-        for name, pid in defn[bucket].items():
-            if pid == port.port_id:
-                return name
-        return str(port.port_id)
+        name = _port_name_by_id(discovered.get(bucket, []), port.port_id)
+        return name if name is not None else str(port.port_id)
 
     def _format_params(self, m: Module) -> str:
-        """Format non-empty param_values as 'NAME=val, ...' using registry names."""
+        """Format non-empty param_values as 'NAME=val, ...' using discovered metadata."""
         if not m._param_values:
             return ""
-        from .registry import MODULES
-        key  = f"{m.plugin}/{m.model}"
-        defn = MODULES.get(key)
+        discovered = _load_discovered(m.plugin, m.model)
         parts = []
         for pid, val in sorted(m._param_values.items()):
             name = str(pid)
-            if defn:
-                for k, v in defn["params"].items():
-                    if v == pid:
-                        name = k
-                        break
-            # Format floats compactly
+            if discovered:
+                resolved = _param_name_by_id(discovered.get("params", []), pid)
+                if resolved:
+                    name = resolved
             val_str = f"{val:g}"
             parts.append(f"{name}={val_str}")
         return ", ".join(parts)

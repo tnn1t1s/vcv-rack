@@ -179,6 +179,17 @@ class BogaudioRGateNode(ControllerNode):
     _output_types = {0: GATE, 1: GATE, 2: GATE, 3: GATE}
 
 
+class BogaudioPgmrNode(ControllerNode):
+    """Bogaudio PGMR: 4-step programmer with 4 CV channels (A-D).
+    Extendable via PgmrX expanders (4 steps each).
+    Inputs: Clock(0), Select CV(1), Select 1-4 triggers(2-5).
+    Outputs: Seq A-D(0-3), Step change trigger(4), Select 1-4(5-8)."""
+    PLUGIN = "Bogaudio"
+    MODEL  = "Bogaudio-Pgmr"
+    _required_cv  = {0: CLOCK}
+    _output_types = {0: CV, 1: CV, 2: CV, 3: CV, 4: GATE}
+
+
 class PressurNode(AudioProcessorNode):
     PLUGIN = "Bogaudio"
     MODEL  = "Bogaudio-Pressor"
@@ -308,6 +319,51 @@ class PlaitsNode(AudioSourceNode):
     _audio_outputs = frozenset({0, 1})           # OUT, AUX
 
 
+class RingsNode(AudioSourceNode):
+    """Mutable Instruments Rings (Resonator).
+
+    Physically modeled resonator. Generates audio from pitch/strum inputs.
+    ODD (port 0) is the main output; EVEN (port 1) is the auxiliary.
+    """
+    PLUGIN = "AudibleInstruments"
+    MODEL  = "Rings"
+    _audio_outputs = frozenset({0, 1})           # ODD=0, EVEN=1
+
+
+class CloudsNode(AudioProcessorNode):
+    """Mutable Instruments Clouds (Texture Synthesizer).
+
+    Granular processor. Audio enters on IN_L (port 6) and IN_R (port 7).
+    Stereo output on OUT_L (port 0) and OUT_R (port 1).
+    """
+    PLUGIN = "AudibleInstruments"
+    MODEL  = "Clouds"
+    _routes = [(6, 0), (7, 1)]                   # IN_L->OUT_L, IN_R->OUT_R
+
+
+class MarblesNode(ControllerNode):
+    """Mutable Instruments Marbles (Random Sampler).
+
+    Generates random gates (T1/T2/T3) and CV (X1/X2/X3/Y).
+    Pure controller -- no audio outputs; never blocks audio proof.
+    """
+    PLUGIN = "AudibleInstruments"
+    MODEL  = "Marbles"
+
+
+# ---------------------------------------------------------------------------
+# DanTModules
+# ---------------------------------------------------------------------------
+
+class PurfenatorNode(ControllerNode):
+    """DanTModules Purfenator -- decorative title/background panel.
+
+    No audio or CV connections. Pure cosmetic module.
+    """
+    PLUGIN = "DanTModules"
+    MODEL  = "Purfenator"
+
+
 # ---------------------------------------------------------------------------
 # mscHack
 # ---------------------------------------------------------------------------
@@ -327,6 +383,13 @@ class DrumKitNode(AudioSourceNode):
     PLUGIN = "dbRackModules"
     MODEL  = "DrumKit"
     _audio_outputs = frozenset({0, 1})
+
+
+class DrumKitSequencerNode(ControllerNode):
+    """DrumKit/Sequencer: 8-track step sequencer, 8 gate outputs (0-7)."""
+    PLUGIN = "DrumKit"
+    MODEL  = "Sequencer"
+    _output_types = {i: GATE for i in range(8)}
 
 
 class DBRackDrumsNode(AudioSourceNode):
@@ -557,6 +620,103 @@ class SonicNode(AudioProcessorNode):
     _routes        = [(0, 0)]         # IN -> OUT
 
 
+class VCMixerNode(AudioProcessorNode):
+    """Fundamental VCMixer: 4-channel mixer, passes audio through."""
+    PLUGIN         = "Fundamental"
+    MODEL          = "VCMixer"
+    _audio_inputs  = frozenset({1, 2, 3, 4})  # Channel 1-4
+    _audio_outputs = frozenset({0})            # Mix
+    _routes        = [(i, 0) for i in (1, 2, 3, 4)]
+
+
+class SumNode(AudioProcessorNode):
+    """Fundamental Sum: polyphonic sum to mono."""
+    PLUGIN         = "Fundamental"
+    MODEL          = "Sum"
+    _audio_inputs  = frozenset({0})   # Polyphonic
+    _audio_outputs = frozenset({0})   # Monophonic
+    _routes        = [(0, 0)]
+
+
+class BogaudioVCFNode(AudioProcessorNode):
+    """Bogaudio VCF: LP/HP/BP/BR filter."""
+    PLUGIN         = "Bogaudio"
+    MODEL          = "Bogaudio-VCF"
+    _audio_inputs  = frozenset({3})   # Signal (id 3)
+    _audio_outputs = frozenset({0})   # Signal (id 0)
+    _routes        = [(3, 0)]
+
+
+class FundamentalRandomNode(ControllerNode):
+    """Fundamental Random: smooth/stepped/linear random CV source."""
+    PLUGIN = "Fundamental"
+    MODEL  = "Random"
+
+
+class QuantizerNode(ControllerNode):
+    """Fundamental Quantizer: rounds V/oct to nearest semitone."""
+    PLUGIN = "Fundamental"
+    MODEL  = "Quantizer"
+
+
+class CoffeeQuantNode(ControllerNode):
+    """Coffee Quant: 12-tone quantizer with per-note enable params."""
+    PLUGIN = "Coffee"
+    MODEL  = "Quant"
+
+
+class RandomValuesNode(ControllerNode):
+    """Fundamental RandomValues: 7 random CV outputs, triggered."""
+    PLUGIN = "Fundamental"
+    MODEL  = "RandomValues"
+
+
+class TonnetzNode(ControllerNode):
+    """AgentRack Tonnetz: trigger-addressed chord generator.
+    CV1-3 select triangles (stacked), TRIG commits chord.
+    Output: polyphonic V/Oct chord (3-9 channels)."""
+    PLUGIN = "AgentRack"
+    MODEL  = "Tonnetz"
+    _required_cv  = {3: GATE}                   # TRIG input must be connected
+    _output_types = {0: CV}                     # CHORD poly V/Oct
+
+
+class ClockDivNode(ControllerNode):
+    """AgentRack ClockDiv: /2 /4 /8 /16 /32 clock divider."""
+    PLUGIN = "AgentRack"
+    MODEL  = "ClockDiv"
+    _output_types = {0: GATE, 1: GATE, 2: GATE, 3: GATE, 4: GATE}
+
+
+class SimpleClockNode(ControllerNode):
+    """JW-Modules SimpleClock: clock with divided outputs.
+    out0=Clock, out1=Reset, out2=/4, out3=/8, out4=/16, out5=/32"""
+    PLUGIN = "JW-Modules"
+    MODEL  = "SimpleClock"
+    _output_types = {0: GATE, 1: GATE, 2: GATE, 3: GATE, 4: GATE, 5: GATE}
+
+
+class BogaudioLVCFNode(AudioProcessorNode):
+    """Bogaudio LVCF: LP/HP/BP/notch filter."""
+    PLUGIN         = "Bogaudio"
+    MODEL          = "Bogaudio-LVCF"
+    _audio_inputs  = frozenset({0})
+    _audio_outputs = frozenset({0})
+    _routes        = [(0, 0)]
+
+
+class BusCrushNode(AudioProcessorNode):
+    """8-channel Mackie-style summing bus. Asymmetric rail clipping, 8x oversampled.
+    Inputs 0-7: IN_0..IN_7 (audio). Inputs 8-15: PAN_0..PAN_7 (CV, unconnected=center).
+    Outputs: OUT_L=0, OUT_R=1."""
+    PLUGIN         = "AgentRack"
+    MODEL          = "BusCrush"
+    _audio_inputs  = frozenset({0, 1, 2, 3, 4, 5, 6, 7})   # IN_0..IN_7
+    _audio_outputs = frozenset({0, 1})                       # OUT_L, OUT_R
+    # Any connected input routes to both outputs (summing bus)
+    _routes        = [(i, o) for i in range(8) for o in (0, 1)]
+
+
 # ---------------------------------------------------------------------------
 # Registry
 # ---------------------------------------------------------------------------
@@ -568,13 +728,15 @@ NODE_REGISTRY: dict[str, type] = {
         AudioInterface2Node, AudioInterface8Node, Audio16Node, MidiMapNode,
         # Fundamental
         VCONode, VCFNode, VCANode, NoiseNode, MultNode,
+        VCMixerNode, SumNode, FundamentalRandomNode,
+        QuantizerNode, RandomValuesNode, CoffeeQuantNode,
         FundamentalADSRNode, FundamentalLFONode, SEQ3Node,
         # Valley
         PlateauNode,
         # Bogaudio
         BogaudioADSRNode, BogaudioDADSRHNode, BogaudioLFONode,
-        BogaudioAddrSeqNode, BogaudioSampleHoldNode, BogaudioRGateNode,
-        PressurNode, BogaudioMix2Node, BogaudioMix4Node, BogaudioMix8Node,
+        BogaudioAddrSeqNode, BogaudioSampleHoldNode, BogaudioRGateNode, BogaudioPgmrNode,
+        PressurNode, BogaudioMix2Node, BogaudioMix4Node, BogaudioMix8Node, BogaudioVCFNode, BogaudioLVCFNode,
         # AlrightDevices
         Chronoblob2Node,
         # Befaco
@@ -582,23 +744,25 @@ NODE_REGISTRY: dict[str, type] = {
         # ImpromptuModular
         ClockedNode,
         # AudibleInstruments
-        PlaitsNode,
+        PlaitsNode, RingsNode, CloudsNode, MarblesNode,
+        # DanTModules
+        PurfenatorNode,
         # mscHack
         MscHackMix934Node,
         # dbRackModules
-        DrumKitNode, DBRackDrumsNode,
+        DrumKitNode, DrumKitSequencerNode, DBRackDrumsNode,
         # VultModulesFree
         UtilSendNode,
         # ArhythmeticUnits
         SpectrumAnalyzerNode,
         # JW-Modules
-        NoteSeq16Node,
+        NoteSeq16Node, SimpleClockNode,
         # CountModula
         CountModulaSequencer16Node, CountModulaGateSequencer16Node,
         # AaronStatic
         ChordCVNode,
         # AgentRack
-        AttenuateNode, AgentRackNoiseNode, CrinkleNode, AgentRackADSRNode, InspectorNode, LadderNode, SaphireNode, SonicNode,
+        AttenuateNode, AgentRackNoiseNode, CrinkleNode, AgentRackADSRNode, InspectorNode, LadderNode, SaphireNode, SonicNode, BusCrushNode, ClockDivNode, TonnetzNode,
         # SlimeChild-Substation
         SubstationClockNode, SubstationEnvelopesNode, SubstationFilterNode,
         SubstationVCANode, SubstationMixerNode, SubstationQuantizerNode,

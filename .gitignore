@@ -29,6 +29,9 @@ plugin/AgentRack/res/ir/
 
 # Test outputs
 tests/*.vcv
+tests/*.json
+tests/*.mov
+tests/__pycache__/
 
 # Agent local/runtime state
 agent/.env
@@ -36,6 +39,9 @@ agent/.collab/
 agent/runs/
 agent/**/__pycache__/
 agent/**/.adk/
+
+# vcvpatch local metadata cache
+vcvpatch/discovered/
 
 # macOS
 .DS_Store
