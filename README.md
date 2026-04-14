@@ -1,27 +1,25 @@
 # vcv-rack
 
-`vcv-rack` is a working repository for building VCV Rack patches as code,
-testing signal-graph behavior, and developing a custom Rack plugin named
-AgentRack.
+This repo is for making VCV Rack patches, building a custom Rack plugin, and
+supporting agent-driven patch workflows.
 
-The repo has three primary layers:
+The main things in here are:
 
-- `vcvpatch/`: Python library for constructing `.vcv` patches, loading module
-  metadata, and reasoning about patch structure
-- `agent/`: local agent workflows for patch generation, collaboration, and
-  publishing tasks
-- `plugin/AgentRack/`: custom C++ Rack plugin focused on clear contracts,
-  consistent DSP, and agent-friendly module design
+- `plugin/AgentRack/`: the custom C++ plugin
+- `vcvpatch/`: the Python library for building `.vcv` patches as code
+- `agent/`: local agent workflows and supporting tools
+- `tests/`: Python tests and patch fixtures
+- `patches/`: saved patches, demos, loop material, and working examples
 
-## Repository Map
+## What This Repo Is
 
-- `vcvpatch/`: patch builder, graph model, introspection, runtime helpers
-- `agent/`: agent entrypoints, prompts, tools, and tests
-- `plugin/AgentRack/`: plugin source, assets, unit tests, design principles
-- `tests/`: Python regression tests plus `.vcv` fixture patches
-- `patches/`: example patches, loop packs, and other working material
-- `docs/`, `design/`, `research/`, `techniques/`: reference and design notes
-- `vendor/`: Rack SDK, `llama.cpp`, and other vendored dependencies
+This is not a generic VCV Rack tutorial repo.
+
+It is a working project for:
+
+- writing and testing Rack patches in code
+- developing AgentRack modules
+- keeping patch examples, experiments, and supporting material in one place
 
 ## Getting Started
 
@@ -31,47 +29,31 @@ The Python side of the repo uses `uv`.
 uv sync
 ```
 
-If you are using the agent workflows, copy the environment template first:
+If you want to use the local agent workflows:
 
 ```bash
 cp agent/.env.example agent/.env
 ```
 
-Common keys used in this repo:
+Common keys used here:
 
 - `OPENROUTER_API_KEY`
 - `GOOGLE_API_KEY`
 
-## Python Workflows
+## Python
 
-Run the default Python test suite with:
+Run the default Python tests with:
 
 ```bash
 uv run pytest
 ```
 
-Some tests are marked `eval` and require external services or credentials.
+`vcvpatch/` is the code layer for building `.vcv` patches, loading discovered
+module data, and checking patch structure.
 
-`vcvpatch` is the core programmatic patch layer. It is used to:
+## AgentRack
 
-- create modules and cables in `.vcv` patches
-- describe and check graph structure
-- consume discovered module metadata
-- support agent-written patch construction
-
-The committed `vcvpatch/discovered/` tree is intentionally small. Treat module
-metadata generation as a reproducible workflow, not a giant static cache.
-
-## Agent Workflows
-
-`agent/` contains local workflows for building patches, coordinating
-multi-step runs, and generating publishing artifacts such as screenshots.
-
-See `agent/README.md` for the agent-specific view.
-
-## AgentRack Plugin
-
-`plugin/AgentRack` is the custom VCV Rack plugin in this repo.
+`plugin/AgentRack/` is the custom plugin in this repo.
 
 Current modules:
 
@@ -89,7 +71,7 @@ Current modules:
 - `Tonnetz`
 - `Maurizio`
 
-Build it with:
+Build the plugin with:
 
 ```bash
 make -C plugin/AgentRack -j4
@@ -103,14 +85,14 @@ make -C plugin/AgentRack/tests
 ./plugin/AgentRack/tests/test_fft
 ```
 
-The design rules for new modules live in
-`plugin/AgentRack/DESIGN_PRINCIPLES.md`.
+Design notes for AgentRack live in:
 
-## Project Conventions
+```text
+plugin/AgentRack/DESIGN_PRINCIPLES.md
+```
 
-- `uv.lock` is committed on purpose for reproducible installs.
-- Rack-native metadata is preferred over handwritten parallel interface layers.
-- AgentRack shared code should grow from small semantic components, not loose
-  helper piles or speculative frameworks.
-- The repo contains both production-facing code and active working material, so
-  prefer documented entry points over guessing from every directory.
+## Notes
+
+- `uv.lock` is committed on purpose.
+- `vcvpatch/discovered/` is intentionally kept small in git.
+- The repo includes both stable code and active working material.
