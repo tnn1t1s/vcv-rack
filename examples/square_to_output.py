@@ -6,7 +6,7 @@ Proves in order:
   2. Audio reaches the sink
 
 Run:
-    uv run python -m tests.square_to_output
+    uv run python -m examples.square_to_output
 """
 
 import os
@@ -23,11 +23,11 @@ OUT_PATH = os.path.join(os.path.dirname(__file__), "square_to_output.vcv")
 
 patch = Patch(zoom=1.0)
 
-vco   = patch.add("Fundamental", "VCO",           pos=[0, 0], FREQ=0.0)
+vco   = patch.add("Fundamental", "VCO",           pos=[0, 0], Frequency=0.0)
 audio = patch.add("Core",        "AudioInterface2", pos=[8, 0])
 
-patch.connect(vco.SQR, audio.i.IN_L)
-patch.connect(vco.SQR, audio.i.IN_R)
+patch.connect(vco.o.Square, audio.i.Left_input)
+patch.connect(vco.o.Square, audio.i.Right_input)
 
 patch.save(OUT_PATH)
 print()

@@ -75,6 +75,7 @@ the model writes Python directly.
 - ADSR modules require a Gate input or proof fails
 - Signal flow: declare modules left-to-right in `pb.module()` calls
 - `UnknownNode` (Cassette, Steel) blocks proof -- avoid them
+- Use `vcvpatch.metadata` for port/param metadata; patch scripts should not read `vcvpatch/discovered/*.json` directly
 - No dependency on `adk-teams` package; all tools are local
 
 ## Tests

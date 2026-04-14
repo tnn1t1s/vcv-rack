@@ -44,7 +44,7 @@ run_patch() {
 {
   "state": {},
   "queries": [
-    "Read the existing patch at $ROOT/patches/rings-to-clouds/$id/patch.py. Rebuild it with these improvements: (1) declare modules in signal flow order: sampler first, then resonator, then texture, then ladder (fully open cutoff), then saphire reverb, then audio; (2) add Ladder and Saphire between texture and audio; (3) before writing any out_id() calls, read vcvpatch/discovered/AudibleInstruments/Marbles/2.0.0.json to verify port IDs and label each comment with the real port name; (4) save both patch.py and patch.vcv to patches/rings-to-clouds/$id/; (5) verify proven=True; (6) post to vcv-patch channel."
+    "Read the existing patch at $ROOT/patches/rings-to-clouds/$id/patch.py. Rebuild it with these improvements: (1) declare modules in signal flow order: sampler first, then resonator, then texture, then ladder (fully open cutoff), then saphire reverb, then audio; (2) add Ladder and Saphire between texture and audio; (3) before writing any out_id() calls, use vcvpatch.metadata to verify Marbles port IDs and label each comment with the real port name; (4) save both patch.py and patch.vcv to patches/rings-to-clouds/$id/; (5) verify proven=True; (6) post to vcv-patch channel."
   ]
 }
 ENDJSON

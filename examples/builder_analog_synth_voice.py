@@ -14,7 +14,7 @@ Proof state progression:
   after .fan_out(audio.i.Left_input, Right_input):   proven=True  <-- before save()
 
 Run:
-    uv run python -m tests.builder_analog_synth_voice
+    uv run python -m examples.builder_analog_synth_voice
 """
 
 import os

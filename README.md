@@ -4,14 +4,16 @@
 You patch together modules (oscillators, filters, sequencers, effects) with
 virtual cables, the same way you would with hardware Eurorack.
 
-This project builds patches with code instead of by hand. It has three layers:
+This project builds patches with code instead of by hand. It has four main layers:
 
-- **AgentRack** -- a custom C++ plugin with 14 modules (oscillators, filters,
+- **AgentRack** -- a custom C++ plugin with 13 modules (oscillators, filters,
   reverb, a Tonnetz chord generator, a dub delay, and more)
 - **vcvpatch** -- a Python library that writes `.vcv` patch files
   programmatically and proves they are correctly wired before you open them
 - **agent** -- an autonomous agent (Google ADK) that takes a musical description
   and produces a finished patch with no human in the loop
+- **examples** -- runnable builder demos and small utilities showing the intended
+  authoring surface
 
 ![dub_cm patch in VCV Rack](docs/dub_cm_patch_hero.png)
 *A Basic Channel-style dub techno patch: clock, sequencer, Tonnetz chord
@@ -26,16 +28,16 @@ https://github.com/tnn1t1s/vcv-rack/raw/main/tests/videos/dub_cm_demo_sm.mp4
 plugin/AgentRack/     C++ plugin: 14 modules, ~5200 lines
 vcvpatch/             Python patch builder + signal graph prover, ~4000 lines
 agent/                Agent workflows, tools, and persona configs (Google ADK)
-patches/              27+ Python patch scripts (dub techno, chord sequences, demos)
-tests/                Python tests, patch fixtures, demo recordings
+examples/             Runnable PatchBuilder demos and small patch utilities
+patches/              Patch recipes, generated `.vcv` outputs, and archived corpora
+tests/                Pytest suites, integration tests, and patch fixtures
 docs/                 Architecture docs, module references, pattern guides
 evals/                Agent evaluation harness
-tools/                rack_introspect C++ shim for headless param discovery
 ```
 
 ## AgentRack plugin
 
-14 modules covering oscillators, filters, effects, utilities, and sequencing.
+13 modules covering oscillators, filters, effects, utilities, and sequencing.
 Each module is a single `.cpp` file in `plugin/AgentRack/src/`.
 
 | Module | HP | What it does |
@@ -53,7 +55,6 @@ Each module is a single `.cpp` file in `plugin/AgentRack/src/`.
 | **ClockDiv** | 8 | Clock divider: /2, /4, /8, /16, /32 outputs. |
 | **Tonnetz** | 12 | Trigger-addressed Tonnetz chord generator. 5x5 lattice, 32 triangles, voice-led triads. |
 | **Maurizio** | 6 | Clock-syncable dub delay. Dotted/triplet/straight ratio, HP-filtered feedback, tape saturation. |
-| **Inspector** | 4 | Polls AgentModules and writes state JSON for agent introspection. |
 
 Build and install:
 
@@ -75,10 +76,12 @@ VCV Rack.
 **Core modules:**
 
 - `builder.py` -- `PatchBuilder` fluent API. Declare modules in signal-flow
-  order, connect ports by name, compile to `.vcv`.
+  order, connect ports by exact API name, build and save proven `.vcv` patches.
 - `core.py` -- `Patch`, `Module`, `Cable` data structures.
+- `metadata.py` -- public module metadata access (`module_metadata`, `param_id`,
+  `param_range`, etc.) backed by discovered data.
 - `serialize.py` -- `.vcv` file I/O (zstd-compressed tar).
-- `introspect.py` -- Headless param discovery via `rack_introspect` C++ shim.
+- `introspect.py` -- headless param discovery and cache generation.
 - `runtime.py` -- `RackSession` for launching headless Rack, live param
   control via MIDI, and autosave readback.
 
@@ -90,7 +93,7 @@ VCV Rack.
   `NODE_REGISTRY` maps plugin/model to class.
 - `loader.py` -- Load `.vcv` files into a `SignalGraph` for analysis.
 
-**Param discovery (`vcvpatch/discovered/`):**
+**Metadata and discovery (`vcvpatch/discovered/`):**
 
 Param IDs in VCV Rack are raw integers determined by C++ enum order. They
 shift if a plugin author inserts a new param. The discovery system solves this:
@@ -99,22 +102,25 @@ shift if a plugin author inserts a new param. The discovery system solves this:
 2. On cache miss, run `rack_introspect` (headless C++ shim) to dump param metadata
 3. Cache the result, keyed by plugin version (not date)
 
-9 plugins currently cached. Discovery files are committed so CI works without
-VCV Rack installed.
+Patch scripts should use `vcvpatch.metadata` rather than reading
+`vcvpatch/discovered/*.json` directly. The cache layout is an implementation
+detail; the metadata module is the supported boundary.
 
 ## Writing patches
 
-Patches are Python scripts in `patches/`. Each uses `PatchBuilder` to declare
-modules and connections, then saves a `.vcv` file.
+Patch recipes live in `patches/`. Small runnable demos live in `examples/`.
+Both use `PatchBuilder` to declare modules and connections, then save a `.vcv`
+file.
 
 ```python
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()
-clock = pb.module("SlimeChild-Substation", "SlimeChild-Substation-Clock",
-                  TEMPO=0.32, RUN=1)
-osc = pb.module("AgentRack", "Crinkle", TUNE=0.0, TIMBRE=0.05)
-pb.connect(clock.o.Base_clock, osc.i.V_Oct)
+lfo = pb.module("Fundamental", "LFO", Frequency=0.4)
+osc = pb.module("Fundamental", "VCO", Frequency=0.0, Pulse_width=0.5)
+audio = pb.module("Core", "AudioInterface2")
+pb.connect(osc.o.Square, audio.i.Left_input)
+pb.connect(osc.o.Square, audio.i.Right_input)
 pb.build().save("my_patch.vcv")
 ```
 
@@ -125,13 +131,12 @@ signal flow in VCV Rack.
 
 | Patch | Description |
 |-------|-------------|
-| `dub_cm.py` | Basic Channel dub in Cm. Tonnetz chord sequence, Crinkle voices, Ladder filter sweep, Saphire reverb. |
-| `eiirp.py` | Radiohead "Everything In Its Right Place" via Tonnetz + Bogaudio PgmrX sequencing. |
-| `coltrane.py` | Coltrane changes. |
-| `interstellar.py` | Ambient/space patch. |
-| `agentrack_demo.py` | Exercises all core AgentRack modules. |
-| `saphire_demo.py` | Saphire convolution reverb demonstration. |
-| `tonnetz_demo.py` | Tonnetz chord generator demonstration. |
+| `patches/dub_cm.py` | Basic Channel dub in Cm. Tonnetz chord sequence, Crinkle voices, Ladder filter sweep, Saphire reverb. |
+| `patches/eiirp.py` | Radiohead "Everything In Its Right Place" via Tonnetz + Bogaudio PgmrX sequencing. |
+| `patches/agentrack_demo.py` | Exercises the core AgentRack modules. |
+| `examples/builder_analog_synth_voice.py` | Minimal fluent PatchBuilder voice with modulation and proof output. |
+| `examples/lfo_to_vco_square.py` | Patch-level pulse-width modulation example. |
+| `examples/compare_patches.py` | Structural comparison utility for two `.vcv` files. |
 
 ## Agent
 

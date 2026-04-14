@@ -12,7 +12,7 @@ The LFO simultaneously sweeps the pulse width and the filter cutoff,
 giving the classic "breathing" sound of an analog lead.
 
 Run:
-    uv run python -m tests.analog_synth_voice
+    uv run python -m examples.analog_synth_voice
 """
 
 import os

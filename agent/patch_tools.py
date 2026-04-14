@@ -17,7 +17,7 @@ import json
 from typing import Any
 
 from vcvpatch.builder import PatchBuilder, PatchCompileError
-from vcvpatch.core import _load_discovered, _param_name_by_id
+from vcvpatch.metadata import module_metadata, param_name
 from vcvpatch.graph.modules import NODE_REGISTRY
 
 from . import state as _state
@@ -340,8 +340,9 @@ def describe_module(plugin: str, model: str, tool_context=None) -> dict:
         model:  Model slug, e.g. "VCO".
     """
     key = f"{plugin}/{model}"
-    discovered = _load_discovered(plugin, model)
-    if discovered is None:
+    try:
+        discovered = module_metadata(plugin, model)
+    except ValueError:
         return {
             "status": "error",
             "message": (
@@ -495,13 +496,11 @@ def read_live_state(tool_context=None) -> dict:
     for mod in state.get("modules", []):
         plugin = mod.get("plugin", "")
         model = mod.get("model", "")
-        discovered = _load_discovered(plugin, model)
-        param_list = discovered.get("params", []) if discovered else []
         params_out = {}
         for p in mod.get("params", []):
             pid = p.get("id")
             pval = p.get("value")
-            label = _param_name_by_id(param_list, pid) or str(pid)
+            label = param_name(plugin, model, pid) or str(pid)
             params_out[label] = pval
         result_modules.append({
             "id": mod.get("id"),

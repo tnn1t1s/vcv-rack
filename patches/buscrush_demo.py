@@ -1,29 +1,19 @@
 """
 BusCrush demo -- 8 oscillators spanning the VCO range.
 
-Uses discovered param metadata (vcvpatch/discovered/) as source of truth
-rather than hand-annotated registry values.
-
-8 VCOs spread evenly across the FREQ range (-54..+54 st), each one octave
+8 VCOs spread evenly across the VCO Frequency range, each one octave
 apart. Pulse widths step from narrow to square. All hit BusCrush with no
 pre-gain so bus congestion is audible.
 """
 
-import json
-import math
 from pathlib import Path
 
 from vcvpatch.builder import PatchBuilder
+from vcvpatch.metadata import param_range
 
-# -- Read FREQ param range directly from discovered metadata (source of truth) --
 ROOT = Path(__file__).resolve().parents[1]
-
-with open(ROOT / "vcvpatch" / "discovered" / "Fundamental" / "VCO" / "2.6.4.json") as f:
-    vco_meta = json.load(f)
-
-freq_meta = next(p for p in vco_meta["params"] if p["name"] == "Frequency")
-f_min, f_max = freq_meta["min"], freq_meta["max"]
-print(f"VCO Frequency range from discovered: {f_min} to {f_max} st")
+f_min, f_max = param_range("Fundamental", "VCO", "Frequency")
+print(f"VCO Frequency range: {f_min} to {f_max} st")
 
 pb = PatchBuilder()
 
