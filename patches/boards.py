@@ -19,8 +19,8 @@ Signal flow:
   Tonnetz CHORD -> VCO V/Oct -> Ladder -> Saphire -> Audio
 """
 
-import os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

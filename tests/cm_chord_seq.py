@@ -12,11 +12,10 @@ Signal flow:
   Chronoblob2   -->  AudioInterface2
 
 Run:
-    python3 tests/cm_chord_seq.py
+    uv run python -m tests.cm_chord_seq
 """
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import os
 
 from vcvpatch import PatchBuilder
 

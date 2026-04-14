@@ -7,8 +7,8 @@ Signal flow:
   Tonnetz poly out    --> Split --> 3x VCO (sine) --> Mixer --> Audio
 """
 
-import os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

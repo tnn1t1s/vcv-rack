@@ -7,10 +7,12 @@ Signal chain: Mix8 -> Plateau -> Chronoblob2 -> Pressor -> AudioInterface2
 AudioInterface2 wired from Pressor is always enforced as an invariant.
 """
 
-import sys, os, io, json, tarfile, random
+import io
+import json
+import os
+import random
+import tarfile
 import zstandard
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 
 def load_vcv(path):

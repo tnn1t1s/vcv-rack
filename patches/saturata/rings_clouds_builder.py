@@ -14,13 +14,13 @@ Param names from registry.py entries added for Rings, Clouds, Marbles (2026-04-0
 Port names from AudibleInstruments/src/{Rings,Clouds,Marbles}.cpp enum order.
 
 Run a single patch:
-    python3 patches/saturata/rings_clouds_builder.py 01
+    uv run python -m patches.saturata.rings_clouds_builder 01
 Run all 25:
-    python3 patches/saturata/rings_clouds_builder.py all
+    uv run python -m patches.saturata.rings_clouds_builder all
 """
 
-import os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

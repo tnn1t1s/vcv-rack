@@ -50,8 +50,6 @@ Signal chain (matches original exactly):
   Mixer main -> Pressor -> AudioInterface2
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

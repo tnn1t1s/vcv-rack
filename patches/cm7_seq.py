@@ -5,8 +5,6 @@ SEQ3 row 1 + row 2 gates -> ADSR -> VCA
 ChordCV (Cm7) -> VCO1 + VCO2 -> VCMixer -> VCA -> Sum -> Audio
 """
 
-import sys
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
 from vcvpatch.builder import PatchBuilder
 
 pb = PatchBuilder()

@@ -9,14 +9,15 @@ Required plugins (all free -- install via VCV Library menu):
   - ImpromptuModular (Clocked master clock)
 
 Usage:
-    python patches/generate_dub_techno.py
-    python patches/generate_dub_techno.py --bpm 110 --key 10 --seed 7    # Bb minor
-    python patches/generate_dub_techno.py --seed 99 --key 3 --scale dorian
+    uv run python -m patches.generate_dub_techno
+    uv run python -m patches.generate_dub_techno --bpm 110 --key 10 --seed 7    # Bb minor
+    uv run python -m patches.generate_dub_techno --seed 99 --key 3 --scale dorian
 """
 
-import sys, os, random, argparse
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import argparse
+import os
+import random
+import sys
 from vcvpatch import Patch
 
 
@@ -266,5 +267,5 @@ if __name__ == "__main__":
 
     print(f"\nOpen:  open \"{out}\"")
     print(f"\nVariations:")
-    print(f"  python patches/generate_dub_techno.py --seed 7  --bpm 110 --key 10")
-    print(f"  python patches/generate_dub_techno.py --seed 99 --key 3  --scale dorian")
+    print("  uv run python -m patches.generate_dub_techno --seed 7  --bpm 110 --key 10")
+    print("  uv run python -m patches.generate_dub_techno --seed 99 --key 3  --scale dorian")

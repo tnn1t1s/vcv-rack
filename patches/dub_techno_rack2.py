@@ -47,16 +47,10 @@ Signal flow:
   adsr_filt ENV -> vcf FREQ (envelope filter sweep)
 
 Usage:
-  cd /path/to/vcv-rack
-  python3 -m patches.dub_techno_rack2
-  # or
-  python3 patches/dub_techno_rack2.py
+  uv run python -m patches.dub_techno_rack2
 """
 
 import os
-import sys
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from vcvpatch.builder import PatchBuilder
 

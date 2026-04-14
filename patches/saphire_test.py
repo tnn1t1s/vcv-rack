@@ -21,8 +21,9 @@ Row 1 column widths:
   Noise=8HP  Attenuate=8HP  Saphire=8HP  Audio=12HP  → 36HP total
 """
 
-import math, os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import math
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

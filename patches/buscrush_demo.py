@@ -9,13 +9,16 @@ apart. Pulse widths step from narrow to square. All hit BusCrush with no
 pre-gain so bus congestion is audible.
 """
 
-import sys, json, math
-sys.path.insert(0, "/Users/palaitis/Development/vcv-rack")
+import json
+import math
+from pathlib import Path
 
 from vcvpatch.builder import PatchBuilder
 
 # -- Read FREQ param range directly from discovered metadata (source of truth) --
-with open("vcvpatch/discovered/Fundamental/VCO/2.6.4.json") as f:
+ROOT = Path(__file__).resolve().parents[1]
+
+with open(ROOT / "vcvpatch" / "discovered" / "Fundamental" / "VCO" / "2.6.4.json") as f:
     vco_meta = json.load(f)
 
 freq_meta = next(p for p in vco_meta["params"] if p["name"] == "Frequency")
@@ -54,6 +57,6 @@ print(pb.status)
 for w in pb.warnings:
     print("WARN:", w)
 
-out = "patches/buscrush_demo_v2.vcv"
+out = str(ROOT / "patches" / "buscrush_demo_v2.vcv")
 pb.save(out)
 print(f"Saved: {out}")

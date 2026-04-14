@@ -14,8 +14,9 @@ Signal flow:
 Melody: C major pentatonic, 8 steps, quarter notes at 90 BPM
 """
 
-import math, os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import math
+import os
+import sys
 
 from vcvpatch.builder import PatchBuilder
 

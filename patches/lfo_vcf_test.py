@@ -11,8 +11,8 @@ Signal flow:
 To vary attenuation: turn the SCALE knob in Rack (0=silence, 1=full sweep).
 """
 
-import os, sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+import sys
 from vcvpatch.builder import PatchBuilder
 
 OUTPUT = os.path.join(
