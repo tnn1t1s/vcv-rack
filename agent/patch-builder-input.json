@@ -1,6 +1,6 @@
 {
   "state": {},
   "queries": [
-    "Read the existing patch at /Users/palaitis/Development/vcv-rack/patches/rings-to-clouds/03/patch.py. Rebuild it with these improvements: (1) declare modules in signal flow order: sampler first, then resonator, then texture, then ladder (fully open cutoff), then saphire reverb, then audio; (2) add Ladder and Saphire between texture and audio as in patch 02; (3) before writing any out_id() calls, read vcvpatch/discovered/AudibleInstruments/Marbles/2.0.0.json to verify port IDs and label each comment with the real port name from that file; (4) save both patch.py and patch.vcv to patches/rings-to-clouds/03/; (5) verify proven=True; (6) post to vcv-patch channel."
+    "Read the existing patch at /Users/palaitis/Development/vcv-rack/patches/rings-to-clouds/03/patch.py. Rebuild it with these improvements: (1) declare modules in signal flow order: sampler first, then resonator, then texture, then ladder (fully open cutoff), then saphire reverb, then audio; (2) add Ladder and Saphire between texture and audio as in patch 02; (3) before writing any out_id() calls, use vcvpatch.metadata to verify Marbles port IDs and label each comment with the real port name; (4) save both patch.py and patch.vcv to patches/rings-to-clouds/03/; (5) verify proven=True; (6) post to vcv-patch channel."
   ]
 }

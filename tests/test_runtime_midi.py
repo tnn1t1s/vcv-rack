@@ -15,8 +15,8 @@ import math
 import time
 
 from vcvpatch.builder import PatchBuilder
+from vcvpatch.metadata import param_id
 from vcvpatch.runtime import RackSession, MidiMapBuilder
-from vcvpatch.core import _load_discovered, _find_param_id
 
 
 def build_test_patch(path: str) -> tuple[int, int]:
@@ -33,8 +33,7 @@ def build_test_patch(path: str) -> tuple[int, int]:
     assert pb.proven, f"Patch not proven: {pb.report()}"
 
     vco_id = vco._module.id
-    vco_discovered = _load_discovered("Fundamental", "VCO")
-    freq_param_id = _find_param_id(vco_discovered["params"], "Frequency")
+    freq_param_id = param_id("Fundamental", "VCO", "Frequency")
 
     mmb = MidiMapBuilder()
     mmb.map(cc=1, module_id=vco_id, param_id=freq_param_id)

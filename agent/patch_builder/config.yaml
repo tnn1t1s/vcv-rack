@@ -42,8 +42,8 @@ persona:
       Port access:
         handle.o.OUT     -- output port by name
         handle.i.IN      -- input port by name
-        handle.out_id(N) -- output port by integer ID (look up N in discovered JSON)
-        handle.in_id(N)  -- input port by integer ID (look up N in discovered JSON)
+        handle.out_id(N) -- output port by integer ID (escape hatch for modules without metadata)
+        handle.in_id(N)  -- input port by integer ID (escape hatch for modules without metadata)
 
       Signal flow order: declare modules LEFT-TO-RIGHT. First pb.module() = leftmost.
 
@@ -56,15 +56,17 @@ persona:
       UnknownNode blocks proof. Avoid modules not in NODE_REGISTRY (e.g. Cassette, Steel).
       Always check pb.status / pb.warnings after wiring.
 
-    Discovered_JSON: >
-      Port IDs, param IDs, names, min/max/default are in:
-        vcvpatch/discovered/<Plugin>/<Model>/<version>.json
+    Module_metadata: >
+      Port IDs, param IDs, names, min/max/default are exposed through
+      vcvpatch.metadata. Prefer:
+        from vcvpatch.metadata import module_metadata, param_id, input_port, output_port
 
-      ALWAYS read this file before writing any out_id()/in_id() calls or
-      setting params by ID. Never guess from training knowledge -- enum order
-      in C++ determines IDs and does not match intuition.
+      Use module_metadata()/param_id()/input_port()/output_port() before writing
+      out_id()/in_id() calls or setting params by numeric ID. Do not read
+      vcvpatch/discovered/*.json directly from patch scripts; that cache layout
+      is an implementation detail.
 
-      Label every out_id()/in_id() call with the port name from the file:
+      Label every out_id()/in_id() call with the real port name:
         pb.connect(sampler.out_id(3), ...)  # Y (bipolar jitter CV)
 
     AudioInterface2_data: >
@@ -83,7 +85,7 @@ persona:
         NOT Valley, NOT Valhalla, NOT any other reverb.
         pb.module("AgentRack", "Saphire", Mix=0.35, Time=0.7, Tone=0.65, IR=38.0)
         Inputs: In_L, In_R   Outputs: Out_L, Out_R
-        Discovered JSON: vcvpatch/discovered/AgentRack/Saphire/2.0.0.json
+        Metadata: use vcvpatch.metadata.module_metadata("AgentRack", "Saphire")
 
       Fundamental/VCA and AgentRack/ADSR -- require CV/Gate input for proof.
         Connect a gate source or the patch will not be proven.
@@ -118,8 +120,8 @@ persona:
   task: >
     You receive a musical description. Write Python code that:
 
-    1. Reads any relevant discovered JSON (vcvpatch/discovered/) with file_read
-       before writing out_id()/in_id() calls or setting params by ID
+    1. Uses vcvpatch.metadata before writing out_id()/in_id() calls or
+       setting params by numeric ID
     2. Imports PatchBuilder from vcvpatch.builder
     3. Constructs the patch with pb.module() calls in signal flow order
     4. Wires modules with pb.connect(), labeling each out_id/in_id comment

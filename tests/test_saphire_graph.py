@@ -9,7 +9,8 @@ Verifies:
 """
 
 import pytest
-from vcvpatch.core import Patch, _load_discovered, _find_port_id, _find_param_id
+from vcvpatch.core import Patch
+from vcvpatch.metadata import module_metadata, param_id, input_port, output_port
 from vcvpatch.graph.modules import NODE_REGISTRY, SaphireNode
 from vcvpatch.graph.installed import InstalledRegistry
 from vcvpatch.builder import PatchBuilder
@@ -20,12 +21,7 @@ FUN = "Fundamental"
 
 
 def saphire_discovered():
-    d = _load_discovered(AR, "Saphire")
-    assert d is not None, (
-        "AgentRack/Saphire not in local discovered cache -- "
-        "run `python -m vcvpatch.introspect AgentRack Saphire`"
-    )
-    return d
+    return module_metadata(AR, "Saphire")
 
 
 # ---------------------------------------------------------------------------
@@ -49,23 +45,23 @@ class TestSaphireRegistry:
         d = saphire_discovered()
         params = d["params"]
         # Verify IDs by canonical API name (source of truth is discovered/ JSON)
-        assert _find_param_id(params, "Mix")       == 0
-        assert _find_param_id(params, "Time")      == 1
-        assert _find_param_id(params, "Bend")      == 2
-        assert _find_param_id(params, "Tone")      == 3
-        assert _find_param_id(params, "Pre_delay") == 4
+        assert param_id(AR, "Saphire", "Mix") == 0
+        assert param_id(AR, "Saphire", "Time") == 1
+        assert param_id(AR, "Saphire", "Bend") == 2
+        assert param_id(AR, "Saphire", "Tone") == 3
+        assert param_id(AR, "Saphire", "Pre_delay") == 4
 
     def test_inputs_discovered(self):
         d = saphire_discovered()
         inputs = d["inputs"]
-        assert _find_port_id(inputs, "In_L") == 0
-        assert _find_port_id(inputs, "In_R") == 1
+        assert input_port(AR, "Saphire", "In_L")["id"] == 0
+        assert input_port(AR, "Saphire", "In_R")["id"] == 1
 
     def test_outputs_discovered(self):
         d = saphire_discovered()
         outputs = d["outputs"]
-        assert _find_port_id(outputs, "Out_L") == 0
-        assert _find_port_id(outputs, "Out_R") == 1
+        assert output_port(AR, "Saphire", "Out_L")["id"] == 0
+        assert output_port(AR, "Saphire", "Out_R")["id"] == 1
 
     def test_at_least_five_params(self):
         """Saphire::NUM_PARAMS was 5; IR was added later. At least 5 required."""

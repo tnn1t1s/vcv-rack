@@ -18,7 +18,7 @@ VCONode._port_attenuators maps port->param so the generator can read
 and set this without hardcoding.
 
 Run:
-    uv run python -m tests.lfo_to_vco_square
+    uv run python -m examples.lfo_to_vco_square
 """
 
 import os
@@ -50,18 +50,18 @@ LFO_RATE  = 0.4   # Hz -- slow enough to clearly hear the timbre sweep
 patch = Patch(zoom=1.0)
 
 lfo   = patch.add("Fundamental", "LFO",            pos=[0,  0],
-                  FREQ=LFO_RATE)
+                  Frequency=LFO_RATE)
 
 vco   = patch.add("Fundamental", "VCO",            pos=[8,  0],
-                  FREQ=0.0,
-                  PW=PW_BASE,    # base pulse width = 50% (true square)
-                  PWM=PWM_DEPTH) # PWM attenuator open -- LFO now has effect
+                  Frequency=0.0,
+                  Pulse_width=PW_BASE,              # base pulse width = 50% (true square)
+                  Pulse_width_modulation=PWM_DEPTH) # PWM attenuator open -- LFO now has effect
 
 audio = patch.add("Core",        "AudioInterface2", pos=[16, 0])
 
-patch.connect(lfo.SIN,  vco.i.PWM)       # CV
-patch.connect(vco.SQR,  audio.i.IN_L)   # audio
-patch.connect(vco.SQR,  audio.i.IN_R)
+patch.connect(lfo.o.Sine,   vco.i.Pulse_width_modulation)
+patch.connect(vco.o.Square, audio.i.Left_input)
+patch.connect(vco.o.Square, audio.i.Right_input)
 
 patch.save(OUT_PATH)
 print()

@@ -7,7 +7,7 @@ Module IDs are random per run, so comparison normalises them to
   - same set of cables by (src_plugin/model:port, dst_plugin/model:port)
 
 Usage:
-    uv run python -m tests.compare_patches <patch_a.vcv> <patch_b.vcv>
+    uv run python -m examples.compare_patches <patch_a.vcv> <patch_b.vcv>
 """
 
 import os
