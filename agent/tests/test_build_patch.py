@@ -24,7 +24,7 @@ audio = pb.module("Core", "AudioInterface2",
            "inputOffset": 0, "outputOffset": 0}}, "dcFilter": True}})
 
 pb.connect(sampler.out_id(1), resonator.i.Strum)
-pb.connect(sampler.out_id(5), resonator.i.Pitch__1V_oct_)
+pb.connect(sampler.out_id(5), resonator.i.Pitch_1V_oct)
 pb.connect(resonator.o.Odd, texture.i.Left)
 pb.connect(texture.o.Left, audio.i.Left_input)
 pb.connect(texture.o.Right, audio.i.Right_input)

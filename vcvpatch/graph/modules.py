@@ -349,6 +349,10 @@ class MarblesNode(ControllerNode):
     """
     PLUGIN = "AudibleInstruments"
     MODEL  = "Marbles"
+    _output_types = {
+        0: GATE, 1: GATE, 2: GATE,  # T1, T2, T3
+        3: CV, 4: CV, 5: CV, 6: CV,  # Y, X1, X2, X3
+    }
 
 
 # ---------------------------------------------------------------------------

@@ -11,8 +11,8 @@ at save time.
     vcf   = pb.module("Fundamental", "VCF",  FREQ=0.6)
     audio = pb.module("Core", "AudioInterface2")
 
-    # Cable colors are auto-detected from the source port's signal type:
-    #   audio -> yellow, CV -> blue, gate -> red, clock -> green
+    # Cable types are auto-detected from the source port's signal type:
+    #   audio, cv, gate, clock
     (pb.chain(vco.SQR, vcf.i.IN)
          .fan_out(audio.i.IN_L, audio.i.IN_R))
 
@@ -82,7 +82,7 @@ class SignalChain:
         return self._tail
 
     def to(self, port: Port, cable_type: CableType = None) -> "SignalChain":
-        """Extend chain: tail -> port.  Advances tail to the computed output."""
+        """Extend an audio chain: tail -> port. Advances tail to the computed output."""
         src = self._resolve_src()
         self._builder._add_cable(src, port, cable_type=cable_type or CableType.AUDIO)
         computed = self._builder._compute_output(port)
@@ -90,7 +90,7 @@ class SignalChain:
         return self
 
     def fan_out(self, *ports: Port, cable_type: CableType = None) -> "SignalChain":
-        """Create cables from tail to every destination in ports."""
+        """Fan out the current audio-chain source to every destination in ports."""
         src = self._resolve_src()
         ct = cable_type or CableType.AUDIO
         for port in ports:
@@ -150,7 +150,7 @@ class ModuleHandle:
     # -- Modulation ----------------------------------------------------------
 
     def modulates(self, target_port: Port, *,
-                  via: str = "SIN",
+                  via: str | None = None,
                   attenuation: float = 0.5,
                   open_attenuator: bool = True) -> "ModuleHandle":
         """
@@ -162,6 +162,8 @@ class ModuleHandle:
 
         Returns self for chaining: lfo.modulates(...).modulates(...)
         """
+        if via is None:
+            via = self._default_modulation_output()
         src_port = self._module._lookup_port(via, prefer_output=True)
 
         if open_attenuator:
@@ -178,6 +180,22 @@ class ModuleHandle:
             attenuation=attenuation,
         )
         return self
+
+    def _default_modulation_output(self) -> str:
+        """Return the only unambiguous output API name, or raise."""
+        discovered = self._module._discovered
+        if not discovered:
+            raise ValueError(
+                f"Cannot infer modulation output for {self._module.plugin}/{self._module.model}. "
+                "Pass via= explicitly."
+            )
+        outputs = [e.get("api_name") for e in discovered.get("outputs", []) if e.get("api_name")]
+        if len(outputs) == 1:
+            return outputs[0]
+        raise ValueError(
+            f"Modulation source for {self._module.plugin}/{self._module.model} is ambiguous. "
+            f"Available outputs: {outputs}. Pass via= explicitly."
+        )
 
     def __repr__(self) -> str:
         return f"ModuleHandle({self._module})"
@@ -229,8 +247,8 @@ class PatchBuilder:
         """
         Add a module, sync the graph node, return a ModuleHandle.
 
-        params are keyword args matching the module's param names, same as
-        Patch.add().  E.g.: pb.module("Fundamental", "VCF", FREQ=0.6)
+        params are keyword args matching canonical API param names, same as
+        Patch.add(). E.g.: pb.module("Fundamental", "VCF", Cutoff_frequency=0.6)
 
         pos=[col, row] in Rack grid units: col in HP (1HP=5.08mm),
         row is row index (0=top row, 1=second row, ...).
@@ -373,6 +391,8 @@ class PatchBuilder:
         that does not need auto-attenuator handling. Returns self for chaining.
 
         If cable_type is omitted, auto-detects from the source port's signal type.
+        If the source signal type is unknown, raises instead of silently
+        defaulting to audio.
         """
         self._add_cable(src, dst, cable_type=cable_type)
         return self
@@ -423,13 +443,22 @@ class PatchBuilder:
         )
 
     def _infer_cable_type(self, src: Port) -> CableType:
-        """Look up the source port's SignalType from the graph node and map to CableType."""
+        """Infer cable type from the source port's declared SignalType."""
         node = self._graph._nodes.get(src.module.id)
         if node is not None:
             sig = node._output_types.get(src.port_id)
             if sig is not None:
                 return _SIGNAL_TO_CABLE[sig]
-        return CableType.AUDIO
+            audio_outputs = getattr(node, "_audio_outputs", frozenset())
+            if src.port_id in audio_outputs:
+                return CableType.AUDIO
+            routes = getattr(node, "_routes", [])
+            if any(out_port == src.port_id for _, out_port in routes):
+                return CableType.AUDIO
+        raise ValueError(
+            f"Cannot infer cable type for {src.module.plugin}/{src.module.model} "
+            f"output {src.port_id}. Pass cable_type= explicitly."
+        )
 
     def _compute_output(self, in_port: Port) -> Optional[Port]:
         """

@@ -48,24 +48,24 @@ class TestSaphireRegistry:
     def test_params_discovered(self):
         d = saphire_discovered()
         params = d["params"]
-        # Verify IDs by name (source of truth is discovered/ JSON)
+        # Verify IDs by canonical API name (source of truth is discovered/ JSON)
         assert _find_param_id(params, "Mix")       == 0
         assert _find_param_id(params, "Time")      == 1
         assert _find_param_id(params, "Bend")      == 2
         assert _find_param_id(params, "Tone")      == 3
-        assert _find_param_id(params, "Pre-delay") == 4
+        assert _find_param_id(params, "Pre_delay") == 4
 
     def test_inputs_discovered(self):
         d = saphire_discovered()
         inputs = d["inputs"]
-        assert _find_port_id(inputs, "In L") == 0
-        assert _find_port_id(inputs, "In R") == 1
+        assert _find_port_id(inputs, "In_L") == 0
+        assert _find_port_id(inputs, "In_R") == 1
 
     def test_outputs_discovered(self):
         d = saphire_discovered()
         outputs = d["outputs"]
-        assert _find_port_id(outputs, "Out L") == 0
-        assert _find_port_id(outputs, "Out R") == 1
+        assert _find_port_id(outputs, "Out_L") == 0
+        assert _find_port_id(outputs, "Out_R") == 1
 
     def test_at_least_five_params(self):
         """Saphire::NUM_PARAMS was 5; IR was added later. At least 5 required."""
