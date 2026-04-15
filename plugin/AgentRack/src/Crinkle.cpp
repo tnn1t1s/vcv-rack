@@ -115,38 +115,11 @@ struct Crinkle : AgentModule {
 
 struct CrinklePanel : rack::widget::Widget {
     void draw(const DrawArgs& args) override {
-        int imgHandle = 0;
-        try {
-            auto img = APP->window->loadImage(
-                asset::plugin(pluginInstance, "res/Crinkle-bg.jpg"));
-            if (img) imgHandle = img->handle;
-        } catch (...) {}
-
-        if (imgHandle > 0) {
-            NVGpaint paint = nvgImagePattern(
-                args.vg, 0, 0, box.size.x, box.size.y,
-                0.f, imgHandle, 1.f);
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillPaint(args.vg, paint);
-            nvgFill(args.vg);
-        } else {
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillColor(args.vg, nvgRGB(0, 140, 160));
-            nvgFill(args.vg);
-        }
-
-        // Dark top bar + title
-        nvgBeginPath(args.vg);
-        nvgRect(args.vg, 0, 0, box.size.x, 20.f);
-        nvgFillColor(args.vg, nvgRGBA(0, 0, 0, 160));
-        nvgFill(args.vg);
-
-        nvgFontSize(args.vg, 7.f);
-        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgFillColor(args.vg, nvgRGB(255, 255, 255));
-        nvgText(args.vg, box.size.x / 2.f, 10.f, "CRINKLE", NULL);
+        AgentLayout::drawAssetPanel(
+            args.vg, box.size, pluginInstance,
+            "res/Crinkle-bg.jpg",
+            nvgRGB(0, 140, 160),
+            "CRINKLE", nvgRGB(255, 255, 255));
 
         // Knob labels -- small, over the image
         nvgFontSize(args.vg, 5.5f);
@@ -183,12 +156,9 @@ struct CrinkleWidget : rack::ModuleWidget {
         addChild(panel);
         box.size = panel->box.size;
 
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        AgentLayout::addScrews_8HP(this);
 
-        float cx = 20.32f;  // center x of 8HP
+        float cx = AgentLayout::CX_8HP;
 
         // Knobs -- large for TUNE, small for TIMBRE/SYMMETRY
         addParam(createParamCentered<rack::RoundBigBlackKnob>(

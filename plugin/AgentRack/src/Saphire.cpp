@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "PanelLayout.hpp"
 #include "agentrack/infrastructure/PartitionedConvolution.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "ir_names.hpp"
@@ -347,38 +348,11 @@ struct IRDisplay : rack::TransparentWidget {
 
 struct SaphirePanel : rack::widget::Widget {
     void draw(const DrawArgs& args) override {
-        int imgHandle = 0;
-        try {
-            auto img = APP->window->loadImage(
-                asset::plugin(pluginInstance, "res/Saphire-bg.jpg"));
-            if (img) imgHandle = img->handle;
-        } catch (...) {}
-
-        if (imgHandle > 0) {
-            NVGpaint paint = nvgImagePattern(
-                args.vg, 0, 0, box.size.x, box.size.y,
-                0.f, imgHandle, 1.f);
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillPaint(args.vg, paint);
-            nvgFill(args.vg);
-        } else {
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillColor(args.vg, nvgRGB(15, 15, 25));
-            nvgFill(args.vg);
-        }
-
-        // Dark top bar + title
-        nvgBeginPath(args.vg);
-        nvgRect(args.vg, 0, 0, box.size.x, 20.f);
-        nvgFillColor(args.vg, nvgRGBA(0, 0, 0, 200));
-        nvgFill(args.vg);
-
-        nvgFontSize(args.vg, 7.f);
-        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgFillColor(args.vg, nvgRGB(255, 255, 255));
-        nvgText(args.vg, box.size.x / 2.f, 10.f, "SPH", NULL);
+        AgentLayout::drawAssetPanel(
+            args.vg, box.size, pluginInstance,
+            "res/Saphire-bg.jpg",
+            nvgRGB(15, 15, 25),
+            "SPH", nvgRGB(255, 255, 255));
     }
 };
 
@@ -393,16 +367,13 @@ struct SaphireWidget : rack::ModuleWidget {
         setModule(module);
 
         auto* panel = new SaphirePanel;
-        panel->box.size = Vec(8.f * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+        panel->box.size = AgentLayout::panelSize_8HP();
         addChild(panel);
         box.size = panel->box.size;
 
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(createWidget<ThemedScrew>(Vec(6 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        AgentLayout::addScrews_8HP(this);
 
-        float cx = 20.32f;
+        float cx = AgentLayout::CX_8HP;
         float L  = cx - 8.f;
         float R  = cx + 8.f;
 
