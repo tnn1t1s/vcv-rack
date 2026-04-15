@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include <cmath>
 
 using namespace rack;
@@ -87,12 +88,12 @@ struct Noise : AgentModule {
             crackle = (random::uniform() > 0.5f) ? 1.f : -1.f;
 
         // Output: all signals scaled to ±5V
-        outputs[WHITE_OUTPUT].setVoltage(w      * 5.f);
-        outputs[PINK_OUTPUT].setVoltage(pink    * 5.f);
-        outputs[BROWN_OUTPUT].setVoltage(br     * 5.f);
-        outputs[BLUE_OUTPUT].setVoltage(blue    * 5.f);
-        outputs[VIOLET_OUTPUT].setVoltage(violet * 5.f);
-        outputs[CRACKLE_OUTPUT].setVoltage(crackle * 5.f);
+        outputs[WHITE_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(w));
+        outputs[PINK_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(pink));
+        outputs[BROWN_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(br));
+        outputs[BLUE_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(blue));
+        outputs[VIOLET_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(violet));
+        outputs[CRACKLE_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(crackle));
     }
 
 };

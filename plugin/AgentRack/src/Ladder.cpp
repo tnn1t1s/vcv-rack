@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
 
@@ -147,7 +148,8 @@ struct Ladder : AgentModule {
         outputs[OUT_OUTPUT].setChannels(channels);
 
         for (int c = 0; c < channels; c++) {
-            float vin = inputs[IN_INPUT].getPolyVoltage(c) / 5.f;
+            float vin = AgentRack::Signal::Audio::fromRackVolts(
+                inputs[IN_INPUT].getPolyVoltage(c));
 
             // --- 2x oversampled Huovilainen nonlinear update ---
             float out = 0.f;
@@ -163,7 +165,8 @@ struct Ladder : AgentModule {
             }
             out /= 2.f;  // decimate
 
-            outputs[OUT_OUTPUT].setVoltage(out * 5.f, c);
+            outputs[OUT_OUTPUT].setVoltage(
+                AgentRack::Signal::Audio::toRackVolts(out), c);
         }
     }
 
