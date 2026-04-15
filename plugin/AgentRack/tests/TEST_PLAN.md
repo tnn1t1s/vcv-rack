@@ -73,6 +73,23 @@ The current test strategy should distinguish between four layers:
 - no stable harness yet for asserting process-level module behavior without
   dragging Rack UI concerns into the tests
 
+## First module regression harness
+
+The initial harness should stay deliberately small:
+
+- instantiate deterministic module classes directly
+- set params and input voltages
+- call `process()` for a controlled number of samples
+- assert stable output/state invariants
+
+First module targets:
+- `Attenuate`
+- `ADSR`
+- `Ladder`
+
+These are good first candidates because they are deterministic, have clear
+behavioral contracts, and do not depend on heavyweight runtime infrastructure.
+
 ## Coverage policy going forward
 
 When shared code is extracted:
