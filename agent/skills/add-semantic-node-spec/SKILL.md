@@ -26,6 +26,7 @@ guarantees than an external module can provide.
 ## Preferred Representation
 
 Prefer YAML specs in `vcvpatch/graph/specs/*.yaml`.
+The current registry uses grouped files with a top-level `modules:` list.
 
 Use a Python subclass only when the module's semantics cannot be expressed by
 the existing node kinds and fields.
@@ -63,7 +64,7 @@ Signal strings in YAML are exact lower-case values:
 
 1. Decide whether the module deserves a semantic spec at all.
 2. Pick the smallest node kind that fits.
-3. Add a YAML spec under `vcvpatch/graph/specs/`.
+3. Add or update a YAML spec under `vcvpatch/graph/specs/`.
 4. Only touch Python node code if the new module reveals a missing semantic
    primitive.
 5. Add one focused regression test that proves the value of the spec.
@@ -79,11 +80,9 @@ Use YAML when the module is mostly declarative:
 - fixed required control inputs
 - simple passthrough behavior
 
-Examples already using this path:
+Example:
 
-- `vcvpatch/graph/specs/fundamental-split.yaml`
-- `vcvpatch/graph/specs/agentrack-tonnetz.yaml`
-- `vcvpatch/graph/specs/agentrack-clockdiv.yaml`
+- `vcvpatch/graph/specs/registry.yaml`
 
 ## When Python Is Justified
 
