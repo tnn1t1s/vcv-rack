@@ -30,3 +30,12 @@ def test_name_resolution_helpers():
     assert output_port("Fundamental", "VCO", "Square")["id"] == 3
     assert port_name("Fundamental", "VCO", 0, is_output=False) == "1V/octave pitch"
     assert port_name("Fundamental", "VCO", 0, is_output=False, api=True) == "_1V_octave_pitch"
+
+
+def test_marbles_legacy_output_api_surface():
+    meta = module_metadata("AudibleInstruments", "Marbles")
+    outputs = {entry["api_name"]: entry["id"] for entry in meta["outputs"]}
+    assert outputs["T2"] == 1
+    assert outputs["X2"] == 5
+    assert output_port("AudibleInstruments", "Marbles", "T2")["id"] == 1
+    assert output_port("AudibleInstruments", "Marbles", "X2")["id"] == 5

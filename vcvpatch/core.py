@@ -169,6 +169,18 @@ _LEGACY_PORTS: dict[tuple[str, str], dict[str, list[dict]]] = {
             {"id": 1, "name": "Right"},
         ],
     },
+    ("AudibleInstruments", "Marbles"): {
+        "inputs": [],
+        "outputs": [
+            {"id": 0, "name": "T1"},
+            {"id": 1, "name": "T2"},
+            {"id": 2, "name": "T3"},
+            {"id": 3, "name": "Y"},
+            {"id": 4, "name": "X1"},
+            {"id": 5, "name": "X2"},
+            {"id": 6, "name": "X3"},
+        ],
+    },
 }
 
 
