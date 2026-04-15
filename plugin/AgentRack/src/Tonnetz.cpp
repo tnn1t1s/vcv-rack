@@ -627,11 +627,11 @@ struct TonnetzPanel : rack::widget::Widget {
         nvgFontSize(vg, 4.5f);
         nvgFillColor(vg, nvgRGBA(240, 235, 225, 230));
         nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgText(vg, mm2px(10.f),  mm2px(91.f), "CV1", nullptr);
-        nvgText(vg, mm2px(AgentLayout::CX_12HP), mm2px(91.f), "CV2", nullptr);
-        nvgText(vg, mm2px(51.f),  mm2px(91.f), "CV3", nullptr);
-        nvgText(vg, mm2px(AgentLayout::LEFT_12HP),  mm2px(105.f), "TRG", nullptr);
-        nvgText(vg, mm2px(AgentLayout::RIGHT_12HP), mm2px(105.f), "OUT", nullptr);
+        nvgText(vg, mm2px(AgentLayout::OUTER_L_12HP),  mm2px(AgentLayout::ROW_IO1_12HP - 4.f), "CV1", nullptr);
+        nvgText(vg, mm2px(AgentLayout::CX_12HP),       mm2px(AgentLayout::ROW_IO1_12HP - 4.f), "CV2", nullptr);
+        nvgText(vg, mm2px(AgentLayout::OUTER_R_12HP),  mm2px(AgentLayout::ROW_IO1_12HP - 4.f), "CV3", nullptr);
+        nvgText(vg, mm2px(AgentLayout::LEFT_12HP),     mm2px(AgentLayout::ROW_IO2_12HP - 4.f), "TRG", nullptr);
+        nvgText(vg, mm2px(AgentLayout::RIGHT_12HP),    mm2px(AgentLayout::ROW_IO2_12HP - 4.f), "OUT", nullptr);
     }
 };
 
@@ -657,17 +657,17 @@ struct TonnetzWidget : rack::ModuleWidget {
 
         // CV inputs row: CV1, CV2, CV3
         addInput(createInputCentered<PJ301MPort>(
-            mm2px(Vec(10.f, 95.f)), module, Tonnetz::CV1_INPUT));
+            mm2px(Vec(AgentLayout::OUTER_L_12HP, AgentLayout::ROW_IO1_12HP)), module, Tonnetz::CV1_INPUT));
         addInput(createInputCentered<PJ301MPort>(
-            mm2px(Vec(AgentLayout::CX_12HP, 95.f)), module, Tonnetz::CV2_INPUT));
+            mm2px(Vec(AgentLayout::CX_12HP, AgentLayout::ROW_IO1_12HP)), module, Tonnetz::CV2_INPUT));
         addInput(createInputCentered<PJ301MPort>(
-            mm2px(Vec(51.f, 95.f)), module, Tonnetz::CV3_INPUT));
+            mm2px(Vec(AgentLayout::OUTER_R_12HP, AgentLayout::ROW_IO1_12HP)), module, Tonnetz::CV3_INPUT));
 
         // TRG / OUT row
         addInput(createInputCentered<PJ301MPort>(
-            mm2px(Vec(AgentLayout::LEFT_12HP, 109.f)), module, Tonnetz::TRIG_INPUT));
+            mm2px(Vec(AgentLayout::LEFT_12HP, AgentLayout::ROW_IO2_12HP)), module, Tonnetz::TRIG_INPUT));
         addOutput(createOutputCentered<PJ301MPort>(
-            mm2px(Vec(AgentLayout::RIGHT_12HP, 109.f)), module, Tonnetz::CHORD_OUTPUT));
+            mm2px(Vec(AgentLayout::RIGHT_12HP, AgentLayout::ROW_IO2_12HP)), module, Tonnetz::CHORD_OUTPUT));
     }
 };
 

@@ -374,22 +374,23 @@ struct SaphireWidget : rack::ModuleWidget {
         AgentLayout::addScrews_8HP(this);
 
         float cx = AgentLayout::CX_8HP;
-        float L  = cx - 8.f;
-        float R  = cx + 8.f;
+        float L  = AgentLayout::PAIR_L_8HP;
+        float R  = AgentLayout::PAIR_R_8HP;
+        const float* ys = AgentLayout::ROW_Y_8_COMPACT;
 
         // MIX -- large, centered
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(rack::Vec(cx, 24.f)), module, Saphire::MIX_PARAM));
+            mm2px(rack::Vec(cx, ys[0])), module, Saphire::MIX_PARAM));
         // TIME left, BEND right -- medium
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(L, 41.f)), module, Saphire::TIME_PARAM));
+            mm2px(rack::Vec(L, ys[1])), module, Saphire::TIME_PARAM));
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(R, 41.f)), module, Saphire::BEND_PARAM));
+            mm2px(rack::Vec(R, ys[1])), module, Saphire::BEND_PARAM));
         // TONE left, PRE right -- small
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(L, 55.f)), module, Saphire::TONE_PARAM));
+            mm2px(rack::Vec(L, ys[2])), module, Saphire::TONE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(R, 55.f)), module, Saphire::PRE_PARAM));
+            mm2px(rack::Vec(R, ys[2])), module, Saphire::PRE_PARAM));
 
         // IR display (full-width label)
         auto* disp = new IRDisplay;
@@ -400,19 +401,19 @@ struct SaphireWidget : rack::ModuleWidget {
 
         // IR selector -- snap knob, centered
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(cx, 76.f)), module, Saphire::IR_PARAM));
+            mm2px(rack::Vec(cx, ys[3])), module, Saphire::IR_PARAM));
 
         // IN L/R
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 90.f)), module, Saphire::IN_L_INPUT));
+            mm2px(rack::Vec(L, ys[4])), module, Saphire::IN_L_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 90.f)), module, Saphire::IN_R_INPUT));
+            mm2px(rack::Vec(R, ys[4])), module, Saphire::IN_R_INPUT));
 
         // OUT L/R
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 107.f)), module, Saphire::OUT_L_OUTPUT));
+            mm2px(rack::Vec(L, ys[5])), module, Saphire::OUT_L_OUTPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 107.f)), module, Saphire::OUT_R_OUTPUT));
+            mm2px(rack::Vec(R, ys[5])), module, Saphire::OUT_R_OUTPUT));
     }
 };
 

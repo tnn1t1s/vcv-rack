@@ -587,12 +587,12 @@ struct SteelPanel : Widget {
         // Control labels
         nvgFontSize(vg, 5.5f);
         nvgFillColor(vg, nvgRGBA(180, 190, 220, 200));
-        nvgText(vg, mm2px(15.f), mm2px(54.f) - 9.f, "PITCH", NULL);
-        nvgText(vg, mm2px(46.f), mm2px(54.f) - 9.f, "RATE",  NULL);
-        nvgText(vg, mm2px(10.f), mm2px(75.f) - 9.f, "V/OCT", NULL);
-        nvgText(vg, mm2px(30.f), mm2px(75.f) - 9.f, "SC",    NULL);
-        nvgText(vg, mm2px(10.f), mm2px(90.f) - 9.f, "OUT L", NULL);
-        nvgText(vg, mm2px(51.f), mm2px(90.f) - 9.f, "OUT R", NULL);
+        nvgText(vg, mm2px(AgentLayout::LEFT_12HP),  mm2px(AgentLayout::ROW_CTRL_12HP) - 9.f, "PITCH", NULL);
+        nvgText(vg, mm2px(AgentLayout::RIGHT_12HP), mm2px(AgentLayout::ROW_CTRL_12HP) - 9.f, "RATE",  NULL);
+        nvgText(vg, mm2px(AgentLayout::OUTER_L_12HP), mm2px(AgentLayout::ROW_IO1_12HP) - 9.f, "V/OCT", NULL);
+        nvgText(vg, mm2px(AgentLayout::CX_12HP),      mm2px(AgentLayout::ROW_IO1_12HP) - 9.f, "SC",    NULL);
+        nvgText(vg, mm2px(AgentLayout::OUTER_L_12HP), mm2px(AgentLayout::ROW_IO2_12HP) - 9.f, "OUT L", NULL);
+        nvgText(vg, mm2px(AgentLayout::OUTER_R_12HP), mm2px(AgentLayout::ROW_IO2_12HP) - 9.f, "OUT R", NULL);
     }
 };
 
@@ -609,18 +609,15 @@ struct SteelWidget : ModuleWidget {
         addChild(panel);
         box.size = panel->box.size;
 
-        addChild(createWidget<ThemedScrew>(Vec(1  * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(10 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(1  * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(createWidget<ThemedScrew>(Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        AgentLayout::addScrews_12HP(this);
 
         // Params
-        addParam(createParamCentered<RoundBigBlackKnob>(mm2px(Vec(15.f, 54.f)), module, Steel::PITCH_PARAM));
-        addParam(createParamCentered<RoundBigBlackKnob>(mm2px(Vec(46.f, 54.f)), module, Steel::RATE_PARAM));
+        addParam(createParamCentered<RoundBigBlackKnob>(mm2px(Vec(AgentLayout::LEFT_12HP, AgentLayout::ROW_CTRL_12HP)), module, Steel::PITCH_PARAM));
+        addParam(createParamCentered<RoundBigBlackKnob>(mm2px(Vec(AgentLayout::RIGHT_12HP, AgentLayout::ROW_CTRL_12HP)), module, Steel::RATE_PARAM));
 
         // Model status light (RGB)
         addChild(createLightCentered<MediumLight<RedGreenBlueLight>>(
-            mm2px(Vec(30.5f, 54.f)), module,
+            mm2px(Vec(AgentLayout::CX_12HP, AgentLayout::ROW_CTRL_12HP)), module,
             Steel::MODEL_LIGHT_R));
 
         // Infer blink light
@@ -629,12 +626,12 @@ struct SteelWidget : ModuleWidget {
             Steel::INFER_LIGHT));
 
         // Inputs
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10.f, 75.f)), module, Steel::VOCT_INPUT));
-        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(30.f, 75.f)), module, Steel::SIDECHAIN_INPUT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(AgentLayout::OUTER_L_12HP, AgentLayout::ROW_IO1_12HP)), module, Steel::VOCT_INPUT));
+        addInput(createInputCentered<PJ301MPort>(mm2px(Vec(AgentLayout::CX_12HP, AgentLayout::ROW_IO1_12HP)), module, Steel::SIDECHAIN_INPUT));
 
         // Outputs
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(10.f, 90.f)), module, Steel::OUT_L_OUTPUT));
-        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(51.f, 90.f)), module, Steel::OUT_R_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(AgentLayout::OUTER_L_12HP, AgentLayout::ROW_IO2_12HP)), module, Steel::OUT_L_OUTPUT));
+        addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(AgentLayout::OUTER_R_12HP, AgentLayout::ROW_IO2_12HP)), module, Steel::OUT_R_OUTPUT));
     }
 
     void appendContextMenu(Menu* menu) override {

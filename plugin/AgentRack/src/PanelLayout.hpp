@@ -12,8 +12,8 @@
  * │ Template    │ HP │  Width  │ Rows │ Use                  │
  * ├─────────────────────────────────────────────────────────┤
  * │ T_8HP_6ROW  │  8 │ 40.64mm │  6   │ Noise, Attenuate, ADSR │
- * │ T_8HP_FREE  │  8 │ 40.64mm │  --  │ Saphire, Crinkle     │
- * │ T_6HP_FREE  │  6 │ 30.48mm │  --  │ Ladder               │
+ * │ T_8HP_PAIR  │  8 │ 40.64mm │  6   │ Sonic, Saphire, Crinkle │
+ * │ T_6HP_7ROW  │  6 │ 30.48mm │  7   │ Ladder, Maurizio     │
  * │ T_12HP_FREE │ 12 │ 60.96mm │  --  │ BusCrush             │
  * └─────────────────────────────────────────────────────────┘
  *
@@ -54,11 +54,25 @@ static constexpr float CX_8HP    = 20.32f;   // horizontal centre
 static constexpr float LEFT_8HP  =  7.f;     // left jack / label column
 static constexpr float MID_8HP   = 20.32f;   // knob centre
 static constexpr float RIGHT_8HP = 33.64f;   // right jack column
+static constexpr float PAIR_L_8HP = CX_8HP - 8.f;
+static constexpr float PAIR_R_8HP = CX_8HP + 8.f;
+
+// ── Compact 8HP shared row set (Sonic / Crinkle / Saphire family) ──────────
+static constexpr int   ROWS_8_COMPACT = 6;
+static constexpr float ROW_Y_8_COMPACT[ROWS_8_COMPACT] = {
+    24.f, 41.f, 58.f, 76.f, 94.f, 112.f
+};
 
 // ── Column x positions for 6HP panel ────────────────────────────────────────
 static constexpr float CX_6HP    = 15.24f;
 static constexpr float LEFT_6HP  =  6.f;
 static constexpr float RIGHT_6HP = 24.5f;
+
+// ── Compact 6HP shared row set (Ladder / Maurizio family) ──────────────────
+static constexpr int   ROWS_6_COMPACT = 7;
+static constexpr float ROW_Y_6_COMPACT[ROWS_6_COMPACT] = {
+    22.f, 37.f, 52.f, 67.f, 82.f, 97.f, 112.f
+};
 
 // ── Screw helpers ────────────────────────────────────────────────────────────
 
@@ -101,6 +115,13 @@ static constexpr float W_16HP = 81.28f;
 static constexpr float LEFT_12HP  = 15.f;
 static constexpr float RIGHT_12HP = 46.f;
 static constexpr float CX_12HP    = 30.48f;
+static constexpr float OUTER_L_12HP = 10.f;
+static constexpr float OUTER_R_12HP = 51.f;
+
+// ── Shared 12HP lower I/O grid (Steel / Tonnetz family) ────────────────────
+static constexpr float ROW_IO1_12HP = 95.f;
+static constexpr float ROW_IO2_12HP = 109.f;
+static constexpr float ROW_CTRL_12HP = 54.f;
 
 // ── Column x positions for 16HP panel (BusCrush HAS_CONTROLS)
 //   Row layout: [amp_knob | audio_in | pan_cv | pan_knob]

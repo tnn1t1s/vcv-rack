@@ -221,38 +221,39 @@ struct MaurizioWidget : rack::ModuleWidget {
         float cx = AgentLayout::CX_6HP;
         float L  = AgentLayout::LEFT_6HP;
         float R  = AgentLayout::RIGHT_6HP;
+        const float* ys = AgentLayout::ROW_Y_6_COMPACT;
 
         // Knobs: TIME (large, top), FEEDBACK (medium), TONE+HP (small pair), MIX+RATIO (small pair)
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(Vec(cx, 22.f)), module, Maurizio::TIME_PARAM));
+            mm2px(Vec(cx, ys[0])), module, Maurizio::TIME_PARAM));
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(Vec(cx, 40.f)), module, Maurizio::FEEDBACK_PARAM));
+            mm2px(Vec(cx, ys[1])), module, Maurizio::FEEDBACK_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(Vec(L, 55.f)), module, Maurizio::TONE_PARAM));
+            mm2px(Vec(L, ys[2])), module, Maurizio::TONE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(Vec(R, 55.f)), module, Maurizio::HP_PARAM));
+            mm2px(Vec(R, ys[2])), module, Maurizio::HP_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(Vec(L, 67.f)), module, Maurizio::MIX_PARAM));
+            mm2px(Vec(L, ys[3])), module, Maurizio::MIX_PARAM));
         addParam(createParamCentered<rack::CKSSThree>(
-            mm2px(Vec(R, 67.f)), module, Maurizio::RATIO_PARAM));
+            mm2px(Vec(R, ys[3])), module, Maurizio::RATIO_PARAM));
 
         // Row 1: IN L + IN R
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(L, 82.f)), module, Maurizio::IN_L_INPUT));
+            mm2px(Vec(L, ys[4])), module, Maurizio::IN_L_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(R, 82.f)), module, Maurizio::IN_R_INPUT));
+            mm2px(Vec(R, ys[4])), module, Maurizio::IN_R_INPUT));
 
         // Row 2: CLK + FB MOD
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(L, 97.f)), module, Maurizio::CLK_INPUT));
+            mm2px(Vec(L, ys[5])), module, Maurizio::CLK_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(R, 97.f)), module, Maurizio::FB_MOD_INPUT));
+            mm2px(Vec(R, ys[5])), module, Maurizio::FB_MOD_INPUT));
 
         // Row 3: OUT L + OUT R
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(L, 112.f)), module, Maurizio::OUT_L_OUTPUT));
+            mm2px(Vec(L, ys[6])), module, Maurizio::OUT_L_OUTPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(R, 112.f)), module, Maurizio::OUT_R_OUTPUT));
+            mm2px(Vec(R, ys[6])), module, Maurizio::OUT_R_OUTPUT));
     }
 };
 
