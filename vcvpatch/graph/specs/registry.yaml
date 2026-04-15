@@ -1,0 +1,345 @@
+modules:
+  - plugin: AaronStatic
+    model: ChordCV
+    kind: controller
+    outputs: {0: cv, 1: cv, 2: cv, 3: cv, 4: cv}
+  - plugin: AgentRack
+    model: ADSR
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {0: gate}
+  - plugin: AgentRack
+    model: Attenuate
+    kind: audio_processor
+    routes: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
+    audio_inputs: [0, 1, 2, 3, 4, 5]
+    audio_outputs: [0, 1, 2, 3, 4, 5]
+  - plugin: AgentRack
+    model: BusCrush
+    kind: audio_processor
+    routes:
+      - [0, 0]
+      - [0, 1]
+      - [1, 0]
+      - [1, 1]
+      - [2, 0]
+      - [2, 1]
+      - [3, 0]
+      - [3, 1]
+      - [4, 0]
+      - [4, 1]
+      - [5, 0]
+      - [5, 1]
+      - [6, 0]
+      - [6, 1]
+      - [7, 0]
+      - [7, 1]
+    audio_inputs: [0, 1, 2, 3, 4, 5, 6, 7]
+    audio_outputs: [0, 1]
+  - plugin: AgentRack
+    model: ClockDiv
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate}
+  - plugin: AgentRack
+    model: Crinkle
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Inspector
+    kind: controller
+  - plugin: AgentRack
+    model: Ladder
+    kind: audio_processor
+    routes: [[0, 0]]
+    audio_inputs: [0]
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Noise
+    kind: audio_source
+    audio_outputs: [0, 1, 2, 3, 4, 5]
+  - plugin: AgentRack
+    model: Saphire
+    kind: audio_processor
+    routes: [[0, 0], [1, 1]]
+    audio_inputs: [0, 1]
+    audio_outputs: [0, 1]
+  - plugin: AgentRack
+    model: Sonic
+    kind: audio_processor
+    routes: [[0, 0]]
+    audio_inputs: [0]
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Tonnetz
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {3: gate}
+  - plugin: AlrightDevices
+    model: Chronoblob2
+    kind: audio_processor
+    routes: [[5, 0], [5, 1], [6, 0], [6, 1]]
+  - plugin: ArhythmeticUnits-Fourier
+    model: SpectrumAnalyzer
+    kind: controller
+  - plugin: AudibleInstruments
+    model: Clouds
+    kind: audio_processor
+    routes: [[6, 0], [7, 1]]
+  - plugin: AudibleInstruments
+    model: Marbles
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: cv, 4: cv, 5: cv, 6: cv}
+  - plugin: AudibleInstruments
+    model: Plaits
+    kind: audio_source
+    audio_outputs: [0, 1]
+  - plugin: AudibleInstruments
+    model: Rings
+    kind: audio_source
+    audio_outputs: [0, 1]
+  - plugin: Befaco
+    model: EvenVCO
+    kind: audio_source
+    audio_outputs: [0, 1, 2, 3, 4]
+  - plugin: Befaco
+    model: Kickall
+    kind: audio_source
+    audio_outputs: [0]
+    required_inputs: {0: gate}
+  - plugin: Befaco
+    model: Mixer
+    kind: audio_mixer
+    audio_inputs: [0, 3, 6, 9]
+    audio_outputs: [0, 1]
+  - plugin: Bogaudio
+    model: Bogaudio-ADSR
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {0: gate}
+  - plugin: Bogaudio
+    model: Bogaudio-AddrSeq
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {0: clock}
+  - plugin: Bogaudio
+    model: Bogaudio-DADSRH
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {0: gate}
+  - plugin: Bogaudio
+    model: Bogaudio-LFO
+    kind: controller
+    outputs: {0: cv, 1: cv, 2: cv, 3: cv, 4: cv, 5: cv}
+  - plugin: Bogaudio
+    model: Bogaudio-LVCF
+    kind: audio_processor
+    routes: [[0, 0]]
+    audio_inputs: [0]
+    audio_outputs: [0]
+  - plugin: Bogaudio
+    model: Bogaudio-Mix2
+    kind: audio_mixer
+    audio_inputs: [1, 3]
+    audio_outputs: [0, 1]
+  - plugin: Bogaudio
+    model: Bogaudio-Mix4
+    kind: audio_mixer
+    audio_inputs: [2, 5, 8, 11]
+    audio_outputs: [0, 1]
+  - plugin: Bogaudio
+    model: Bogaudio-Mix8
+    kind: audio_mixer
+    audio_inputs: [2, 5, 8, 11, 14, 17, 20, 23]
+    audio_outputs: [0, 1]
+  - plugin: Bogaudio
+    model: Bogaudio-Pgmr
+    kind: controller
+    outputs: {0: cv, 1: cv, 2: cv, 3: cv, 4: gate}
+    required_inputs: {0: clock}
+  - plugin: Bogaudio
+    model: Bogaudio-Pressor
+    kind: audio_processor
+    routes: [[0, 1], [0, 2], [4, 1], [4, 2]]
+  - plugin: Bogaudio
+    model: Bogaudio-RGate
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate}
+  - plugin: Bogaudio
+    model: Bogaudio-SampleHold
+    kind: controller
+    outputs: {0: cv, 1: cv}
+    required_inputs: {0: clock}
+  - plugin: Bogaudio
+    model: Bogaudio-VCF
+    kind: audio_processor
+    routes: [[3, 0]]
+    audio_inputs: [3]
+    audio_outputs: [0]
+  - plugin: Coffee
+    model: Quant
+    kind: controller
+  - plugin: Core
+    model: Audio16
+    kind: audio_sink
+    audio_inputs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  - plugin: Core
+    model: Audio8
+    kind: audio_sink
+    audio_inputs: [0, 1, 2, 3, 4, 5, 6, 7]
+  - plugin: Core
+    model: AudioInterface2
+    kind: audio_sink
+    audio_inputs: [0, 1]
+  - plugin: Core
+    model: MidiMap
+    kind: controller
+  - plugin: CountModula
+    model: GateSequencer16
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate, 5: gate, 6: gate, 7: gate, 8: gate, 9: gate, 10: gate, 11: gate, 12: gate, 13: gate, 14: gate, 15: gate}
+    required_inputs: {0: clock}
+  - plugin: CountModula
+    model: Sequencer16
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: cv, 3: cv, 4: gate}
+    required_inputs: {0: clock}
+  - plugin: DanTModules
+    model: Purfenator
+    kind: controller
+  - plugin: DrumKit
+    model: Sequencer
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate, 5: gate, 6: gate, 7: gate}
+  - plugin: Fundamental
+    model: ADSR
+    kind: controller
+    outputs: {0: cv}
+    required_inputs: {4: gate}
+  - plugin: Fundamental
+    model: LFO
+    kind: controller
+    outputs: {0: cv, 1: cv, 2: cv, 3: cv}
+  - plugin: Fundamental
+    model: Mult
+    kind: audio_processor
+    routes: [[0, 0], [0, 1], [0, 2], [3, 3], [3, 4], [3, 5]]
+  - plugin: Fundamental
+    model: Noise
+    kind: audio_source
+    audio_outputs: [0, 1, 2, 3, 4, 5, 6]
+  - plugin: Fundamental
+    model: Quantizer
+    kind: controller
+  - plugin: Fundamental
+    model: Random
+    kind: controller
+  - plugin: Fundamental
+    model: RandomValues
+    kind: controller
+  - plugin: Fundamental
+    model: SEQ3
+    kind: controller
+    outputs: {0: gate, 1: cv, 2: cv, 3: cv}
+    required_inputs: {1: clock}
+  - plugin: Fundamental
+    model: Split
+    kind: passthrough
+    routes: [[0, 0], [0, 1], [0, 2], [0, 3]]
+  - plugin: Fundamental
+    model: Sum
+    kind: audio_processor
+    routes: [[0, 0]]
+    audio_inputs: [0]
+    audio_outputs: [0]
+  - plugin: Fundamental
+    model: VCA
+    kind: audio_processor
+    routes: [[2, 0], [5, 1]]
+    required_inputs: {1: cv}
+  - plugin: Fundamental
+    model: VCF
+    kind: audio_processor
+    routes: [[3, 0], [3, 1]]
+    attenuators: {0: 3}
+  - plugin: Fundamental
+    model: VCMixer
+    kind: audio_processor
+    routes: [[1, 0], [2, 0], [3, 0], [4, 0]]
+    audio_inputs: [1, 2, 3, 4]
+    audio_outputs: [0]
+  - plugin: Fundamental
+    model: VCO
+    kind: audio_source
+    audio_outputs: [0, 1, 2, 3]
+    attenuators: {1: 4, 3: 6}
+  - plugin: ImpromptuModular
+    model: Clocked-Clkd
+    kind: controller
+    outputs: {0: clock, 1: clock, 2: clock, 3: clock, 4: gate, 5: gate, 6: cv}
+  - plugin: JW-Modules
+    model: NoteSeq16
+    kind: controller
+    outputs: {0: cv, 1: gate, 2: gate}
+    required_inputs: {0: clock}
+  - plugin: JW-Modules
+    model: SimpleClock
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate, 5: gate}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-Clock
+    kind: controller
+    outputs: {0: clock, 1: clock}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-Envelopes
+    kind: controller
+    outputs: {0: cv, 1: cv}
+    required_inputs: {0: gate}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-Filter
+    kind: audio_processor
+    routes: [[2, 0]]
+    attenuators: {1: 2}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-Mixer
+    kind: audio_mixer
+    audio_inputs: [0, 1, 2]
+    audio_outputs: [0, 1]
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-PolySeq
+    kind: controller
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: cv, 5: cv, 6: cv}
+    required_inputs: {0: clock}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-Quantizer
+    kind: controller
+    outputs: {0: cv}
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-SubOscillator
+    kind: audio_source
+    audio_outputs: [0, 1, 2]
+  - plugin: SlimeChild-Substation
+    model: SlimeChild-Substation-VCA
+    kind: audio_processor
+    routes: [[1, 0]]
+    required_inputs: {0: cv}
+  - plugin: Valley
+    model: Plateau
+    kind: audio_processor
+    routes: [[0, 0], [0, 1], [1, 0], [1, 1]]
+  - plugin: VultModulesFree
+    model: UtilSend
+    kind: audio_processor
+    routes: [[0, 0]]
+  - plugin: dbRackModules
+    model: DrumKit
+    kind: audio_source
+    audio_outputs: [0, 1]
+  - plugin: dbRackModules
+    model: Drums
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: mscHack
+    model: Mix_9_3_4
+    kind: audio_mixer
+    audio_inputs: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    audio_outputs: [0, 1, 2, 3]
