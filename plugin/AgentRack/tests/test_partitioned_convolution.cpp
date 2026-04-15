@@ -77,11 +77,58 @@ static void test_delta_ir_reproduces_input_after_block_latency() {
                "delta IR reproduces impulse after one block of latency");
 }
 
+static void test_reload_clears_previous_tail_state() {
+    printf("\n[reload clears previous tail state]\n");
+    PartitionedConvolution conv;
+    conv.init();
+
+    float smear[2] = {1.f, 0.5f};
+    conv.load(smear, smear, 2);
+
+    for (int i = 0; i < PartitionedConvolution::kBlockSize * 2; i++) {
+        float outL = 0.f, outR = 0.f;
+        conv.push((i == 0) ? 1.f : 0.f, (i == 0) ? 1.f : 0.f, outL, outR);
+    }
+
+    float delta = 1.f;
+    conv.load(&delta, &delta, 1);
+
+    bool silentUntilLatency = true;
+    for (int i = 0; i < PartitionedConvolution::kBlockSize; i++) {
+        float outL = 0.f, outR = 0.f;
+        conv.push(0.f, 0.f, outL, outR);
+        silentUntilLatency = silentUntilLatency
+                          && std::fabs(outL) <= 1e-5f
+                          && std::fabs(outR) <= 1e-5f;
+    }
+    CHECK(silentUntilLatency, "reloading IR clears previous convolution tail");
+}
+
+static void test_left_and_right_channels_stay_independent() {
+    printf("\n[stereo channel independence]\n");
+    PartitionedConvolution conv;
+    conv.init();
+
+    float leftDelta = 1.f;
+    float rightZero = 0.f;
+    conv.load(&leftDelta, &rightZero, 1);
+
+    bool rightSilent = true;
+    for (int i = 0; i < PartitionedConvolution::kBlockSize * 2; i++) {
+        float outL = 0.f, outR = 0.f;
+        conv.push((i == 0) ? 1.f : 0.f, 0.f, outL, outR);
+        rightSilent = rightSilent && std::fabs(outR) <= 1e-5f;
+    }
+    CHECK(rightSilent, "left-only IR/input leaves right output silent");
+}
+
 int main() {
     printf("=== AgentRack PartitionedConvolution test suite ===\n");
 
     test_zero_ir_is_silent();
     test_delta_ir_reproduces_input_after_block_latency();
+    test_reload_clears_previous_tail_state();
+    test_left_and_right_channels_stay_independent();
 
     printf("\n=== Results: %d passed, %d failed ===\n", passed, failed);
     return failed > 0 ? 1 : 0;
