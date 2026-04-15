@@ -158,29 +158,27 @@ struct CrinkleWidget : rack::ModuleWidget {
 
         AgentLayout::addScrews_8HP(this);
 
-        float cx = AgentLayout::CX_8HP;
-
         // Knobs -- large for TUNE, small for TIMBRE/SYMMETRY
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(rack::Vec(cx, 28.f)), module, Crinkle::TUNE_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[0])), module, Crinkle::TUNE_PARAM));
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(cx, 50.f)), module, Crinkle::TIMBRE_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[1])), module, Crinkle::TIMBRE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(cx, 72.f)), module, Crinkle::SYMMETRY_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[2])), module, Crinkle::SYMMETRY_PARAM));
 
         // TIMBRE CV attenuator (small, near TIMBRE input)
         addParam(createParamCentered<rack::Trimpot>(
-            mm2px(rack::Vec(cx + 8.f, 82.f)), module, Crinkle::TIMBRE_CV_PARAM));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[3])), module, Crinkle::TIMBRE_CV_PARAM));
 
         // Inputs: V/OCT left, TIMBRE right
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(cx - 8.f, 96.f)), module, Crinkle::VOCT_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Crinkle::VOCT_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(cx + 8.f, 96.f)), module, Crinkle::TIMBRE_INPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Crinkle::TIMBRE_INPUT));
 
         // Output: center
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(cx, 112.f)), module, Crinkle::OUT_OUTPUT));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[5])), module, Crinkle::OUT_OUTPUT));
     }
 };
 

@@ -264,35 +264,31 @@ struct SonicWidget : rack::ModuleWidget {
 
         AgentLayout::addScrews_8HP(this);
 
-        float cx = AgentLayout::CX_8HP;
-        float L  = cx - 8.f;
-        float R  = cx + 8.f;
-
         // AMOUNT -- large knob, center
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(rack::Vec(cx, 22.f)), module, Sonic::AMOUNT_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[0])), module, Sonic::AMOUNT_PARAM));
 
         // COLOR -- medium knob, center
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(cx, 40.f)), module, Sonic::COLOR_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[1])), module, Sonic::COLOR_PARAM));
 
         // LOW CONTOUR (L) + PROCESS (R) -- small knobs
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(L, 56.f)), module, Sonic::LOW_CONTOUR_PARAM));
+            mm2px(rack::Vec(AgentLayout::LEFT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[2])), module, Sonic::LOW_CONTOUR_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(R, 56.f)), module, Sonic::PROCESS_PARAM));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[2])), module, Sonic::PROCESS_PARAM));
 
         // Audio IN (L) + OUT (R)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 76.f)), module, Sonic::IN_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[3])), module, Sonic::IN_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 76.f)), module, Sonic::OUT_OUTPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[3])), module, Sonic::OUT_OUTPUT));
 
         // CV: AMOUNT (L) + COLOR (R)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, 94.f)), module, Sonic::CV_AMOUNT_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Sonic::CV_AMOUNT_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, 94.f)), module, Sonic::CV_COLOR_INPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Sonic::CV_COLOR_INPUT));
     }
 };
 
