@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "PanelLayout.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
@@ -192,39 +193,11 @@ struct Maurizio : AgentModule {
 
 struct MaurizioPanel : rack::widget::Widget {
     void draw(const DrawArgs& args) override {
-        int imgHandle = 0;
-        try {
-            auto img = APP->window->loadImage(
-                asset::plugin(pluginInstance, "res/Maurizio-bg.jpg"));
-            if (img) imgHandle = img->handle;
-        } catch (...) {}
-
-        if (imgHandle > 0) {
-            NVGpaint paint = nvgImagePattern(
-                args.vg, 0, 0, box.size.x, box.size.y,
-                0.f, imgHandle, 1.f);
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillPaint(args.vg, paint);
-            nvgFill(args.vg);
-        } else {
-            nvgBeginPath(args.vg);
-            nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-            nvgFillColor(args.vg, nvgRGB(60, 50, 80));
-            nvgFill(args.vg);
-        }
-
-        // Dark top bar + title
-        nvgBeginPath(args.vg);
-        nvgRect(args.vg, 0, 0, box.size.x, 20.f);
-        nvgFillColor(args.vg, nvgRGBA(0, 0, 0, 180));
-        nvgFill(args.vg);
-
-        nvgFontSize(args.vg, 7.f);
-        nvgFontFaceId(args.vg, APP->window->uiFont->handle);
-        nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-        nvgFillColor(args.vg, nvgRGB(255, 255, 255));
-        nvgText(args.vg, box.size.x / 2.f, 10.f, "MRZO", NULL);
+        AgentLayout::drawAssetPanel(
+            args.vg, box.size, pluginInstance,
+            "res/Maurizio-bg.jpg",
+            nvgRGB(60, 50, 80),
+            "MRZO", nvgRGB(255, 255, 255));
     }
 };
 
@@ -239,18 +212,15 @@ struct MaurizioWidget : rack::ModuleWidget {
         setModule(module);
 
         auto* panel = new MaurizioPanel;
-        panel->box.size = Vec(6.f * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+        panel->box.size = AgentLayout::panelSize_6HP();
         addChild(panel);
         box.size = panel->box.size;
 
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(4 * RACK_GRID_WIDTH, 0)));
-        addChild(createWidget<ThemedScrew>(Vec(1 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-        addChild(createWidget<ThemedScrew>(Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+        AgentLayout::addScrews_6HP(this);
 
-        float cx = 15.24f;  // center x of 6HP
-        float L  = cx - 7.f;
-        float R  = cx + 7.f;
+        float cx = AgentLayout::CX_6HP;
+        float L  = AgentLayout::LEFT_6HP;
+        float R  = AgentLayout::RIGHT_6HP;
 
         // Knobs: TIME (large, top), FEEDBACK (medium), TONE+HP (small pair), MIX+RATIO (small pair)
         addParam(createParamCentered<rack::RoundBigBlackKnob>(

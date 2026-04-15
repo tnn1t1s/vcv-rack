@@ -159,4 +159,16 @@ inline void drawStandardPanel(NVGcontext* vg, rack::math::Vec size,
     nvgText(vg, size.x / 2.f, TITLE_Y_PX, title, nullptr);
 }
 
+inline void drawAssetPanel(NVGcontext* vg, rack::math::Vec size,
+                           rack::Plugin* plugin, const char* assetPath,
+                           NVGcolor fallback,
+                           const char* title, NVGcolor titleColor) {
+    int imgHandle = 0;
+    try {
+        auto img = APP->window->loadImage(rack::asset::plugin(plugin, assetPath));
+        if (img) imgHandle = img->handle;
+    } catch (...) {}
+    drawStandardPanel(vg, size, imgHandle, fallback, title, titleColor);
+}
+
 } // namespace AgentLayout
