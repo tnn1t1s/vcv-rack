@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "FFTProvider.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "ir_names.hpp"
 #include <cmath>
 #include <cstdio>
@@ -376,7 +377,7 @@ struct Saphire : AgentModule {
         int ch_L = std::max(1, inputs[IN_L_INPUT].getChannels());
         for (int c = 0; c < ch_L; c++)
             in_L += inputs[IN_L_INPUT].getPolyVoltage(c);
-        in_L /= 5.f;
+        in_L = AgentRack::Signal::Audio::fromRackVolts(in_L);
 
         float in_R;
         if (inputs[IN_R_INPUT].isConnected()) {
@@ -384,7 +385,7 @@ struct Saphire : AgentModule {
             int ch_R = inputs[IN_R_INPUT].getChannels();
             for (int c = 0; c < ch_R; c++)
                 in_R += inputs[IN_R_INPUT].getPolyVoltage(c);
-            in_R /= 5.f;
+            in_R = AgentRack::Signal::Audio::fromRackVolts(in_R);
         } else {
             in_R = in_L;
         }
@@ -424,10 +425,11 @@ struct Saphire : AgentModule {
         tone_R += lp_g * (wet_R - tone_R);
 
         // MIX: constant-power crossfade
-        float dry_g = std::cos(mix_p * float(M_PI) * 0.5f);
-        float wet_g = std::sin(mix_p * float(M_PI) * 0.5f);
-        outputs[OUT_L_OUTPUT].setVoltage((in_L * dry_g + tone_L * wet_g) * 5.f);
-        outputs[OUT_R_OUTPUT].setVoltage((in_R * dry_g + tone_R * wet_g) * 5.f);
+        AgentRack::Signal::Audio::ConstantPowerMix mix(mix_p);
+        float out_L = in_L * mix.dryGain() + tone_L * mix.wetGain();
+        float out_R = in_R * mix.dryGain() + tone_R * mix.wetGain();
+        outputs[OUT_L_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out_L));
+        outputs[OUT_R_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out_R));
     }
 
 };

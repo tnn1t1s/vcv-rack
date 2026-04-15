@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
 #include <cstring>
@@ -151,7 +152,7 @@ struct Sonic : AgentModule {
         float proc   = params[PROCESS_PARAM].getValue();
 
         // Input: ±5V → ±1 (internal processing in normalized amplitude)
-        float x = inputs[IN_INPUT].getVoltage() / 5.f;
+        float x = AgentRack::Signal::Audio::fromRackVolts(inputs[IN_INPUT].getVoltage());
 
         // ── Step 1: 3-band split ─────────────────────────────────────────────
         float low_sig  = lp1.process(x);
@@ -192,7 +193,7 @@ struct Sonic : AgentModule {
         // ── Step 5: Recombine + loudness trim ────────────────────────────────
         float out = (low_sig + mid_sig + high_sig) * (1.f / (1.f + 0.5f * amount));
 
-        outputs[OUT_OUTPUT].setVoltage(out * 5.f);
+        outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 
 };

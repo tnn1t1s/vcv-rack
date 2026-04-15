@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
 
@@ -102,7 +103,7 @@ struct Crinkle : AgentModule {
         }
         out /= 4.f;
 
-        outputs[OUT_OUTPUT].setVoltage(out * 5.f);
+        outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 
 };

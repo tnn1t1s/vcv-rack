@@ -23,6 +23,7 @@
 #include "osdialog.h"
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include "ai/AIModule.hpp"
 
@@ -423,7 +424,8 @@ struct Steel : AIModule {
 
         // ── Sidechain FFT ────────────────────────────────────────────────────
         float sc = inputs[SIDECHAIN_INPUT].isConnected()
-                 ? inputs[SIDECHAIN_INPUT].getVoltage() / 5.f
+                 ? AgentRack::Signal::Audio::fromRackVolts(
+                       inputs[SIDECHAIN_INPUT].getVoltage())
                  : 0.f;
 
         if (fft_.push(sc)) {
@@ -496,8 +498,10 @@ struct Steel : AIModule {
 
         if (sumW > 0.f) { sumL /= sumW; sumR /= sumW; }
 
-        outputs[OUT_L_OUTPUT].setVoltage(rack::clamp(sumL * 5.f, -10.f, 10.f));
-        outputs[OUT_R_OUTPUT].setVoltage(rack::clamp(sumR * 5.f, -10.f, 10.f));
+        outputs[OUT_L_OUTPUT].setVoltage(rack::clamp(
+            AgentRack::Signal::Audio::toRackVolts(sumL), -10.f, 10.f));
+        outputs[OUT_R_OUTPUT].setVoltage(rack::clamp(
+            AgentRack::Signal::Audio::toRackVolts(sumR), -10.f, 10.f));
     }
 
 };
