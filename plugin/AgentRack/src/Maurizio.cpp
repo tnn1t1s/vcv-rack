@@ -1,5 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
+#include "agentrack/signal/Audio.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
 
@@ -141,9 +142,12 @@ struct Maurizio : AgentModule {
         float hpFreq = 40.f * std::pow(20.f, hpParam);
 
         // --- Read inputs (mono-compatible: R defaults to L) ---
-        float inL = inputs[IN_L_INPUT].getVoltage();
+        float inL = AgentRack::Signal::Audio::fromRackVolts(
+            inputs[IN_L_INPUT].getVoltage());
         float inR = inputs[IN_R_INPUT].isConnected()
-                  ? inputs[IN_R_INPUT].getVoltage() : inL;
+                  ? AgentRack::Signal::Audio::fromRackVolts(
+                        inputs[IN_R_INPUT].getVoltage())
+                  : inL;
 
         // --- Read delay taps ---
         float tapL = readBuffer(bufL, delaySamples);
@@ -162,8 +166,8 @@ struct Maurizio : AgentModule {
         lpStateR += lpCoeff * (hpR - lpStateR);
 
         // Soft saturation (tape character)
-        float fbL = std::tanh(lpStateL / 5.f) * 5.f;
-        float fbR = std::tanh(lpStateR / 5.f) * 5.f;
+        float fbL = std::tanh(lpStateL);
+        float fbR = std::tanh(lpStateR);
 
         // --- Write to buffer: input + filtered feedback ---
         bufL[writePos] = inL + fbL * feedback;
@@ -173,8 +177,10 @@ struct Maurizio : AgentModule {
         // --- Output: dry/wet mix ---
         float wetL = tapL;
         float wetR = tapR;
-        outputs[OUT_L_OUTPUT].setVoltage(inL * (1.f - mix) + wetL * mix);
-        outputs[OUT_R_OUTPUT].setVoltage(inR * (1.f - mix) + wetR * mix);
+        outputs[OUT_L_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(
+            inL * (1.f - mix) + wetL * mix));
+        outputs[OUT_R_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(
+            inR * (1.f - mix) + wetR * mix));
     }
 
 };
