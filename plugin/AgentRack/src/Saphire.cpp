@@ -1,6 +1,6 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
-#include "FFTProvider.hpp"
+#include "agentrack/infrastructure/PartitionedConvolution.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "ir_names.hpp"
 #include <cmath>
@@ -21,7 +21,7 @@ extern Plugin* pluginInstance;
  * IR: Lex Hall [cv313 / Echospace treatments], 44100 Hz, 3 seconds (132300 samples).
  * Loaded from res/lex-hall.f32 (raw interleaved float32, pre-resampled from 48kHz).
  *
- * Engine: uniformly partitioned overlap-save convolution via FFTProvider.
+ * Engine: uniformly partitioned overlap-save convolution.
  *   Block size B = 512 samples (11.6ms latency)
  *   FFT size    = 1024 (= 2B)
  *   Partitions  = ceil(ir_len / B), max 259 for 3s IR
@@ -50,151 +50,11 @@ extern Plugin* pluginInstance;
 // Constants
 // ---------------------------------------------------------------------------
 
-static constexpr int BLOCK     = 512;           // partition size (samples)
-static constexpr int FFT_N     = BLOCK * 2;     // FFT size (zero-padded)
-static constexpr int SPEC_LEN  = FFT_N + 2;     // packed halfcomplex buffer size
+using PartitionedConvolution = AgentRack::Infrastructure::PartitionedConvolution;
+
+static constexpr int BLOCK     = PartitionedConvolution::kBlockSize;
 static constexpr int MAX_IR    = 132300;         // 3s at 44100 Hz
-static constexpr int MAX_PARTS = (MAX_IR + BLOCK - 1) / BLOCK;  // 259
 static constexpr int MAX_PRE   = 4410;           // 100ms at 44100 Hz
-
-
-// ---------------------------------------------------------------------------
-// PartitionedConv -- stereo uniformly partitioned overlap-save engine
-// ---------------------------------------------------------------------------
-
-struct PartitionedConv {
-    std::unique_ptr<FFTProvider> fft;
-
-    // Pre-computed IR spectra [partition][SPEC_LEN]
-    std::vector<std::vector<float>> hL, hR;
-
-    // Frequency-domain delay line: circular buffer of input spectra [part][SPEC_LEN]
-    std::vector<std::vector<float>> fdlL, fdlR;
-    int fdl_pos = 0;
-
-    // Overlap-save input buffer (2B: previous block + current block)
-    float inBufL[FFT_N] = {};
-    float inBufR[FFT_N] = {};
-
-    // Output block (B samples ready to emit)
-    float outBufL[BLOCK] = {};
-    float outBufR[BLOCK] = {};
-
-    // Working spectrum accumulator
-    float accL[SPEC_LEN] = {};
-    float accR[SPEC_LEN] = {};
-
-    // Input sample buffer (collect BLOCK samples before processing)
-    float sampleInL[BLOCK] = {};
-    float sampleInR[BLOCK] = {};
-    int   block_pos = 0;
-
-    int n_parts = 0;   // active partition count (set by TIME)
-
-    void init() {
-        fft = FFTProvider::create(FFT_N);
-    }
-
-    // Load and partition IR. raw_L/R are ir_len samples, unit-energy normalized.
-    void load(const float* raw_L, const float* raw_R, int ir_len) {
-        int total_parts = (ir_len + BLOCK - 1) / BLOCK;
-        hL.resize(total_parts, std::vector<float>(SPEC_LEN, 0.f));
-        hR.resize(total_parts, std::vector<float>(SPEC_LEN, 0.f));
-        fdlL.assign(total_parts, std::vector<float>(SPEC_LEN, 0.f));
-        fdlR.assign(total_parts, std::vector<float>(SPEC_LEN, 0.f));
-
-        float tmp[SPEC_LEN];  // must be FFT_N+2; forward() writes to buf[N] and buf[N+1]
-        for (int p = 0; p < total_parts; p++) {
-            int offset = p * BLOCK;
-            int len    = std::min(BLOCK, ir_len - offset);
-
-            // Zero-pad block to FFT_N, forward FFT -> spectrum
-            memset(tmp, 0, sizeof(tmp));
-            memcpy(tmp, raw_L + offset, len * sizeof(float));
-            fft->forward(tmp);
-            memcpy(hL[p].data(), tmp, SPEC_LEN * sizeof(float));
-
-            memset(tmp, 0, sizeof(tmp));
-            memcpy(tmp, raw_R + offset, len * sizeof(float));
-            fft->forward(tmp);
-            memcpy(hR[p].data(), tmp, SPEC_LEN * sizeof(float));
-        }
-
-        n_parts = total_parts;
-        fdl_pos = 0;
-        memset(inBufL, 0, sizeof(inBufL));
-        memset(inBufR, 0, sizeof(inBufR));
-        memset(outBufL, 0, sizeof(outBufL));
-        memset(outBufR, 0, sizeof(outBufR));
-        block_pos = 0;
-    }
-
-    // Process a full block: overlap-save FFT convolution.
-    void processBlock() {
-        // Slide overlap-save buffer: first BLOCK = previous block, second = new block
-        memcpy(inBufL, inBufL + BLOCK, BLOCK * sizeof(float));
-        memcpy(inBufR, inBufR + BLOCK, BLOCK * sizeof(float));
-        memcpy(inBufL + BLOCK, sampleInL, BLOCK * sizeof(float));
-        memcpy(inBufR + BLOCK, sampleInR, BLOCK * sizeof(float));
-
-        // FFT the 2B overlap-save buffer
-        float xL[SPEC_LEN], xR[SPEC_LEN];
-        memcpy(xL, inBufL, FFT_N * sizeof(float));
-        memcpy(xR, inBufR, FFT_N * sizeof(float));
-        xL[FFT_N] = xL[FFT_N+1] = 0.f;
-        xR[FFT_N] = xR[FFT_N+1] = 0.f;
-        fft->forward(xL);
-        fft->forward(xR);
-
-        // Store in FDL circular buffer
-        memcpy(fdlL[fdl_pos].data(), xL, SPEC_LEN * sizeof(float));
-        memcpy(fdlR[fdl_pos].data(), xR, SPEC_LEN * sizeof(float));
-
-        // Accumulate: acc += FDL[pos-k] * H[k] for k = 0..n_parts-1
-        memset(accL, 0, SPEC_LEN * sizeof(float));
-        memset(accR, 0, SPEC_LEN * sizeof(float));
-
-        int active = std::min(n_parts, (int)hL.size());
-        using C = std::complex<float>;
-        int bins = FFT_N / 2 + 1;
-
-        for (int k = 0; k < active; k++) {
-            int src = (fdl_pos - k + active) % active;
-            const C* xl = (const C*)fdlL[src].data();
-            const C* xr = (const C*)fdlR[src].data();
-            const C* hl = (const C*)hL[k].data();
-            const C* hr = (const C*)hR[k].data();
-            C* al = (C*)accL;
-            C* ar = (C*)accR;
-            for (int b = 0; b < bins; b++) {
-                al[b] += xl[b] * hl[b];
-                ar[b] += xr[b] * hr[b];
-            }
-        }
-
-        fdl_pos = (fdl_pos + 1) % (active > 0 ? active : 1);
-
-        // IFFT accumulator -> take last BLOCK samples (overlap-save discard)
-        fft->inverse(accL);
-        fft->inverse(accR);
-        memcpy(outBufL, accL + BLOCK, BLOCK * sizeof(float));
-        memcpy(outBufR, accR + BLOCK, BLOCK * sizeof(float));
-    }
-
-    // Push one input sample, return one output sample pair.
-    // Introduces BLOCK samples of latency (one block = 11.6ms at 44100Hz).
-    void push(float inL, float inR, float& outL, float& outR) {
-        sampleInL[block_pos] = inL;
-        sampleInR[block_pos] = inR;
-        outL = outBufL[block_pos];
-        outR = outBufR[block_pos];
-        block_pos++;
-        if (block_pos == BLOCK) {
-            block_pos = 0;
-            processBlock();
-        }
-    }
-};
 
 
 // ---------------------------------------------------------------------------
@@ -220,7 +80,7 @@ struct Saphire : AgentModule {
     // Double-buffered convolution engines.
     // conv[live]   -- always processing input, always producing output.
     // conv[1-live] -- either producing output (safe_old=true) or being rebuilt (safe_old=false).
-    PartitionedConv conv[2];
+    PartitionedConvolution conv[2];
     int  live = 0;                        // audio thread only
 
     // Background rebuild coordination
