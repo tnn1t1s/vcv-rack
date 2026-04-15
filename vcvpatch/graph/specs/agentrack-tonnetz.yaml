@@ -1,0 +1,10 @@
+plugin: AgentRack
+model: Tonnetz
+kind: controller
+description: >
+  AgentRack Tonnetz. Trigger-addressed chord generator with one polyphonic
+  V/Oct output and a required trigger input.
+required_inputs:
+  3: gate
+outputs:
+  0: cv

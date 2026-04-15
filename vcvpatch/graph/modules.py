@@ -15,8 +15,8 @@ from __future__ import annotations
 from .node import (
     AudioSourceNode, AudioProcessorNode, AudioMixerNode,
     AudioSinkNode, ControllerNode, SignalType,
-    PassThroughNode,
 )
+from .specs import load_semantic_node_specs
 
 CV    = SignalType.CV
 GATE  = SignalType.GATE
@@ -102,13 +102,6 @@ class MultNode(AudioProcessorNode):
     PLUGIN = "Fundamental"
     MODEL  = "Mult"
     _routes = [(0, 0), (0, 1), (0, 2), (3, 3), (3, 4), (3, 5)]
-
-
-class SplitNode(PassThroughNode):
-    """Fundamental Split: split one poly/control/audio input to mono outputs."""
-    PLUGIN = "Fundamental"
-    MODEL  = "Split"
-    _routes = [(0, 0), (0, 1), (0, 2), (0, 3)]
 
 
 class FundamentalADSRNode(ControllerNode):
@@ -683,23 +676,6 @@ class RandomValuesNode(ControllerNode):
     MODEL  = "RandomValues"
 
 
-class TonnetzNode(ControllerNode):
-    """AgentRack Tonnetz: trigger-addressed chord generator.
-    CV1-3 select triangles (stacked), TRIG commits chord.
-    Output: polyphonic V/Oct chord (3-9 channels)."""
-    PLUGIN = "AgentRack"
-    MODEL  = "Tonnetz"
-    _required_cv  = {3: GATE}                   # TRIG input must be connected
-    _output_types = {0: CV}                     # CHORD poly V/Oct
-
-
-class ClockDivNode(ControllerNode):
-    """AgentRack ClockDiv: /2 /4 /8 /16 /32 clock divider."""
-    PLUGIN = "AgentRack"
-    MODEL  = "ClockDiv"
-    _output_types = {0: GATE, 1: GATE, 2: GATE, 3: GATE, 4: GATE}
-
-
 class SimpleClockNode(ControllerNode):
     """JW-Modules SimpleClock: clock with divided outputs.
     out0=Clock, out1=Reset, out2=/4, out3=/8, out4=/16, out5=/32"""
@@ -733,13 +709,20 @@ class BusCrushNode(AudioProcessorNode):
 # Registry
 # ---------------------------------------------------------------------------
 
+_SPEC_NODE_REGISTRY = load_semantic_node_specs()
+
+SplitNode = _SPEC_NODE_REGISTRY["Fundamental/Split"]
+TonnetzNode = _SPEC_NODE_REGISTRY["AgentRack/Tonnetz"]
+ClockDivNode = _SPEC_NODE_REGISTRY["AgentRack/ClockDiv"]
+
+
 NODE_REGISTRY: dict[str, type] = {
     f"{cls.PLUGIN}/{cls.MODEL}": cls
     for cls in [
         # Core
         AudioInterface2Node, AudioInterface8Node, Audio16Node, MidiMapNode,
         # Fundamental
-        VCONode, VCFNode, VCANode, NoiseNode, MultNode, SplitNode,
+        VCONode, VCFNode, VCANode, NoiseNode, MultNode,
         VCMixerNode, SumNode, FundamentalRandomNode,
         QuantizerNode, RandomValuesNode, CoffeeQuantNode,
         FundamentalADSRNode, FundamentalLFONode, SEQ3Node,
@@ -774,10 +757,12 @@ NODE_REGISTRY: dict[str, type] = {
         # AaronStatic
         ChordCVNode,
         # AgentRack
-        AttenuateNode, AgentRackNoiseNode, CrinkleNode, AgentRackADSRNode, InspectorNode, LadderNode, SaphireNode, SonicNode, BusCrushNode, ClockDivNode, TonnetzNode,
+        AttenuateNode, AgentRackNoiseNode, CrinkleNode, AgentRackADSRNode, InspectorNode, LadderNode, SaphireNode, SonicNode, BusCrushNode,
         # SlimeChild-Substation
         SubstationClockNode, SubstationEnvelopesNode, SubstationFilterNode,
         SubstationVCANode, SubstationMixerNode, SubstationQuantizerNode,
         SubstationSubOscillatorNode, SubstationPolySeqNode,
     ]
 }
+
+NODE_REGISTRY.update(_SPEC_NODE_REGISTRY)

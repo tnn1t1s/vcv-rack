@@ -1,0 +1,11 @@
+plugin: Fundamental
+model: Split
+kind: passthrough
+description: >
+  Fundamental Split. Preserve the incoming signal type on each split output so
+  the builder can infer cable semantics through the fan-out.
+routes:
+  - [0, 0]
+  - [0, 1]
+  - [0, 2]
+  - [0, 3]
