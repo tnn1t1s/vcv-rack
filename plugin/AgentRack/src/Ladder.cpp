@@ -205,38 +205,33 @@ struct LadderWidget : rack::ModuleWidget {
 
         AgentLayout::addScrews_6HP(this);
 
-        float cx = AgentLayout::CX_6HP;
-        float L  = AgentLayout::LEFT_6HP;
-        float R  = AgentLayout::RIGHT_6HP;
-        const float* ys = AgentLayout::ROW_Y_6_COMPACT;
-
         // Knobs: FREQ (large, top), RES (medium), SPREAD+SHAPE (small pair)
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(rack::Vec(cx, ys[0])), module, Ladder::FREQ_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_6HP, AgentLayout::COMPACT_ROWS_6HP[0])), module, Ladder::FREQ_PARAM));
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(cx, ys[1])), module, Ladder::RES_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_6HP, AgentLayout::COMPACT_ROWS_6HP[1])), module, Ladder::RES_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(L, ys[2])), module, Ladder::SPREAD_PARAM));
+            mm2px(rack::Vec(AgentLayout::LEFT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[2])), module, Ladder::SPREAD_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(R, ys[2])), module, Ladder::SHAPE_PARAM));
+            mm2px(rack::Vec(AgentLayout::RIGHT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[2])), module, Ladder::SHAPE_PARAM));
 
         // Row 1: IN (left) + OUT (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, ys[3])), module, Ladder::IN_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[3])), module, Ladder::IN_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, ys[3])), module, Ladder::OUT_OUTPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[3])), module, Ladder::OUT_OUTPUT));
 
         // Row 2: cutoff mod (left) + res mod (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, ys[4])), module, Ladder::CUTOFF_MOD_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[4])), module, Ladder::CUTOFF_MOD_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, ys[4])), module, Ladder::RES_MOD_INPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[4])), module, Ladder::RES_MOD_INPUT));
 
         // Row 3: spread mod (left) + shape mod (right)
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, ys[5])), module, Ladder::SPREAD_MOD_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[5])), module, Ladder::SPREAD_MOD_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, ys[5])), module, Ladder::SHAPE_MOD_INPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[5])), module, Ladder::SHAPE_MOD_INPUT));
     }
 };
 

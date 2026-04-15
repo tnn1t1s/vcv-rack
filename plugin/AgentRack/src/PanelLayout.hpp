@@ -4,9 +4,19 @@
 /**
  * PanelLayout -- shared grid constants for AgentRack module panels.
  *
- * All measurements are in millimetres unless noted.  Modules declare which
+ * All measurements are in millimetres unless noted. Modules declare which
  * template they use; anything that fits the same shape shares the same pixel
  * grid, so ports across adjacent modules are always horizontally aligned.
+ *
+ * Naming doctrine:
+ *   - Width comes first in the family name: 6HP, 8HP, 12HP, 16HP.
+ *   - Column names describe spatial role, not shorthand math:
+ *       LEFT_COLUMN_8HP, CENTER_12HP, OUTER_RIGHT_COLUMN_12HP.
+ *   - Row names are either:
+ *       * shared rhythm families, e.g. COMPACT_ROWS_8HP
+ *       * shared semantic bands, e.g. TOP_IO_ROW_12HP
+ *   - Prefer these names directly in module widgets.
+ *   - One-letter aliases like L/R/cx/ys hide intent and should be avoided.
  *
  * ┌─────────────────────────────────────────────────────────┐
  * │ Template    │ HP │  Width  │ Rows │ Use                  │
@@ -50,29 +60,42 @@ static constexpr float ROW_Y[ROWS]  = { 26.f, 43.f, 60.f, 77.f, 94.f, 111.f };
 static constexpr float ROW_SPACING  = 17.f;   // mm between row centres
 
 // ── Column x positions for 8HP panel ────────────────────────────────────────
-static constexpr float CX_8HP    = 20.32f;   // horizontal centre
-static constexpr float LEFT_8HP  =  7.f;     // left jack / label column
-static constexpr float MID_8HP   = 20.32f;   // knob centre
-static constexpr float RIGHT_8HP = 33.64f;   // right jack column
-static constexpr float PAIR_L_8HP = CX_8HP - 8.f;
-static constexpr float PAIR_R_8HP = CX_8HP + 8.f;
+static constexpr float CENTER_8HP             = 20.32f;
+static constexpr float LEFT_COLUMN_8HP        =  7.f;
+static constexpr float RIGHT_COLUMN_8HP       = 33.64f;
+static constexpr float LEFT_PAIR_COLUMN_8HP   = CENTER_8HP - 8.f;
+static constexpr float RIGHT_PAIR_COLUMN_8HP  = CENTER_8HP + 8.f;
+
+// Compatibility aliases for modules not yet migrated to the literate names.
+static constexpr float CX_8HP    = CENTER_8HP;
+static constexpr float LEFT_8HP  = LEFT_COLUMN_8HP;
+static constexpr float MID_8HP   = CENTER_8HP;
+static constexpr float RIGHT_8HP = RIGHT_COLUMN_8HP;
+static constexpr float PAIR_L_8HP = LEFT_PAIR_COLUMN_8HP;
+static constexpr float PAIR_R_8HP = RIGHT_PAIR_COLUMN_8HP;
 
 // ── Compact 8HP shared row set (Sonic / Crinkle / Saphire family) ──────────
 static constexpr int   ROWS_8_COMPACT = 6;
-static constexpr float ROW_Y_8_COMPACT[ROWS_8_COMPACT] = {
+static constexpr float COMPACT_ROWS_8HP[ROWS_8_COMPACT] = {
     24.f, 41.f, 58.f, 76.f, 94.f, 112.f
 };
+static constexpr const float* ROW_Y_8_COMPACT = COMPACT_ROWS_8HP;
 
 // ── Column x positions for 6HP panel ────────────────────────────────────────
-static constexpr float CX_6HP    = 15.24f;
-static constexpr float LEFT_6HP  =  6.f;
-static constexpr float RIGHT_6HP = 24.5f;
+static constexpr float CENTER_6HP       = 15.24f;
+static constexpr float LEFT_COLUMN_6HP  =  6.f;
+static constexpr float RIGHT_COLUMN_6HP = 24.5f;
+
+static constexpr float CX_6HP    = CENTER_6HP;
+static constexpr float LEFT_6HP  = LEFT_COLUMN_6HP;
+static constexpr float RIGHT_6HP = RIGHT_COLUMN_6HP;
 
 // ── Compact 6HP shared row set (Ladder / Maurizio family) ──────────────────
 static constexpr int   ROWS_6_COMPACT = 7;
-static constexpr float ROW_Y_6_COMPACT[ROWS_6_COMPACT] = {
+static constexpr float COMPACT_ROWS_6HP[ROWS_6_COMPACT] = {
     22.f, 37.f, 52.f, 67.f, 82.f, 97.f, 112.f
 };
+static constexpr const float* ROW_Y_6_COMPACT = COMPACT_ROWS_6HP;
 
 // ── Screw helpers ────────────────────────────────────────────────────────────
 
@@ -112,16 +135,26 @@ static constexpr float W_12HP = 60.96f;
 static constexpr float W_16HP = 81.28f;
 
 // ── Column x positions for 12HP panel (BusCrush compact: IN left, PAN right)
-static constexpr float LEFT_12HP  = 15.f;
-static constexpr float RIGHT_12HP = 46.f;
-static constexpr float CX_12HP    = 30.48f;
-static constexpr float OUTER_L_12HP = 10.f;
-static constexpr float OUTER_R_12HP = 51.f;
+static constexpr float LEFT_COLUMN_12HP        = 15.f;
+static constexpr float RIGHT_COLUMN_12HP       = 46.f;
+static constexpr float CENTER_12HP             = 30.48f;
+static constexpr float OUTER_LEFT_COLUMN_12HP  = 10.f;
+static constexpr float OUTER_RIGHT_COLUMN_12HP = 51.f;
+
+static constexpr float LEFT_12HP  = LEFT_COLUMN_12HP;
+static constexpr float RIGHT_12HP = RIGHT_COLUMN_12HP;
+static constexpr float CX_12HP    = CENTER_12HP;
+static constexpr float OUTER_L_12HP = OUTER_LEFT_COLUMN_12HP;
+static constexpr float OUTER_R_12HP = OUTER_RIGHT_COLUMN_12HP;
 
 // ── Shared 12HP lower I/O grid (Steel / Tonnetz family) ────────────────────
-static constexpr float ROW_IO1_12HP = 95.f;
-static constexpr float ROW_IO2_12HP = 109.f;
-static constexpr float ROW_CTRL_12HP = 54.f;
+static constexpr float TOP_IO_ROW_12HP     = 95.f;
+static constexpr float BOTTOM_IO_ROW_12HP  = 109.f;
+static constexpr float CONTROL_ROW_12HP    = 54.f;
+
+static constexpr float ROW_IO1_12HP = TOP_IO_ROW_12HP;
+static constexpr float ROW_IO2_12HP = BOTTOM_IO_ROW_12HP;
+static constexpr float ROW_CTRL_12HP = CONTROL_ROW_12HP;
 
 // ── Column x positions for 16HP panel (BusCrush HAS_CONTROLS)
 //   Row layout: [amp_knob | audio_in | pan_cv | pan_knob]

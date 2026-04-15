@@ -158,32 +158,27 @@ struct CrinkleWidget : rack::ModuleWidget {
 
         AgentLayout::addScrews_8HP(this);
 
-        float cx = AgentLayout::CX_8HP;
-        float L  = AgentLayout::PAIR_L_8HP;
-        float R  = AgentLayout::PAIR_R_8HP;
-        const float* ys = AgentLayout::ROW_Y_8_COMPACT;
-
         // Knobs -- large for TUNE, small for TIMBRE/SYMMETRY
         addParam(createParamCentered<rack::RoundBigBlackKnob>(
-            mm2px(rack::Vec(cx, ys[0])), module, Crinkle::TUNE_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[0])), module, Crinkle::TUNE_PARAM));
         addParam(createParamCentered<rack::RoundBlackKnob>(
-            mm2px(rack::Vec(cx, ys[1])), module, Crinkle::TIMBRE_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[1])), module, Crinkle::TIMBRE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
-            mm2px(rack::Vec(cx, ys[2])), module, Crinkle::SYMMETRY_PARAM));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[2])), module, Crinkle::SYMMETRY_PARAM));
 
         // TIMBRE CV attenuator (small, near TIMBRE input)
         addParam(createParamCentered<rack::Trimpot>(
-            mm2px(rack::Vec(R, ys[3])), module, Crinkle::TIMBRE_CV_PARAM));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[3])), module, Crinkle::TIMBRE_CV_PARAM));
 
         // Inputs: V/OCT left, TIMBRE right
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(L, ys[4])), module, Crinkle::VOCT_INPUT));
+            mm2px(rack::Vec(AgentLayout::LEFT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Crinkle::VOCT_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(R, ys[4])), module, Crinkle::TIMBRE_INPUT));
+            mm2px(rack::Vec(AgentLayout::RIGHT_PAIR_COLUMN_8HP, AgentLayout::COMPACT_ROWS_8HP[4])), module, Crinkle::TIMBRE_INPUT));
 
         // Output: center
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(rack::Vec(cx, ys[5])), module, Crinkle::OUT_OUTPUT));
+            mm2px(rack::Vec(AgentLayout::CENTER_8HP, AgentLayout::COMPACT_ROWS_8HP[5])), module, Crinkle::OUT_OUTPUT));
     }
 };
 
