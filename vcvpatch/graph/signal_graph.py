@@ -118,21 +118,12 @@ class SignalGraph:
         Returns (node, port_id, required_signal_type) tuples.
         Each tuple is a specific wiring gap that must be fixed.
         """
-        # Build: for each (module_id, input_port) -> set of source signal types
-        input_signal_types: dict[tuple[int, int], set[SignalType]] = {}
-        for edge in self._edges:
-            src = self._nodes.get(edge.src_node)
-            if src is None:
-                continue
-            sig = src._output_types.get(edge.src_port)
-            key = (edge.dst_node, edge.dst_port)
-            if sig is not None:
-                input_signal_types.setdefault(key, set()).add(sig)
+        propagated_inputs, _ = self._propagate_signal_types()
 
         gaps = []
         for node in self.audio_chain:
             for port_id, required_type in node._required_cv.items():
-                sources = input_signal_types.get((node.module_id, port_id), set())
+                sources = propagated_inputs.get(node.module_id, {}).get(port_id, frozenset())
                 if required_type not in sources:
                     gaps.append((node, port_id, required_type))
         return gaps
@@ -311,6 +302,76 @@ class SignalGraph:
                         changed = True
 
         return {mid: frozenset(ports) for mid, ports in audio_in.items()}
+
+    def output_signal_types(self, module_id: int, port_id: int) -> frozenset[SignalType]:
+        """Return the currently propagated signal types for one output port."""
+        _, propagated_outputs = self._propagate_signal_types()
+        outputs = propagated_outputs.get(module_id, {})
+        return outputs.get(port_id, frozenset())
+
+    def _propagate_signal_types(
+        self,
+    ) -> tuple[
+        dict[int, dict[int, frozenset[SignalType]]],
+        dict[int, dict[int, frozenset[SignalType]]],
+    ]:
+        """
+        Fixed-point propagation of signal types through the graph.
+
+        This is broader than audio reachability: it allows generic pass-through
+        modules like Split to preserve CV/Gate/Clock semantics from their input
+        ports to their outputs.
+        """
+        input_types: dict[int, dict[int, set[SignalType]]] = {
+            mid: {} for mid in self._nodes
+        }
+        output_types: dict[int, dict[int, set[SignalType]]] = {
+            mid: {} for mid in self._nodes
+        }
+
+        changed = True
+        while changed:
+            changed = False
+
+            for node in self._nodes.values():
+                current_inputs = {
+                    port_id: frozenset(types)
+                    for port_id, types in input_types[node.module_id].items()
+                }
+                current_outputs = node.output_signal_types_for(current_inputs)
+                for port_id, types in current_outputs.items():
+                    bucket = output_types[node.module_id].setdefault(port_id, set())
+                    before = len(bucket)
+                    bucket.update(types)
+                    if len(bucket) != before:
+                        changed = True
+
+            for edge in self._edges:
+                src_outputs = output_types.get(edge.src_node, {})
+                src_types = src_outputs.get(edge.src_port, set())
+                if not src_types:
+                    continue
+                bucket = input_types[edge.dst_node].setdefault(edge.dst_port, set())
+                before = len(bucket)
+                bucket.update(src_types)
+                if len(bucket) != before:
+                    changed = True
+
+        frozen_inputs = {
+            mid: {
+                port_id: frozenset(types)
+                for port_id, types in ports.items()
+            }
+            for mid, ports in input_types.items()
+        }
+        frozen_outputs = {
+            mid: {
+                port_id: frozenset(types)
+                for port_id, types in ports.items()
+            }
+            for mid, ports in output_types.items()
+        }
+        return frozen_inputs, frozen_outputs
 
     def _orphaned_nodes(self) -> list[Node]:
         """Nodes with no output edges (may be dead ends in the patch)."""

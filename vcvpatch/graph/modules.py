@@ -15,6 +15,7 @@ from __future__ import annotations
 from .node import (
     AudioSourceNode, AudioProcessorNode, AudioMixerNode,
     AudioSinkNode, ControllerNode, SignalType,
+    PassThroughNode,
 )
 
 CV    = SignalType.CV
@@ -101,6 +102,13 @@ class MultNode(AudioProcessorNode):
     PLUGIN = "Fundamental"
     MODEL  = "Mult"
     _routes = [(0, 0), (0, 1), (0, 2), (3, 3), (3, 4), (3, 5)]
+
+
+class SplitNode(PassThroughNode):
+    """Fundamental Split: split one poly/control/audio input to mono outputs."""
+    PLUGIN = "Fundamental"
+    MODEL  = "Split"
+    _routes = [(0, 0), (0, 1), (0, 2), (0, 3)]
 
 
 class FundamentalADSRNode(ControllerNode):
@@ -731,7 +739,7 @@ NODE_REGISTRY: dict[str, type] = {
         # Core
         AudioInterface2Node, AudioInterface8Node, Audio16Node, MidiMapNode,
         # Fundamental
-        VCONode, VCFNode, VCANode, NoiseNode, MultNode,
+        VCONode, VCFNode, VCANode, NoiseNode, MultNode, SplitNode,
         VCMixerNode, SumNode, FundamentalRandomNode,
         QuantizerNode, RandomValuesNode, CoffeeQuantNode,
         FundamentalADSRNode, FundamentalLFONode, SEQ3Node,

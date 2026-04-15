@@ -82,6 +82,21 @@ class Node(ABC):
     def __repr__(self) -> str:
         return f"{self.PLUGIN}/{self.MODEL}#{self.module_id}"
 
+    def output_signal_types_for(
+        self, input_signal_types: dict[int, frozenset[SignalType]]
+    ) -> dict[int, frozenset[SignalType]]:
+        """
+        Return the signal types currently emitted by each output port.
+
+        Default implementation is for static control-style outputs declared in
+        _output_types. Audio subclasses override this to account for routed
+        audio, and passthrough nodes can override it to preserve upstream types.
+        """
+        return {
+            port_id: frozenset({sig})
+            for port_id, sig in self._output_types.items()
+        }
+
 
 # ---------------------------------------------------------------------------
 # Audio node bases
@@ -94,6 +109,14 @@ class AudioSourceNode(Node):
 
     def audio_out_for(self, audio_in_ports: frozenset[int]) -> frozenset[int]:
         return self._audio_outputs
+
+    def output_signal_types_for(
+        self, input_signal_types: dict[int, frozenset[SignalType]]
+    ) -> dict[int, frozenset[SignalType]]:
+        outputs = super().output_signal_types_for(input_signal_types)
+        for port_id in self._audio_outputs:
+            outputs[port_id] = outputs.get(port_id, frozenset()) | frozenset({SignalType.AUDIO})
+        return outputs
 
 
 class AudioProcessorNode(Node):
@@ -110,6 +133,15 @@ class AudioProcessorNode(Node):
             if inp in audio_in_ports
         )
 
+    def output_signal_types_for(
+        self, input_signal_types: dict[int, frozenset[SignalType]]
+    ) -> dict[int, frozenset[SignalType]]:
+        outputs = super().output_signal_types_for(input_signal_types)
+        for inp, out in self._routes:
+            if SignalType.AUDIO in input_signal_types.get(inp, frozenset()):
+                outputs[out] = outputs.get(out, frozenset()) | frozenset({SignalType.AUDIO})
+        return outputs
+
 
 class AudioMixerNode(Node):
     """Any audio input activates all audio outputs."""
@@ -121,6 +153,16 @@ class AudioMixerNode(Node):
         if audio_in_ports & self._audio_inputs:
             return self._audio_outputs
         return frozenset()
+
+    def output_signal_types_for(
+        self, input_signal_types: dict[int, frozenset[SignalType]]
+    ) -> dict[int, frozenset[SignalType]]:
+        outputs = super().output_signal_types_for(input_signal_types)
+        if any(SignalType.AUDIO in input_signal_types.get(inp, frozenset())
+               for inp in self._audio_inputs):
+            for port_id in self._audio_outputs:
+                outputs[port_id] = outputs.get(port_id, frozenset()) | frozenset({SignalType.AUDIO})
+        return outputs
 
 
 class AudioSinkNode(Node):
@@ -147,6 +189,22 @@ class ControllerNode(Node):
 
     def audio_out_for(self, audio_in_ports: frozenset[int]) -> frozenset[int]:
         return frozenset()
+
+
+class PassThroughNode(AudioProcessorNode):
+    """
+    Generic pass-through node whose outputs inherit the signal types present on
+    the routed input ports.
+    """
+
+    def output_signal_types_for(
+        self, input_signal_types: dict[int, frozenset[SignalType]]
+    ) -> dict[int, frozenset[SignalType]]:
+        outputs = super().output_signal_types_for(input_signal_types)
+        for inp, out in self._routes:
+            if input_signal_types.get(inp):
+                outputs[out] = outputs.get(out, frozenset()) | input_signal_types[inp]
+        return outputs
 
 
 # ---------------------------------------------------------------------------

@@ -446,9 +446,16 @@ class PatchBuilder:
         """Infer cable type from the source port's declared SignalType."""
         node = self._graph._nodes.get(src.module.id)
         if node is not None:
-            sig = node._output_types.get(src.port_id)
-            if sig is not None:
-                return _SIGNAL_TO_CABLE[sig]
+            propagated = self._graph.output_signal_types(src.module.id, src.port_id)
+            if len(propagated) == 1:
+                return _SIGNAL_TO_CABLE[next(iter(propagated))]
+            if len(propagated) > 1:
+                kinds = ", ".join(sorted(sig.name for sig in propagated))
+                raise ValueError(
+                    f"Cannot infer cable type for {src.module.plugin}/{src.module.model} "
+                    f"output {src.port_id}: multiple signal types are possible ({kinds}). "
+                    "Pass cable_type= explicitly."
+                )
             audio_outputs = getattr(node, "_audio_outputs", frozenset())
             if src.port_id in audio_outputs:
                 return CableType.AUDIO
