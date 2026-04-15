@@ -10,8 +10,10 @@ AUDIO_SRCS := test_signal_audio.cpp
 AUDIO_BIN  := test_signal_audio
 PCONV_SRCS := test_partitioned_convolution.cpp
 PCONV_BIN  := test_partitioned_convolution
+CONTRACT_SRCS := test_component_contracts.cpp
+CONTRACT_BIN  := test_component_contracts
 
-all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN)
+all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN)
 
 $(FFT_BIN): $(FFT_SRCS)
 	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
@@ -25,6 +27,9 @@ $(AUDIO_BIN): $(AUDIO_SRCS)
 $(PCONV_BIN): $(PCONV_SRCS)
 	$(CXX) $(CXXFLAGS) $(PCONV_SRCS) $(LDFLAGS) -o $(PCONV_BIN)
 
+$(CONTRACT_BIN): $(CONTRACT_SRCS)
+	$(CXX) $(CXXFLAGS) $(CONTRACT_SRCS) -o $(CONTRACT_BIN)
+
 run: $(FFT_BIN)
 	./$(FFT_BIN)
 
@@ -37,7 +42,17 @@ run-audio: $(AUDIO_BIN)
 run-pconv: $(PCONV_BIN)
 	./$(PCONV_BIN)
 
-clean:
-	rm -f $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN)
+run-contracts: $(CONTRACT_BIN)
+	./$(CONTRACT_BIN)
 
-.PHONY: all run run-cv run-audio run-pconv clean
+run-all: all
+	./$(FFT_BIN)
+	./$(CV_BIN)
+	./$(AUDIO_BIN)
+	./$(PCONV_BIN)
+	./$(CONTRACT_BIN)
+
+clean:
+	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN)
+
+.PHONY: all run run-cv run-audio run-pconv run-contracts run-all clean
