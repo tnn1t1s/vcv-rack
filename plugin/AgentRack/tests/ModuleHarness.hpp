@@ -19,4 +19,27 @@ struct ModuleHarness {
             module.process(args);
         }
     }
+
+    template <typename TModule>
+    static void connectInput(TModule& module, int inputId, float voltage, int channelCount = 1) {
+        module.inputs[inputId].channels = channelCount;
+        module.inputs[inputId].setVoltage(voltage);
+    }
+
+    template <typename TModule>
+    static void disconnectInput(TModule& module, int inputId) {
+        module.inputs[inputId].channels = 0;
+        module.inputs[inputId].clearVoltages();
+    }
+
+    template <typename TModule>
+    static void trigger(TModule& module, int inputId, float sampleRate = 44100.f,
+                        float lowVoltage = 0.f, float highVoltage = 10.f) {
+        connectInput(module, inputId, lowVoltage);
+        step(module, 1, sampleRate);
+        connectInput(module, inputId, highVoltage);
+        step(module, 1, sampleRate);
+        connectInput(module, inputId, lowVoltage);
+        step(module, 1, sampleRate);
+    }
 };

@@ -90,6 +90,21 @@ First module targets:
 These are good first candidates because they are deterministic, have clear
 behavioral contracts, and do not depend on heavyweight runtime infrastructure.
 
+Stable-module regression coverage can expand to:
+- `ClockDiv`
+- `Noise`
+- `Crinkle`
+- `Sonic`
+- `Maurizio`
+- `Tonnetz`
+
+Modules that should remain out of the first harness until their contracts are
+more settled:
+- `Cassette`
+- `Saphire`
+- `BusCrush`
+- `Steel`
+
 ## Coverage policy going forward
 
 When shared code is extracted:
