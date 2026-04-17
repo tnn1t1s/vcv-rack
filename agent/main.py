@@ -1,8 +1,8 @@
 """
-Minimal async CLI runner for the VCV Rack patch agent.
+Minimal async CLI runner for the current VCV Rack patch-builder agent.
 
 Usage:
-    python3 agent/main.py
+    python -m agent.main
 
 The ADK web UI is also supported:
     adk web --port 8000
@@ -16,7 +16,7 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-from .root_agent import root_agent
+from .patch_builder.agent import root_agent
 
 APP_NAME = "vcv_agent"
 

@@ -21,12 +21,22 @@ from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExport
 from opentelemetry import trace
 
 
+def _env_enabled(name: str, default: bool = True) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() not in {"0", "false", "no", "off", ""}
+
+
 def setup_telemetry(service_name: str) -> None:
     """Configure OTLP tracing for an ADK agent.
 
     Args:
         service_name: Name shown in the Jaeger UI (e.g. "patch_builder").
     """
+    if not _env_enabled("PATCH_BUILDER_OTEL", default=True):
+        return
+
     endpoint = os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317")
 
     resource = Resource.create({"service.name": service_name})

@@ -119,7 +119,7 @@ Each entry cites the source file where the lesson was established.
 
 **Why:** The agent is the intended interface. It handles the full workflow: generating the construction plan, calling `add_module` / `connect_audio` / etc., proving correctness, compiling, and saving the `.vcv` file. Running scripts directly short-circuits this and proves nothing about agent behavior.
 
-**Rule:** When a user asks to "build a patch" or "create a patch that does X", run the agent (`python3 agent/main.py` or `adk web`) and prompt it with the musical description. Tests (`test_agent_tools.py`) are still run directly -- they test the tool layer, not patch construction.
+**Rule:** When a user asks to "build a patch" or "create a patch that does X", run the current patch-builder agent (`python -m agent.main` or `adk web`) and prompt it with the musical description. Tests (`test_agent_tools.py`) are still run directly -- they test the tool layer, not patch construction.
 
 **Source:** `/Users/palaitis/.claude/projects/-Users-palaitis-Development-vcv-rack/memory/feedback_patch_workflow.md`.
 

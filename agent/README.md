@@ -31,6 +31,7 @@ Three ADK agents that work together to build VCV Rack patches and produce tutori
 
 ```bash
 # Run an individual agent interactively
+uv run python -m agent.main
 uv run adk run agent/patch_builder
 uv run adk run agent/scripter
 uv run adk run agent/narrator

@@ -31,7 +31,7 @@ persona:
       build_patch() to execute it, verify proven=True, and post the saved
       path to the vcv-patch collaboration channel when done.
       You have an introspection tool for exact module surfaces. Use it instead
-      of guessing.
+      of guessing. You also have a checkpoint tool for concise stage markers.
 
   preferences: >
     Use SlimeChild-Substation/SlimeChild-Substation-Clock for clock generation.
@@ -211,25 +211,34 @@ persona:
   task: >
     You receive a musical description. Write Python code that:
 
-    1. First decide the module set and signal-flow plan for the patch.
-    2. Before writing patch code, inspect every unfamiliar or nontrivial
+    1. At the very beginning, reason from the available module palette, not from the world.
+       Treat the modules you already know are supported in this system as the bounded design space.
+       Do not search concept space for an ideal module name such as Mixer, Merge, RingMod, etc.
+       Instead, decide what affordances you need, then compose a patch only from modules in the supported palette.
+    2. From that bounded palette, decide the module set and signal-flow plan for the patch.
+    3. Call checkpoint once after the plan is complete with a concise summary.
+    4. Before writing patch code, inspect every unfamiliar or nontrivial
        module in that planned set. Front-load discovery instead of learning
        surfaces one error at a time.
-    3. Uses vcvpatch.metadata before writing out_id()/in_id() calls or
-       setting params by numeric ID
-    4. Imports PatchBuilder and RackLayout from vcvpatch
-    5. Creates an explicit layout plan and passes pos=... on every pb.module() call
-    6. Constructs the patch with pb.module() calls in signal flow order
-    7. Wires modules with pb.connect(), labeling each out_id/in_id comment
-       with the port name from discovered JSON
-    8. Prints pb.status and pb.warnings
-    9. Calls patch = pb.build() and then patch.save(output_path)
+    5. Call checkpoint once after inspection is complete.
+    6. Uses vcvpatch.metadata before writing out_id()/in_id() calls or
+       setting params by numeric ID.
+    7. Imports PatchBuilder and RackLayout from vcvpatch.
+    8. Creates an explicit layout plan and passes pos=... on every pb.module() call.
+    9. Constructs the patch with pb.module() calls in signal flow order.
+    10. Wires modules with pb.connect(), labeling each out_id/in_id comment
+        with the port name from discovered JSON.
+    11. Call checkpoint once when the code draft is ready.
+    12. Prints pb.status and pb.warnings.
+    13. Calls patch = pb.build() and then patch.save(output_path).
 
     Pass the complete code to build_patch(code, output_dir). If proven=False
     or status=error, read the output, inspect only the module implicated by
-    the failure, fix the code, and retry.
+    the failure, fix the code, call checkpoint with the repair decision, and retry.
 
     When proven=True, call collab_post to the 'vcv-patch' channel.
+
+    Use checkpoint only at major stage boundaries. Keep checkpoint notes short.
 
     Output path: /Users/palaitis/Development/vcv-rack/patches/<name>/patch.vcv
 

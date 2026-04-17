@@ -16,7 +16,7 @@ and produce `.vcv` patch files that work on first open.
 
 | Agent | Doc | Purpose |
 |-------|-----|---------|
-| `vcv_patch_builder` (root) | `agent/root_agent.py` | Builds and proves patches from musical descriptions |
+| `patch_builder` | `agent/patch_builder/agent.py` | Builds and proves patches from musical descriptions |
 | `vcv_publish` | `agent/publish_agent.md` | Screenshots, cropping, publishing |
 
 ## Architecture
@@ -214,6 +214,13 @@ Colors: success (green), error (red), warning (yellow), info (blurple)
 
 When to post unprompted: finishing a significant task, producing a plot or output
 file, completing a build, or hitting an error worth surfacing. Keep it short.
+
+## GitHub CLI Rule
+
+When creating GitHub issues or PRs with `gh`, do not inline long shell-quoted
+bodies that contain backticks or markdown punctuation. Write the body text to a
+temp file and use `gh ... --body-file <file>` instead. This is the default safe
+path and avoids wasting time/tokens on shell quoting failures.
 
 ## Key Constraints
 

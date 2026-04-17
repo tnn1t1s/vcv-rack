@@ -19,16 +19,17 @@ Usage:
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
 
-from persona import build_persona_prompt
-from telemetry import setup_telemetry
-from experiment import wrap
-from tools.collab import collab_read
-from tools.tts import generate_speech
+from agent.experiment import wrap
+from agent.persona import build_persona_prompt
+from agent.telemetry import setup_telemetry
+from agent.tools.collab import collab_read
+from agent.tools.tts import generate_speech
 
 setup_telemetry("narrator")
 
