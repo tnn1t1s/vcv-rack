@@ -3,63 +3,67 @@ CXXFLAGS := -std=c++11 -stdlib=libc++ -O2 -I.. -I../src -I../../../vendor/rack-s
 LDFLAGS  := -framework Accelerate
 RACK_LIB_DIR := ../../../vendor/rack-sdk
 RACK_LDFLAGS := -L$(RACK_LIB_DIR) -lRack
+BUILD_DIR := build
 
 FFT_SRCS := test_fft.cpp ../src/FFTProvider.cpp ../src/FFTvDSP.cpp
-FFT_BIN  := test_fft
+FFT_BIN  := $(BUILD_DIR)/test_fft
 CV_SRCS  := test_signal_cv.cpp
-CV_BIN   := test_signal_cv
+CV_BIN   := $(BUILD_DIR)/test_signal_cv
 AUDIO_SRCS := test_signal_audio.cpp
-AUDIO_BIN  := test_signal_audio
+AUDIO_BIN  := $(BUILD_DIR)/test_signal_audio
 PCONV_SRCS := test_partitioned_convolution.cpp
-PCONV_BIN  := test_partitioned_convolution
+PCONV_BIN  := $(BUILD_DIR)/test_partitioned_convolution
 CONTRACT_SRCS := test_component_contracts.cpp
-CONTRACT_BIN  := test_component_contracts
+CONTRACT_BIN  := $(BUILD_DIR)/test_component_contracts
 MODULE_SRCS := test_module_regressions.cpp
-MODULE_BIN  := test_module_regressions
+MODULE_BIN  := $(BUILD_DIR)/test_module_regressions
 CASSETTE_RT_SRCS := test_cassette_runtime.cpp
-CASSETTE_RT_BIN  := test_cassette_runtime
+CASSETTE_RT_BIN  := $(BUILD_DIR)/test_cassette_runtime
 CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
-CASSETTE_PROFILE_BIN  := test_cassette_machine_profile
+CASSETTE_PROFILE_BIN  := $(BUILD_DIR)/test_cassette_machine_profile
 SAPHIRE_RT_SRCS := test_saphire_runtime.cpp
-SAPHIRE_RT_BIN  := test_saphire_runtime
+SAPHIRE_RT_BIN  := $(BUILD_DIR)/test_saphire_runtime
 SAPHIRE_IR_SRCS := test_saphire_impulse_response.cpp
-SAPHIRE_IR_BIN  := test_saphire_impulse_response
+SAPHIRE_IR_BIN  := $(BUILD_DIR)/test_saphire_impulse_response
 SAPHIRE_WET_SRCS := test_saphire_wet_path.cpp
-SAPHIRE_WET_BIN  := test_saphire_wet_path
+SAPHIRE_WET_BIN  := $(BUILD_DIR)/test_saphire_wet_path
 
 all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN)
 
-$(FFT_BIN): $(FFT_SRCS)
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+$(FFT_BIN): $(FFT_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
 
-$(CV_BIN): $(CV_SRCS)
+$(CV_BIN): $(CV_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(CV_SRCS) -o $(CV_BIN)
 
-$(AUDIO_BIN): $(AUDIO_SRCS)
+$(AUDIO_BIN): $(AUDIO_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(AUDIO_SRCS) -o $(AUDIO_BIN)
 
-$(PCONV_BIN): $(PCONV_SRCS)
+$(PCONV_BIN): $(PCONV_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(PCONV_SRCS) $(LDFLAGS) -o $(PCONV_BIN)
 
-$(CONTRACT_BIN): $(CONTRACT_SRCS)
+$(CONTRACT_BIN): $(CONTRACT_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(CONTRACT_SRCS) -o $(CONTRACT_BIN)
 
-$(MODULE_BIN): $(MODULE_SRCS)
+$(MODULE_BIN): $(MODULE_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(MODULE_SRCS) $(LDFLAGS) $(RACK_LDFLAGS) -o $(MODULE_BIN)
 
-$(CASSETTE_RT_BIN): $(CASSETTE_RT_SRCS)
+$(CASSETTE_RT_BIN): $(CASSETTE_RT_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(CASSETTE_RT_SRCS) $(LDFLAGS) -o $(CASSETTE_RT_BIN)
 
-$(CASSETTE_PROFILE_BIN): $(CASSETTE_PROFILE_SRCS)
+$(CASSETTE_PROFILE_BIN): $(CASSETTE_PROFILE_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(CASSETTE_PROFILE_SRCS) $(LDFLAGS) -o $(CASSETTE_PROFILE_BIN)
 
-$(SAPHIRE_RT_BIN): $(SAPHIRE_RT_SRCS)
+$(SAPHIRE_RT_BIN): $(SAPHIRE_RT_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(SAPHIRE_RT_SRCS) $(LDFLAGS) -o $(SAPHIRE_RT_BIN)
 
-$(SAPHIRE_IR_BIN): $(SAPHIRE_IR_SRCS)
+$(SAPHIRE_IR_BIN): $(SAPHIRE_IR_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(SAPHIRE_IR_SRCS) $(LDFLAGS) -o $(SAPHIRE_IR_BIN)
 
-$(SAPHIRE_WET_BIN): $(SAPHIRE_WET_SRCS)
+$(SAPHIRE_WET_BIN): $(SAPHIRE_WET_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(SAPHIRE_WET_SRCS) $(LDFLAGS) -o $(SAPHIRE_WET_BIN)
 
 run: $(FFT_BIN)
@@ -109,6 +113,6 @@ run-all: all
 	./$(SAPHIRE_WET_BIN)
 
 clean:
-	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN)
+	rm -rf $(BUILD_DIR)
 
 .PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-saphire-ir run-saphire-wet run-all clean

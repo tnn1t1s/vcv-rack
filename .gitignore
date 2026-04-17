@@ -12,6 +12,7 @@ dist/
 # Build artifacts
 build/
 plugin/AgentRack/build/
+plugin/AgentRack/tests/build/
 plugin/AgentRack/dist/
 plugin/AgentRack/plugin.dylib
 *.vcvplugin
