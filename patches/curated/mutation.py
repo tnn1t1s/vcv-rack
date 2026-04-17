@@ -16,13 +16,11 @@ Signal flow:
 import math
 import os
 import sys
+from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 
-OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "tests", "mutation.vcv"
-)
+OUTPUT = str(Path(__file__).resolve().parents[2] / "tests" / "mutation.vcv")
 
 PLUGIN = "SlimeChild-Substation"
 
@@ -35,9 +33,14 @@ TRIGS = [1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1]
 
 def build() -> str:
     pb = PatchBuilder()
+    layout = RackLayout()
+    top_row = layout.row(0)
+    voice_row = layout.row(1)
+    effects_row = layout.row(2)
 
     # --- Clock ---
     clock = pb.module(PLUGIN, "SlimeChild-Substation-Clock",
+                      pos=top_row.at(0),
                       TEMPO=math.log2(128 / 60), RUN=1, MULT=4)
 
     # --- Sequencer: Ab Minor Drift pattern ---
@@ -47,11 +50,12 @@ def build() -> str:
         seq_params[f"TRIG{i+1}"] = float(trig)
     seq_params["LENGTH"]   = 16.0
     seq_params["RANGE_SW"] = 1.0
-    seq = pb.module("CountModula", "Sequencer16", **seq_params)
+    seq = pb.module("CountModula", "Sequencer16", pos=top_row.at(14), **seq_params)
 
     # --- Quantizer: Ab root ---
     # ROOT=8 = Ab/G# (semitones from C: C=0,C#=1,D=2,D#=3,E=4,F=5,F#=6,G=7,Ab=8)
     quant = pb.module(PLUGIN, "SlimeChild-Substation-Quantizer",
+                      pos=voice_row.at(14),
                       ROOT=8, OCTAVE=0)
 
     # --- Plaits: FM synthesis ---
@@ -60,6 +64,7 @@ def build() -> str:
     # MORPH_ATTENUVERTER=0.55: LFO1 will modulate MORPH through this
     # DECAY=0.4: medium internal LPG decay (adds attack click texture when TRIGGER fires)
     plaits = pb.module("AudibleInstruments", "Plaits",
+                       pos=voice_row.at(28),
                        MODEL=0.29,
                        FREQ=-2.0,
                        HARMONICS=0.65,
@@ -70,12 +75,12 @@ def build() -> str:
                        DECAY=0.4)
 
     # --- LFO1: very slow → Plaits MORPH (14s cycle, shifts FM character) ---
-    lfo1 = pb.module("Bogaudio", "Bogaudio-LFO",
+    lfo1 = pb.module("Bogaudio", "Bogaudio-LFO", pos=top_row.at(36),
                      FREQ=-3.5,   # ~0.07 Hz
                      SCALE=1.0)
 
     # --- LFO2: medium → Filter VOCT (pitch-tracked cutoff, ~3s cycle) ---
-    lfo2 = pb.module("Bogaudio", "Bogaudio-LFO",
+    lfo2 = pb.module("Bogaudio", "Bogaudio-LFO", pos=top_row.at(46),
                      FREQ=-1.2,   # ~0.35 Hz
                      SCALE=1.0)
 
@@ -83,6 +88,7 @@ def build() -> str:
     # EG1: fast attack, medium decay → amplitude punch
     # EG2: instant attack, longer decay → sweeping filter open on each note
     envs = pb.module(PLUGIN, "SlimeChild-Substation-Envelopes",
+                     pos=top_row.at(58),
                      EG1_ATTACK=-3.0,   # fastest attack (~8ms)
                      EG1_DECAY=-0.8,    # medium-short decay
                      EG2_ATTACK=-3.0,   # instant filter attack
@@ -94,29 +100,30 @@ def build() -> str:
     # RES=0.9: near self-oscillation for that "rez" character
     # FM=0.7: attenuverter open so ENV2 can drive the filter dramatically
     filt = pb.module(PLUGIN, "SlimeChild-Substation-Filter",
+                     pos=voice_row.at(46),
                      FREQ=2.5,
                      RES=0.9,
                      FM=0.7)
 
     # --- VCA: closed by default, ENV1 opens it ---
     # Known quirk: LEVEL resets to 1.0 on patch load -- set to 0 in GUI after opening
-    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", LEVEL=0)
+    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", pos=effects_row.at(46), LEVEL=0)
 
     # --- Delay: short triplet bleed effect ---
-    delay = pb.module("AlrightDevices", "Chronoblob2",
+    delay = pb.module("AlrightDevices", "Chronoblob2", pos=effects_row.at(58),
                       FEEDBACK=0.05,
                       TIME=0.23,
                       MIX=0.4)
 
     # --- Reverb: large hall ---
-    reverb = pb.module("Valley", "Plateau",
+    reverb = pb.module("Valley", "Plateau", pos=effects_row.at(72),
                        DRY=1.0,
                        WET=0.55,
                        SIZE=0.88,
                        DECAY=0.80,
                        DIFFUSION=8.0)
 
-    audio = pb.module("Core", "AudioInterface2")
+    audio = pb.module("Core", "AudioInterface2", pos=effects_row.at(86))
 
     # --- Wiring ---
 

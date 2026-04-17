@@ -8,14 +8,17 @@ pre-gain so bus congestion is audible.
 
 from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 from vcvpatch.metadata import param_range
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 f_min, f_max = param_range("Fundamental", "VCO", "Frequency")
 print(f"VCO Frequency range: {f_min} to {f_max} st")
 
 pb = PatchBuilder()
+layout = RackLayout()
+top_row = layout.row(0)
+bottom_row = layout.row(1)
 
 N      = 8
 # Spread evenly: -48, -36, -24, -12, 0, 12, 24, 36 (one octave apart)
@@ -28,12 +31,18 @@ for i, (f, w) in enumerate(zip(freqs, widths)):
     print(f"  VCO {i+1}: FREQ={f:+d} st  PW={w:.2f}")
 
 vcos = [
-    pb.module("Fundamental", "VCO", Frequency=freqs[i], Pulse_width=widths[i])
+    pb.module(
+        "Fundamental",
+        "VCO",
+        pos=(top_row if i < 4 else bottom_row).at(i * 12 if i < 4 else (i - 4) * 12),
+        Frequency=freqs[i],
+        Pulse_width=widths[i],
+    )
     for i in range(N)
 ]
 
-bus   = pb.module("AgentRack", "BusCrush")
-audio = pb.module("Core", "AudioInterface2")
+bus   = pb.module("AgentRack", "BusCrush", pos=top_row.at(52))
+audio = pb.module("Core", "AudioInterface2", pos=bottom_row.at(52))
 
 CHANNEL_NAMES = [f"Channel {i+1} in" for i in range(8)]
 
@@ -47,6 +56,6 @@ print(pb.status)
 for w in pb.warnings:
     print("WARN:", w)
 
-out = str(Path(__file__).with_name("buscrush_demo_v2.vcv"))
+out = str(ROOT / "tests" / "buscrush_demo_v2.vcv")
 pb.save(out)
 print(f"Saved: {out}")

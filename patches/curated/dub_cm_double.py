@@ -38,15 +38,11 @@ Usage:
 """
 
 import os
-import sys
+from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
-from vcvpatch.core import CableType
+from vcvpatch import CableType, PatchBuilder, RackLayout
 
-OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "tests", "dub_cm_double.vcv"
-)
+OUTPUT = str(Path(__file__).resolve().parents[2] / "tests" / "dub_cm_double.vcv")
 
 FUN = "Fundamental"
 AR  = "AgentRack"
@@ -68,17 +64,23 @@ PATH_B = [19, 17, 21, 19]   # major: Ab -> Db -> Eb -> Ab
 
 def build() -> str:
     pb = PatchBuilder()
+    layout = RackLayout()
+    control_row = layout.row(0)
+    path_a_row = layout.row(1)
+    path_b_row = layout.row(2)
+    mix_row = layout.row(3)
 
     # ---- Clock: 75 BPM -------------------------------------------------------
     clock = pb.module(IM, "Clocked-Clkd",
+                      pos=control_row.at(0),
                       Master_clock=75, Run=1)
 
     # ---- ClockDiv: /8 for chord changes (every 2 bars at 75 BPM) -------------
-    cdiv = pb.module(AR, "ClockDiv")
+    cdiv = pb.module(AR, "ClockDiv", pos=control_row.at(14))
     pb.connect(clock.o.Clock_0, cdiv.i.Clock)
 
     # ---- SEQ3: 4 steps, CV1 = minor path, CV2 = major path -------------------
-    seq = pb.module(FUN, "SEQ3", **{
+    seq = pb.module(FUN, "SEQ3", pos=control_row.at(28), **{
         "Run": 1,
         "Steps": 4,
         # CV1 row: minor path (Cm -> Fm -> Gm -> Cm)
@@ -101,21 +103,21 @@ def build() -> str:
     # PATH A -- minor triads: Cm -> Fm -> Gm -> Cm
     # ===========================================================================
 
-    tonnetz_a = pb.module(AR, "Tonnetz")
+    tonnetz_a = pb.module(AR, "Tonnetz", pos=path_a_row.at(0))
     pb.connect(seq.o.CV_1, tonnetz_a.i.CV_1_triangle_select)
     pb.connect(seq.o.Trigger, tonnetz_a.i.Trigger)
 
-    split_a = pb.module(FUN, "Split")
+    split_a = pb.module(FUN, "Split", pos=path_a_row.at(12))
     pb.connect(tonnetz_a.o.Chord_poly_V_Oct, split_a.in_id(0))
 
-    voice_a1 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.05, Symmetry=0.0)
-    voice_a2 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.08, Symmetry=0.03)
-    voice_a3 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.06, Symmetry=0.02)
+    voice_a1 = pb.module(AR, "Crinkle", pos=path_a_row.at(24), Tune=0.0, Timbre=0.05, Symmetry=0.0)
+    voice_a2 = pb.module(AR, "Crinkle", pos=path_a_row.at(32), Tune=0.0, Timbre=0.08, Symmetry=0.03)
+    voice_a3 = pb.module(AR, "Crinkle", pos=path_a_row.at(40), Tune=0.0, Timbre=0.06, Symmetry=0.02)
     pb.connect(split_a.out_id(0), voice_a1.i.V_Oct, cable_type=CableType.CV)
     pb.connect(split_a.out_id(1), voice_a2.i.V_Oct, cable_type=CableType.CV)
     pb.connect(split_a.out_id(2), voice_a3.i.V_Oct, cable_type=CableType.CV)
 
-    bus_a = pb.module(AR, "BusCrush")
+    bus_a = pb.module(AR, "BusCrush", pos=path_a_row.at(50))
     pb.connect(voice_a1.o.Out, bus_a.i.Channel_1_in)
     pb.connect(voice_a2.o.Out, bus_a.i.Channel_2_in)
     pb.connect(voice_a3.o.Out, bus_a.i.Channel_3_in)
@@ -124,21 +126,21 @@ def build() -> str:
     # PATH B -- major triads: Ab -> Db -> Eb -> Ab
     # ===========================================================================
 
-    tonnetz_b = pb.module(AR, "Tonnetz")
+    tonnetz_b = pb.module(AR, "Tonnetz", pos=path_b_row.at(0))
     pb.connect(seq.o.CV_2, tonnetz_b.i.CV_1_triangle_select)
     pb.connect(seq.o.Trigger, tonnetz_b.i.Trigger)
 
-    split_b = pb.module(FUN, "Split")
+    split_b = pb.module(FUN, "Split", pos=path_b_row.at(12))
     pb.connect(tonnetz_b.o.Chord_poly_V_Oct, split_b.in_id(0))
 
-    voice_b1 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.10, Symmetry=0.05)
-    voice_b2 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.12, Symmetry=0.07)
-    voice_b3 = pb.module(AR, "Crinkle", Tune=0.0, Timbre=0.09, Symmetry=0.04)
+    voice_b1 = pb.module(AR, "Crinkle", pos=path_b_row.at(24), Tune=0.0, Timbre=0.10, Symmetry=0.05)
+    voice_b2 = pb.module(AR, "Crinkle", pos=path_b_row.at(32), Tune=0.0, Timbre=0.12, Symmetry=0.07)
+    voice_b3 = pb.module(AR, "Crinkle", pos=path_b_row.at(40), Tune=0.0, Timbre=0.09, Symmetry=0.04)
     pb.connect(split_b.out_id(0), voice_b1.i.V_Oct, cable_type=CableType.CV)
     pb.connect(split_b.out_id(1), voice_b2.i.V_Oct, cable_type=CableType.CV)
     pb.connect(split_b.out_id(2), voice_b3.i.V_Oct, cable_type=CableType.CV)
 
-    bus_b = pb.module(AR, "BusCrush")
+    bus_b = pb.module(AR, "BusCrush", pos=path_b_row.at(50))
     pb.connect(voice_b1.o.Out, bus_b.i.Channel_1_in)
     pb.connect(voice_b2.o.Out, bus_b.i.Channel_2_in)
     pb.connect(voice_b3.o.Out, bus_b.i.Channel_3_in)
@@ -149,14 +151,14 @@ def build() -> str:
 
     # Very slow LFO (~0.03 Hz, period ~32 sec). Switches paths every ~16 sec.
     # At 75 BPM with /8 chord clock, that's ~2.5 chord changes per path.
-    lfo_sw_a = pb.module(FUN, "LFO", Frequency=-5.0, Offset=1)           # unipolar
-    lfo_sw_b = pb.module(FUN, "LFO", Frequency=-5.0, Offset=1, Invert=1) # complement
+    lfo_sw_a = pb.module(FUN, "LFO", pos=control_row.at(50), Frequency=-5.0, Offset=1)           # unipolar
+    lfo_sw_b = pb.module(FUN, "LFO", pos=control_row.at(60), Frequency=-5.0, Offset=1, Invert=1) # complement
 
-    vca_sw_a = pb.module(FUN, "VCA")
+    vca_sw_a = pb.module(FUN, "VCA", pos=mix_row.at(0))
     pb.connect(bus_a.o.Stereo_left_out, vca_sw_a.i.IN)
     pb.connect(lfo_sw_a.o.Square, vca_sw_a.i.CV)
 
-    vca_sw_b = pb.module(FUN, "VCA")
+    vca_sw_b = pb.module(FUN, "VCA", pos=mix_row.at(10))
     pb.connect(bus_b.o.Stereo_left_out, vca_sw_b.i.IN)
     pb.connect(lfo_sw_b.o.Square, vca_sw_b.i.CV)
 
@@ -165,34 +167,34 @@ def build() -> str:
     # ===========================================================================
 
     # ADSR: long attack/release for dub pads, gated by master clock
-    adsr = pb.module(AR, "ADSR",
+    adsr = pb.module(AR, "ADSR", pos=control_row.at(72),
                      Attack=0.15, Decay=0.4, Sustain=0.6, Release=0.8)
     pb.connect(clock.o.Clock_0, adsr.i.Gate)
 
     # Amplitude VCA: both switching paths sum into one input
-    vca_amp = pb.module(FUN, "VCA")
+    vca_amp = pb.module(FUN, "VCA", pos=mix_row.at(22))
     pb.connect(vca_sw_a.o.OUT, vca_amp.i.IN)
     pb.connect(vca_sw_b.o.OUT, vca_amp.i.IN)   # cable summing
     pb.connect(adsr.o.Envelope, vca_amp.i.CV)
 
     # Slow filter sweep LFO (~0.13 Hz, one full cycle ~8 sec)
-    lfo_filt = pb.module(FUN, "LFO", Frequency=-3.0, Offset=1)
+    lfo_filt = pb.module(FUN, "LFO", pos=control_row.at(84), Frequency=-3.0, Offset=1)
 
     # Ladder filter: deep lowpass with resonance
-    filt = pb.module(AR, "Ladder",
+    filt = pb.module(AR, "Ladder", pos=mix_row.at(34),
                      Cutoff=8.5, Resonance=0.35, Spread=0.15, Shape=0.0)
     pb.connect(vca_amp.o.OUT, filt.i.Audio)
     pb.connect(lfo_filt.o.Triangle, filt.i.Cutoff_mod)
     pb.connect(adsr.o.Envelope, filt.i.Cutoff_mod)
 
     # Saphire: massive hall reverb
-    saphire = pb.module(AR, "Saphire",
+    saphire = pb.module(AR, "Saphire", pos=mix_row.at(46),
                         Mix=0.65, Time=0.92, Bend=0.0, Tone=0.25)
     pb.connect(filt.o.Out, saphire.i.In_L)
     pb.connect(filt.o.Out, saphire.i.In_R)
 
     # Audio output
-    audio = pb.module("Core", "AudioInterface2")
+    audio = pb.module("Core", "AudioInterface2", pos=mix_row.at(60))
     pb.connect(saphire.o.Out_L, audio.i.Left_input)
     pb.connect(saphire.o.Out_R, audio.i.Right_input)
 

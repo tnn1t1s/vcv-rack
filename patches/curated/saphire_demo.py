@@ -17,13 +17,11 @@ Melody: C major pentatonic, 8 steps, quarter notes at 90 BPM
 import math
 import os
 import sys
+from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 
-OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "tests", "saphire_demo.vcv"
-)
+OUTPUT = str(Path(__file__).resolve().parents[2] / "tests" / "saphire_demo.vcv")
 
 AR  = "AgentRack"
 SC  = "SlimeChild-Substation"
@@ -45,9 +43,13 @@ MELODY = [
 
 def build() -> str:
     pb = PatchBuilder()
+    layout = RackLayout()
+    top_row = layout.row(0)
+    voice_row = layout.row(1)
 
     # ---- Clock: 90 BPM, MULT=1 for quarter notes --------------------------------
     clock = pb.module(SC, "SlimeChild-Substation-Clock",
+                      pos=top_row.at(0),
                       TEMPO=math.log2(90 / 60),
                       RUN=1,
                       MULT=1)
@@ -56,31 +58,32 @@ def build() -> str:
     seq_params = {f"CV_0_{i}": v for i, v in enumerate(MELODY)}
     seq_params.update({f"GATE_{i}": 1 for i in range(8)})
     seq_params["RUN"] = 1
-    seq = pb.module(FUN, "SEQ3", **seq_params)
+    seq = pb.module(FUN, "SEQ3", pos=top_row.at(14), **seq_params)
     pb.chain(clock.o.MULT, seq.i.CLOCK)
 
     # ---- Crinkle: wavefolder osc, clean-ish timbre for reverb tail --------------
-    crinkle = pb.module(AR, "Crinkle", TUNE=0.0, TIMBRE=0.1, SYMMETRY=0.0)
+    crinkle = pb.module(AR, "Crinkle", pos=voice_row.at(14),
+                        TUNE=0.0, TIMBRE=0.1, SYMMETRY=0.0)
     pb.chain(seq.o.CV1, crinkle.i.VOCT)
 
     # ---- ADSR: medium attack/decay, long release for reverb interplay -----------
-    adsr = pb.module(AR, "ADSR",
+    adsr = pb.module(AR, "ADSR", pos=voice_row.at(26),
                      ATTACK=0.02, DECAY=0.2, SUSTAIN=0.5, RELEASE=0.8)
     pb.chain(seq.o.TRIG, adsr.i.GATE)
 
     # ---- VCA: amplitude shaped by envelope -------------------------------------
-    vca = pb.module(FUN, "VCA")
+    vca = pb.module(FUN, "VCA", pos=voice_row.at(38))
     pb.chain(crinkle.o.OUT, vca.i.IN1)
     pb.chain(adsr.o.ENV,    vca.i.LIN1)
 
     # ---- Saphire: wet-heavy, long tail, slight pre-delay -----------------------
-    saphire = pb.module(AR, "Saphire",
+    saphire = pb.module(AR, "Saphire", pos=voice_row.at(48),
                         MIX=0.65, TIME=0.8, BEND=0.0, TONE=0.7, PRE=0.08)
     pb.chain(vca.o.OUT1, saphire.i.IN_L)
     pb.chain(vca.o.OUT1, saphire.i.IN_R)
 
     # ---- Audio output ----------------------------------------------------------
-    audio = pb.module("Core", "AudioInterface2")
+    audio = pb.module("Core", "AudioInterface2", pos=voice_row.at(62))
     pb.chain(saphire.o.OUT_L, audio.i.IN_L)
     pb.chain(saphire.o.OUT_R, audio.i.IN_R)
 

@@ -27,47 +27,61 @@ Modulation (matching tutorial):
   Random -> VCO1+2 FM and PWM
 """
 
-from vcvpatch.builder import PatchBuilder
+from pathlib import Path
+
+from vcvpatch import PatchBuilder, RackLayout
 
 pb = PatchBuilder()
+layout = RackLayout()
+top_row = layout.row(0)
+voice_row = layout.row(1)
+effects_row = layout.row(2)
 
 # ── Clock ─────────────────────────────────────────────────────────────────────
 clock = pb.module("ImpromptuModular", "Clocked-Clkd",
-                  **{"Master clock": 120.0, "Run": 1.0})
+                  pos=top_row.at(0),
+                  **{"Master_clock": 120.0, "Run": 1.0})
 
 # ── Chord source ───────────────────────────────────────────────────────────────
 chord = pb.module("AaronStatic", "ChordCV",
+                  pos=top_row.at(14),
                   **{"Root Note": 0.0, "Chord Type": -1.0,
                      "Inversion": 0.0, "Voicing": 1.0})
 
 # ── Oscillators ───────────────────────────────────────────────────────────────
 vco1 = pb.module("Fundamental", "VCO", Frequency=0.0,   Pulse_width=0.5,
+                 pos=voice_row.at(0),
                  Frequency_modulation=0.1, Pulse_width_modulation=0.08)
 vco2 = pb.module("Fundamental", "VCO", Frequency=-12.0, Pulse_width=0.5,
+                 pos=voice_row.at(10),
                  Frequency_modulation=0.1, Pulse_width_modulation=0.08)
 
 # ── Mixer ─────────────────────────────────────────────────────────────────────
-mix = pb.module("Fundamental", "VCMixer")
+mix = pb.module("Fundamental", "VCMixer", pos=voice_row.at(20))
 
 # ── VCA (poly) ────────────────────────────────────────────────────────────────
-vca = pb.module("Fundamental", "VCA")
+vca = pb.module("Fundamental", "VCA", pos=voice_row.at(32))
 
 # ── Poly -> mono ──────────────────────────────────────────────────────────────
-summer = pb.module("Fundamental", "Sum")
+summer = pb.module("Fundamental", "Sum", pos=voice_row.at(42))
 
 # ── Envelopes (Fundamental until AgentRack ADSR gets CV inputs -- issue #1) ───
 env_filter = pb.module("Fundamental", "ADSR",
+                        pos=top_row.at(30),
                         Attack=0.008, Decay=0.5, Sustain=0.0, Release=0.6)
 env_vca    = pb.module("Fundamental", "ADSR",
+                        pos=top_row.at(40),
                         Attack=0.015, Decay=0.4, Sustain=0.6, Release=0.8)
 
 # ── AgentRack Ladder (LPF) ────────────────────────────────────────────────────
 # Low cutoff; ADSR sweeps it open on each gate
 ladder = pb.module("AgentRack", "Ladder",
+                   pos=voice_row.at(52),
                    Cutoff=0.25, Resonance=0.4)
 
 # ── Bogaudio bandpass (tonal movement, LFO-swept) ────────────────────────────
 bp = pb.module("Bogaudio", "Bogaudio-VCF",
+               pos=voice_row.at(64),
                **{"Center/cutoff frequency": 0.45,
                   "Resonance / bandwidth":   0.5,
                   "Mode": 2.0})
@@ -75,22 +89,25 @@ bp = pb.module("Bogaudio", "Bogaudio-VCF",
 # ── AgentRack Saphire (reverb) ────────────────────────────────────────────────
 # Long decay, high mix -- the signature dub wash
 saphire = pb.module("AgentRack", "Saphire",
+                    pos=effects_row.at(64),
                     Mix=0.65, Time=0.80, Tone=0.4)
 
 # ── Delay (ping-pong) ─────────────────────────────────────────────────────────
 delay = pb.module("AlrightDevices", "Chronoblob2",
+                  pos=effects_row.at(78),
                   **{"Delay Time": 0.375, "Feedback": 0.58,
                      "Dry/Wet": 0.40, "Delay Mode": 1.0,
                      "Time Modulation Mode": 0.0})
 
 # ── Modulation ────────────────────────────────────────────────────────────────
-lfo1 = pb.module("Fundamental", "LFO", Frequency=-2.5)   # slow, bandpass cutoff sweep
-lfo2 = pb.module("Fundamental", "LFO", Frequency=-2.0)   # slow, delay wobble
+lfo1 = pb.module("Fundamental", "LFO", pos=top_row.at(56), Frequency=-2.5)   # slow, bandpass cutoff sweep
+lfo2 = pb.module("Fundamental", "LFO", pos=top_row.at(66), Frequency=-2.0)   # slow, delay wobble
 rnd  = pb.module("Fundamental", "Random",
+                 pos=top_row.at(76),
                  **{"Internal trigger rate": -1.5})
 
 # ── Output ────────────────────────────────────────────────────────────────────
-audio = pb.module("Core", "AudioInterface2")
+audio = pb.module("Core", "AudioInterface2", pos=effects_row.at(92))
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # AUDIO SIGNAL FLOW
@@ -143,6 +160,6 @@ print(pb.status)
 for w in pb.warnings:
     print("WARN:", w)
 
-out = os.path.splitext(os.path.abspath(__file__))[0] + ".vcv"
+out = str(Path(__file__).resolve().parents[2] / "tests" / "dub_techno_agentrack.vcv")
 pb.save(out)
 print(f"\nSaved: {out}")

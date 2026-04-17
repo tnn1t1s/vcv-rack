@@ -23,13 +23,11 @@ The patch showcases Tonnetz chord generation with voice leading.
 import math
 import os
 import sys
+from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 
-OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "tests", "tonnetz_demo.vcv"
-)
+OUTPUT = str(Path(__file__).resolve().parents[2] / "tests" / "tonnetz_demo.vcv")
 
 AR  = "AgentRack"
 FUN = "Fundamental"
@@ -37,24 +35,31 @@ FUN = "Fundamental"
 
 def build() -> str:
     pb = PatchBuilder()
+    layout = RackLayout()
+    top_row = layout.row(0)
+    voice_row = layout.row(1)
+    output_row = layout.row(2)
 
     # ---- Clock source: 120 BPM ------------------------------------------------
     clock = pb.module("SlimeChild-Substation", "SlimeChild-Substation-Clock",
+                      pos=top_row.at(0),
                       TEMPO=math.log2(120 / 60), RUN=1)
 
     # ---- ClockDiv: /4 for chord changes, /1 passes through for gates ----------
-    cdiv = pb.module(AR, "ClockDiv")
+    cdiv = pb.module(AR, "ClockDiv", pos=top_row.at(14))
     pb.connect(clock.o.Base_clock, cdiv.i.Clock)
 
     # ---- Slow LFO: sweeps CV A across the Tonnetz lattice ---------------------
     # Freq ~ 0.05 Hz (one full cycle ~ 20 sec), unipolar 0-10V
-    lfo = pb.module(FUN, "LFO", Frequency=-2.5, Offset=1)  # Offset=1 = unipolar 0-10V
+    lfo = pb.module(FUN, "LFO", pos=top_row.at(24),
+                    Frequency=-2.5, Offset=1)  # Offset=1 = unipolar 0-10V
 
     # ---- Tonnetz chord generator ----------------------------------------------
     # Tonnetz port IDs: CV_A=0, CV_B=1, CV_C=2, TRIG=3, RESET=4, CHORD_OUT=0
     # Tonnetz param IDs: ROOT=0, SPREAD_ATTEN=1, FOCUS_ATTEN=2
     # No discovered metadata yet, so pass raw integer param IDs
     tonnetz = pb.module(AR, "Tonnetz",
+                        pos=top_row.at(38),
                         **{"0": 0.0,    # ROOT = C
                            "1": 0.8,    # SPREAD atten = 80%
                            "2": 0.7})   # FOCUS atten = 70%
@@ -74,46 +79,48 @@ def build() -> str:
     # Actually, simpler: use the poly output into a single poly-aware oscillator.
     # But Crinkle is mono. Let's use Fundamental/Split to break poly into mono.
 
-    split = pb.module(FUN, "Split")
+    split = pb.module(FUN, "Split", pos=voice_row.at(38))
     pb.connect(tonnetz.out_id(0), split.in_id(0))     # CHORD poly -> Split IN
 
-    voice1 = pb.module(AR, "Crinkle", TUNE=0.0, TIMBRE=0.08, SYMMETRY=0.0)
-    voice2 = pb.module(AR, "Crinkle", TUNE=0.0, TIMBRE=0.12, SYMMETRY=0.05)
-    voice3 = pb.module(AR, "Crinkle", TUNE=0.0, TIMBRE=0.15, SYMMETRY=0.1)
+    voice1 = pb.module(AR, "Crinkle", pos=voice_row.at(50), TUNE=0.0, TIMBRE=0.08, SYMMETRY=0.0)
+    voice2 = pb.module(AR, "Crinkle", pos=voice_row.at(58), TUNE=0.0, TIMBRE=0.12, SYMMETRY=0.05)
+    voice3 = pb.module(AR, "Crinkle", pos=voice_row.at(66), TUNE=0.0, TIMBRE=0.15, SYMMETRY=0.1)
 
     pb.connect(split.out_id(0), voice1.i.V_Oct)        # ch 0 -> voice 1
     pb.connect(split.out_id(1), voice2.i.V_Oct)        # ch 1 -> voice 2
     pb.connect(split.out_id(2), voice3.i.V_Oct)        # ch 2 -> voice 3
 
     # ---- ADSR: medium attack for pad-like feel --------------------------------
-    adsr = pb.module(AR, "ADSR",
+    adsr = pb.module(AR, "ADSR", pos=top_row.at(52),
                      ATTACK=0.08, DECAY=0.3, SUSTAIN=0.7, RELEASE=0.6)
     pb.connect(clock.o.Base_clock, adsr.i.GATE)
 
     # ---- BusCrush: mix the three voices ---------------------------------------
-    bus = pb.module(AR, "BusCrush")
+    bus = pb.module(AR, "BusCrush", pos=output_row.at(50))
     pb.connect(voice1.o.OUT, bus.in_id(0))             # voice 1 -> ch 1
     pb.connect(voice2.o.OUT, bus.in_id(1))             # voice 2 -> ch 2
     pb.connect(voice3.o.OUT, bus.in_id(2))             # voice 3 -> ch 3
 
     # ---- VCA: shape amplitude with envelope -----------------------------------
-    vca = pb.module(FUN, "VCA")
+    vca = pb.module(FUN, "VCA", pos=output_row.at(64))
     pb.connect(bus.out_id(0), vca.i.Channel_1)           # BusCrush L -> VCA
     pb.connect(adsr.o.Envelope, vca.i.Channel_1_linear_CV)
 
     # ---- Ladder: gentle lowpass with envelope sweep ---------------------------
     # Cutoff is log2(Hz): log2(800) ~ 9.64, warm but open
-    filt = pb.module(AR, "Ladder", Cutoff=9.64, Resonance=0.25, Spread=0.1, Shape=0.0)
+    filt = pb.module(AR, "Ladder", pos=output_row.at(76),
+                     Cutoff=9.64, Resonance=0.25, Spread=0.1, Shape=0.0)
     pb.connect(vca.o.Channel_1, filt.i.Audio)
     pb.connect(adsr.o.Envelope, filt.i.CUTOFF_MOD)
 
     # ---- Saphire: hall reverb ------------------------------------------------
-    saphire = pb.module(AR, "Saphire", Mix=0.55, Time=0.85, Bend=0.0, Tone=0.35)
+    saphire = pb.module(AR, "Saphire", pos=output_row.at(88),
+                        Mix=0.55, Time=0.85, Bend=0.0, Tone=0.35)
     pb.connect(filt.o.OUT, saphire.i.In_L)
     pb.connect(filt.o.OUT, saphire.i.In_R)
 
     # ---- Audio output ---------------------------------------------------------
-    audio = pb.module("Core", "AudioInterface2")
+    audio = pb.module("Core", "AudioInterface2", pos=output_row.at(102))
     pb.connect(saphire.o.Out_L, audio.i.Left_input)
     pb.connect(saphire.o.Out_R, audio.i.Right_input)
 

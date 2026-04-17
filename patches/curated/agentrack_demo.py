@@ -14,21 +14,16 @@ Signal flow:
   ADSR ENV                         -->  Fundamental/VCA LIN1  (amplitude)
   Fundamental/VCA OUT1             -->  AudioInterface2 L + R
 
-  AgentRack/Inspector              (passive observer, no connections needed)
-
 Melody: C minor pentatonic, 8 steps at 16th notes, 120 BPM
 """
 
 import math
 import os
-import sys
+from pathlib import Path
 
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 
-OUTPUT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "tests", "agentrack_demo.vcv"
-)
+OUTPUT = str(Path(__file__).resolve().parents[2] / "tests" / "agentrack_demo.vcv")
 
 AR  = "AgentRack"
 SC  = "SlimeChild-Substation"
@@ -50,9 +45,14 @@ MELODY = [
 
 def build() -> str:
     pb = PatchBuilder()
+    layout = RackLayout()
+    top_row = layout.row(0)
+    voice_row = layout.row(1)
+    output_row = layout.row(2)
 
     # ---- Clock: 120 BPM, MULT=4 for 16th notes ---------------------------------
     clock = pb.module(SC, "SlimeChild-Substation-Clock",
+                      pos=top_row.at(0),
                       TEMPO=math.log2(120 / 60),   # = 1.0
                       RUN=1,
                       MULT=4)
@@ -61,43 +61,41 @@ def build() -> str:
     seq_params = {f"CV_0_{i}": v for i, v in enumerate(MELODY)}
     seq_params.update({f"GATE_{i}": 1 for i in range(8)})
     seq_params["RUN"] = 1
-    seq = pb.module(FUN, "SEQ3", **seq_params)
+    seq = pb.module(FUN, "SEQ3", pos=top_row.at(14), **seq_params)
     pb.chain(clock.o.MULT, seq.i.CLOCK)
 
     # ---- LFO: very slow (~0.07 Hz), bipolar, for timbre sweep ------------------
-    lfo = pb.module(FUN, "LFO", FREQ=-1.2, OFFSET=0)   # OFFSET=0 = bipolar ±5V
+    lfo = pb.module(FUN, "LFO", pos=top_row.at(34), FREQ=-1.2, OFFSET=0)   # OFFSET=0 = bipolar ±5V
 
     # ---- Crinkle: wavefolder oscillator, mild starting timbre ------------------
-    crinkle = pb.module(AR, "Crinkle", TUNE=0.0, TIMBRE=0.15, SYMMETRY=0.1, TIMBRE_CV=1.0)
+    crinkle = pb.module(AR, "Crinkle", pos=voice_row.at(14),
+                        TUNE=0.0, TIMBRE=0.15, SYMMETRY=0.1, TIMBRE_CV=1.0)
     pb.chain(seq.o.CV1, crinkle.i.VOCT)
 
     # ---- Attenuate: scale LFO ±5V to ~±0.25 so timbre sweeps 0.15±0.25 --------
-    att = pb.module(AR, "Attenuate", SCALE=0.4)    # 5V * 0.4 = 2V swing → ±0.2 timbre
+    att = pb.module(AR, "Attenuate", pos=top_row.at(42), SCALE=0.4)    # 5V * 0.4 = 2V swing → ±0.2 timbre
     pb.chain(lfo.o.SIN, att.i.IN)
     pb.chain(att.o.OUT, crinkle.i.TIMBRE)
 
     # ---- AgentRack ADSR: snappy attack, medium decay, held sustain -------------
-    adsr = pb.module(AR, "ADSR",
+    adsr = pb.module(AR, "ADSR", pos=voice_row.at(26),
                      ATTACK=0.01, DECAY=0.15, SUSTAIN=0.65, RELEASE=0.4)
     pb.chain(seq.o.TRIG, adsr.i.GATE)
 
     # ---- Ladder: Huovilainen ladder LP, envelope sweep via CUTOFF_MOD ----------
-    filt = pb.module(AR, "Ladder", FREQ=0.55, RES=0.3)
+    filt = pb.module(AR, "Ladder", pos=voice_row.at(38), FREQ=0.55, RES=0.3)
     pb.chain(crinkle.o.OUT, filt.i.IN)
     pb.chain(adsr.o.ENV,    filt.i.CUTOFF_MOD)
 
     # ---- Fundamental VCA: linear, driven by ADSR envelope ---------------------
-    vca = pb.module(FUN, "VCA")
+    vca = pb.module(FUN, "VCA", pos=output_row.at(38))
     pb.chain(filt.o.OUT,  vca.i.IN1)
     pb.chain(adsr.o.ENV,  vca.i.LIN1)
 
     # ---- Audio output ----------------------------------------------------------
-    audio = pb.module("Core", "AudioInterface2")
+    audio = pb.module("Core", "AudioInterface2", pos=output_row.at(50))
     pb.chain(vca.o.OUT1, audio.i.IN_L)
     pb.chain(vca.o.OUT1, audio.i.IN_R)
-
-    # ---- Inspector: passive observer (no connections needed) -------------------
-    pb.module(AR, "Inspector")
 
     pb.save(OUTPUT)
     return OUTPUT
