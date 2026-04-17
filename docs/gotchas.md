@@ -25,7 +25,7 @@ Each entry cites the source file where the lesson was established.
 
 **Rule:** Do not use SEQ3 for sparse gate patterns. Use CountModula/Sequencer16 instead, which has independent per-step gate select params (`GATE{N}`) and a proper held GATE output that controls both the gate signal and pitch advancement. If you need irregular rhythms with SEQ3, pair it with a separate gate sequencer (e.g., CountModula/GateSequencer16).
 
-**Source:** `/Users/palaitis/Development/vcv-rack/vcvpatch/registry.py` SEQ3 entry (params section comment); `/Users/palaitis/Development/vcv-rack/patches/generate_dub_techno.py` (drives ADSR from `seq.TRIG` while setting gate params per step).
+**Source:** `/Users/palaitis/Development/vcv-rack/vcvpatch/registry.py` SEQ3 entry (params section comment); `/Users/palaitis/Development/vcv-rack/patches/archive/generate_dub_techno.py` (drives ADSR from `seq.TRIG` while setting gate params per step).
 
 ---
 
@@ -157,4 +157,4 @@ Each entry cites the source file where the lesson was established.
 
 **Rule:** Always set `LEVEL=0` on SlimeChild VCA when the VCA is envelope-controlled. The envelope CV then becomes the sole source of gain.
 
-**Source:** Empirically discovered while building `patches/subzero.py`.
+**Source:** Empirically discovered while building `patches/curated/subzero.py`.

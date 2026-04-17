@@ -124,16 +124,18 @@ pb.connect(osc.o.Square, audio.i.Right_input)
 pb.build().save("my_patch.vcv")
 ```
 
-Modules are placed left-to-right in declaration order, matching the visual
-signal flow in VCV Rack.
+Patch scripts are written to keep signal flow and module intent legible.
 
 **Example patches:**
 
 | Patch | Description |
 |-------|-------------|
-| `patches/dub_cm.py` | Basic Channel dub in Cm. Tonnetz chord sequence, Crinkle voices, Ladder filter sweep, Saphire reverb. |
-| `patches/eiirp.py` | Radiohead "Everything In Its Right Place" via Tonnetz + Bogaudio PgmrX sequencing. |
-| `patches/agentrack_demo.py` | Exercises the core AgentRack modules. |
+| `patches/curated/agentrack_demo.py` | Exercises the core AgentRack modules. |
+| `patches/curated/tonnetz_demo.py` | Tonnetz chord generation into Crinkle voices, Ladder, and Saphire. |
+| `patches/curated/dub_cm_double.py` | Dual Tonnetz dub architecture with complementary crossfading paths. |
+| `patches/curated/plaits_stabs.py` | Dense, fully-specified hybrid patch around Plaits, drums, mixer FX, and dynamics. |
+| `patches/studies/eiirp.py` | Radiohead "Everything In Its Right Place" via Tonnetz + Bogaudio PgmrX sequencing. |
+| `patches/corpus/rings-to-clouds/` | Structured generative corpus used by the agent pipeline. |
 | `examples/builder_analog_synth_voice.py` | Minimal fluent PatchBuilder voice with modulation and proof output. |
 | `examples/lfo_to_vco_square.py` | Patch-level pulse-width modulation example. |
 | `examples/compare_patches.py` | Structural comparison utility for two `.vcv` files. |

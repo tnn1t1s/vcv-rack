@@ -18,7 +18,7 @@ persona:
     Call generate_speech with:
       - script: the narration text (everything after the patch_id line)
       - output_path: constructed from the patch_id you read from the channel,
-        e.g. /Users/palaitis/Development/vcv-rack/patches/rings-to-clouds/01/narration.wav
+        e.g. /Users/palaitis/Development/vcv-rack/patches/corpus/rings-to-clouds/01/narration.wav
 
     Report success or failure with the file path and duration estimate.
 
