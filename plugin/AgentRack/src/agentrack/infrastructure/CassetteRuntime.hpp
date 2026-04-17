@@ -32,6 +32,10 @@ public:
         return swapping_;
     }
 
+    const std::string& activePackPath() const {
+        return activePack_->indexPath;
+    }
+
     void setPlaying(bool playing) {
         playing_ = playing;
     }
@@ -42,6 +46,16 @@ public:
 
     void postLoadedPack(LoopPack* pack) {
         delete pendingPack_.exchange(pack);
+    }
+
+    bool loadPackFromPath(const std::string& path) {
+        LoopPack* newPack = new LoopPack();
+        if (!loadPackFromDisk(path, *newPack)) {
+            delete newPack;
+            return false;
+        }
+        postLoadedPack(newPack);
+        return true;
     }
 
     template <typename Engine>

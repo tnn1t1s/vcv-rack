@@ -17,11 +17,11 @@
 #include "PanelLayout.hpp"
 #include "agentrack/infrastructure/CassetteRuntime.hpp"
 #include "agentrack/signal/CV.hpp"
+#include "tape/CassetteMachineProfile.hpp"
 #include "tape/TapeEngine.hpp"
 #include "tape/LoopPack.hpp"
 
 using namespace rack;
-static constexpr float TWOPI = TapeEngine::TWOPI;
 using CassetteRuntime = AgentRack::Infrastructure::CassetteRuntime;
 extern Plugin* pluginInstance;
 
@@ -106,24 +106,7 @@ struct Cassette : AgentModule {
         int tapeSel = clamp((int)std::round(params[TAPE_PARAM].getValue()), 0, 2);
 
         // ── Tape machine quality → DSP params
-        float wowAmt, flutAmt, satDrive, hissAmt, toneAlpha;
-        bool  crackleOn;
-        if (tapeSel == 1) {          // WORN — some head wear
-            wowAmt    = 0.005f;  flutAmt  = 0.0015f;
-            satDrive  = 0.15f;   hissAmt  = 0.006f;
-            toneAlpha = 1.f - expf(-TWOPI * 8000.f  * args.sampleTime);
-            crackleOn = false;
-        } else if (tapeSel == 2) {   // OLD — dirty heads
-            wowAmt    = 0.018f;  flutAmt  = 0.005f;
-            satDrive  = 0.45f;   hissAmt  = 0.022f;
-            toneAlpha = 1.f - expf(-TWOPI * 3000.f  * args.sampleTime);
-            crackleOn = true;
-        } else {                     // NEW — clean transport
-            wowAmt    = 0.f;     flutAmt  = 0.f;
-            satDrive  = 0.f;     hissAmt  = 0.f;
-            toneAlpha = 1.f - expf(-TWOPI * 18000.f * args.sampleTime);
-            crackleOn = false;
-        }
+        CassetteMachineProfile machine = CassetteMachineProfile::fromSelection(tapeSel, args.sampleTime);
 
         // ── Engine tick: during swap force playing=false to ramp down
         bool enginePlaying = runtime.engineShouldPlay();
@@ -132,8 +115,9 @@ struct Cassette : AgentModule {
             pack->bufL[runtime.currentLoop()].data(), pack->bufR[runtime.currentLoop()].data(),
             pack->loopLen, pack->sampleRate,
             speed, reverse,
-            wowAmt, flutAmt, satDrive, hissAmt,
-            toneAlpha, crackleOn,
+            machine.wowAmount, machine.flutterAmount,
+            machine.saturationDrive, machine.hissAmount,
+            machine.toneAlpha, machine.crackleEnabled,
             enginePlaying,
             args.sampleTime, args.sampleRate);
 
@@ -147,9 +131,8 @@ struct Cassette : AgentModule {
 
     json_t* dataToJson() override {
         json_t* root = json_object();
-        LoopPack* pack = runtime.activePack();
-        if (pack && !pack->indexPath.empty())
-            json_object_set_new(root, "packPath", json_string(pack->indexPath.c_str()));
+        if (!runtime.activePackPath().empty())
+            json_object_set_new(root, "packPath", json_string(runtime.activePackPath().c_str()));
         json_object_set_new(root, "playing", json_boolean(runtime.isPlaying()));
         return root;
     }
@@ -161,14 +144,8 @@ struct Cassette : AgentModule {
         json_t* jp = json_object_get(root, "packPath");
         if (jp) {
             const char* path = json_string_value(jp);
-            if (path && path[0]) {
-                LoopPack* newPack = new LoopPack();
-                if (loadPackFromDisk(path, *newPack)) {
-                    runtime.postLoadedPack(newPack);
-                } else {
-                    delete newPack;
-                }
-            }
+            if (path && path[0])
+                runtime.loadPackFromPath(path);
         }
     }
 
@@ -325,7 +302,7 @@ struct CassettePanel : rack::widget::Widget {
         nvgFill(vg);
         nvgStrokeWidth(vg, mm2px(0.8f));
         for (int i = 0; i < 3; ++i) {
-            float a = angle + i * (TWOPI / 3.f);
+            float a = angle + i * (TapeEngine::TWOPI / 3.f);
             nvgBeginPath(vg);
             nvgMoveTo(vg, x + cosf(a) * r * 0.30f, y + sinf(a) * r * 0.30f);
             nvgLineTo(vg, x + cosf(a) * r * 0.88f, y + sinf(a) * r * 0.88f);
@@ -384,11 +361,7 @@ struct CassetteWidget : rack::ModuleWidget {
             char* path = osdialog_file(OSDIALOG_OPEN, NULL, NULL, filters);
             osdialog_filters_free(filters);
             if (!path) return;
-            LoopPack* newPack = new LoopPack();
-            if (loadPackFromDisk(path, *newPack)) {
-                m->runtime.postLoadedPack(newPack);
-            } else {
-                delete newPack;
+            if (!m->runtime.loadPackFromPath(path)) {
                 osdialog_message(OSDIALOG_WARNING, OSDIALOG_OK,
                     "Could not load pack. Check that index.json is valid, has exactly 10 slots, and all WAV files are 2-channel PCM.");
             }

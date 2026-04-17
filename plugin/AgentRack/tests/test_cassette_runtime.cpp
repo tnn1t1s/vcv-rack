@@ -75,6 +75,9 @@ int main() {
     runtime.completeSwapIfReady(engine);
     expect(runtime.currentLoop() == 4, "active pack loop can advance");
 
+    expect(!runtime.loadPackFromPath("/tmp/missing/index.json"), "failed disk load returns false");
+    expect(runtime.activePack()->name == "TEST", "failed disk load does not replace active pack");
+
     runtime.resetToInternal(engine);
     expect(runtime.activePack() == &getInternalPack(), "reset returns to internal pack");
     expect(runtime.currentLoop() == 0, "reset returns to loop 0");
