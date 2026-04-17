@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "agentrack/infrastructure/PartitionedConvolution.hpp"
+#include "agentrack/infrastructure/SaphireRuntime.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "ir_names.hpp"
 #include <cmath>
@@ -52,6 +53,7 @@ extern Plugin* pluginInstance;
 // ---------------------------------------------------------------------------
 
 using PartitionedConvolution = AgentRack::Infrastructure::PartitionedConvolution;
+using SaphireRuntime = AgentRack::Infrastructure::SaphireRuntime;
 
 static constexpr int BLOCK     = PartitionedConvolution::kBlockSize;
 static constexpr int MAX_IR    = 132300;         // 3s at 44100 Hz
@@ -75,24 +77,7 @@ struct Saphire : AgentModule {
     int   raw_len       = 0;
     int   loaded_ir_idx = -1;  // bg thread only
 
-    // Current IR index for display (atomic so draw thread can read safely)
-    std::atomic<int> cur_ir_idx{38};
-
-    // Double-buffered convolution engines.
-    // conv[live]   -- always processing input, always producing output.
-    // conv[1-live] -- either producing output (safe_old=true) or being rebuilt (safe_old=false).
-    PartitionedConvolution conv[2];
-    int  live = 0;                        // audio thread only
-
-    // Background rebuild coordination
-    std::atomic<int>  pending{-1};        // set to target index when rebuild completes
-    std::atomic<bool> building{false};    // true while thread is running
-    std::atomic<bool> safe_old{false};    // true = conv[1-live] is safe for audio thread to push
-    std::thread       builder;
-
-    // Crossfade position (audio thread only).
-    // -1 = not crossfading; 0..BLOCK-1 = fading from old engine to new.
-    int xf_pos = -1;
+    SaphireRuntime runtime;
 
     // Pre-delay buffers
     float pre_L[MAX_PRE] = {};
@@ -101,10 +86,6 @@ struct Saphire : AgentModule {
 
     // TONE filter state
     float tone_L = 0.f, tone_R = 0.f;
-
-    // Change detection (audio thread only)
-    float last_time = -1.f, last_bend = -999.f;
-    int   last_ir   = -1;
 
     Saphire() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -120,19 +101,15 @@ struct Saphire : AgentModule {
         configOutput(OUT_L_OUTPUT, "Out L");
         configOutput(OUT_R_OUTPUT, "Out R");
 
-        conv[0].init();
-        conv[1].init();
+        runtime.init();
         // Initial load: synchronous (no thread needed at startup)
         loadIRFromFile(38);
         doLoad(0, 0.5f, 0.f);
-        last_time = 0.5f;
-        last_bend = 0.f;
-        last_ir   = 38;
+        runtime.setInitialState(38, 0.5f, 0.f);
     }
 
     ~Saphire() {
-        // Must join before the conv[] arrays are destroyed
-        if (builder.joinable()) builder.join();
+        runtime.joinBuilder();
     }
 
     // Load IR from res/ir/NN.f32 into raw_L/R. Called from bg thread (or constructor).
@@ -181,30 +158,19 @@ struct Saphire : AgentModule {
             wR[n] = raw_R[s0] * (1.f - fr) + raw_R[s1] * fr;
         }
 
-        conv[target].load(wL.data(), wR.data(), wlen);
+        runtime.convolutionAt(target).load(wL.data(), wR.data(), wlen);
     }
 
     // Launch a background thread to rebuild the inactive engine.
     // If a rebuild is already running the call is a no-op -- the change
     // will be detected again next process() and retried.
     void launchRebuild(int ir_idx, float time_p, float bend_p) {
-        if (building.exchange(true)) return;   // already in progress
-        safe_old.store(false);                 // stop pushing to non-live while it rebuilds
-        if (builder.joinable()) builder.join();
-
-        last_time = time_p;
-        last_bend = bend_p;
-        last_ir   = ir_idx;
-        int target = 1 - live;
-
-        builder = std::thread([this, ir_idx, time_p, bend_p, target]() {
-            if (ir_idx != loaded_ir_idx)
-                loadIRFromFile(ir_idx);
-            doLoad(target, time_p, bend_p);
-            cur_ir_idx.store(ir_idx);
-            pending.store(target);
-            building.store(false);
-        });
+        runtime.launchRebuild(ir_idx, time_p, bend_p,
+            [this, time_p, bend_p](int target, int requestedIrIndex) {
+                if (requestedIrIndex != loaded_ir_idx)
+                    loadIRFromFile(requestedIrIndex);
+                doLoad(target, time_p, bend_p);
+            });
     }
 
     void process(const ProcessArgs& args) override {
@@ -215,21 +181,13 @@ struct Saphire : AgentModule {
         float pre_p  = params[PRE_PARAM].getValue();
 
         // Check for a completed rebuild -- swap engines, start crossfade
-        int p = pending.load();
-        if (p >= 0) {
-            pending.store(-1);
-            live   = p;
-            xf_pos = 0;
-            safe_old.store(true);   // old engine (1-live) safe for audio thread to push
-        }
+        runtime.consumeCompletedRebuild();
 
         int ir_idx = (int)std::round(params[IR_PARAM].getValue());
         ir_idx = std::max(0, std::min(IR_COUNT - 1, ir_idx));
 
         // Detect any change and launch rebuild (no-op if already building)
-        if (ir_idx != last_ir ||
-            std::fabs(time_p - last_time) > 0.001f ||
-            std::fabs(bend_p - last_bend) > 0.001f) {
+        if (runtime.shouldRebuild(ir_idx, time_p, bend_p)) {
             launchRebuild(ir_idx, time_p, bend_p);
         }
 
@@ -263,21 +221,13 @@ struct Saphire : AgentModule {
         // Push to live engine; push to old engine only during crossfade (safe_old=true)
         float wet_L, wet_R;
         float old_L = 0.f, old_R = 0.f;
-        conv[live].push(dl_L, dl_R, wet_L, wet_R);
-        if (safe_old.load()) {
-            conv[1 - live].push(dl_L, dl_R, old_L, old_R);
+        runtime.liveConvolution().push(dl_L, dl_R, wet_L, wet_R);
+        if (runtime.oldConvolutionIsSafe()) {
+            runtime.oldConvolution().push(dl_L, dl_R, old_L, old_R);
         }
 
         // Crossfade: blend old engine's live output with new engine's live output
-        if (xf_pos >= 0) {
-            float alpha = (float)xf_pos / (float)BLOCK;
-            wet_L = old_L * (1.f - alpha) + wet_L * alpha;
-            wet_R = old_R * (1.f - alpha) + wet_R * alpha;
-            if (++xf_pos >= BLOCK) {
-                xf_pos = -1;
-                safe_old.store(false);  // crossfade done, old engine no longer needed
-            }
-        }
+        runtime.applyCrossfade(wet_L, wet_R, old_L, old_R);
 
         // TONE: one-pole lowpass on wet signal
         float lp_fc = 100.f * std::pow(200.f, tone_p);
@@ -322,7 +272,7 @@ struct IRDisplay : rack::TransparentWidget {
             return;
         }
 
-        int idx = module->cur_ir_idx.load();
+        int idx = module->runtime.currentIrIndex();
         if (idx < 0 || idx >= IR_COUNT) return;
 
         // Index (left, amber)

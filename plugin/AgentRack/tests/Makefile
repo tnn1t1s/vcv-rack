@@ -20,8 +20,10 @@ CASSETTE_RT_SRCS := test_cassette_runtime.cpp
 CASSETTE_RT_BIN  := test_cassette_runtime
 CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
 CASSETTE_PROFILE_BIN  := test_cassette_machine_profile
+SAPHIRE_RT_SRCS := test_saphire_runtime.cpp
+SAPHIRE_RT_BIN  := test_saphire_runtime
 
-all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN)
+all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN)
 
 $(FFT_BIN): $(FFT_SRCS)
 	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
@@ -47,6 +49,9 @@ $(CASSETTE_RT_BIN): $(CASSETTE_RT_SRCS)
 $(CASSETTE_PROFILE_BIN): $(CASSETTE_PROFILE_SRCS)
 	$(CXX) $(CXXFLAGS) $(CASSETTE_PROFILE_SRCS) $(LDFLAGS) -o $(CASSETTE_PROFILE_BIN)
 
+$(SAPHIRE_RT_BIN): $(SAPHIRE_RT_SRCS)
+	$(CXX) $(CXXFLAGS) $(SAPHIRE_RT_SRCS) $(LDFLAGS) -o $(SAPHIRE_RT_BIN)
+
 run: $(FFT_BIN)
 	./$(FFT_BIN)
 
@@ -71,6 +76,9 @@ run-cassette-runtime: $(CASSETTE_RT_BIN)
 run-cassette-profile: $(CASSETTE_PROFILE_BIN)
 	./$(CASSETTE_PROFILE_BIN)
 
+run-saphire-runtime: $(SAPHIRE_RT_BIN)
+	./$(SAPHIRE_RT_BIN)
+
 run-all: all
 	./$(FFT_BIN)
 	./$(CV_BIN)
@@ -80,8 +88,9 @@ run-all: all
 	DYLD_LIBRARY_PATH=$(RACK_LIB_DIR) ./$(MODULE_BIN)
 	./$(CASSETTE_RT_BIN)
 	./$(CASSETTE_PROFILE_BIN)
+	./$(SAPHIRE_RT_BIN)
 
 clean:
-	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN)
+	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN)
 
-.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-all clean
+.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-all clean
