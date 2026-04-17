@@ -16,8 +16,12 @@ CONTRACT_SRCS := test_component_contracts.cpp
 CONTRACT_BIN  := test_component_contracts
 MODULE_SRCS := test_module_regressions.cpp
 MODULE_BIN  := test_module_regressions
+CASSETTE_RT_SRCS := test_cassette_runtime.cpp
+CASSETTE_RT_BIN  := test_cassette_runtime
+CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
+CASSETTE_PROFILE_BIN  := test_cassette_machine_profile
 
-all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN)
+all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN)
 
 $(FFT_BIN): $(FFT_SRCS)
 	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
@@ -37,6 +41,12 @@ $(CONTRACT_BIN): $(CONTRACT_SRCS)
 $(MODULE_BIN): $(MODULE_SRCS)
 	$(CXX) $(CXXFLAGS) $(MODULE_SRCS) $(LDFLAGS) $(RACK_LDFLAGS) -o $(MODULE_BIN)
 
+$(CASSETTE_RT_BIN): $(CASSETTE_RT_SRCS)
+	$(CXX) $(CXXFLAGS) $(CASSETTE_RT_SRCS) $(LDFLAGS) -o $(CASSETTE_RT_BIN)
+
+$(CASSETTE_PROFILE_BIN): $(CASSETTE_PROFILE_SRCS)
+	$(CXX) $(CXXFLAGS) $(CASSETTE_PROFILE_SRCS) $(LDFLAGS) -o $(CASSETTE_PROFILE_BIN)
+
 run: $(FFT_BIN)
 	./$(FFT_BIN)
 
@@ -55,6 +65,12 @@ run-contracts: $(CONTRACT_BIN)
 run-modules: $(MODULE_BIN)
 	DYLD_LIBRARY_PATH=$(RACK_LIB_DIR) ./$(MODULE_BIN)
 
+run-cassette-runtime: $(CASSETTE_RT_BIN)
+	./$(CASSETTE_RT_BIN)
+
+run-cassette-profile: $(CASSETTE_PROFILE_BIN)
+	./$(CASSETTE_PROFILE_BIN)
+
 run-all: all
 	./$(FFT_BIN)
 	./$(CV_BIN)
@@ -62,8 +78,10 @@ run-all: all
 	./$(PCONV_BIN)
 	./$(CONTRACT_BIN)
 	DYLD_LIBRARY_PATH=$(RACK_LIB_DIR) ./$(MODULE_BIN)
+	./$(CASSETTE_RT_BIN)
+	./$(CASSETTE_PROFILE_BIN)
 
 clean:
-	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN)
+	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN)
 
-.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-all clean
+.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-all clean
