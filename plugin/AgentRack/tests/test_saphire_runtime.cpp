@@ -22,10 +22,24 @@ static void test_initial_state() {
     CHECK(runtime.currentIrIndex() == 12, "initial IR index is exposed");
     CHECK(!runtime.oldConvolutionIsSafe(), "old convolution starts unsafe");
     CHECK(!runtime.isCrossfading(), "runtime starts outside a crossfade");
-    CHECK(!runtime.shouldRebuild(12, 0.5f, 0.f), "same params do not trigger rebuild");
-    CHECK(runtime.shouldRebuild(13, 0.5f, 0.f), "IR change triggers rebuild");
-    CHECK(runtime.shouldRebuild(12, 0.7f, 0.f), "time change triggers rebuild");
-    CHECK(runtime.shouldRebuild(12, 0.5f, 0.2f), "bend change triggers rebuild");
+    CHECK(!runtime.shouldRebuild({12, 0.5f, 0.f}), "same params do not trigger rebuild");
+    CHECK(runtime.shouldRebuild({13, 0.5f, 0.f}), "IR change triggers rebuild");
+    CHECK(runtime.shouldRebuild({12, 0.7f, 0.f}), "time change triggers rebuild");
+    CHECK(runtime.shouldRebuild({12, 0.5f, 0.2f}), "bend change triggers rebuild");
+}
+
+static void test_request_clamps_ir_selection() {
+    std::printf("\n[request normalization]\n");
+
+    auto belowRange = SaphireRuntime::makeRequest(-5.f, 0.25f, -0.5f, 40);
+    auto aboveRange = SaphireRuntime::makeRequest(99.f, 0.25f, -0.5f, 40);
+    auto rounded = SaphireRuntime::makeRequest(12.6f, 0.25f, -0.5f, 40);
+
+    CHECK(belowRange.irIndex == 0, "IR request clamps below range");
+    CHECK(aboveRange.irIndex == 39, "IR request clamps above range");
+    CHECK(rounded.irIndex == 13, "IR request rounds to nearest slot");
+    CHECK(rounded.timeParam == 0.25f, "request keeps time parameter");
+    CHECK(rounded.bendParam == -0.5f, "request keeps bend parameter");
 }
 
 static void test_rebuild_handoff_and_crossfade() {
@@ -36,7 +50,7 @@ static void test_rebuild_handoff_and_crossfade() {
 
     int rebuiltTarget = -1;
     int rebuiltIr = -1;
-    bool launched = runtime.launchRebuild(8, 0.6f, 0.25f,
+    bool launched = runtime.launchRebuild({8, 0.6f, 0.25f},
         [&](int target, int irIndex) {
             rebuiltTarget = target;
             rebuiltIr = irIndex;
@@ -70,6 +84,7 @@ int main() {
     std::printf("=== AgentRack SaphireRuntime test suite ===\n");
 
     test_initial_state();
+    test_request_clamps_ir_selection();
     test_rebuild_handoff_and_crossfade();
 
     std::printf("\n=== Results: %d passed, %d failed ===\n", passed, failed);

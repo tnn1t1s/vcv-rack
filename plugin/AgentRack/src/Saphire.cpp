@@ -116,12 +116,12 @@ struct Saphire : AgentModule {
     // Launch a background thread to rebuild the inactive engine.
     // If a rebuild is already running the call is a no-op -- the change
     // will be detected again next process() and retried.
-    void launchRebuild(int ir_idx, float time_p, float bend_p) {
-        runtime.launchRebuild(ir_idx, time_p, bend_p,
-            [this, time_p, bend_p](int target, int requestedIrIndex) {
+    void launchRebuild(const SaphireRuntime::RebuildRequest& request) {
+        runtime.launchRebuild(request,
+            [this, request](int target, int requestedIrIndex) {
                 if (requestedIrIndex != impulseResponse.loadedIrIndex())
                     loadIRFromFile(requestedIrIndex);
-                doLoad(target, time_p, bend_p);
+                doLoad(target, request.timeParam, request.bendParam);
             });
     }
 
@@ -135,12 +135,12 @@ struct Saphire : AgentModule {
         // Check for a completed rebuild -- swap engines, start crossfade
         runtime.consumeCompletedRebuild();
 
-        int ir_idx = (int)std::round(params[IR_PARAM].getValue());
-        ir_idx = std::max(0, std::min(IR_COUNT - 1, ir_idx));
+        SaphireRuntime::RebuildRequest request =
+            SaphireRuntime::makeRequest(params[IR_PARAM].getValue(), time_p, bend_p, IR_COUNT);
 
         // Detect any change and launch rebuild (no-op if already building)
-        if (runtime.shouldRebuild(ir_idx, time_p, bend_p)) {
-            launchRebuild(ir_idx, time_p, bend_p);
+        if (runtime.shouldRebuild(request)) {
+            launchRebuild(request);
         }
 
         // Inputs: sum polyphonic channels, then mono-fold if R unpatched

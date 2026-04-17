@@ -12,6 +12,16 @@ class SaphireRuntime {
 public:
     static constexpr float kParamEpsilon = 0.001f;
 
+    struct RebuildRequest {
+        int irIndex = 0;
+        float timeParam = 0.f;
+        float bendParam = 0.f;
+
+        RebuildRequest() = default;
+        RebuildRequest(int requestedIrIndex, float requestedTimeParam, float requestedBendParam)
+        : irIndex(requestedIrIndex), timeParam(requestedTimeParam), bendParam(requestedBendParam) {}
+    };
+
     SaphireRuntime() = default;
 
     ~SaphireRuntime() {
@@ -69,14 +79,22 @@ public:
         return crossfadePosition_ >= 0;
     }
 
-    bool shouldRebuild(int irIndex, float timeParam, float bendParam) const {
-        return irIndex != lastIr_
-            || std::fabs(timeParam - lastTime_) > kParamEpsilon
-            || std::fabs(bendParam - lastBend_) > kParamEpsilon;
+    static RebuildRequest makeRequest(float irParam, float timeParam, float bendParam, int irCount) {
+        RebuildRequest request;
+        request.irIndex = std::max(0, std::min(irCount - 1, static_cast<int>(std::round(irParam))));
+        request.timeParam = timeParam;
+        request.bendParam = bendParam;
+        return request;
+    }
+
+    bool shouldRebuild(const RebuildRequest& request) const {
+        return request.irIndex != lastIr_
+            || std::fabs(request.timeParam - lastTime_) > kParamEpsilon
+            || std::fabs(request.bendParam - lastBend_) > kParamEpsilon;
     }
 
     template <typename RebuildFn>
-    bool launchRebuild(int irIndex, float timeParam, float bendParam, RebuildFn rebuild) {
+    bool launchRebuild(const RebuildRequest& request, RebuildFn rebuild) {
         if (building_.exchange(true)) {
             return false;
         }
@@ -84,14 +102,14 @@ public:
         safeOld_.store(false);
         joinBuilder();
 
-        lastIr_ = irIndex;
-        lastTime_ = timeParam;
-        lastBend_ = bendParam;
+        lastIr_ = request.irIndex;
+        lastTime_ = request.timeParam;
+        lastBend_ = request.bendParam;
         int targetIndex = rebuildIndex();
 
-        builder_ = std::thread([this, irIndex, targetIndex, rebuild]() {
-            rebuild(targetIndex, irIndex);
-            currentIrIndex_.store(irIndex);
+        builder_ = std::thread([this, request, targetIndex, rebuild]() {
+            rebuild(targetIndex, request.irIndex);
+            currentIrIndex_.store(request.irIndex);
             pendingIndex_.store(targetIndex);
             building_.store(false);
         });
