@@ -11,9 +11,11 @@ from .metadata import (
     param_name,
     port_name,
 )
+from .layout import Position, Row, RackLayout, position
 
 __all__ = ["Patch", "Module", "Port", "Cable", "CableType", "CABLE_COLORS",
            "save_vcv", "load_vcv",
            "PatchBuilder", "PatchCompileError",
            "module_metadata", "param", "input_port", "output_port",
-           "param_id", "param_range", "param_name", "port_name"]
+           "param_id", "param_range", "param_name", "port_name",
+           "Position", "Row", "RackLayout", "position"]

@@ -10,6 +10,8 @@ import re
 from enum import Enum
 from typing import Optional, Union
 
+from .layout import Position
+
 
 # ---------------------------------------------------------------------------
 # Cable type enum + color palette
@@ -470,19 +472,15 @@ class Patch:
     """
 
     RACK_VERSION = "2.6.6"
-    HP = 15  # pixels per HP (approx, for layout)
-
     def __init__(self, zoom: float = 1.0):
         self.modules: list[Module] = []
         self.cables: list[Cable] = []
         self.zoom = zoom
-        self._col = 0     # auto-layout cursor (in HP units)
-        self._row = 0
 
     # -- Module placement ----------------------------------------------------
 
     def add(self, plugin: str, model: str,
-            pos: Optional[list] = None,
+            pos,
             color: Optional[str] = None,
             extra_data: Optional[dict] = None,
             **params) -> Module:
@@ -492,11 +490,12 @@ class Patch:
         params are keyword args matching the module's canonical API param names.
         E.g.: patch.add("Fundamental", "VCF", Cutoff_frequency=0.5, Resonance=0.3)
 
-        pos=[col, row] in HP units. If omitted, auto-layout left-to-right.
+        pos is required. Pass either:
+          - [hp, row]
+          - (hp, row)
+          - vcvpatch.layout.Position
         """
-        if pos is None:
-            pos = [self._col, self._row]
-            self._col += 8  # advance by ~8HP per module (rough)
+        pos = _normalize_pos(pos)
 
         # Resolve canonical API param names -> param IDs using discovered metadata
         discovered = _load_discovered(plugin, model)
@@ -542,22 +541,6 @@ class Patch:
         """Fan out one output to multiple inputs."""
         for dst in destinations:
             self._cable(source, dst, cable_type)
-
-    # -- Layout helpers ------------------------------------------------------
-
-    def row(self, row: int = None):
-        """Move auto-layout cursor to a new row."""
-        if row is not None:
-            self._row = row
-        else:
-            self._row += 1
-        self._col = 0
-        return self
-
-    def gap(self, hp: int = 4):
-        """Add horizontal gap in auto-layout."""
-        self._col += hp
-        return self
 
     # -- Serialization -------------------------------------------------------
 
@@ -613,3 +596,19 @@ class Patch:
         for c in self.cables:
             o, i = c.output, c.input
             print(f"  {o.module.model}[out {o.port_id}] -> {i.module.model}[in {i.port_id}]  {c.cable_type.value}")
+
+
+def _normalize_pos(pos) -> list[int]:
+    """Normalize an explicit position value into [hp, row]."""
+    if pos is None:
+        raise ValueError(
+            "pos is required. Pass an explicit position such as [0, 0] or "
+            "RackLayout().row(0).at(0)."
+        )
+    if isinstance(pos, Position):
+        return pos.as_list()
+    if isinstance(pos, (list, tuple)) and len(pos) == 2:
+        return [int(pos[0]), int(pos[1])]
+    raise TypeError(
+        f"Invalid pos={pos!r}. Expected [hp, row], (hp, row), or vcvpatch.layout.Position."
+    )

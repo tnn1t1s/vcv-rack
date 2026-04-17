@@ -61,6 +61,16 @@ def _err(result: dict):
     return result
 
 
+def _add(ctx, name: str, plugin: str, model: str, pos: list[int], params_json: str = "{}"):
+    """Small wrapper to keep explicit placement readable in tests."""
+    return add_module(
+        name, plugin, model,
+        pos_json=json.dumps(pos),
+        params_json=params_json,
+        tool_context=ctx,
+    )
+
+
 # ---------------------------------------------------------------------------
 # new_patch / reset_patch
 # ---------------------------------------------------------------------------
@@ -71,7 +81,7 @@ class TestNewPatch:
         assert "message" in r
 
     def test_new_patch_clears_state(self, ctx):
-        add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
+        _add(ctx, "vco1", "Fundamental", "VCO", [0, 0])
         new_patch(ctx)
         s = state_get(ctx.session_id)
         assert s["modules"] == {}
@@ -146,37 +156,37 @@ class TestDescribeModule:
 
 class TestAddModule:
     def test_add_vco(self, ctx):
-        r = _ok(add_module("vco1", "Fundamental", "VCO", tool_context=ctx))
+        r = _ok(_add(ctx, "vco1", "Fundamental", "VCO", [0, 0]))
         assert r["name"] == "vco1"
         assert r["introspectable"] is True
 
     def test_params_applied(self, ctx):
         # Use canonical param name "Frequency" (id=2) for Fundamental/LFO
-        _ok(add_module("lfo1", "Fundamental", "LFO",
-                        params_json='{"Frequency": 0.3}', tool_context=ctx))
+        _ok(_add(ctx, "lfo1", "Fundamental", "LFO", [8, 0],
+                 params_json='{"Frequency": 0.3}'))
         s = state_get(ctx.session_id)
         handle = s["modules"]["lfo1"]
         # Frequency is param id 2 in Fundamental/LFO (from discovered/)
         assert handle._module._param_values.get(2) == pytest.approx(0.3)
 
     def test_invalid_params_json(self, ctx):
-        _err(add_module("x", "Fundamental", "VCO", params_json="not json",
-                         tool_context=ctx))
+        _err(add_module("x", "Fundamental", "VCO", "[0, 0]",
+                        params_json="not json", tool_context=ctx))
 
     def test_noncanonical_param_name_errors(self, ctx):
-        _err(add_module("lfo1", "Fundamental", "LFO",
+        _err(add_module("lfo1", "Fundamental", "LFO", "[0, 0]",
                         params_json='{"frequency": 0.3}', tool_context=ctx))
 
     def test_duplicate_name_overwrites(self, ctx):
-        add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
-        add_module("vco1", "Fundamental", "LFO", tool_context=ctx)
+        _add(ctx, "vco1", "Fundamental", "VCO", [0, 0])
+        _add(ctx, "vco1", "Fundamental", "LFO", [8, 0])
         s = state_get(ctx.session_id)
         handle = s["modules"]["vco1"]
         assert handle._module.model == "LFO"
 
     def test_unknown_module_still_adds(self, ctx):
         # UnknownNode path -- should succeed but introspectable=False
-        r = _ok(add_module("mystery", "FakePlugin", "FakeModel", tool_context=ctx))
+        r = _ok(_add(ctx, "mystery", "FakePlugin", "FakeModel", [0, 0]))
         assert r["introspectable"] is False
 
 
@@ -188,9 +198,9 @@ class TestConnectAudio:
     @pytest.fixture(autouse=True)
     def setup(self, ctx):
         self.ctx = ctx
-        add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
-        add_module("vcf1", "Fundamental", "VCF", tool_context=ctx)
-        add_module("audio", "Core", "AudioInterface2", tool_context=ctx)
+        _add(ctx, "vco1", "Fundamental", "VCO", [0, 0])
+        _add(ctx, "vcf1", "Fundamental", "VCF", [12, 0])
+        _add(ctx, "audio", "Core", "AudioInterface2", [24, 0])
 
     def test_basic_connect(self):
         # VCO 'Sawtooth' output (id=2) -> VCF 'Audio' input (id=3)
@@ -219,8 +229,8 @@ class TestFanOutAudio:
     @pytest.fixture(autouse=True)
     def setup(self, ctx):
         self.ctx = ctx
-        add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
-        add_module("audio", "Core", "AudioInterface2", tool_context=ctx)
+        _add(ctx, "vco1", "Fundamental", "VCO", [0, 0])
+        _add(ctx, "audio", "Core", "AudioInterface2", [12, 0])
 
     def test_fan_out_both_channels(self):
         r = _ok(fan_out_audio(
@@ -245,8 +255,8 @@ class TestModulate:
     @pytest.fixture(autouse=True)
     def setup(self, ctx):
         self.ctx = ctx
-        add_module("lfo1", "Fundamental", "LFO", tool_context=ctx)
-        add_module("vcf1", "Fundamental", "VCF", tool_context=ctx)
+        _add(ctx, "lfo1", "Fundamental", "LFO", [0, 0])
+        _add(ctx, "vcf1", "Fundamental", "VCF", [12, 0])
 
     def test_modulate_creates_cable(self):
         # LFO 'Sine' output (id=0) -> VCF 'Frequency' input (id=0)
@@ -269,8 +279,8 @@ class TestModulate:
 
     def test_builder_modulate_requires_explicit_via_for_multi_output_sources(self):
         pb = PatchBuilder()
-        lfo = pb.module("Fundamental", "LFO")
-        vcf = pb.module("Fundamental", "VCF")
+        lfo = pb.module("Fundamental", "LFO", pos=[0, 0])
+        vcf = pb.module("Fundamental", "VCF", pos=[12, 0])
         with pytest.raises(ValueError, match="Pass via= explicitly"):
             lfo.modulates(vcf.i.Frequency)
 
@@ -283,8 +293,8 @@ class TestConnectCV:
     @pytest.fixture(autouse=True)
     def setup(self, ctx):
         self.ctx = ctx
-        add_module("clock1", "ImpromptuModular", "Clocked-Clkd", tool_context=ctx)
-        add_module("seq1",   "Fundamental",      "SEQ3",          tool_context=ctx)
+        _add(ctx, "clock1", "ImpromptuModular", "Clocked-Clkd", [0, 0])
+        _add(ctx, "seq1",   "Fundamental",      "SEQ3",          [16, 0])
 
     def test_clock_cable(self):
         # Clocked-Clkd 'Clock 1' output (id=1) -> SEQ3 'Clock' input (id=1)
@@ -310,8 +320,8 @@ class TestGetStatus:
         assert r["named_modules"] == []
 
     def test_proven_simple_patch(self, ctx):
-        add_module("vco1",  "Fundamental",     "VCO",            tool_context=ctx)
-        add_module("audio", "Core",            "AudioInterface2", tool_context=ctx)
+        _add(ctx, "vco1",  "Fundamental",     "VCO",             [0, 0])
+        _add(ctx, "audio", "Core",            "AudioInterface2", [12, 0])
         connect_audio("vco1.Sawtooth", "audio.i.Left_input",  tool_context=ctx)
         connect_audio("vco1.Sawtooth", "audio.i.Right_input", tool_context=ctx)
         r = _ok(get_status(ctx))
@@ -319,8 +329,8 @@ class TestGetStatus:
         assert "vco1" in r["named_modules"]
 
     def test_status_contains_routing(self, ctx):
-        add_module("vco1",  "Fundamental", "VCO",             tool_context=ctx)
-        add_module("audio", "Core",        "AudioInterface2", tool_context=ctx)
+        _add(ctx, "vco1",  "Fundamental", "VCO",             [0, 0])
+        _add(ctx, "audio", "Core",        "AudioInterface2", [12, 0])
         connect_audio("vco1.Sawtooth", "audio.i.Left_input", tool_context=ctx)
         r = get_status(ctx)
         assert "VCO" in r["routing"]
@@ -332,8 +342,8 @@ class TestGetStatus:
 
 class TestCompileAndSave:
     def test_save_proven_patch(self, ctx):
-        add_module("vco1",  "Fundamental", "VCO",             tool_context=ctx)
-        add_module("audio", "Core",        "AudioInterface2", tool_context=ctx)
+        _add(ctx, "vco1",  "Fundamental", "VCO",             [0, 0])
+        _add(ctx, "audio", "Core",        "AudioInterface2", [12, 0])
         connect_audio("vco1.Sawtooth", "audio.i.Left_input",  tool_context=ctx)
         connect_audio("vco1.Sawtooth", "audio.i.Right_input", tool_context=ctx)
 
@@ -348,7 +358,7 @@ class TestCompileAndSave:
             os.unlink(path)
 
     def test_save_unproven_patch_errors(self, ctx):
-        add_module("vco1", "Fundamental", "VCO", tool_context=ctx)
+        _add(ctx, "vco1", "Fundamental", "VCO", [0, 0])
         # No audio output connected -- not proven
         with tempfile.NamedTemporaryFile(suffix=".vcv", delete=False) as f:
             path = f.name
@@ -370,9 +380,9 @@ class TestDronePatch:
     def test_drone_patch_proven_and_saves(self, ctx):
         _ok(new_patch(ctx))
 
-        _ok(add_module("vco1",   "Fundamental", "VCO",             tool_context=ctx))
-        _ok(add_module("reverb", "Valley",      "Plateau",         tool_context=ctx))
-        _ok(add_module("audio",  "Core",        "AudioInterface2", tool_context=ctx))
+        _ok(_add(ctx, "vco1",   "Fundamental", "VCO",             [0, 0]))
+        _ok(_add(ctx, "reverb", "Valley",      "Plateau",         [12, 0]))
+        _ok(_add(ctx, "audio",  "Core",        "AudioInterface2", [24, 0]))
 
         # Plateau inputs are 'Left' (id=0) and 'Right' (id=1)
         # Plateau outputs are 'Left' (id=0) and 'Right' (id=1)
@@ -395,10 +405,10 @@ class TestDronePatch:
     def test_drone_with_lfo_modulation(self, ctx):
         _ok(new_patch(ctx))
 
-        _ok(add_module("vco1",   "Fundamental", "VCO",             tool_context=ctx))
-        _ok(add_module("lfo1",   "Fundamental", "LFO",
-                        params_json='{"Frequency": 0.5}', tool_context=ctx))
-        _ok(add_module("audio",  "Core",        "AudioInterface2", tool_context=ctx))
+        _ok(_add(ctx, "vco1",   "Fundamental", "VCO",             [0, 0]))
+        _ok(_add(ctx, "lfo1",   "Fundamental", "LFO",             [12, 0],
+                 params_json='{"Frequency": 0.5}'))
+        _ok(_add(ctx, "audio",  "Core",        "AudioInterface2", [24, 0]))
 
         _ok(connect_audio("vco1.Sawtooth", "audio.i.Left_input",  tool_context=ctx))
         _ok(connect_audio("vco1.Sawtooth", "audio.i.Right_input", tool_context=ctx))

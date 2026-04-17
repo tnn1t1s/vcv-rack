@@ -93,6 +93,7 @@ def reset_patch(tool_context=None) -> dict:
 
 
 def add_module(name: str, plugin: str, model: str,
+               pos_json: str,
                params_json: str = "{}", tool_context=None) -> dict:
     """
     Add a module to the patch and register it under a friendly name.
@@ -101,9 +102,15 @@ def add_module(name: str, plugin: str, model: str,
         name:        Friendly name used in subsequent port references (e.g. "vco1").
         plugin:      Plugin slug (e.g. "Fundamental", "Valley").
         model:       Model slug (e.g. "VCO", "Plateau").
+        pos_json:    JSON array [hp, row], e.g. "[16, 1]".
         params_json: JSON object of param overrides using canonical API names,
                      e.g. '{"Frequency": 0.4, "Pulse_width": 0.5}'.
     """
+    try:
+        pos = json.loads(pos_json)
+    except json.JSONDecodeError as exc:
+        return {"status": "error", "message": f"Invalid pos_json: {exc}"}
+
     try:
         params = json.loads(params_json)
     except json.JSONDecodeError as exc:
@@ -114,7 +121,7 @@ def add_module(name: str, plugin: str, model: str,
     modules: dict = sess["modules"]
 
     try:
-        handle = pb.module(plugin, model, **params)
+        handle = pb.module(plugin, model, pos=pos, **params)
     except Exception as exc:
         return {"status": "error", "message": str(exc)}
 
@@ -126,6 +133,7 @@ def add_module(name: str, plugin: str, model: str,
         "name": name,
         "plugin": plugin,
         "model": model,
+        "pos": pos,
         "introspectable": introspectable,
         "params_set": params,
     }

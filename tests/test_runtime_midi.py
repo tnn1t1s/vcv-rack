@@ -26,8 +26,8 @@ def build_test_patch(path: str) -> tuple[int, int]:
     Returns (vco_module_id, freq_param_id).
     """
     pb = PatchBuilder()
-    vco   = pb.module("Fundamental", "VCO", Frequency=0.0)
-    audio = pb.module("Core", "AudioInterface2")
+    vco   = pb.module("Fundamental", "VCO", pos=[0, 0], Frequency=0.0)
+    audio = pb.module("Core", "AudioInterface2", pos=[12, 0])
     pb.chain(vco.o.Sawtooth, audio.i.Left_input)
     pb.chain(vco.o.Sawtooth, audio.i.Right_input)
     assert pb.proven, f"Patch not proven: {pb.report()}"

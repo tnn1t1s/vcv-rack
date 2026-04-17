@@ -11,14 +11,18 @@ from vcvpatch.builder import PatchBuilder
 pb = PatchBuilder()
 
 sampler = pb.module("AudibleInstruments", "Marbles",
+    pos=[0, 0],
     data={{'t_deja_vu': False, 'x_deja_vu': False, 't_mode': 2, 'x_mode': 0,
            't_range': 2, 'x_range': 0, 'external': False, 'x_scale': 2,
            'y_divider_index': 8, 'x_clock_source_internal': 0}})
 resonator = pb.module("AudibleInstruments", "Rings",
+    pos=[12, 0],
     data={{'polyphony': 1, 'model': 0, 'easterEgg': False}})
 texture = pb.module("AudibleInstruments", "Clouds",
+    pos=[24, 0],
     data={{'playback': 0, 'quality': 0, 'blendMode': 2}})
 audio = pb.module("Core", "AudioInterface2",
+    pos=[40, 0],
     data={{"audio": {{"driver": 6, "deviceName": "Speakers (High Definition Audio Device)",
            "sampleRate": 48000.0, "blockSize": 256,
            "inputOffset": 0, "outputOffset": 0}}, "dcFilter": True}})
