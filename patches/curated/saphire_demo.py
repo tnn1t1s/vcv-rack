@@ -55,37 +55,37 @@ def build() -> str:
                       MULT=1)
 
     # ---- SEQ3: 8-step C major pentatonic, all gates on -------------------------
-    seq_params = {f"CV_0_{i}": v for i, v in enumerate(MELODY)}
-    seq_params.update({f"GATE_{i}": 1 for i in range(8)})
-    seq_params["RUN"] = 1
+    seq_params = {f"CV_1_step_{i+1}": v for i, v in enumerate(MELODY)}
+    seq_params.update({f"Step_{i+1}_trigger": 1 for i in range(8)})
+    seq_params["Run"] = 1
     seq = pb.module(FUN, "SEQ3", pos=top_row.at(14), **seq_params)
-    pb.chain(clock.o.MULT, seq.i.CLOCK)
+    pb.chain(clock.o.MULT, seq.i.Clock)
 
     # ---- Crinkle: wavefolder osc, clean-ish timbre for reverb tail --------------
     crinkle = pb.module(AR, "Crinkle", pos=voice_row.at(14),
-                        TUNE=0.0, TIMBRE=0.1, SYMMETRY=0.0)
-    pb.chain(seq.o.CV1, crinkle.i.VOCT)
+                        Tune=0.0, Timbre=0.1, Symmetry=0.0)
+    pb.chain(seq.o.CV_1, crinkle.i.V_Oct)
 
     # ---- ADSR: medium attack/decay, long release for reverb interplay -----------
     adsr = pb.module(AR, "ADSR", pos=voice_row.at(26),
-                     ATTACK=0.02, DECAY=0.2, SUSTAIN=0.5, RELEASE=0.8)
-    pb.chain(seq.o.TRIG, adsr.i.GATE)
+                     Attack=0.02, Decay=0.2, Sustain=0.5, Release=0.8)
+    pb.chain(seq.o.Trigger, adsr.i.Gate)
 
     # ---- VCA: amplitude shaped by envelope -------------------------------------
     vca = pb.module(FUN, "VCA", pos=voice_row.at(38))
-    pb.chain(crinkle.o.OUT, vca.i.IN1)
-    pb.chain(adsr.o.ENV,    vca.i.LIN1)
+    pb.chain(crinkle.o.Out, vca.i.IN)
+    pb.chain(adsr.o.Envelope, vca.i.CV)
 
     # ---- Saphire: wet-heavy, long tail, slight pre-delay -----------------------
     saphire = pb.module(AR, "Saphire", pos=voice_row.at(48),
-                        MIX=0.65, TIME=0.8, BEND=0.0, TONE=0.7, PRE=0.08)
-    pb.chain(vca.o.OUT1, saphire.i.IN_L)
-    pb.chain(vca.o.OUT1, saphire.i.IN_R)
+                        Mix=0.65, Time=0.8, Bend=0.0, Tone=0.7, Pre_delay=0.08)
+    pb.chain(vca.o.OUT, saphire.i.In_L)
+    pb.chain(vca.o.OUT, saphire.i.In_R)
 
     # ---- Audio output ----------------------------------------------------------
     audio = pb.module("Core", "AudioInterface2", pos=voice_row.at(62))
-    pb.chain(saphire.o.OUT_L, audio.i.IN_L)
-    pb.chain(saphire.o.OUT_R, audio.i.IN_R)
+    pb.chain(saphire.o.Out_L, audio.i.Left_input)
+    pb.chain(saphire.o.Out_R, audio.i.Right_input)
 
     pb.save(OUTPUT)
     return OUTPUT

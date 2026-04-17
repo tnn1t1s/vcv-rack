@@ -116,8 +116,8 @@ def build() -> str:
     pb.chain(envs.o.ENV2,   filt.i.FM)
     pb.chain(filt.o.OUT,    vca.i.IN)
     pb.chain(envs.o.ENV1,   vca.i.CV)
-    pb.chain(vca.o.OUT,     audio.i.IN_L)
-    pb.chain(vca.o.OUT,     audio.i.IN_R)
+    pb.chain(vca.o.OUT, audio.i.Left_input)
+    pb.chain(vca.o.OUT, audio.i.Right_input)
 
     print(pb.status)
     if not pb.proven:

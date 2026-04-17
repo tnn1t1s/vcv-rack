@@ -59,3 +59,20 @@ def test_split_preserves_audio_for_downstream_audio_routing():
     patch = pb.build()
     assert isinstance(patch, Patch)
     assert pb.proven, pb.report()
+
+
+def test_controller_specs_support_cv_inference_for_maintained_modules():
+    pb = PatchBuilder()
+    layout = RackLayout()
+    row0 = layout.row(0)
+
+    random = pb.module(FUN, "Random", pos=row0.at(0), Internal_trigger_rate=-1.5)
+    quant = pb.module("Coffee", "Quant", pos=row0.at(12), Note_6=1, Note_11=1)
+    dadsr = pb.module("Bogaudio", "Bogaudio-DADSRH", pos=row0.at(24))
+    mixer = pb.module("mscHack", "Mix_9_3_4", pos=row0.at(36))
+
+    pb.connect(random.o.Smooth, quant.i.V_OCT_In)
+    assert pb._records[-1].cable_type == CableType.CV
+
+    pb.connect(dadsr.o.Inverted_envelope, mixer.i.Ch5_Level_CV)
+    assert pb._records[-1].cable_type == CableType.CV

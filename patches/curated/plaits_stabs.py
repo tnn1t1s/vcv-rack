@@ -63,7 +63,7 @@ bottom_row = layout.row(2)
 clock = pb.module("JW-Modules", "SimpleClock",
                   pos=top_row.at(0),
                   data={"clockMult": 4, "running": True},
-                  **{"BPM": 1.0, "Run": 0.0, "Random Reset Probability": -2.0})
+                  **{"BPM": 1.0, "Run": 0.0, "Random_Reset_Probability": -2.0})
 
 # ── Clock divider ─────────────────────────────────────────────────────────────
 cdiv = pb.module("AgentRack", "ClockDiv", pos=top_row.at(12))
@@ -79,18 +79,18 @@ rnd = pb.module("Fundamental", "RandomValues", pos=top_row.at(24))
 
 # ── Coffee/Quant: only F (param 7) and Bb (param 12) active ───────────────────
 quant = pb.module("Coffee", "Quant", pos=top_row.at(36), **{
-    "Note 1":  0,  # C   off
-    "Note 2":  0,  # C#  off
-    "Note 3":  0,  # D   off
-    "Note 4":  0,  # Eb  off
-    "Note 5":  0,  # E   off
-    "Note 6":  1,  # F   ON
-    "Note 7":  0,  # F#  off
-    "Note 8":  0,  # G   off
-    "Note 9":  0,  # Ab  off
-    "Note 10": 0,  # A   off
-    "Note 11": 1,  # Bb  ON
-    "Note 12": 0,  # B   off
+    "Note_1":  0,  # C   off
+    "Note_2":  0,  # C#  off
+    "Note_3":  0,  # D   off
+    "Note_4":  0,  # Eb  off
+    "Note_5":  0,  # E   off
+    "Note_6":  1,  # F   ON
+    "Note_7":  0,  # F#  off
+    "Note_8":  0,  # G   off
+    "Note_9":  0,  # Ab  off
+    "Note_10": 0,  # A   off
+    "Note_11": 1,  # Bb  ON
+    "Note_12": 0,  # B   off
 })
 
 # ── Plaits: Chord model set via data (no manual step needed) ──────────────────
@@ -98,12 +98,12 @@ plaits = pb.module("AudibleInstruments", "Plaits",
                    pos=middle_row.at(18),
                    data={"lowCpu": False, "model": 6},
                    **{
-    "Frequency":             -0.9445768594741821,
-    "Harmonics":              0.29879525303840637,
-    "Timbre":                 0.11445778608322144,
-    "Morph":                  0.30722782015800476,
-    "Lowpass gate decay":     1.0,
-    "Lowpass gate response":  0.5012022256851196,
+    "FREQ":                  -0.9445768594741821,
+    "HARMONICS":              0.29879525303840637,
+    "TIMBRE":                 0.11445778608322144,
+    "MORPH":                  0.30722782015800476,
+    "DECAY":                  1.0,
+    "LPG_COLOUR":             0.5012022256851196,
 })
 
 # ── ADSR (gate from drum seq track 8, patterns empty so filter stays dark) ────
@@ -119,9 +119,9 @@ lvcf1 = pb.module("Bogaudio", "Bogaudio-LVCF",
                   pos=middle_row.at(32),
                   data={"poles": 4, "bandwidthMode": "pitched"},
                   **{
-    "Center/cutoff frequency":  0.15060241520404816,
-    "Frequency CV attenuation": 0.4240967631340027,
-    "Resonance / bandwidth":    0.15301203727722168,
+    "Center_cutoff_frequency":  0.15060241520404816,
+    "Frequency_CV_attenuation": 0.4240967631340027,
+    "Resonance_bandwidth":      0.15301203727722168,
 })
 
 # ── DADSRH: looping envelope from /4 clock -> mixer volume CV (pumping) ───────
@@ -135,9 +135,9 @@ dadsr = pb.module("Bogaudio", "Bogaudio-DADSRH",
     "Sustain":        0.0,
     "Release":        0.0,
     "Hold":           0.4328,
-    "Attack shape":   1.0,
-    "Decay shape":    1.0,
-    "Release shape":  1.0,
+    "Attack_shape":   1.0,
+    "Decay_shape":    1.0,
+    "Release_shape":  1.0,
     "Loop":           1.0,
     "Speed":          1.0,
     "Retrigger":      1.0,
@@ -146,19 +146,19 @@ dadsr = pb.module("Bogaudio", "Bogaudio-DADSRH",
 # ── Drum voices ───────────────────────────────────────────────────────────────
 # Types from original: 0=hat, 2=rim, 3=perc, 4=phrase-accent
 drums_hat  = pb.module("dbRackModules", "Drums", pos=bottom_row.at(0), **{
-    "Type": 0.0, "Sample selection": 6.0, "Pitch": 0.45, "Decay": 0.226})
+    "Type": 0.0, "Sample_selection": 6.0, "Pitch": 0.45, "Decay": 0.226})
 drums_rim  = pb.module("dbRackModules", "Drums", pos=bottom_row.at(12), **{
-    "Type": 2.0, "Sample selection": 9.0, "Pitch": 0.45, "Decay": 0.113})
+    "Type": 2.0, "Sample_selection": 9.0, "Pitch": 0.45, "Decay": 0.113})
 drums_perc = pb.module("dbRackModules", "Drums", pos=bottom_row.at(24), **{
-    "Type": 3.0, "Sample selection": 3.0, "Pitch": 0.45, "Decay": 0.201})
+    "Type": 3.0, "Sample_selection": 3.0, "Pitch": 0.45, "Decay": 0.201})
 drums_acc  = pb.module("dbRackModules", "Drums", pos=bottom_row.at(36), **{
-    "Type": 4.0, "Sample selection": 3.0, "Pitch": 0.45, "Decay": 1.0})
+    "Type": 4.0, "Sample_selection": 3.0, "Pitch": 0.45, "Decay": 1.0})
 
 # ── Kickall ───────────────────────────────────────────────────────────────────
 kick = pb.module("Befaco", "Kickall", pos=middle_row.at(44), **{
     "Tune":                       33.92992401123047,
-    "Wave shape":                 0.21204811334609985,
-    "VCA Envelope decay time":    0.460000604391098,
+    "Wave_shape":                 0.21204811334609985,
+    "VCA_Envelope_decay_time":    0.460000604391098,
 })
 
 # ── Mixer: exact original channel assignments and AUX send levels ─────────────
@@ -166,28 +166,28 @@ kick = pb.module("Befaco", "Kickall", pos=middle_row.at(44), **{
 # AUX send params: Ch1.AUX1=81, Ch2.AUX1=85, Ch2.AUX2=86, Ch3.AUX2=90,
 #                  Ch4.AUX2=94, Ch7.AUX2=106
 mixer = pb.module("mscHack", "Mix_9_3_4", pos=middle_row.at(58), **{
-    "Main Level":       0.7181,
-    "Ch1. Level":       0.69,    # drums_hat
-    "Ch2. Level":       0.646,   # LVCF1/Plaits
-    "Ch3. Level":       0.378,   # drums_rim
-    "Ch4. Level":       0.392,   # drums_perc
-    "Ch5. Level":       0.404,   # Kickall (also modulated by DADSRH)
-    "Ch6. Level":       0.444,   # Plateau direct (also modulated by DADSRH)
-    "Ch7. Level":       0.678,   # drums_acc
-    "AUX1. Level":      0.82,    # Chronoblob return
-    "AUX2. Level":      0.844,   # Plateau return
+    "Main_Level":       0.7181,
+    "Ch1_Level":        0.69,    # drums_hat
+    "Ch2_Level":        0.646,   # LVCF1/Plaits
+    "Ch3_Level":        0.378,   # drums_rim
+    "Ch4_Level":        0.392,   # drums_perc
+    "Ch5_Level":        0.404,   # Kickall (also modulated by DADSRH)
+    "Ch6_Level":        0.444,   # Plateau direct (also modulated by DADSRH)
+    "Ch7_Level":        0.678,   # drums_acc
+    "AUX1_Level":       0.82,    # Chronoblob return
+    "AUX2_Level":       0.844,   # Plateau return
     # AUX sends
-    "Ch2. AUX 1 Level": 0.9072,  # Plaits -> Chronoblob
-    "Ch2. AUX 2 Level": 0.8771,  # Plaits -> Plateau
-    "Ch3. AUX 2 Level": 0.4506,  # drums_rim -> Plateau
-    "Ch4. AUX 2 Level": 0.5325,  # drums_perc -> Plateau
-    "Ch7. AUX 2 Level": 0.9747,  # drums_acc -> Plateau
+    "Ch2_AUX_1_Level":  0.9072,  # Plaits -> Chronoblob
+    "Ch2_AUX_2_Level":  0.8771,  # Plaits -> Plateau
+    "Ch3_AUX_2_Level":  0.4506,  # drums_rim -> Plateau
+    "Ch4_AUX_2_Level":  0.5325,  # drums_perc -> Plateau
+    "Ch7_AUX_2_Level":  0.9747,  # drums_acc -> Plateau
 })
 
 # ── Plateau (dry+wet, output goes to Ch6 direct AND AUX2 return) ─────────────
 plateau = pb.module("Valley", "Plateau", pos=bottom_row.at(58), **{
-    "Dry level":  1.0,
-    "Wet level":  0.4922,
+    "Dry_level":  1.0,
+    "Wet_level":  0.4922,
     "Size":       0.663636326789856,
     "Decay":      0.5511191487312317,
 })
@@ -198,8 +198,8 @@ delay = pb.module("AlrightDevices", "Chronoblob2",
                   data={"delay_mode": 1, "hold_behavior": 0, "sync_prescaler": 6},
                   **{
     "Feedback":   0.6566261053085327,
-    "Delay Time": 0.4204815626144409,
-    "Dry/Wet":    0.5662652850151062,
+    "Delay_Time": 0.4204815626144409,
+    "Dry_Wet":    0.5662652850151062,
 })
 
 # ── LVCF2 (dead-end: Plateau -> LVCF2, output unconnected, matches original) ──
@@ -207,9 +207,9 @@ lvcf2 = pb.module("Bogaudio", "Bogaudio-LVCF",
                   pos=bottom_row.at(44),
                   data={"poles": 4, "bandwidthMode": "pitched"},
                   **{
-    "Center/cutoff frequency":  0.0,
-    "Frequency CV attenuation": 1.0,
-    "Resonance / bandwidth":    0.0,
+    "Center_cutoff_frequency":  0.0,
+    "Frequency_CV_attenuation": 1.0,
+    "Resonance_bandwidth":      0.0,
 })
 
 # ── Compressor ────────────────────────────────────────────────────────────────
@@ -218,7 +218,7 @@ pressor = pb.module("Bogaudio", "Bogaudio-Pressor", pos=bottom_row.at(86), **{
     "Ratio":       0.8939758539199829,
     "Attack":      0.3162277638912201,
     "Release":     0.2487582266330719,
-    "Output gain": 0.3493974804878235,
+    "Output_gain": 0.3493974804878235,
 })
 
 # ── Output ────────────────────────────────────────────────────────────────────
@@ -243,7 +243,7 @@ pb.connect(clock.o._4,     dadsr.i.Trigger)
 pb.connect(clock.o._32, drums_acc.i.Trig)
 
 # ClockDiv /16 of /4 = very slow stab (every 4 beats * 16 = 16 beats)
-pb.connect(cdiv.o._16, plaits.i.Trigger)
+pb.connect(cdiv.o._16, plaits.i.TRIGGER)
 
 # Drum sequencer -> drum triggers
 pb.connect(drumseq.out_id(4), drums_perc.i.Trig)
@@ -257,8 +257,8 @@ pb.connect(rnd.o.Random_7, quant.i.V_OCT_In)
 pb.connect(rnd.o.Random_2, plaits.i.Timbre)
 
 # Quant -> Plaits V/oct AND Kickall tune (kick follows chord)
-pb.connect(quant.o.V_OCT_Out, plaits.i.Pitch_1V_oct_)
-pb.connect(quant.o.V_OCT_Out, kick.i.Tune_V_Oct_)
+pb.connect(quant.o.V_OCT_Out, plaits.i.Pitch_1V_oct)
+pb.connect(quant.o.V_OCT_Out, kick.i.Tune_V_Oct)
 
 # ADSR -> LVCF1 cutoff CV
 pb.connect(adsr.o.Envelope, lvcf1.i.Cutoff_CV)

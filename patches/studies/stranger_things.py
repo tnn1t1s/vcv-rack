@@ -42,7 +42,7 @@ def build() -> str:
 
     # SEQ3: 8-step sequencer, steps set to CMaj7 voltages
     seq = pb.module("Fundamental", "SEQ3", pos=top_row.at(14), **{
-        f"CV_0_{i}": v for i, v in enumerate(STEPS)
+        f"CV_1_step_{i+1}": v for i, v in enumerate(STEPS)
     })
 
     # Quantizer: C major (CMaj7 notes C/E/G/B are all in C major)
@@ -85,15 +85,15 @@ def build() -> str:
     # --- Wiring ---
 
     # Clock -> SEQ3
-    pb.chain(clock.o.MULT, seq.i.CLOCK)
+    pb.chain(clock.o.MULT, seq.i.Clock)
 
     # SEQ3 -> pitch chain
-    pb.chain(seq.o.CV_A,  quant.i.IN)
+    pb.chain(seq.o.CV_1, quant.i.IN)
     pb.chain(quant.o.OUT, subosc.i.VOCT)
 
     # SEQ3 trigger -> envelopes
-    pb.chain(seq.o.TRIG,  envs.i.TRIG1)
-    pb.chain(seq.o.TRIG,  envs.i.TRIG2)
+    pb.chain(seq.o.Trigger, envs.i.TRIG1)
+    pb.chain(seq.o.Trigger, envs.i.TRIG2)
 
     # SubOsc layers -> mixer
     pb.chain(subosc.o.BASE, mixer.i.IN1)
@@ -105,8 +105,8 @@ def build() -> str:
     pb.chain(envs.o.ENV2, filt.i.FM)
     pb.chain(filt.o.OUT,  vca.i.IN)
     pb.chain(envs.o.ENV1, vca.i.CV)
-    pb.chain(vca.o.OUT,   audio.i.IN_L)
-    pb.chain(vca.o.OUT,   audio.i.IN_R)
+    pb.chain(vca.o.OUT, audio.i.Left_input)
+    pb.chain(vca.o.OUT, audio.i.Right_input)
 
     print(pb.status)
     if not pb.proven:

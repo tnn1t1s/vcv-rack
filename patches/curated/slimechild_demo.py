@@ -122,8 +122,8 @@ def build() -> str:
     # Filter -> VCA -> output
     pb.chain(filt.o.OUT,  vca.i.IN)
     pb.chain(envs.o.ENV1, vca.i.CV)     # amplitude envelope
-    pb.chain(vca.o.OUT,   audio.i.IN_L)
-    pb.chain(vca.o.OUT,   audio.i.IN_R)
+    pb.chain(vca.o.OUT, audio.i.Left_input)
+    pb.chain(vca.o.OUT, audio.i.Right_input)
 
     # =========================================================================
     # PROOF & SAVE

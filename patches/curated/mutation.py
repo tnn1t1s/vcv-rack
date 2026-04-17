@@ -111,17 +111,17 @@ def build() -> str:
 
     # --- Delay: short triplet bleed effect ---
     delay = pb.module("AlrightDevices", "Chronoblob2", pos=effects_row.at(58),
-                      FEEDBACK=0.05,
-                      TIME=0.23,
-                      MIX=0.4)
+                      Feedback=0.05,
+                      Delay_Time=0.23,
+                      Dry_Wet=0.4)
 
     # --- Reverb: large hall ---
     reverb = pb.module("Valley", "Plateau", pos=effects_row.at(72),
-                       DRY=1.0,
-                       WET=0.55,
-                       SIZE=0.88,
-                       DECAY=0.80,
-                       DIFFUSION=8.0)
+                       Dry_level=1.0,
+                       Wet_level=0.55,
+                       Size=0.88,
+                       Decay=0.80,
+                       Diffusion=8.0)
 
     audio = pb.module("Core", "AudioInterface2", pos=effects_row.at(86))
 
@@ -132,7 +132,7 @@ def build() -> str:
 
     # Pitch: Seq → Quantizer → Plaits
     pb.chain(seq.o.CV,    quant.i.IN)
-    pb.chain(quant.o.OUT, plaits.i.VOCT)
+    pb.chain(quant.o.OUT, plaits.i.Pitch_1V_oct)
 
     # Trigger: Seq → Plaits (LPG click) + Envelopes
     pb.chain(seq.o.TRIG, plaits.i.TRIGGER)
@@ -156,14 +156,14 @@ def build() -> str:
     pb.chain(envs.o.ENV1, vca.i.CV)
 
     # VCA → Delay (mono to both channels for stereo width from Chronoblob2)
-    pb.chain(vca.o.OUT, delay.i.IN_L)
-    pb.chain(vca.o.OUT, delay.i.IN_R)
+    pb.chain(vca.o.OUT, delay.i.Left)
+    pb.chain(vca.o.OUT, delay.i.Right_Return)
 
     # Delay → Reverb → Audio
-    pb.chain(delay.o.OUT_L,  reverb.i.IN_L)
-    pb.chain(delay.o.OUT_R,  reverb.i.IN_R)
-    pb.chain(reverb.o.OUT_L, audio.i.IN_L)
-    pb.chain(reverb.o.OUT_R, audio.i.IN_R)
+    pb.chain(delay.o.Left, reverb.i.Left)
+    pb.chain(delay.o.Right_Send, reverb.i.Right)
+    pb.chain(reverb.o.Left, audio.i.Left_input)
+    pb.chain(reverb.o.Right, audio.i.Right_input)
 
     print(pb.status)
     if not pb.proven:

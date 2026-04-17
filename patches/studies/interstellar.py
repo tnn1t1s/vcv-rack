@@ -139,7 +139,7 @@ def build() -> str:
     pb.connect(tonnetz.output(0), vco.input(0))      # CHORD -> V/Oct
     pb.connect(vco.o.Sine, ladder.i.Audio)
     pb.connect(ladder.o.Out, vca.input(2))            # Ladder -> VCA In
-    pb.connect(adsr.o.Envelope, vca.input(1))         # ADSR -> VCA CV
+    pb.connect(adsr.o.ENV, vca.input(1))         # ADSR -> VCA CV
     pb.connect(vca.output(0), saphire.input(0))       # -> In L
     pb.connect(saphire.output(0), audio.input(0))     # Out L ->
     pb.connect(saphire.output(1), audio.input(1))     # Out R ->

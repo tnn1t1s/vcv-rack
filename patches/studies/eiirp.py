@@ -142,7 +142,7 @@ def build() -> str:
 
     # VCO -> VCA -> Audio
     pb.chain(vco.o.Sine, vca.input(2))               # Sine -> VCA Ch1 In
-    pb.connect(adsr.o.Envelope, vca.input(1))         # ADSR ENV -> VCA Ch1 CV
+    pb.connect(adsr.o.ENV, vca.input(1))         # ADSR ENV -> VCA Ch1 CV
     pb.connect(vca.output(0), audio.input(0))         # VCA -> Left
     pb.connect(vca.output(0), audio.input(1))         # VCA -> Right
 

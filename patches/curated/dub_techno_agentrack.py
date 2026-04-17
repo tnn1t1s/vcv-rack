@@ -45,7 +45,7 @@ clock = pb.module("ImpromptuModular", "Clocked-Clkd",
 # ── Chord source ───────────────────────────────────────────────────────────────
 chord = pb.module("AaronStatic", "ChordCV",
                   pos=top_row.at(14),
-                  **{"Root Note": 0.0, "Chord Type": -1.0,
+                  **{"Root_Note": 0.0, "Chord_Type": -1.0,
                      "Inversion": 0.0, "Voicing": 1.0})
 
 # ── Oscillators ───────────────────────────────────────────────────────────────
@@ -82,8 +82,8 @@ ladder = pb.module("AgentRack", "Ladder",
 # ── Bogaudio bandpass (tonal movement, LFO-swept) ────────────────────────────
 bp = pb.module("Bogaudio", "Bogaudio-VCF",
                pos=voice_row.at(64),
-               **{"Center/cutoff frequency": 0.45,
-                  "Resonance / bandwidth":   0.5,
+               **{"Center_cutoff_frequency": 0.45,
+                  "Resonance_bandwidth":     0.5,
                   "Mode": 2.0})
 
 # ── AgentRack Saphire (reverb) ────────────────────────────────────────────────
@@ -95,16 +95,16 @@ saphire = pb.module("AgentRack", "Saphire",
 # ── Delay (ping-pong) ─────────────────────────────────────────────────────────
 delay = pb.module("AlrightDevices", "Chronoblob2",
                   pos=effects_row.at(78),
-                  **{"Delay Time": 0.375, "Feedback": 0.58,
-                     "Dry/Wet": 0.40, "Delay Mode": 1.0,
-                     "Time Modulation Mode": 0.0})
+                  **{"Delay_Time": 0.375, "Feedback": 0.58,
+                     "Dry_Wet": 0.40, "Delay_Mode": 1.0,
+                     "Time_Modulation_Mode": 0.0})
 
 # ── Modulation ────────────────────────────────────────────────────────────────
 lfo1 = pb.module("Fundamental", "LFO", pos=top_row.at(56), Frequency=-2.5)   # slow, bandpass cutoff sweep
 lfo2 = pb.module("Fundamental", "LFO", pos=top_row.at(66), Frequency=-2.0)   # slow, delay wobble
 rnd  = pb.module("Fundamental", "Random",
                  pos=top_row.at(76),
-                 **{"Internal trigger rate": -1.5})
+                 **{"Internal_trigger_rate": -1.5})
 
 # ── Output ────────────────────────────────────────────────────────────────────
 audio = pb.module("Core", "AudioInterface2", pos=effects_row.at(92))
@@ -119,8 +119,8 @@ pb.connect(chord.o.Polyphonic, vco2.i._1V_octave_pitch)
 pb.connect(vco1.o.Square, mix.i.Channel_1)
 pb.connect(vco2.o.Square, mix.i.Channel_2)
 
-pb.connect(mix.o.Mix,       vca.i.Channel_1)
-pb.connect(vca.o.Channel_1, summer.i.Polyphonic)
+pb.connect(mix.o.Mix,       vca.i.IN)
+pb.connect(vca.o.OUT,       summer.i.Polyphonic)
 
 pb.connect(summer.o.Monophonic, ladder.i.Audio)
 pb.connect(ladder.o.Out, bp.i.Signal)
@@ -140,13 +140,12 @@ pb.connect(delay.o.Right_Send, audio.i.Right_input)
 pb.connect(clock.o.Clock_1, env_filter.i.Gate)
 pb.connect(clock.o.Clock_1, env_vca.i.Gate)
 
-pb.connect(env_filter.o.Envelope, ladder.i.Cutoff_mod)
-pb.connect(env_vca.o.Envelope,    vca.i.Channel_1_linear_CV)
+pb.connect(env_filter.o.ENV, ladder.i.Cutoff_mod)
+pb.connect(env_vca.o.ENV,    vca.i.CV)
 
 pb.connect(lfo1.o.Sine, bp.i.Cutoff_CV)
 
-pb.connect(lfo2.o.Sine,     delay.i.L_Delay_Time_CV)
-pb.connect(lfo2.o.Triangle, delay.i.R_Delay_Time_CV)
+pb.connect(lfo2.o.Sine, delay.i.L_Delay_Time_CV)
 
 # Random -> ADSR decay and release CV (organic envelope variation, per tutorial)
 pb.connect(rnd.o.Smooth, env_filter.i.Decay)

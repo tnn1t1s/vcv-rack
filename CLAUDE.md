@@ -221,6 +221,12 @@ file, completing a build, or hitting an error worth surfacing. Keep it short.
 - No hardcoded magic numbers; use named params via `registry.py`
 - Attenuator params must be opened when connecting CV (see `docs/module-param-patterns.md`)
 - `UnknownNode` is opaque: blocks audio propagation, prevents proof
+- When inspection outside the repo is necessary, only look in:
+  - this repo
+  - `/Users/palaitis/Library/Application Support/Rack2`
+- Do not search unrelated user directories such as `Documents`, `Pro Tools`, or
+  other music/project folders. They can contain misleading files and should be
+  treated as out of scope for VCV work.
 
 ## Patch Layout Convention
 

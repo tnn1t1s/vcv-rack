@@ -7,6 +7,7 @@ import json
 import glob
 import random
 import re
+import copy
 from enum import Enum
 from typing import Optional, Union
 
@@ -37,10 +38,14 @@ CABLE_COLORS = {
 
 DISCOVERED_DIR = os.path.join(os.path.dirname(__file__), "discovered")
 
-# Minimal legacy supplement for preserved param-only fixture files.
-# This is intentionally tiny: just enough to keep the committed test subset
-# usable while the broader discovered cache remains local/generated.
-_LEGACY_PORTS: dict[tuple[str, str], dict[str, list[dict]]] = {
+# Explicit metadata supplements for modules whose discovered cache is not
+# committed locally but that are still part of the maintained authoring surface.
+# These specs are exact and deterministic. They are not fuzzy aliases.
+#
+# Some entries below preserve older, intentional API spellings used by the
+# maintained patch corpus. That is acceptable here because these are explicit
+# API specs, not discovered-name heuristics.
+_EXPLICIT_METADATA: dict[tuple[str, str], dict[str, list[dict]]] = {
     ("Fundamental", "VCO"): {
         "inputs": [
             {"id": 0, "name": "1V/octave pitch"},
@@ -183,6 +188,514 @@ _LEGACY_PORTS: dict[tuple[str, str], dict[str, list[dict]]] = {
             {"id": 6, "name": "X3"},
         ],
     },
+    ("SlimeChild-Substation", "SlimeChild-Substation-Clock"): {
+        "params": [
+            {"id": 0, "name": "TEMPO"},
+            {"id": 1, "name": "RUN"},
+            {"id": 2, "name": "MULT"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "RUN"},
+            {"id": 1, "name": "SYNC"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "BASE"},
+            {"id": 1, "name": "MULT"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-Envelopes"): {
+        "params": [
+            {"id": 0, "name": "EG1_ATTACK"},
+            {"id": 1, "name": "EG1_DECAY"},
+            {"id": 2, "name": "EG2_ATTACK"},
+            {"id": 3, "name": "EG2_DECAY"},
+            {"id": 4, "name": "HOLD"},
+            {"id": 5, "name": "TRIGGER"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "TRIG1"},
+            {"id": 1, "name": "TRIG2"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "ENV1"},
+            {"id": 1, "name": "ENV2"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-Filter"): {
+        "params": [
+            {"id": 0, "name": "FREQ"},
+            {"id": 1, "name": "RES"},
+            {"id": 2, "name": "FM"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "VOCT"},
+            {"id": 1, "name": "FM"},
+            {"id": 2, "name": "IN"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "OUT"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-VCA"): {
+        "params": [
+            {"id": 0, "name": "LEVEL"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "CV"},
+            {"id": 1, "name": "IN"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "OUT"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-Mixer"): {
+        "params": [
+            {"id": 0, "name": "LEVEL1"},
+            {"id": 1, "name": "LEVEL2"},
+            {"id": 2, "name": "LEVEL3"},
+            {"id": 3, "name": "MOD1"},
+            {"id": 4, "name": "MOD2"},
+            {"id": 5, "name": "MOD3"},
+            {"id": 6, "name": "MIX_LEVEL"},
+            {"id": 7, "name": "CHAIN_GAIN"},
+            {"id": 8, "name": "DRIVE"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "IN1"},
+            {"id": 1, "name": "IN2"},
+            {"id": 2, "name": "IN3"},
+            {"id": 3, "name": "CV1"},
+            {"id": 4, "name": "CV2"},
+            {"id": 5, "name": "CV3"},
+            {"id": 6, "name": "CHAIN"},
+            {"id": 7, "name": "LEVEL"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "CHAIN"},
+            {"id": 1, "name": "OUT"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-Quantizer"): {
+        "params": [
+            {"id": 0, "name": "TEMPERAMENT"},
+            {"id": 1, "name": "SCALE"},
+            {"id": 2, "name": "ROOT"},
+            {"id": 3, "name": "OCTAVE"},
+            {"id": 4, "name": "TRANSPOSE"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "ROOT"},
+            {"id": 1, "name": "OCT"},
+            {"id": 2, "name": "IN"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "OUT"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-SubOscillator"): {
+        "params": [
+            {"id": 0, "name": "BASE_FREQ"},
+            {"id": 1, "name": "WAVEFORM"},
+            {"id": 2, "name": "SUBDIV1"},
+            {"id": 3, "name": "SUBDIV2"},
+            {"id": 4, "name": "PWM"},
+            {"id": 5, "name": "DETUNE"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "VOCT"},
+            {"id": 1, "name": "SUB1"},
+            {"id": 2, "name": "SUB2"},
+            {"id": 3, "name": "PWM"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "BASE"},
+            {"id": 1, "name": "SUB1"},
+            {"id": 2, "name": "SUB2"},
+        ],
+    },
+    ("SlimeChild-Substation", "SlimeChild-Substation-PolySeq"): {
+        "params": [
+            {"id": 0, "name": "A1"}, {"id": 1, "name": "A2"}, {"id": 2, "name": "A3"}, {"id": 3, "name": "A4"},
+            {"id": 4, "name": "B1"}, {"id": 5, "name": "B2"}, {"id": 6, "name": "B3"}, {"id": 7, "name": "B4"},
+            {"id": 8, "name": "C1"}, {"id": 9, "name": "C2"}, {"id": 10, "name": "C3"}, {"id": 11, "name": "C4"},
+            {"id": 12, "name": "DIV1"}, {"id": 13, "name": "DIV2"}, {"id": 14, "name": "DIV3"}, {"id": 15, "name": "DIV4"},
+            {"id": 16, "name": "DIV1_A"}, {"id": 17, "name": "DIV2_A"}, {"id": 18, "name": "DIV3_A"}, {"id": 19, "name": "DIV4_A"},
+            {"id": 20, "name": "DIV1_B"}, {"id": 21, "name": "DIV2_B"}, {"id": 22, "name": "DIV3_B"}, {"id": 23, "name": "DIV4_B"},
+            {"id": 24, "name": "DIV1_C"}, {"id": 25, "name": "DIV2_C"}, {"id": 26, "name": "DIV3_C"}, {"id": 27, "name": "DIV4_C"},
+            {"id": 28, "name": "RANGE_A"}, {"id": 29, "name": "RANGE_B"}, {"id": 30, "name": "RANGE_C"},
+            {"id": 31, "name": "SUM_MODE"},
+            {"id": 32, "name": "RESET"},
+            {"id": 33, "name": "NEXT"},
+            {"id": 34, "name": "STEPS"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "CLOCK"},
+            {"id": 1, "name": "RESET"},
+            {"id": 2, "name": "DIV1"},
+            {"id": 3, "name": "DIV2"},
+            {"id": 4, "name": "DIV3"},
+            {"id": 5, "name": "DIV4"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "TRIG1"},
+            {"id": 1, "name": "TRIG2"},
+            {"id": 2, "name": "TRIG3"},
+            {"id": 3, "name": "TRIG4"},
+            {"id": 4, "name": "SEQ_A"},
+            {"id": 5, "name": "SEQ_B"},
+            {"id": 6, "name": "SEQ_C"},
+        ],
+    },
+    ("AaronStatic", "ChordCV"): {
+        "params": [
+            {"id": 0, "name": "Root Note"},
+            {"id": 1, "name": "Chord Type"},
+            {"id": 2, "name": "Inversion"},
+            {"id": 3, "name": "Voicing"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "ROOT"},
+            {"id": 1, "name": "TYPE"},
+            {"id": 2, "name": "INVERSION"},
+            {"id": 3, "name": "VOICING"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "NOTE1"},
+            {"id": 1, "name": "NOTE2"},
+            {"id": 2, "name": "NOTE3"},
+            {"id": 3, "name": "NOTE4"},
+            {"id": 4, "name": "Polyphonic"},
+        ],
+    },
+    ("CountModula", "Sequencer16"): {
+        "params": (
+            [{"id": 16 + i, "name": f"STEP{i+1}"} for i in range(16)] +
+            [{"id": 37 + i, "name": f"TRIG{i+1}"} for i in range(16)] +
+            [{"id": 53 + i, "name": f"GATE{i+1}"} for i in range(16)] +
+            [
+                {"id": 32, "name": "LENGTH"},
+                {"id": 35, "name": "RANGE_SW"},
+            ]
+        ),
+        "inputs": [
+            {"id": 0, "name": "RUN"},
+            {"id": 1, "name": "CLOCK"},
+            {"id": 2, "name": "RESET"},
+            {"id": 3, "name": "LENGTH_INPUT"},
+            {"id": 4, "name": "DIRECTION_INPUT"},
+            {"id": 5, "name": "ADDRESS_INPUT"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "GATE"},
+            {"id": 1, "name": "TRIG"},
+            {"id": 2, "name": "END"},
+            {"id": 3, "name": "CV"},
+            {"id": 4, "name": "CVI"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-Pgmr"): {
+        "inputs": [
+            {"id": 0, "name": "Clock"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Channel_A"},
+            {"id": 1, "name": "Channel_B"},
+            {"id": 2, "name": "Channel_C"},
+            {"id": 3, "name": "Channel_D"},
+            {"id": 4, "name": "Step_trigger"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-PgmrX"): {
+        "inputs": [],
+        "outputs": [],
+    },
+    ("AlrightDevices", "Chronoblob2"): {
+        "params": [
+            {"id": 0, "name": "Feedback"},
+            {"id": 1, "name": "Delay Time"},
+            {"id": 2, "name": "Dry/Wet"},
+            {"id": 8, "name": "Time Modulation Mode"},
+            {"id": 9, "name": "Delay Mode"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "L_Delay_Time_CV"},
+            {"id": 1, "name": "Feedback_CV"},
+            {"id": 2, "name": "Mix_CV"},
+            {"id": 5, "name": "Left"},
+            {"id": 6, "name": "Right_Return"},
+            {"id": 7, "name": "Sync_Trigger"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Left"},
+            {"id": 1, "name": "Right_Send"},
+        ],
+    },
+    ("JW-Modules", "SimpleClock"): {
+        "params": [
+            {"id": 0, "name": "BPM"},
+            {"id": 1, "name": "Run"},
+            {"id": 2, "name": "Random Reset Probability"},
+        ],
+        "inputs": [],
+        "outputs": [
+            {"id": 0, "name": "Clock"},
+            {"id": 1, "name": "Reset"},
+            {"id": 2, "name": "_4"},
+            {"id": 5, "name": "_32"},
+        ],
+    },
+    ("Fundamental", "Random"): {
+        "params": [
+            {"id": 0, "name": "Internal trigger rate"},
+        ],
+        "inputs": [],
+        "outputs": [
+            {"id": 6, "name": "Smooth"},
+        ],
+    },
+    ("Fundamental", "RandomValues"): {
+        "params": [],
+        "inputs": [
+            {"id": 0, "name": "Trigger"},
+        ],
+        "outputs": [
+            {"id": 1, "name": "Random_2"},
+            {"id": 6, "name": "Random_7"},
+        ],
+    },
+    ("Fundamental", "VCMixer"): {
+        "params": [],
+        "inputs": [
+            {"id": 1, "name": "Channel_1"},
+            {"id": 2, "name": "Channel_2"},
+            {"id": 3, "name": "Channel_3"},
+            {"id": 4, "name": "Channel_4"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Mix"},
+        ],
+    },
+    ("Fundamental", "Sum"): {
+        "params": [],
+        "inputs": [
+            {"id": 0, "name": "Polyphonic"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Monophonic"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-ADSR"): {
+        "params": [
+            {"id": 0, "name": "Attack"},
+            {"id": 1, "name": "Decay"},
+            {"id": 2, "name": "Sustain"},
+            {"id": 3, "name": "Release"},
+            {"id": 4, "name": "Linear"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Gate"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Envelope"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-LFO"): {
+        "params": [
+            {"id": 0, "name": "FREQ"},
+            {"id": 1, "name": "SLOW"},
+            {"id": 2, "name": "SAMPLE"},
+            {"id": 3, "name": "PW"},
+            {"id": 4, "name": "OFFSET"},
+            {"id": 5, "name": "SCALE"},
+            {"id": 6, "name": "SMOOTH"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "SAMPLE"},
+            {"id": 1, "name": "PW"},
+            {"id": 2, "name": "OFFSET"},
+            {"id": 3, "name": "SCALE"},
+            {"id": 4, "name": "VOCT"},
+            {"id": 5, "name": "RESET"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "SAW"},
+            {"id": 1, "name": "RAMP_DOWN"},
+            {"id": 2, "name": "SQR"},
+            {"id": 3, "name": "TRI"},
+            {"id": 4, "name": "SIN"},
+            {"id": 5, "name": "STEPPED"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-Pressor"): {
+        "params": [
+            {"id": 0, "name": "Threshold"},
+            {"id": 1, "name": "Ratio"},
+            {"id": 2, "name": "Attack"},
+            {"id": 3, "name": "Release"},
+            {"id": 4, "name": "Output gain"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Left_signal"},
+            {"id": 4, "name": "Right_signal"},
+        ],
+        "outputs": [
+            {"id": 1, "name": "Left_signal"},
+            {"id": 2, "name": "Right_signal"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-DADSRH"): {
+        "params": [
+            {"id": 0, "name": "Delay"},
+            {"id": 1, "name": "Attack"},
+            {"id": 2, "name": "Decay"},
+            {"id": 3, "name": "Sustain"},
+            {"id": 4, "name": "Release"},
+            {"id": 5, "name": "Hold"},
+            {"id": 6, "name": "Attack shape"},
+            {"id": 7, "name": "Decay shape"},
+            {"id": 8, "name": "Release shape"},
+            {"id": 11, "name": "Loop"},
+            {"id": 12, "name": "Speed"},
+            {"id": 13, "name": "Retrigger"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Trigger"},
+        ],
+        "outputs": [
+            {"id": 1, "name": "Inverted_envelope"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-LVCF"): {
+        "params": [
+            {"id": 0, "name": "Center/cutoff frequency"},
+            {"id": 1, "name": "Frequency CV attenuation"},
+            {"id": 2, "name": "Resonance / bandwidth"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Cutoff_CV"},
+            {"id": 3, "name": "Signal"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Signal"},
+        ],
+    },
+    ("Bogaudio", "Bogaudio-VCF"): {
+        "params": [
+            {"id": 0, "name": "Center/cutoff frequency"},
+            {"id": 1, "name": "Frequency CV attenuation"},
+            {"id": 2, "name": "Resonance / bandwidth"},
+            {"id": 3, "name": "Mode"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Cutoff_CV"},
+            {"id": 3, "name": "Signal"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Signal"},
+        ],
+    },
+    ("AudibleInstruments", "Plaits"): {
+        "params": [
+            {"id": 0, "name": "MODEL"},
+            {"id": 2, "name": "FREQ"},
+            {"id": 3, "name": "HARMONICS"},
+            {"id": 4, "name": "TIMBRE"},
+            {"id": 5, "name": "MORPH"},
+            {"id": 8, "name": "MORPH_ATTENUVERTER"},
+            {"id": 9, "name": "LPG_COLOUR"},
+            {"id": 10, "name": "DECAY"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Pitch_1V_oct_"},
+            {"id": 2, "name": "Timbre"},
+            {"id": 3, "name": "MORPH"},
+            {"id": 5, "name": "TRIGGER"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "OUT"},
+            {"id": 1, "name": "AUX"},
+            {"id": 0, "name": "Main"},
+        ],
+    },
+    ("Befaco", "Kickall"): {
+        "params": [
+            {"id": 0, "name": "Tune"},
+            {"id": 2, "name": "Wave shape"},
+            {"id": 3, "name": "VCA Envelope decay time"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Trigger"},
+            {"id": 2, "name": "Tune_V_Oct_"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Kick"},
+        ],
+    },
+    ("Coffee", "Quant"): {
+        "params": [{"id": i, "name": f"Note {i+1}"} for i in range(12)],
+        "inputs": [
+            {"id": 0, "name": "V_OCT_In"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "V_OCT_Out"},
+        ],
+    },
+    ("dbRackModules", "Drums"): {
+        "params": [
+            {"id": 0, "name": "Type"},
+            {"id": 1, "name": "Sample selection"},
+            {"id": 2, "name": "Pitch"},
+            {"id": 3, "name": "Decay"},
+        ],
+        "inputs": [
+            {"id": 0, "name": "Trig"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "CV"},
+        ],
+    },
+    ("mscHack", "Mix_9_3_4"): {
+        "params": [
+            {"id": 0, "name": "Main Level"},
+            {"id": 1, "name": "Ch1. Level"},
+            {"id": 2, "name": "Ch2. Level"},
+            {"id": 3, "name": "Ch3. Level"},
+            {"id": 4, "name": "Ch4. Level"},
+            {"id": 5, "name": "Ch5. Level"},
+            {"id": 6, "name": "Ch6. Level"},
+            {"id": 7, "name": "Ch7. Level"},
+            {"id": 13, "name": "AUX1. Level"},
+            {"id": 14, "name": "AUX2. Level"},
+            {"id": 85, "name": "Ch2. AUX 1 Level"},
+            {"id": 86, "name": "Ch2. AUX 2 Level"},
+            {"id": 90, "name": "Ch3. AUX 2 Level"},
+            {"id": 94, "name": "Ch4. AUX 2 Level"},
+            {"id": 106, "name": "Ch7. AUX 2 Level"},
+        ],
+        "inputs": [
+            {"id": 2, "name": "Ch1_Left"},
+            {"id": 4, "name": "Ch2_Left"},
+            {"id": 6, "name": "Ch3_Left"},
+            {"id": 8, "name": "Ch4_Left"},
+            {"id": 10, "name": "Ch5_Left"},
+            {"id": 12, "name": "Ch6_Left"},
+            {"id": 14, "name": "Ch7_Left"},
+            {"id": 11, "name": "Ch5_Level_CV"},
+            {"id": 13, "name": "Ch6_Level_CV"},
+            {"id": 24, "name": "AUX1_Left"},
+            {"id": 28, "name": "AUX1_Right"},
+            {"id": 25, "name": "AUX2_Left"},
+            {"id": 29, "name": "AUX2_Right"},
+        ],
+        "outputs": [
+            {"id": 0, "name": "Main_Left"},
+            {"id": 1, "name": "Main_Right"},
+            {"id": 10, "name": "Aux_1_Left"},
+            {"id": 14, "name": "Aux_1_Right"},
+            {"id": 9, "name": "Aux_2_Left"},
+            {"id": 13, "name": "Aux_2_Right"},
+        ],
+    },
 }
 
 
@@ -201,19 +714,23 @@ def _load_discovered(plugin: str, model: str) -> dict | None:
         f for f in glob.glob(pattern)
         if not os.path.basename(f).startswith("failed")
     ]
+    supplement = _EXPLICIT_METADATA.get((plugin, model))
     if not files:
-        return None
+        if supplement is None:
+            return None
+        data = copy.deepcopy(supplement)
+        _add_api_names(data)
+        return data
+
     # Sort by filename (semver sorts lexicographically for most common versions)
     latest = sorted(files)[-1]
     with open(latest) as fh:
         data = json.load(fh)
 
-    legacy = _LEGACY_PORTS.get((plugin, model))
-    if legacy is not None:
-        if not data.get("inputs"):
-            data["inputs"] = legacy["inputs"]
-        if not data.get("outputs"):
-            data["outputs"] = legacy["outputs"]
+    if supplement is not None:
+        for bucket in ("params", "inputs", "outputs"):
+            if not data.get(bucket):
+                data[bucket] = copy.deepcopy(supplement.get(bucket, []))
     _add_api_names(data)
     return data
 

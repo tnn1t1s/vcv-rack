@@ -39,3 +39,22 @@ def test_marbles_legacy_output_api_surface():
     assert outputs["X2"] == 5
     assert output_port("AudibleInstruments", "Marbles", "T2")["id"] == 1
     assert output_port("AudibleInstruments", "Marbles", "X2")["id"] == 5
+
+
+def test_explicit_metadata_supplements_expose_canonical_api_names():
+    simple_clock = module_metadata("JW-Modules", "SimpleClock")
+    assert param_id("JW-Modules", "SimpleClock", "Random_Reset_Probability") == 2
+    assert output_port("JW-Modules", "SimpleClock", "_32")["id"] == 5
+
+    chord = module_metadata("AaronStatic", "ChordCV")
+    assert param_id("AaronStatic", "ChordCV", "Root_Note") == 0
+    assert output_port("AaronStatic", "ChordCV", "Polyphonic")["id"] == 4
+
+    chrono = module_metadata("AlrightDevices", "Chronoblob2")
+    assert input_port("AlrightDevices", "Chronoblob2", "L_Delay_Time_CV")["id"] == 0
+    assert input_port("AlrightDevices", "Chronoblob2", "Right_Return")["id"] == 6
+    assert output_port("AlrightDevices", "Chronoblob2", "Right_Send")["id"] == 1
+
+    plaits = module_metadata("AudibleInstruments", "Plaits")
+    assert input_port("AudibleInstruments", "Plaits", "Pitch_1V_oct")["id"] == 0
+    assert output_port("AudibleInstruments", "Plaits", "Main")["id"] == 0
