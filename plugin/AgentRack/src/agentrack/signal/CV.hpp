@@ -41,6 +41,10 @@ public:
         return std::max(min_, std::min(max_, base_ + cvVolts));
     }
 
+    float modulate(float depth, float cvVolts) const {
+        return std::max(min_, std::min(max_, base_ + depth * cvVolts));
+    }
+
     const char* name() const {
         return name_;
     }

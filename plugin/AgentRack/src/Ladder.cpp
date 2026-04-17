@@ -53,8 +53,10 @@ extern Plugin* pluginInstance;
  * Output: +-5V audio.
  *
  * Rack IDs (stable, never reorder):
- *   Params:  FREQ_PARAM=0, RES_PARAM=1, SPREAD_PARAM=2, SHAPE_PARAM=3, FM_PARAM=4
- *   Inputs:  IN_INPUT=0, VOCT_INPUT=1, FM_INPUT=2
+ *   Params:  FREQ_PARAM=0, RES_PARAM=1, SPREAD_PARAM=2, SHAPE_PARAM=3,
+ *            CUTOFF_MOD_PARAM=4
+ *   Inputs:  IN_INPUT=0, CUTOFF_MOD_INPUT=1, RES_MOD_INPUT=2,
+ *            SPREAD_MOD_INPUT=3, SHAPE_MOD_INPUT=4
  *   Outputs: OUT_OUTPUT=0
  */
 
@@ -65,7 +67,7 @@ extern Plugin* pluginInstance;
 
 struct Ladder : AgentModule {
 
-    enum ParamId  { FREQ_PARAM, RES_PARAM, SPREAD_PARAM, SHAPE_PARAM, NUM_PARAMS };
+    enum ParamId  { FREQ_PARAM, RES_PARAM, SPREAD_PARAM, SHAPE_PARAM, CUTOFF_MOD_PARAM, NUM_PARAMS };
     enum InputId  { IN_INPUT, CUTOFF_MOD_INPUT, RES_MOD_INPUT, SPREAD_MOD_INPUT, SHAPE_MOD_INPUT, NUM_INPUTS };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
@@ -83,6 +85,7 @@ struct Ladder : AgentModule {
         configParam(RES_PARAM,    0.1f, 1.2f, 0.1f, "Resonance", "%", 0.f, 100.f);
         configParam(SPREAD_PARAM, 0.f,  1.f,  0.f,  "Spread",    "%", 0.f, 100.f);
         configParam(SHAPE_PARAM,  0.f,  1.f,  0.f,  "Shape",     "%", 0.f, 100.f);
+        configParam(CUTOFF_MOD_PARAM, -1.f, 1.f, 0.2f, "Cutoff modulation depth", "%", 0.f, 100.f);
         configInput(IN_INPUT,          "Audio");
         configInput(CUTOFF_MOD_INPUT,  "Cutoff mod");
         configInput(RES_MOD_INPUT,     "Resonance mod");
@@ -92,12 +95,14 @@ struct Ladder : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        // --- Cutoff: stored in log2(Hz), CV input is V/oct (1V = 1 octave) ---
+        // --- Cutoff: stored in log2(Hz). The mod jack is intentionally gentler
+        // than raw 1V/oct by default, but can be dialed up to full tracking.
         AgentRack::Signal::CV::VoctParameter cutoffParam{
             "cutoff", params[FREQ_PARAM].getValue(),
             std::log2(20.f), std::log2(20000.f)
         };
-        float freq_log = cutoffParam.modulate(inputs[CUTOFF_MOD_INPUT].getVoltage());
+        float cutoffModDepth = params[CUTOFF_MOD_PARAM].getValue();
+        float freq_log = cutoffParam.modulate(cutoffModDepth, inputs[CUTOFF_MOD_INPUT].getVoltage());
         float fc = std::pow(2.f, freq_log);
 
         // freq_p: normalized 0..1 position in log Hz range (used for mode A k-scaling)
@@ -214,6 +219,8 @@ struct LadderWidget : rack::ModuleWidget {
             mm2px(rack::Vec(AgentLayout::LEFT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[2])), module, Ladder::SPREAD_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(rack::Vec(AgentLayout::RIGHT_COLUMN_6HP, AgentLayout::COMPACT_ROWS_6HP[2])), module, Ladder::SHAPE_PARAM));
+        addParam(createParamCentered<rack::Trimpot>(
+            mm2px(rack::Vec(AgentLayout::CENTER_6HP, AgentLayout::COMPACT_ROWS_6HP[4])), module, Ladder::CUTOFF_MOD_PARAM));
 
         // Row 1: IN (left) + OUT (right)
         addInput(createInputCentered<rack::PJ301MPort>(
