@@ -22,8 +22,12 @@ CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
 CASSETTE_PROFILE_BIN  := test_cassette_machine_profile
 SAPHIRE_RT_SRCS := test_saphire_runtime.cpp
 SAPHIRE_RT_BIN  := test_saphire_runtime
+SAPHIRE_IR_SRCS := test_saphire_impulse_response.cpp
+SAPHIRE_IR_BIN  := test_saphire_impulse_response
+SAPHIRE_WET_SRCS := test_saphire_wet_path.cpp
+SAPHIRE_WET_BIN  := test_saphire_wet_path
 
-all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN)
+all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN)
 
 $(FFT_BIN): $(FFT_SRCS)
 	$(CXX) $(CXXFLAGS) $(FFT_SRCS) $(LDFLAGS) -o $(FFT_BIN)
@@ -52,6 +56,12 @@ $(CASSETTE_PROFILE_BIN): $(CASSETTE_PROFILE_SRCS)
 $(SAPHIRE_RT_BIN): $(SAPHIRE_RT_SRCS)
 	$(CXX) $(CXXFLAGS) $(SAPHIRE_RT_SRCS) $(LDFLAGS) -o $(SAPHIRE_RT_BIN)
 
+$(SAPHIRE_IR_BIN): $(SAPHIRE_IR_SRCS)
+	$(CXX) $(CXXFLAGS) $(SAPHIRE_IR_SRCS) $(LDFLAGS) -o $(SAPHIRE_IR_BIN)
+
+$(SAPHIRE_WET_BIN): $(SAPHIRE_WET_SRCS)
+	$(CXX) $(CXXFLAGS) $(SAPHIRE_WET_SRCS) $(LDFLAGS) -o $(SAPHIRE_WET_BIN)
+
 run: $(FFT_BIN)
 	./$(FFT_BIN)
 
@@ -79,6 +89,12 @@ run-cassette-profile: $(CASSETTE_PROFILE_BIN)
 run-saphire-runtime: $(SAPHIRE_RT_BIN)
 	./$(SAPHIRE_RT_BIN)
 
+run-saphire-ir: $(SAPHIRE_IR_BIN)
+	./$(SAPHIRE_IR_BIN)
+
+run-saphire-wet: $(SAPHIRE_WET_BIN)
+	./$(SAPHIRE_WET_BIN)
+
 run-all: all
 	./$(FFT_BIN)
 	./$(CV_BIN)
@@ -89,8 +105,10 @@ run-all: all
 	./$(CASSETTE_RT_BIN)
 	./$(CASSETTE_PROFILE_BIN)
 	./$(SAPHIRE_RT_BIN)
+	./$(SAPHIRE_IR_BIN)
+	./$(SAPHIRE_WET_BIN)
 
 clean:
-	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN)
+	rm -f $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN)
 
-.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-all clean
+.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-saphire-ir run-saphire-wet run-all clean

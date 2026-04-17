@@ -1,18 +1,14 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/infrastructure/SaphireImpulseResponse.hpp"
 #include "agentrack/infrastructure/PartitionedConvolution.hpp"
 #include "agentrack/infrastructure/SaphireRuntime.hpp"
 #include "agentrack/signal/Audio.hpp"
+#include "agentrack/signal/SaphireWetPath.hpp"
 #include "ir_names.hpp"
 #include <cmath>
 #include <cstdio>
-#include <cstring>
-#include <complex>
-#include <vector>
-#include <memory>
-#include <thread>
-#include <atomic>
 
 using namespace rack;
 extern Plugin* pluginInstance;
@@ -53,12 +49,9 @@ extern Plugin* pluginInstance;
 // ---------------------------------------------------------------------------
 
 using PartitionedConvolution = AgentRack::Infrastructure::PartitionedConvolution;
+using SaphireImpulseResponse = AgentRack::Infrastructure::SaphireImpulseResponse;
 using SaphireRuntime = AgentRack::Infrastructure::SaphireRuntime;
-
-static constexpr int BLOCK     = PartitionedConvolution::kBlockSize;
-static constexpr int MAX_IR    = 132300;         // 3s at 44100 Hz
-static constexpr int MAX_PRE   = 4410;           // 100ms at 44100 Hz
-
+using SaphireWetPath = AgentRack::Signal::SaphireWetPath;
 
 // ---------------------------------------------------------------------------
 // Module
@@ -70,22 +63,9 @@ struct Saphire : AgentModule {
     enum InputId  { IN_L_INPUT, IN_R_INPUT, NUM_INPUTS  };
     enum OutputId { OUT_L_OUTPUT, OUT_R_OUTPUT, NUM_OUTPUTS };
 
-    // Raw IR -- written only from bg thread (or constructor), read only from bg thread.
-    // loaded_ir_idx tracks which file is in raw_L/R (-1 = none).
-    float raw_L[MAX_IR] = {};
-    float raw_R[MAX_IR] = {};
-    int   raw_len       = 0;
-    int   loaded_ir_idx = -1;  // bg thread only
-
+    SaphireImpulseResponse impulseResponse;
     SaphireRuntime runtime;
-
-    // Pre-delay buffers
-    float pre_L[MAX_PRE] = {};
-    float pre_R[MAX_PRE] = {};
-    int   pre_pos = 0;
-
-    // TONE filter state
-    float tone_L = 0.f, tone_R = 0.f;
+    SaphireWetPath wetPath;
 
     Saphire() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -112,53 +92,25 @@ struct Saphire : AgentModule {
         runtime.joinBuilder();
     }
 
-    // Load IR from res/ir/NN.f32 into raw_L/R. Called from bg thread (or constructor).
+    // Load IR from res/ir/NN.f32. Called from bg thread (or constructor).
     // The .f32 files are already normalized to unit energy by convert_irs.py.
     void loadIRFromFile(int idx) {
         char name[32];
         snprintf(name, sizeof(name), "res/ir/%02d.f32", idx);
         std::string path = asset::plugin(pluginInstance, name);
-        FILE* f = fopen(path.c_str(), "rb");
-        if (!f) return;
-
-        float buf[2];
-        raw_len = 0;
-        for (int i = 0; i < MAX_IR; i++) {
-            if (fread(buf, sizeof(float), 2, f) < 2) break;
-            raw_L[i] = buf[0];
-            raw_R[i] = buf[1];
-            raw_len++;
-        }
-        fclose(f);
-        loaded_ir_idx = idx;
+        impulseResponse.loadFromPath(path, idx);
     }
 
-    // Compute warp and load into conv[target]. Called from any thread.
-    // Reads raw_L/raw_R (immutable after loadIR) -- safe.
+    // Compute warp and load into the target convolution engine. Called from any thread.
     void doLoad(int target, float time_p, float bend_p) {
-        int wlen = (int)(BLOCK + (raw_len - BLOCK) * time_p);
-        wlen = std::max(BLOCK, std::min(raw_len, wlen));
-
-        // BEND: power-law warp  h'[n] = raw[t^beta * (raw_len-1)]
-        //   bend<0 → beta<1 → pulls energy forward
-        //   bend=0 → beta=1 → identity
-        //   bend>0 → beta>1 → smears energy into tail
-        float beta = std::exp(bend_p * std::log(3.f));
-        float N    = (float)(raw_len - 1);
-
-        std::vector<float> wL(wlen), wR(wlen);
-        for (int n = 0; n < wlen; n++) {
-            float t  = (wlen > 1) ? (float)n / (float)(wlen - 1) : 0.f;
-            float tw = std::pow(t, beta);
-            float src = tw * N;
-            int   s0  = (int)src;
-            float fr  = src - (float)s0;
-            int   s1  = std::min(s0 + 1, raw_len - 1);
-            wL[n] = raw_L[s0] * (1.f - fr) + raw_L[s1] * fr;
-            wR[n] = raw_R[s0] * (1.f - fr) + raw_R[s1] * fr;
+        SaphireImpulseResponse::Kernel kernel = impulseResponse.buildKernel(time_p, bend_p);
+        if (kernel.first.empty()) {
+            return;
         }
-
-        runtime.convolutionAt(target).load(wL.data(), wR.data(), wlen);
+        runtime.convolutionAt(target).load(
+            kernel.first.data(),
+            kernel.second.data(),
+            static_cast<int>(kernel.first.size()));
     }
 
     // Launch a background thread to rebuild the inactive engine.
@@ -167,7 +119,7 @@ struct Saphire : AgentModule {
     void launchRebuild(int ir_idx, float time_p, float bend_p) {
         runtime.launchRebuild(ir_idx, time_p, bend_p,
             [this, time_p, bend_p](int target, int requestedIrIndex) {
-                if (requestedIrIndex != loaded_ir_idx)
+                if (requestedIrIndex != impulseResponse.loadedIrIndex())
                     loadIRFromFile(requestedIrIndex);
                 doLoad(target, time_p, bend_p);
             });
@@ -210,37 +162,25 @@ struct Saphire : AgentModule {
         }
 
         // Pre-delay
-        int pre_samp = (int)(pre_p * (MAX_PRE - 1));
-        pre_L[pre_pos] = in_L;
-        pre_R[pre_pos] = in_R;
-        int pr = (pre_pos - pre_samp + MAX_PRE) % MAX_PRE;
-        float dl_L = pre_L[pr];
-        float dl_R = pre_R[pr];
-        pre_pos = (pre_pos + 1) % MAX_PRE;
+        SaphireWetPath::StereoFrame delayed = wetPath.applyPreDelay(in_L, in_R, pre_p);
 
         // Push to live engine; push to old engine only during crossfade (safe_old=true)
         float wet_L, wet_R;
         float old_L = 0.f, old_R = 0.f;
-        runtime.liveConvolution().push(dl_L, dl_R, wet_L, wet_R);
+        runtime.liveConvolution().push(delayed.left, delayed.right, wet_L, wet_R);
         if (runtime.oldConvolutionIsSafe()) {
-            runtime.oldConvolution().push(dl_L, dl_R, old_L, old_R);
+            runtime.oldConvolution().push(delayed.left, delayed.right, old_L, old_R);
         }
 
         // Crossfade: blend old engine's live output with new engine's live output
         runtime.applyCrossfade(wet_L, wet_R, old_L, old_R);
 
         // TONE: one-pole lowpass on wet signal
-        float lp_fc = 100.f * std::pow(200.f, tone_p);
-        float lp_g  = 1.f - std::exp(-2.f * float(M_PI) * lp_fc / args.sampleRate);
-        tone_L += lp_g * (wet_L - tone_L);
-        tone_R += lp_g * (wet_R - tone_R);
+        SaphireWetPath::StereoFrame toned = wetPath.applyTone(wet_L, wet_R, tone_p, args.sampleRate);
 
-        // MIX: constant-power crossfade
-        AgentRack::Signal::Audio::ConstantPowerMix mix(mix_p);
-        float out_L = in_L * mix.dryGain() + tone_L * mix.wetGain();
-        float out_R = in_R * mix.dryGain() + tone_R * mix.wetGain();
-        outputs[OUT_L_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out_L));
-        outputs[OUT_R_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out_R));
+        SaphireWetPath::StereoFrame mixed = wetPath.mix(in_L, in_R, toned.left, toned.right, mix_p);
+        outputs[OUT_L_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(mixed.left));
+        outputs[OUT_R_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(mixed.right));
     }
 
 };
