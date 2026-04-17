@@ -8,6 +8,8 @@
 namespace AgentRack {
 namespace Signal {
 
+// Owns the signal-path plumbing that stays outside the convolution engine:
+// pre-delay, wet-path tone smoothing, and final constant-power dry/wet mix.
 class SaphireWetPath {
 public:
     static constexpr int kMaxPreDelaySamples = 4410;

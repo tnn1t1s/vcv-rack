@@ -8,6 +8,8 @@
 namespace AgentRack {
 namespace Infrastructure {
 
+// Owns the live/rebuild convolution engines plus the thread-safe handoff
+// between background IR rebuilds and the audio thread's crossfade.
 class SaphireRuntime {
 public:
     static constexpr float kParamEpsilon = 0.001f;
@@ -55,10 +57,6 @@ public:
         return convolution_[index];
     }
 
-    PartitionedConvolution& rebuildConvolution() {
-        return convolution_[1 - liveIndex_];
-    }
-
     PartitionedConvolution& oldConvolution() {
         return convolution_[1 - liveIndex_];
     }
@@ -99,6 +97,9 @@ public:
             return false;
         }
 
+        // While the inactive engine is being rewritten, the audio thread must
+        // stop pushing into it. A completed rebuild restores old-engine safety
+        // for the duration of the crossfade only.
         safeOld_.store(false);
         joinBuilder();
 

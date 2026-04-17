@@ -63,6 +63,8 @@ struct Saphire : AgentModule {
     enum InputId  { IN_L_INPUT, IN_R_INPUT, NUM_INPUTS  };
     enum OutputId { OUT_L_OUTPUT, OUT_R_OUTPUT, NUM_OUTPUTS };
 
+    // Flat composition: IR policy, runtime/engine handoff, and wet-path
+    // post-processing each live in their own component.
     SaphireImpulseResponse impulseResponse;
     SaphireRuntime runtime;
     SaphireWetPath wetPath;

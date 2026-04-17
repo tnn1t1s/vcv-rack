@@ -10,6 +10,8 @@
 namespace AgentRack {
 namespace Infrastructure {
 
+// Owns the raw stereo IR and the deterministic time/bend transforms that turn
+// it into a convolution kernel for a particular Saphire rebuild request.
 class SaphireImpulseResponse {
 public:
     static constexpr int kBlockSize = 512;
