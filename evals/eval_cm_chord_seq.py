@@ -93,7 +93,7 @@ def patch_dict(tmp_path_factory):
     prompt = PROMPT.format(output_path=output_path)
 
     # Import here so missing google-adk doesn't break collection
-    from agent.agent import root_agent
+    from agent.root_agent import root_agent
 
     async def _run():
         session_service = InMemorySessionService()

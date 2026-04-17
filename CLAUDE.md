@@ -16,7 +16,7 @@ and produce `.vcv` patch files that work on first open.
 
 | Agent | Doc | Purpose |
 |-------|-----|---------|
-| `vcv_patch_builder` (root) | `agent/agent.py` | Builds and proves patches from musical descriptions |
+| `vcv_patch_builder` (root) | `agent/root_agent.py` | Builds and proves patches from musical descriptions |
 | `vcv_publish` | `agent/publish_agent.md` | Screenshots, cropping, publishing |
 
 ## Architecture

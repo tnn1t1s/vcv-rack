@@ -16,7 +16,7 @@ from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
-from .agent import root_agent
+from .root_agent import root_agent
 
 APP_NAME = "vcv_agent"
 

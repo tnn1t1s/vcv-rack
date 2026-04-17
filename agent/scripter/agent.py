@@ -23,13 +23,13 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
 
-from agent.persona import build_persona_prompt
-from agent.telemetry import setup_telemetry
-from agent.experiment import wrap
-from agent.tools.patch_reader import read_patch
+from persona import build_persona_prompt
+from telemetry import setup_telemetry
+from experiment import wrap
+from tools.patch_reader import read_patch
+from tools.collab import collab_post
 
 setup_telemetry("scripter")
-from agent.tools.collab import collab_post
 
 _config = Path(__file__).parent / "config.yaml"
 _tools  = [Path(__file__).parent.parent / "tools" / f for f in ["patch_reader.py", "collab.py"]]
