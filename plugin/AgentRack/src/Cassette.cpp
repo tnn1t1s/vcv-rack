@@ -15,12 +15,14 @@
 #include "osdialog.h"
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "agentrack/infrastructure/CassetteRuntime.hpp"
 #include "agentrack/signal/CV.hpp"
 #include "tape/TapeEngine.hpp"
 #include "tape/LoopPack.hpp"
 
 using namespace rack;
 static constexpr float TWOPI = TapeEngine::TWOPI;
+using CassetteRuntime = AgentRack::Infrastructure::CassetteRuntime;
 extern Plugin* pluginInstance;
 
 // ─── Module ──────────────────────────────────────────────────────────────────
@@ -52,20 +54,10 @@ struct Cassette : AgentModule {
     };
 
     TapeEngine  engine;
-    LoopPack*   pack      = nullptr;    // audio-thread active pack (points to internal or owned)
-    std::unique_ptr<LoopPack> ownedPack;  // non-null when a disk pack is loaded
-    std::atomic<LoopPack*> pendingPack{nullptr};  // GUI thread writes, audio thread swaps
-
-    int   curLoop    = 0;
-    int   pendingLoop = -1;
-    bool  swapping   = false;
-    bool  playing    = true;
+    CassetteRuntime runtime;
     dsp::SchmittTrigger playTrig;
 
     Cassette() {
-        getInternalPack();  // ensure internal pack is ready
-        pack = &getInternalPack();
-
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
         configParam(LOOP_PARAM,   0.f, (float)(PACK_SLOTS - 1), 0.f, "Loop");
@@ -84,35 +76,20 @@ struct Cassette : AgentModule {
         configOutput(OUT_R_OUTPUT, "Right");
     }
 
-    ~Cassette() {
-        // Clean up any pending pack that never got consumed
-        LoopPack* pp = pendingPack.exchange(nullptr);
-        delete pp;
-    }
-
     void process(const ProcessArgs& args) override {
-        // ── Swap in any pending pack from GUI thread
-        LoopPack* pp = pendingPack.exchange(nullptr);
-        if (pp) {
-            ownedPack.reset(pp);
-            pack     = ownedPack.get();
-            curLoop  = 0;
-            swapping = false;
-            engine.reset();
-        }
+        runtime.consumePendingPack(engine);
+
+        LoopPack* pack = runtime.activePack();
 
         // ── Loop change: initiate swap (B-behavior)
         int targetLoop = clamp((int)std::round(params[LOOP_PARAM].getValue()), 0, PACK_SLOTS - 1);
-        if (targetLoop != curLoop) {
-            pendingLoop = targetLoop;
-            if (!swapping) swapping = true;
-        }
+        runtime.requestLoop(targetLoop);
 
         // ── Play/stop toggle
         if (inputs[PLAY_TRIG_INPUT].isConnected() &&
             playTrig.process(inputs[PLAY_TRIG_INPUT].getVoltage()))
-            playing = !playing;
-        lights[PLAY_LIGHT].setBrightness(playing ? 1.f : 0.f);
+            runtime.togglePlaying();
+        lights[PLAY_LIGHT].setBrightness(runtime.isPlaying() ? 1.f : 0.f);
 
         // ── Params
         float speedParam = params[SPEED_PARAM].getValue();
@@ -149,10 +126,10 @@ struct Cassette : AgentModule {
         }
 
         // ── Engine tick: during swap force playing=false to ramp down
-        bool enginePlaying = swapping ? false : playing;
+        bool enginePlaying = runtime.engineShouldPlay();
 
         std::pair<float,float> lr = engine.tickStereo(
-            pack->bufL[curLoop].data(), pack->bufR[curLoop].data(),
+            pack->bufL[runtime.currentLoop()].data(), pack->bufR[runtime.currentLoop()].data(),
             pack->loopLen, pack->sampleRate,
             speed, reverse,
             wowAmt, flutAmt, satDrive, hissAmt,
@@ -160,12 +137,7 @@ struct Cassette : AgentModule {
             enginePlaying,
             args.sampleTime, args.sampleRate);
 
-        // ── Complete swap when engine has ramped down
-        if (swapping && engine.speedRamp < 0.01f) {
-            curLoop  = pendingLoop;
-            swapping = false;
-            engine.reset();  // speedRamp preserved; ramps back up on next tick
-        }
+        runtime.completeSwapIfReady(engine);
 
         float outL = clamp(lr.first  * vol * 8.f, -12.f, 12.f);
         float outR = clamp(lr.second * vol * 8.f, -12.f, 12.f);
@@ -175,15 +147,16 @@ struct Cassette : AgentModule {
 
     json_t* dataToJson() override {
         json_t* root = json_object();
+        LoopPack* pack = runtime.activePack();
         if (pack && !pack->indexPath.empty())
             json_object_set_new(root, "packPath", json_string(pack->indexPath.c_str()));
-        json_object_set_new(root, "playing", json_boolean(playing));
+        json_object_set_new(root, "playing", json_boolean(runtime.isPlaying()));
         return root;
     }
 
     void dataFromJson(json_t* root) override {
         json_t* j = json_object_get(root, "playing");
-        if (j) playing = json_boolean_value(j);
+        if (j) runtime.setPlaying(json_boolean_value(j));
 
         json_t* jp = json_object_get(root, "packPath");
         if (jp) {
@@ -191,8 +164,7 @@ struct Cassette : AgentModule {
             if (path && path[0]) {
                 LoopPack* newPack = new LoopPack();
                 if (loadPackFromDisk(path, *newPack)) {
-                    // post via atomic so process() swaps it in safely
-                    delete pendingPack.exchange(newPack);
+                    runtime.postLoadedPack(newPack);
                 } else {
                     delete newPack;
                 }
@@ -298,8 +270,8 @@ struct CassettePanel : rack::widget::Widget {
         // Pack name + slot number on sticker
         float scx = sx0 + mm2px(1.5f) + (sx1 - sx0 - mm2px(1.5f)) / 2.f;
         float scy = (sy0 + sy1) / 2.f;
-        const char* packName = module ? module->pack->name.c_str() : "INTERNAL";
-        int slot = module ? module->curLoop : 0;
+        const char* packName = module ? module->runtime.activePack()->name.c_str() : "INTERNAL";
+        int slot = module ? module->runtime.currentLoop() : 0;
         char slotStr[8];
         snprintf(slotStr, sizeof(slotStr), "%d / %d", slot + 1, PACK_SLOTS);
 
@@ -414,7 +386,7 @@ struct CassetteWidget : rack::ModuleWidget {
             if (!path) return;
             LoopPack* newPack = new LoopPack();
             if (loadPackFromDisk(path, *newPack)) {
-                delete m->pendingPack.exchange(newPack);
+                m->runtime.postLoadedPack(newPack);
             } else {
                 delete newPack;
                 osdialog_message(OSDIALOG_WARNING, OSDIALOG_OK,
@@ -423,11 +395,7 @@ struct CassetteWidget : rack::ModuleWidget {
             free(path);
         }));
         menu->addChild(createMenuItem("Reset to internal pack", "", [=]() {
-            m->ownedPack.reset();
-            m->pack    = &getInternalPack();
-            m->curLoop = 0;
-            m->swapping = false;
-            m->engine.reset();
+            m->runtime.resetToInternal(m->engine);
         }));
     }
 };
