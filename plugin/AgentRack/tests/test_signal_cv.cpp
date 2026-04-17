@@ -67,6 +67,13 @@ static void test_voct_parameter_core_law() {
     CHECK_NEAR(p.modulate(-2.f), -2.f, 1e-6f, "-2V subtracts two octaves");
     CHECK_NEAR(p.modulate(10.f),  4.f, 1e-6f, "positive V/oct CV clamps at max");
     CHECK_NEAR(p.modulate(-10.f), -4.f, 1e-6f, "negative V/oct CV clamps at min");
+
+    CHECK_NEAR(p.modulate(0.2f, 5.f), 1.f, 1e-6f,
+               "depth-scaled V/oct modulation can tame a +5V source to one octave");
+    CHECK_NEAR(p.modulate(1.f, 5.f), 4.f, 1e-6f,
+               "full-depth V/oct modulation preserves the original one-volt-per-octave law");
+    CHECK_NEAR(p.modulate(-0.5f, 2.f), -1.f, 1e-6f,
+               "negative depth inverts V/oct modulation");
 }
 
 int main() {
