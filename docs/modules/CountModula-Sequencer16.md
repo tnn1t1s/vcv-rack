@@ -195,4 +195,4 @@ This same principle applies to any VCV Rack module. When in doubt, introspect wi
 - `vcvpatch/registry.py` lines 842-882 (inline comments document the IDs and rationale)
 - `SequencerSrc.hpp` master branch: `countmodula/VCVRackPlugins` on GitHub
 - Memory note: `reference_countmodula_seq16_ports.md`
-- Working patches: `patches/subzero.py`, `patches/seq16_debug.py`
+- Working patches: `patches/curated/subzero.py`, `patches/archive/seq16_debug.py`

@@ -102,7 +102,7 @@ Modulation source for filter cutoff, VCA tremolo, panning, pitch vibrato. Set `S
 
 - `FREQ` range is -5 to 8 in internal units, not Hz directly. Default 0 produces a moderate LFO rate.
 - With `SLOW=0`, the LFO runs at audio-rate-capable speeds at high FREQ values.
-- `OFFSET` and `SCALE` in the registry are normalized (-1 to 1). To make output unipolar: set `OFFSET=5.0` and `SCALE=5.0` (as seen in `patches/generate_dub_techno.py`). This shifts the bipolar -5V..+5V wave to 0..+10V range. TODO: verify the exact scaling math against the C++ source.
+- `OFFSET` and `SCALE` in the registry are normalized (-1 to 1). To make output unipolar: set `OFFSET=5.0` and `SCALE=5.0` (as seen in `patches/archive/generate_dub_techno.py`). This shifts the bipolar -5V..+5V wave to 0..+10V range. TODO: verify the exact scaling math against the C++ source.
 
 ---
 

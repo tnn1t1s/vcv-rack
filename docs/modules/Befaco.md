@@ -47,7 +47,7 @@ Analog-modeled VCO with five simultaneous wave outputs and alias-free audio qual
 
 Primary melodic oscillator. Connect a sequencer V/OCT output to `VOCT` (input 1). Choose output waveform based on timbre: SAW for classic analog bass/lead, PULSE for hollow tone (adjust PW), SINE for clean sub, EVEN for bright harmonic content. All five outputs are available simultaneously.
 
-Usage from `patches/generate_dub_techno.py`:
+Usage from `patches/archive/generate_dub_techno.py`:
 ```python
 osc1 = patch.add("Befaco", "EvenVCO", pos=[36, 0], OCTAVE=-2, TUNE=0.0)
 osc2 = patch.add("Befaco", "EvenVCO", pos=[44, 0], OCTAVE=-2, TUNE=detune / 100.0)
@@ -107,7 +107,7 @@ Bass drum synthesizer: a pitched sine/waveshaper oscillator with built-in pitch 
 
 Kick drum in a drum machine patch. Connect a gate sequencer output to GATE (input 0). Connect OUT directly to a mixer channel. The module handles its own amplitude envelope internally -- no external VCA or ADSR needed.
 
-Usage from `patches/dub_techno_rack2.py`:
+Usage from `patches/archive/dub_techno_rack2.py`:
 ```python
 kick = pb.module("Befaco", "Kickall",
                  FREQ=0.3, DECAY=0.5, TONE=0.4, DRIVE=0.6)

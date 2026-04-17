@@ -31,7 +31,7 @@ from typing import Optional
 
 
 # Default base directory for rings-to-clouds patches
-_DEFAULT_BASE = Path("/Users/palaitis/Development/vcv-rack/patches/rings-to-clouds")
+_DEFAULT_BASE = Path("/Users/palaitis/Development/vcv-rack/patches/corpus/rings-to-clouds")
 
 # Slug -> display name substitutions applied before the agent sees the script.
 # Keys are substrings matched in the raw Python source; order matters for
@@ -62,7 +62,7 @@ def read_patch(patch_id: str, base_path: Optional[Path] = None) -> dict:
 
     Args:
         patch_id:  Zero-padded patch ID, e.g. "01", "12".
-        base_path: Override the default patches/rings-to-clouds/ base directory.
+        base_path: Override the default patches/corpus/rings-to-clouds/ base directory.
                    Useful in tests to supply synthetic patch directories.
 
     Returns:

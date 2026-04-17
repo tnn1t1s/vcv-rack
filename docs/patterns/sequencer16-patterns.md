@@ -17,7 +17,7 @@ when routed through Chronoblob2 delay.
 
 ### Context
 
-Evolved from `patches/subzero.py` (Klock F minor triad) during a live session.
+Evolved from `patches/curated/subzero.py` (Klock F minor triad) during a live session.
 The delay effect (see Chronoblob2 params below) makes the terminal triplet
 (steps 14-16) feel like a syncopated pickup into the next loop cycle. Without
 the delay the ending feels abrupt; with it you get an implied continuation.

@@ -49,7 +49,7 @@ pb.chain(vca.o.OUT, audio.i.IN_R)
 
 The `data` dict inside the serialized module selects the audio device. When
 fixing a patch for a different machine, reset `audio["data"]` to point at the
-correct driver (see `patches/fix_dub_tech4.py`).
+correct driver (see `patches/archive/fix_dub_tech4.py`).
 
 ---
 
