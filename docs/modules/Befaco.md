@@ -26,7 +26,7 @@ Analog-modeled VCO with five simultaneous wave outputs and alias-free audio qual
 
 **Inputs:**
 
-| ID | Registry name | Notes |
+| ID | Current name | Notes |
 |----|--------------|-------|
 | 0 | `EXP` | Exponential FM input |
 | 1 | `VOCT`, `V_OCT`, `PITCH` | 1V/octave pitch CV -- connect from sequencer |
@@ -35,7 +35,7 @@ Analog-modeled VCO with five simultaneous wave outputs and alias-free audio qual
 
 **Outputs:**
 
-| ID | Registry name | Notes |
+| ID | Current name | Notes |
 |----|---------------|-------|
 | 0 | `TRI` | Triangle wave |
 | 1 | `SINE` | Sine wave |
@@ -73,18 +73,16 @@ Bass drum synthesizer: a pitched sine/waveshaper oscillator with built-in pitch 
 
 ### Params (verified, plugin 2.9.1)
 
-**Note:** The registry uses different param names than the discovered JSON. The discovered JSON is authoritative. The table below shows both.
+Use the discovered param names and IDs below as the product truth.
 
-| ID | Registry name | Discovered name | Default | Range | Notes |
-|----|--------------|-----------------|---------|-------|-------|
-| 0 | `FREQ` | Tune | 75.4855 Hz | 27.5-123.471 | Start frequency in Hz |
-| 1 | `DECAY` | Manual trigger | 0 | 0-1 | TODO: registry says DECAY but discovered says "Manual trigger" -- ID mismatch |
-| 2 | `FM_AMOUNT` | Wave shape | 0 | 0-1 | Registry says FM_AMOUNT; discovered says "Wave shape" -- ID mismatch |
-| 3 | `TONE` | VCA Envelope decay time | 0.01 | 0-1 | Registry says TONE; discovered says "VCA Envelope decay time" |
-| 4 | `ATTACK` | Pitch envelope decay time | 0 | 0-1 | Registry says ATTACK; discovered says "Pitch envelope decay time" |
-| 5 | `DRIVE` | Pitch envelope attenuator | 0 | 0-1 | Registry says DRIVE; discovered says "Pitch envelope attenuator" |
-
-**WARNING: Registry param names do not match the discovered JSON for params 1-5.** The registry appears to use a different ordering or interpretation than what `rack_introspect` reports. Use the discovered JSON IDs and names when setting params programmatically. The registry `FREQ=0` mapping (Tune at id 0) appears correct.
+| ID | Param name | Default | Range | Historical shorthand |
+|----|------------|---------|-------|----------------------|
+| 0 | Tune | 75.4855 Hz | 27.5-123.471 | `FREQ` |
+| 1 | Manual trigger | 0 | 0-1 | `DECAY` |
+| 2 | Wave shape | 0 | 0-1 | `FM_AMOUNT` |
+| 3 | VCA Envelope decay time | 0.01 | 0-1 | `TONE` |
+| 4 | Pitch envelope decay time | 0 | 0-1 | `ATTACK` |
+| 5 | Pitch envelope attenuator | 0 | 0-1 | `DRIVE` |
 
 ### Ports
 
@@ -112,11 +110,11 @@ Usage from `patches/archive/dub_techno_rack2.py`:
 kick = pb.module("Befaco", "Kickall",
                  FREQ=0.3, DECAY=0.5, TONE=0.4, DRIVE=0.6)
 ```
-Note: these registry names may map to incorrect params given the discovered JSON mismatch. Verify audio results.
+These names are historical shorthand only. Prefer the exact discovered names from the table above when writing new patches.
 
 ### Gotchas
 
-- Registry names for params 1-5 differ from the discovered JSON names. Before setting any param other than FREQ, verify which physical knob you are targeting using the discovered JSON.
+- Use the exact param names and IDs from the table above for new code. Older examples that use `DECAY`, `TONE`, `ATTACK`, or `DRIVE` are historical.
 - Param 0 (`FREQ` / "Tune") is in Hz (27.5-123.471 Hz range, roughly A0 to B2). Default is ~75 Hz.
 - The module has its own internal amplitude envelope -- do not route OUT through a VCA unless you need additional amplitude shaping.
 - PITCH_CV (input 2) shifts the start pitch in V/OCT; useful for pitched kick sequences.
