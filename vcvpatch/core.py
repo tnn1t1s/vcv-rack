@@ -130,6 +130,29 @@ _EXPLICIT_METADATA: dict[tuple[str, str], dict[str, list[dict]]] = {
             {"id": 15, "name": "Reset"},
         ],
     },
+    ("Fundamental", "Split"): {
+        "inputs": [
+            {"id": 0, "name": "Polyphonic"},
+        ],
+        "outputs": [
+            {"id": 0,  "name": "Monophonic 1"},
+            {"id": 1,  "name": "Monophonic 2"},
+            {"id": 2,  "name": "Monophonic 3"},
+            {"id": 3,  "name": "Monophonic 4"},
+            {"id": 4,  "name": "Monophonic 5"},
+            {"id": 5,  "name": "Monophonic 6"},
+            {"id": 6,  "name": "Monophonic 7"},
+            {"id": 7,  "name": "Monophonic 8"},
+            {"id": 8,  "name": "Monophonic 9"},
+            {"id": 9,  "name": "Monophonic 10"},
+            {"id": 10, "name": "Monophonic 11"},
+            {"id": 11, "name": "Monophonic 12"},
+            {"id": 12, "name": "Monophonic 13"},
+            {"id": 13, "name": "Monophonic 14"},
+            {"id": 14, "name": "Monophonic 15"},
+            {"id": 15, "name": "Monophonic 16"},
+        ],
+    },
     ("ImpromptuModular", "Clocked-Clkd"): {
         "inputs": [
             {"id": 0, "name": "Reset"},
@@ -583,8 +606,8 @@ _EXPLICIT_METADATA: dict[tuple[str, str], dict[str, list[dict]]] = {
         "params": [
             {"id": 0, "name": "Center/cutoff frequency"},
             {"id": 1, "name": "Frequency CV attenuation"},
-            {"id": 2, "name": "Resonance / bandwidth"},
-            {"id": 3, "name": "Mode"},
+            {"id": 2, "name": "FM"},
+            {"id": 3, "name": "Resonance / bandwidth"},
         ],
         "inputs": [
             {"id": 0, "name": "Cutoff_CV"},
@@ -596,14 +619,14 @@ _EXPLICIT_METADATA: dict[tuple[str, str], dict[str, list[dict]]] = {
     },
     ("AudibleInstruments", "Plaits"): {
         "params": [
-            {"id": 0, "name": "MODEL"},
-            {"id": 2, "name": "FREQ"},
-            {"id": 3, "name": "HARMONICS"},
-            {"id": 4, "name": "TIMBRE"},
-            {"id": 5, "name": "MORPH"},
-            {"id": 8, "name": "MORPH_ATTENUVERTER"},
-            {"id": 9, "name": "LPG_COLOUR"},
-            {"id": 10, "name": "DECAY"},
+            {"id": 0, "name": "Pitched models"},
+            {"id": 2, "name": "Frequency"},
+            {"id": 3, "name": "Harmonics"},
+            {"id": 4, "name": "Timbre"},
+            {"id": 5, "name": "Morph"},
+            {"id": 8, "name": "Morph CV"},
+            {"id": 9, "name": "Lowpass gate response"},
+            {"id": 10, "name": "Lowpass gate decay"},
         ],
         "inputs": [
             {"id": 0, "name": "Pitch_1V_oct_"},

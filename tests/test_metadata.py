@@ -14,6 +14,17 @@ from vcvpatch.metadata import (
 from vcvpatch.core import DISCOVERED_DIR, _EXPLICIT_METADATA
 
 
+DOCS_FLAGGED_DRIFT_CASES = {
+    ("AudibleInstruments", "Plaits"),
+    ("Befaco", "Kickall"),
+    ("AlrightDevices", "Chronoblob2"),
+    ("Bogaudio", "Bogaudio-DADSRH"),
+    ("Bogaudio", "Bogaudio-LVCF"),
+    ("Bogaudio", "Bogaudio-VCF"),
+    ("Valley", "Plateau"),
+}
+
+
 def test_module_metadata_exposes_api_names():
     meta = module_metadata("Fundamental", "VCO")
     assert meta["params"][2]["api_name"] == "Frequency"
@@ -67,6 +78,8 @@ def test_explicit_metadata_supplements_expose_canonical_api_names():
 
 def test_explicit_metadata_does_not_conflict_with_discovered_overlap():
     errors = []
+    exercised = set()
+    structural_non_overlap = set()
 
     for (plugin, model), supplement in sorted(_EXPLICIT_METADATA.items()):
         pattern = os.path.join(DISCOVERED_DIR, plugin, model, "*.json")
@@ -80,6 +93,8 @@ def test_explicit_metadata_does_not_conflict_with_discovered_overlap():
         with open(sorted(files)[-1]) as fh:
             discovered = json.load(fh)
 
+        module_has_overlap = False
+        module_structural_non_overlap = True
         for bucket in ("params", "inputs", "outputs"):
             supplement_entries = {
                 int(entry["id"]): entry.get("name")
@@ -89,7 +104,13 @@ def test_explicit_metadata_does_not_conflict_with_discovered_overlap():
                 int(entry["id"]): entry.get("name")
                 for entry in discovered.get(bucket, [])
             }
-            for entry_id in sorted(set(supplement_entries) & set(discovered_entries)):
+            overlap = set(supplement_entries) & set(discovered_entries)
+            if overlap:
+                module_has_overlap = True
+                module_structural_non_overlap = False
+            elif supplement_entries and discovered_entries:
+                module_structural_non_overlap = False
+            for entry_id in sorted(overlap):
                 if supplement_entries[entry_id] != discovered_entries[entry_id]:
                     errors.append(
                         f"{plugin}/{model} {bucket}[{entry_id}] explicit="
@@ -97,4 +118,12 @@ def test_explicit_metadata_does_not_conflict_with_discovered_overlap():
                         f"{discovered_entries[entry_id]!r}"
                     )
 
+        key = (plugin, model)
+        if key in DOCS_FLAGGED_DRIFT_CASES:
+            if module_has_overlap:
+                exercised.add(key)
+            elif module_structural_non_overlap:
+                structural_non_overlap.add(key)
+
     assert errors == [], "\n".join(errors)
+    assert DOCS_FLAGGED_DRIFT_CASES - structural_non_overlap <= exercised
