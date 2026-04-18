@@ -1,0 +1,205 @@
+{
+  "plugin": "Befaco",
+  "model": "NoisePlethora",
+  "plugin_version": "2.9.1",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "XA",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "YA",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Cutoff A",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Resonance A",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Cutoff CV A",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Filter type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 6,
+      "name": "Program/Bank selection",
+      "default": 0,
+      "min": -1e+38,
+      "max": 1e+38
+    },
+    {
+      "id": 7,
+      "name": "XB",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "YB",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Cutoff B",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Resonance B",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Cutoff CV B",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Filter type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 13,
+      "name": "Grit Quantity",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Resonance C",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Cutoff C",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Cutoff CV C",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 17,
+      "name": "Filter type",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 18,
+      "name": "Filter source",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "XA CV"
+    },
+    {
+      "id": 1,
+      "name": "YA CV"
+    },
+    {
+      "id": 2,
+      "name": "Cutoff CV A"
+    },
+    {
+      "id": 3,
+      "name": "Program select A"
+    },
+    {
+      "id": 4,
+      "name": "Program select B"
+    },
+    {
+      "id": 5,
+      "name": "Cutoff CV B"
+    },
+    {
+      "id": 6,
+      "name": "XB CV"
+    },
+    {
+      "id": 7,
+      "name": "YB CV"
+    },
+    {
+      "id": 8,
+      "name": "Grit Quantity CV"
+    },
+    {
+      "id": 9,
+      "name": "Cutoff CV C"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Algorithm A"
+    },
+    {
+      "id": 1,
+      "name": "Algorithm B"
+    },
+    {
+      "id": 2,
+      "name": "Gritty noise"
+    },
+    {
+      "id": 3,
+      "name": "Filtered noise"
+    },
+    {
+      "id": 4,
+      "name": "White noise"
+    }
+  ]
+}

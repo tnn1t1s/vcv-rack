@@ -1,0 +1,196 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Write-Seq-64",
+  "plugin_version": "2.5.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Display mode",
+      "default": 1,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Quantize",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Gate",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Channel",
+      "default": 0,
+      "min": 0,
+      "max": 4
+    },
+    {
+      "id": 4,
+      "name": "Copy",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Paste",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Run",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Write",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Step left",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Monitor",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Step right",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Number of steps",
+      "default": 0,
+      "min": -1e+38,
+      "max": 1e+38
+    },
+    {
+      "id": 12,
+      "name": "Step",
+      "default": 0,
+      "min": -1e+38,
+      "max": 1e+38
+    },
+    {
+      "id": 13,
+      "name": "Autostep when write",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "Reset",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "Paste sync",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Unused"
+    },
+    {
+      "id": 1,
+      "name": "CV"
+    },
+    {
+      "id": 2,
+      "name": "Gate"
+    },
+    {
+      "id": 3,
+      "name": "Write"
+    },
+    {
+      "id": 4,
+      "name": "Step left"
+    },
+    {
+      "id": 5,
+      "name": "Step right"
+    },
+    {
+      "id": 6,
+      "name": "Clock 1 and 2"
+    },
+    {
+      "id": 7,
+      "name": "Clock 3 and 4"
+    },
+    {
+      "id": 8,
+      "name": "Reset"
+    },
+    {
+      "id": 9,
+      "name": "Run"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Channel 1 CV"
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 CV"
+    },
+    {
+      "id": 2,
+      "name": "Channel 3 CV"
+    },
+    {
+      "id": 3,
+      "name": "Channel 4 CV"
+    },
+    {
+      "id": 4,
+      "name": "Channel 1 Gate"
+    },
+    {
+      "id": 5,
+      "name": "Channel 2 Gate"
+    },
+    {
+      "id": 6,
+      "name": "Channel 3 Gate"
+    },
+    {
+      "id": 7,
+      "name": "Channel 4 Gate"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "plugin": "AgentRack",
+  "model": "ClockDiv",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-07",
+  "params": [],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Clock"
+    },
+    {
+      "id": 1,
+      "name": "Reset"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "/2"
+    },
+    {
+      "id": 1,
+      "name": "/4"
+    },
+    {
+      "id": 2,
+      "name": "/8"
+    },
+    {
+      "id": 3,
+      "name": "/16"
+    },
+    {
+      "id": 4,
+      "name": "/32"
+    }
+  ]
+}

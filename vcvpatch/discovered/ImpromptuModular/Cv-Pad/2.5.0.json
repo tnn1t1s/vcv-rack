@@ -1,0 +1,224 @@
+{
+  "plugin": "ImpromptuModular",
+  "model": "Cv-Pad",
+  "plugin_version": "2.5.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "CV pad 1",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "CV pad 2",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "CV pad 3",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "CV pad 4",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "CV pad 5",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "CV pad 6",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "CV pad 7",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "CV pad 8",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "CV pad 9",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "CV pad 10",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "CV pad 11",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "CV pad 12",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "CV pad 13",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "CV pad 14",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 14,
+      "name": "CV pad 15",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 15,
+      "name": "CV pad 16",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 16,
+      "name": "Bank",
+      "default": 0,
+      "min": 0,
+      "max": 7
+    },
+    {
+      "id": 17,
+      "name": "Write",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 18,
+      "name": "CV",
+      "default": 0,
+      "min": -1e+38,
+      "max": 1e+38
+    },
+    {
+      "id": 19,
+      "name": "Display mode",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 20,
+      "name": "Quantize",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 21,
+      "name": "Autostep when write",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 22,
+      "name": "Attach",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 23,
+      "name": "Configuration",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Bank select"
+    },
+    {
+      "id": 1,
+      "name": "CV"
+    },
+    {
+      "id": 2,
+      "name": "Write"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "CV 1"
+    },
+    {
+      "id": 1,
+      "name": "CV 2"
+    },
+    {
+      "id": 2,
+      "name": "CV 3"
+    },
+    {
+      "id": 3,
+      "name": "CV 4"
+    },
+    {
+      "id": 4,
+      "name": "Gate 1"
+    },
+    {
+      "id": 5,
+      "name": "Gate 2"
+    },
+    {
+      "id": 6,
+      "name": "Gate 3"
+    },
+    {
+      "id": 7,
+      "name": "Gate 4"
+    }
+  ]
+}

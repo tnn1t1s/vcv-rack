@@ -1,0 +1,126 @@
+{
+  "plugin": "Coffee",
+  "model": "Quant",
+  "plugin_version": "2.4.1",
+  "discovered_at": "2026-04-07",
+  "params": [
+    {
+      "id": 0,
+      "name": "Octave Offset",
+      "default": 0,
+      "min": -5,
+      "max": 5
+    },
+    {
+      "id": 1,
+      "name": "Semi Offset",
+      "default": 0,
+      "min": 0,
+      "max": 12
+    },
+    {
+      "id": 2,
+      "name": "Note 1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Note 2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Note 3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Note 4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 6,
+      "name": "Note 5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 7,
+      "name": "Note 6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 8,
+      "name": "Note 7",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 9,
+      "name": "Note 8",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 10,
+      "name": "Note 9",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 11,
+      "name": "Note 10",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 12,
+      "name": "Note 11",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 13,
+      "name": "Note 12",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Octave Offset"
+    },
+    {
+      "id": 1,
+      "name": "Semi Offset"
+    },
+    {
+      "id": 2,
+      "name": "V/OCT In"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "V/OCT Out"
+    }
+  ]
+}

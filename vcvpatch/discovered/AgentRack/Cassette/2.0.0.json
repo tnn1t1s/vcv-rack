@@ -1,0 +1,64 @@
+{
+  "plugin": "AgentRack",
+  "model": "Cassette",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Loop",
+      "default": 0,
+      "min": 0,
+      "max": 9
+    },
+    {
+      "id": 1,
+      "name": "Machine condition",
+      "default": 0,
+      "min": 0,
+      "max": 2
+    },
+    {
+      "id": 2,
+      "name": "Speed",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 3,
+      "name": "Volume",
+      "default": 0.8,
+      "min": 0,
+      "max": 1
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Speed CV"
+    },
+    {
+      "id": 1,
+      "name": "Volume CV"
+    },
+    {
+      "id": 2,
+      "name": "Play/Stop"
+    },
+    {
+      "id": 3,
+      "name": "Reverse gate"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Left"
+    },
+    {
+      "id": 1,
+      "name": "Right"
+    }
+  ]
+}

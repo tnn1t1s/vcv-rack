@@ -1,0 +1,102 @@
+{
+  "plugin": "AgentRack",
+  "model": "Attenuate",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Scale 1",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Scale 2",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Scale 3",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Scale 4",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Scale 5",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "Scale 6",
+      "default": 1,
+      "min": 0,
+      "max": 1
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "In 1"
+    },
+    {
+      "id": 1,
+      "name": "In 2"
+    },
+    {
+      "id": 2,
+      "name": "In 3"
+    },
+    {
+      "id": 3,
+      "name": "In 4"
+    },
+    {
+      "id": 4,
+      "name": "In 5"
+    },
+    {
+      "id": 5,
+      "name": "In 6"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Out 1"
+    },
+    {
+      "id": 1,
+      "name": "Out 2"
+    },
+    {
+      "id": 2,
+      "name": "Out 3"
+    },
+    {
+      "id": 3,
+      "name": "Out 4"
+    },
+    {
+      "id": 4,
+      "name": "Out 5"
+    },
+    {
+      "id": 5,
+      "name": "Out 6"
+    }
+  ]
+}

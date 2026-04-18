@@ -1,0 +1,42 @@
+{
+  "plugin": "AgentRack",
+  "model": "Steel",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Pitch",
+      "default": 0,
+      "min": -4,
+      "max": 4
+    },
+    {
+      "id": 1,
+      "name": "Infer rate",
+      "default": 3,
+      "min": 1,
+      "max": 10
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "V/OCT"
+    },
+    {
+      "id": 1,
+      "name": "Sidechain"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Left"
+    },
+    {
+      "id": 1,
+      "name": "Right"
+    }
+  ]
+}

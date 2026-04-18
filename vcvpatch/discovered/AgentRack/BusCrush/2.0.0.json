@@ -1,0 +1,83 @@
+{
+  "plugin": "AgentRack",
+  "model": "BusCrush",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "Channel 1 in"
+    },
+    {
+      "id": 1,
+      "name": "Channel 2 in"
+    },
+    {
+      "id": 2,
+      "name": "Channel 3 in"
+    },
+    {
+      "id": 3,
+      "name": "Channel 4 in"
+    },
+    {
+      "id": 4,
+      "name": "Channel 5 in"
+    },
+    {
+      "id": 5,
+      "name": "Channel 6 in"
+    },
+    {
+      "id": 6,
+      "name": "Channel 7 in"
+    },
+    {
+      "id": 7,
+      "name": "Channel 8 in"
+    },
+    {
+      "id": 8,
+      "name": "Channel 1 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 9,
+      "name": "Channel 2 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 10,
+      "name": "Channel 3 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 11,
+      "name": "Channel 4 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 12,
+      "name": "Channel 5 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 13,
+      "name": "Channel 6 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 14,
+      "name": "Channel 7 pan CV (-5V=L, 0=ctr, +5V=R)"
+    },
+    {
+      "id": 15,
+      "name": "Channel 8 pan CV (-5V=L, 0=ctr, +5V=R)"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Stereo left out"
+    },
+    {
+      "id": 1,
+      "name": "Stereo right out"
+    }
+  ]
+}

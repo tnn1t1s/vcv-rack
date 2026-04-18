@@ -41,9 +41,6 @@ agent/runs/
 agent/**/__pycache__/
 agent/**/.adk/
 
-# vcvpatch local metadata cache
-vcvpatch/discovered/
-
 # macOS
 .DS_Store
 

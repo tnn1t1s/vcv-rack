@@ -1,0 +1,22 @@
+{
+  "plugin": "Core",
+  "model": "MIDIToCVInterface",
+  "plugin_version": "2.6.4",
+  "discovered_at": "2026-04-04",
+  "params": [],
+  "inputs": [],
+  "outputs": [
+    {"id": 0, "name": "1V/oct"},
+    {"id": 1, "name": "Gate"},
+    {"id": 2, "name": "Velocity"},
+    {"id": 3, "name": "Aftertouch"},
+    {"id": 4, "name": "Pitch wheel"},
+    {"id": 5, "name": "Mod wheel"},
+    {"id": 6, "name": "Retrigger"},
+    {"id": 7, "name": "Clock"},
+    {"id": 8, "name": "Clock divider"},
+    {"id": 9, "name": "Start"},
+    {"id": 10, "name": "Stop"},
+    {"id": 11, "name": "Continue"}
+  ]
+}

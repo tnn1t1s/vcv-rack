@@ -1,0 +1,30 @@
+{
+  "plugin": "AgentRack",
+  "model": "Tonnetz",
+  "version": "2.0.0",
+  "params": [],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "CV 1 (triangle select)"
+    },
+    {
+      "id": 1,
+      "name": "CV 2 (triangle select)"
+    },
+    {
+      "id": 2,
+      "name": "CV 3 (triangle select)"
+    },
+    {
+      "id": 3,
+      "name": "Trigger"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Chord (poly V/Oct)"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "plugin": "AgentRack",
+  "model": "Saphire",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Mix",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 1,
+      "name": "Time",
+      "default": 0.5,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Bend",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Tone",
+      "default": 0.65,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 4,
+      "name": "Pre-delay",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 5,
+      "name": "IR",
+      "default": 38,
+      "min": 0,
+      "max": 49
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "In L"
+    },
+    {
+      "id": 1,
+      "name": "In R"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Out L"
+    },
+    {
+      "id": 1,
+      "name": "Out R"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "plugin": "AgentRack",
+  "model": "Crinkle",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-04",
+  "params": [
+    {
+      "id": 0,
+      "name": "Tune",
+      "default": 0,
+      "min": -2,
+      "max": 2
+    },
+    {
+      "id": 1,
+      "name": "Timbre",
+      "default": 0,
+      "min": 0,
+      "max": 1
+    },
+    {
+      "id": 2,
+      "name": "Symmetry",
+      "default": 0,
+      "min": -1,
+      "max": 1
+    },
+    {
+      "id": 3,
+      "name": "Timbre CV",
+      "default": 1,
+      "min": -1,
+      "max": 1
+    }
+  ],
+  "inputs": [
+    {
+      "id": 0,
+      "name": "V/Oct"
+    },
+    {
+      "id": 1,
+      "name": "Timbre CV"
+    }
+  ],
+  "outputs": [
+    {
+      "id": 0,
+      "name": "Out"
+    }
+  ]
+}
