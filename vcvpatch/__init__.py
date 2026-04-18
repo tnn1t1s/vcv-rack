@@ -11,6 +11,7 @@ from .metadata import (
     param_name,
     port_name,
 )
+from .palette import supported_modules, supported_module, SupportedModule, ModuleSemantics
 from .layout import Position, Row, RackLayout, position
 
 __all__ = ["Patch", "Module", "Port", "Cable", "CableType", "CABLE_COLORS",
@@ -18,4 +19,5 @@ __all__ = ["Patch", "Module", "Port", "Cable", "CableType", "CABLE_COLORS",
            "PatchBuilder", "PatchCompileError",
            "module_metadata", "param", "input_port", "output_port",
            "param_id", "param_range", "param_name", "port_name",
+           "supported_modules", "supported_module", "SupportedModule", "ModuleSemantics",
            "Position", "Row", "RackLayout", "position"]

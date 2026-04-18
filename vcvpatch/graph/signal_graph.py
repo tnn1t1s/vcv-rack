@@ -190,7 +190,7 @@ class SignalGraph:
             if isinstance(node, UnknownNode) and ports_in:
                 issues.append(
                     f"{node}: not in module registry; audio arrives here but cannot propagate"
-                    f" -- add {node.PLUGIN}/{node.MODEL} to modules.py"
+                    f" -- add {node.PLUGIN}/{node.MODEL} to graph/specs/registry.yaml"
                 )
 
         return issues
@@ -216,7 +216,9 @@ class SignalGraph:
         # Unknown nodes block the proof even if installed
         unknown = self.unknown_nodes
         if unknown:
-            lines.append(f"MODULE REGISTRY GAPS ({len(unknown)}) -- add these to modules.py:")
+            lines.append(
+                f"MODULE REGISTRY GAPS ({len(unknown)}) -- add these to graph/specs/registry.yaml:"
+            )
             for n in unknown:
                 lines.append(f"  ? {n.PLUGIN}/{n.MODEL}")
             lines.append("")

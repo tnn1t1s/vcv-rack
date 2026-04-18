@@ -1,3 +1,7 @@
+import glob
+import json
+import os
+
 from vcvpatch.metadata import (
     input_port,
     module_metadata,
@@ -7,6 +11,7 @@ from vcvpatch.metadata import (
     param_range,
     port_name,
 )
+from vcvpatch.core import DISCOVERED_DIR, _EXPLICIT_METADATA
 
 
 def test_module_metadata_exposes_api_names():
@@ -58,3 +63,38 @@ def test_explicit_metadata_supplements_expose_canonical_api_names():
     plaits = module_metadata("AudibleInstruments", "Plaits")
     assert input_port("AudibleInstruments", "Plaits", "Pitch_1V_oct")["id"] == 0
     assert output_port("AudibleInstruments", "Plaits", "Main")["id"] == 0
+
+
+def test_explicit_metadata_does_not_conflict_with_discovered_overlap():
+    errors = []
+
+    for (plugin, model), supplement in sorted(_EXPLICIT_METADATA.items()):
+        pattern = os.path.join(DISCOVERED_DIR, plugin, model, "*.json")
+        files = [
+            path for path in glob.glob(pattern)
+            if not os.path.basename(path).startswith("failed")
+        ]
+        if not files:
+            continue
+
+        with open(sorted(files)[-1]) as fh:
+            discovered = json.load(fh)
+
+        for bucket in ("params", "inputs", "outputs"):
+            supplement_entries = {
+                int(entry["id"]): entry.get("name")
+                for entry in supplement.get(bucket, [])
+            }
+            discovered_entries = {
+                int(entry["id"]): entry.get("name")
+                for entry in discovered.get(bucket, [])
+            }
+            for entry_id in sorted(set(supplement_entries) & set(discovered_entries)):
+                if supplement_entries[entry_id] != discovered_entries[entry_id]:
+                    errors.append(
+                        f"{plugin}/{model} {bucket}[{entry_id}] explicit="
+                        f"{supplement_entries[entry_id]!r} discovered="
+                        f"{discovered_entries[entry_id]!r}"
+                    )
+
+    assert errors == [], "\n".join(errors)

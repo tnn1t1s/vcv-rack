@@ -631,15 +631,6 @@ _EXPLICIT_METADATA: dict[tuple[str, str], dict[str, list[dict]]] = {
             {"id": 0, "name": "Kick"},
         ],
     },
-    ("Coffee", "Quant"): {
-        "params": [{"id": i, "name": f"Note {i+1}"} for i in range(12)],
-        "inputs": [
-            {"id": 0, "name": "V_OCT_In"},
-        ],
-        "outputs": [
-            {"id": 0, "name": "V_OCT_Out"},
-        ],
-    },
     ("dbRackModules", "Drums"): {
         "params": [
             {"id": 0, "name": "Type"},

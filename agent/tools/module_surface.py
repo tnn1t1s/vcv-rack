@@ -2,61 +2,8 @@
 
 from __future__ import annotations
 
-from vcvpatch.graph.modules import NODE_REGISTRY
-from vcvpatch.graph.node import SignalType
 from vcvpatch.metadata import module_metadata
-
-
-_NODE_KIND_NAMES = {
-    "AudioSourceNode": "audio_source",
-    "AudioProcessorNode": "audio_processor",
-    "AudioMixerNode": "audio_mixer",
-    "AudioSinkNode": "audio_sink",
-    "ControllerNode": "controller",
-    "PassThroughNode": "passthrough",
-}
-
-
-def _signal_name(value: SignalType) -> str:
-    return value.name.lower()
-
-
-def _simplify_params(entries: list[dict]) -> list[dict]:
-    params = []
-    for entry in entries:
-        api_name = entry.get("api_name")
-        if not api_name:
-            continue
-        params.append(
-            {
-                "id": int(entry["id"]),
-                "api_name": api_name,
-                "name": entry.get("name") or api_name,
-                "default": entry.get("default"),
-                "min": entry.get("min"),
-                "max": entry.get("max"),
-            }
-        )
-    return params
-
-
-def _simplify_ports(entries: list[dict], signal_types: dict[int, str] | None = None) -> list[dict]:
-    ports = []
-    signal_types = signal_types or {}
-    for entry in entries:
-        api_name = entry.get("api_name")
-        if not api_name:
-            continue
-        port = {
-            "id": int(entry["id"]),
-            "api_name": api_name,
-            "name": entry.get("name") or api_name,
-        }
-        signal_type = signal_types.get(int(entry["id"]))
-        if signal_type is not None:
-            port["signal_type"] = signal_type
-        ports.append(port)
-    return ports
+from vcvpatch.palette import supported_module
 
 
 def inspect_module_surface(plugin: str, model: str) -> dict:
@@ -77,81 +24,64 @@ def inspect_module_surface(plugin: str, model: str) -> dict:
     except ValueError as exc:
         return {"status": "error", "message": str(exc)}
 
-    node_cls = NODE_REGISTRY.get(key)
-
-    kind = None
-    routes: list[list[int]] = []
-    required_inputs: list[dict] = []
-    attenuators: list[dict] = []
-    output_signal_types: dict[int, str] = {}
     notes: list[str] = []
-
-    input_names_by_id = {
-        int(entry["id"]): entry.get("api_name")
-        for entry in discovered.get("inputs", [])
-        if entry.get("api_name")
-    }
-
-    if node_cls is None:
-        notes.append("Not in semantic graph registry; exact names available, but graph proof falls back to UnknownNode.")
-    else:
-        for base in node_cls.__mro__:
-            mapped = _NODE_KIND_NAMES.get(base.__name__)
-            if mapped is not None:
-                kind = mapped
-                break
-
-        routes = [
-            [int(inp), int(out)]
-            for inp, out in getattr(node_cls, "_routes", [])
-        ]
-
-        output_signal_types = {
-            int(port_id): _signal_name(sig)
-            for port_id, sig in getattr(node_cls, "_output_types", {}).items()
+    try:
+        module = supported_module(plugin, model)
+    except ValueError:
+        return {
+            "status": "success",
+            "plugin": plugin,
+            "model": model,
+            "kind": None,
+            "params": [
+                {
+                    "id": int(entry["id"]),
+                    "api_name": entry["api_name"],
+                    "name": entry.get("name") or entry["api_name"],
+                    "default": entry.get("default"),
+                    "min": entry.get("min"),
+                    "max": entry.get("max"),
+                }
+                for entry in discovered.get("params", [])
+                if entry.get("api_name")
+            ],
+            "inputs": [
+                {
+                    "id": int(entry["id"]),
+                    "api_name": entry["api_name"],
+                    "name": entry.get("name") or entry["api_name"],
+                }
+                for entry in discovered.get("inputs", [])
+                if entry.get("api_name")
+            ],
+            "outputs": [
+                {
+                    "id": int(entry["id"]),
+                    "api_name": entry["api_name"],
+                    "name": entry.get("name") or entry["api_name"],
+                }
+                for entry in discovered.get("outputs", [])
+                if entry.get("api_name")
+            ],
+            "routes": [],
+            "required_inputs": [],
+            "attenuators": [],
+            "notes": [
+                "Not in supported module palette; exact names available, but graph proof falls back to UnknownNode."
+            ],
         }
-
-        for port_id in getattr(node_cls, "_audio_outputs", frozenset()):
-            output_signal_types.setdefault(int(port_id), "audio")
-        for _, out in getattr(node_cls, "_routes", []):
-            output_signal_types.setdefault(int(out), "audio")
-
-        required_inputs = [
-            {
-                "id": int(port_id),
-                "api_name": input_names_by_id.get(int(port_id)),
-                "signal_type": _signal_name(sig),
-            }
-            for port_id, sig in getattr(node_cls, "_required_cv", {}).items()
-        ]
-
-        attenuators = [
-            {
-                "input_id": int(port_id),
-                "input_api_name": input_names_by_id.get(int(port_id)),
-                "param_id": int(param_id),
-            }
-            for port_id, param_id in getattr(node_cls, "_port_attenuators", {}).items()
-        ]
-
-        audio_inputs = sorted(int(port_id) for port_id in getattr(node_cls, "_audio_inputs", frozenset()))
-        audio_outputs = sorted(int(port_id) for port_id in getattr(node_cls, "_audio_outputs", frozenset()))
-        if audio_inputs:
-            notes.append(f"Audio inputs: {audio_inputs}")
-        if audio_outputs:
-            notes.append(f"Audio outputs: {audio_outputs}")
 
     return {
         "status": "success",
         "plugin": plugin,
         "model": model,
-        "kind": kind,
-        "params": _simplify_params(discovered.get("params", [])),
-        "inputs": _simplify_ports(discovered.get("inputs", [])),
-        "outputs": _simplify_ports(discovered.get("outputs", []), output_signal_types),
-        "routes": routes,
-        "required_inputs": required_inputs,
-        "attenuators": attenuators,
+        "kind": module.semantics.kind,
+        "params": [entry for entry in module.to_dict()["params"]],
+        "inputs": [entry for entry in module.to_dict()["inputs"]],
+        "outputs": [entry for entry in module.to_dict()["outputs"]],
+        "routes": [list(route) for route in module.semantics.routes],
+        "required_inputs": [entry for entry in module.to_dict()["semantics"]["required_inputs"]],
+        "attenuators": [entry for entry in module.to_dict()["semantics"]["attenuators"]],
         "notes": notes,
     }
 
