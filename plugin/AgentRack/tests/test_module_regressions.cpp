@@ -242,6 +242,34 @@ static void test_crinkle_output_is_bounded_and_nonconstant() {
     CHECK((maxOut - minOut) > 1.f, "Crinkle output changes over time");
 }
 
+static void test_crinkle_polyphony_tracks_independent_channels() {
+    printf("\n[Crinkle polyphony regression]\n");
+    Crinkle module;
+
+    module.params[Crinkle::TUNE_PARAM].setValue(0.f);
+    module.params[Crinkle::TIMBRE_PARAM].setValue(0.25f);
+    module.params[Crinkle::SYMMETRY_PARAM].setValue(0.05f);
+
+    ModuleHarness::connectPolyInput(module, Crinkle::VOCT_INPUT, {-1.f, 0.f, 1.f});
+    ModuleHarness::connectOutput(module, Crinkle::OUT_OUTPUT);
+
+    for (int i = 0; i < 4096; i++) {
+        ModuleHarness::step(module, 1);
+    }
+
+    CHECK(module.outputs[Crinkle::OUT_OUTPUT].getChannels() == 3,
+          "Crinkle output becomes polyphonic when fed poly pitch");
+
+    float out0 = module.outputs[Crinkle::OUT_OUTPUT].getVoltage(0);
+    float out1 = module.outputs[Crinkle::OUT_OUTPUT].getVoltage(1);
+    float out2 = module.outputs[Crinkle::OUT_OUTPUT].getVoltage(2);
+
+    CHECK(std::fabs(out0 - out1) > 1e-3f,
+          "Crinkle poly channels do not collapse to identical output (0 vs 1)");
+    CHECK(std::fabs(out1 - out2) > 1e-3f,
+          "Crinkle poly channels do not collapse to identical output (1 vs 2)");
+}
+
 static void test_sonic_zero_input_stays_silent() {
     printf("\n[Sonic silence regression]\n");
     Sonic module;
@@ -300,6 +328,7 @@ int main() {
     test_ladder_constant_input_stays_finite();
     test_noise_outputs_are_finite_and_bounded();
     test_crinkle_output_is_bounded_and_nonconstant();
+    test_crinkle_polyphony_tracks_independent_channels();
     test_sonic_zero_input_stays_silent();
     test_maurizio_dry_mix_is_identity();
     test_tonnetz_trigger_selects_triangle();

@@ -61,7 +61,8 @@ struct Crinkle : AgentModule {
     enum InputId  { VOCT_INPUT, TIMBRE_INPUT, NUM_INPUTS  };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
-    float phase = 0.f;
+    static constexpr int MAX_POLY = 16;
+    float phase[MAX_POLY] = {};
 
     Crinkle() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -75,35 +76,42 @@ struct Crinkle : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
+        int channels = std::max(1, std::max(inputs[VOCT_INPUT].getChannels(),
+                                            inputs[TIMBRE_INPUT].getChannels()));
+        channels = std::min(channels, MAX_POLY);
+        outputs[OUT_OUTPUT].setChannels(channels);
+
         AgentRack::Signal::CV::VoctParameter pitchParam{
             "pitch", params[TUNE_PARAM].getValue(), -12.f, 12.f
         };
-        float pitch = pitchParam.modulate(inputs[VOCT_INPUT].getVoltage());
-        float freq  = dsp::FREQ_C4 * std::pow(2.f, pitch);
-
         AgentRack::Signal::CV::Parameter timbreParam{
             "timbre", params[TIMBRE_PARAM].getValue(), 0.f, 1.f
         };
-        float timbre = timbreParam.modulate(params[TIMBRE_CV_PARAM].getValue(),
-                                            inputs[TIMBRE_INPUT].getVoltage());
-
         float symmetry = params[SYMMETRY_PARAM].getValue();
 
-        // 4x oversampling -- run oscillator + folder at 4x sample rate
-        float dt = args.sampleTime / 4.f;
-        float out = 0.f;
-        for (int i = 0; i < 4; i++) {
-            phase += freq * dt;
-            if (phase >= 1.f) phase -= 1.f;
+        for (int c = 0; c < channels; c++) {
+            float pitch = pitchParam.modulate(inputs[VOCT_INPUT].getPolyVoltage(c));
+            float freq  = dsp::FREQ_C4 * std::pow(2.f, pitch);
+            float timbre = timbreParam.modulate(params[TIMBRE_CV_PARAM].getValue(),
+                                                inputs[TIMBRE_INPUT].getPolyVoltage(c));
 
-            // Triangle wave: 0..1 phase -> -1..1 triangle
-            float tri = 2.f * std::fabs(2.f * phase - 1.f) - 1.f;
+            // 4x oversampling -- run oscillator + folder at 4x sample rate
+            float dt = args.sampleTime / 4.f;
+            float out = 0.f;
+            for (int i = 0; i < 4; i++) {
+                phase[c] += freq * dt;
+                if (phase[c] >= 1.f) phase[c] -= 1.f;
 
-            out += wavefold(tri, timbre, symmetry);
+                // Triangle wave: 0..1 phase -> -1..1 triangle
+                float tri = 2.f * std::fabs(2.f * phase[c] - 1.f) - 1.f;
+
+                out += wavefold(tri, timbre, symmetry);
+            }
+            out /= 4.f;
+
+            outputs[OUT_OUTPUT].setVoltage(
+                AgentRack::Signal::Audio::toRackVolts(out), c);
         }
-        out /= 4.f;
-
-        outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 
 };

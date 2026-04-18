@@ -27,9 +27,23 @@ struct ModuleHarness {
     }
 
     template <typename TModule>
+    static void connectPolyInput(TModule& module, int inputId, std::initializer_list<float> voltages) {
+        int channel = 0;
+        module.inputs[inputId].channels = static_cast<uint8_t>(voltages.size());
+        for (float voltage : voltages) {
+            module.inputs[inputId].setVoltage(voltage, channel++);
+        }
+    }
+
+    template <typename TModule>
     static void disconnectInput(TModule& module, int inputId) {
         module.inputs[inputId].channels = 0;
         module.inputs[inputId].clearVoltages();
+    }
+
+    template <typename TModule>
+    static void connectOutput(TModule& module, int outputId, int channelCount = 1) {
+        module.outputs[outputId].channels = channelCount;
     }
 
     template <typename TModule>
