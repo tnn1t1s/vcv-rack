@@ -490,8 +490,8 @@ reg.has(<span class="str">"Autodafe"</span>, <span class="str">"ClockDivider"</s
 
 <pre><span class="cmt"># Build the patch</span>
 patch = <span class="cls">Patch</span>()
-vco   = patch.add(<span class="str">"Fundamental"</span>, <span class="str">"VCO"</span>,           pos=[<span class="num">0</span>, <span class="num">0</span>])
-audio = patch.add(<span class="str">"Core"</span>,        <span class="str">"AudioInterface2"</span>, pos=[<span class="num">8</span>, <span class="num">0</span>])
+vco   = patch.add(<span class="str">"Fundamental"</span>, <span class="str">"VCO"</span>,           position=[<span class="num">0</span>, <span class="num">0</span>])
+audio = patch.add(<span class="str">"Core"</span>,        <span class="str">"AudioInterface2"</span>, position=[<span class="num">8</span>, <span class="num">0</span>])
 patch.connect(vco.SQR, audio.i.IN_L)
 patch.connect(vco.SQR, audio.i.IN_R)
 patch.save(<span class="str">"tests/square_to_output.vcv"</span>)

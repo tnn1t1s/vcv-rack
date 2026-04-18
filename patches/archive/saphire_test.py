@@ -55,7 +55,7 @@ def build() -> str:
 
     # ── Row 0: Control ──────────────────────────────────────────────────────
     clock = pb.module(SC, "SlimeChild-Substation-Clock",
-                      pos=[C_CLOCK, 0],
+                      position=[C_CLOCK, 0],
                       TEMPO=math.log2(90 / 60),
                       RUN=1,
                       MULT=1)
@@ -64,34 +64,34 @@ def build() -> str:
     gate_pattern = [1, 0, 1, 0, 1, 0, 0, 1]
     seq_params = {f"GATE_{i}": gate_pattern[i] for i in range(8)}
     seq_params["RUN"] = 1
-    seq = pb.module(FUN, "SEQ3", pos=[C_SEQ3, 0], **seq_params)
+    seq = pb.module(FUN, "SEQ3", position=[C_SEQ3, 0], **seq_params)
     pb.chain(clock.o.MULT, seq.i.CLOCK)
 
-    adsr = pb.module(AR, "ADSR", pos=[C_ADSR, 0],
+    adsr = pb.module(AR, "ADSR", position=[C_ADSR, 0],
                      ATTACK=0.005, DECAY=0.12, SUSTAIN=0.0, RELEASE=0.3)
     pb.chain(seq.o.TRIG, adsr.i.GATE)
 
-    vca = pb.module(FUN, "VCA", pos=[C_VCA, 0])
+    vca = pb.module(FUN, "VCA", position=[C_VCA, 0])
     pb.chain(adsr.o.ENV, vca.i.LIN1)
 
     # ── Row 1: Audio ────────────────────────────────────────────────────────
-    noise = pb.module(AR, "Noise", pos=[C_NOISE, 1])
+    noise = pb.module(AR, "Noise", position=[C_NOISE, 1])
 
     pb.chain(noise.o.WHITE, vca.i.IN1)
 
-    att = pb.module(AR, "Attenuate", pos=[C_ATT, 1],
+    att = pb.module(AR, "Attenuate", position=[C_ATT, 1],
                     SCALE_0=0.4,   # CRACKLE → Saphire L (ambient)
                     SCALE_1=0.8)   # gated WHITE → Saphire R (percussion)
 
     pb.chain(noise.o.CRACKLE, att.i.IN_0)
     pb.chain(vca.o.OUT1,      att.i.IN_1)
 
-    saphire = pb.module(AR, "Saphire", pos=[C_SAPHIRE, 1],
+    saphire = pb.module(AR, "Saphire", position=[C_SAPHIRE, 1],
                         MIX=1.0, TIME=0.7, BEND=0.0, TONE=0.7, PRE=0.0, IR=38)
     pb.chain(att.o.OUT_0, saphire.i.IN_L)
     pb.chain(att.o.OUT_1, saphire.i.IN_R)
 
-    audio = pb.module(CORE, "AudioInterface2", pos=[C_AUDIO, 1])
+    audio = pb.module(CORE, "AudioInterface2", position=[C_AUDIO, 1])
     pb.chain(saphire.o.OUT_L, audio.i.IN_L)
     pb.chain(saphire.o.OUT_R, audio.i.IN_R)
 

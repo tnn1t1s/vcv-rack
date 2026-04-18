@@ -34,15 +34,15 @@ vcos = [
     pb.module(
         "Fundamental",
         "VCO",
-        pos=(top_row if i < 4 else bottom_row).at(i * 12 if i < 4 else (i - 4) * 12),
+        position=(top_row if i < 4 else bottom_row).at(i * 12 if i < 4 else (i - 4) * 12),
         Frequency=freqs[i],
         Pulse_width=widths[i],
     )
     for i in range(N)
 ]
 
-bus   = pb.module("AgentRack", "BusCrush", pos=top_row.at(52))
-audio = pb.module("Core", "AudioInterface2", pos=bottom_row.at(52))
+bus   = pb.module("AgentRack", "BusCrush", position=top_row.at(52))
+audio = pb.module("Core", "AudioInterface2", position=bottom_row.at(52))
 
 CHANNEL_NAMES = [f"Channel {i+1} in" for i in range(8)]
 

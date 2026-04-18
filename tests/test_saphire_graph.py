@@ -98,9 +98,9 @@ class TestSaphirePatchProof:
     def test_minimal_patch_proves(self):
         """VCO -> Saphire -> AudioInterface2 should prove."""
         pb = PatchBuilder()
-        vco  = pb.module(FUN, "VCO", pos=[0, 0])
-        sph  = pb.module(AR,  "Saphire", pos=[12, 0], Mix=0.5, Time=0.8, Bend=0.0, Tone=0.7)
-        out  = pb.module("Core", "AudioInterface2", pos=[24, 0])
+        vco  = pb.module(FUN, "VCO", position=[0, 0])
+        sph  = pb.module(AR,  "Saphire", position=[12, 0], Mix=0.5, Time=0.8, Bend=0.0, Tone=0.7)
+        out  = pb.module("Core", "AudioInterface2", position=[24, 0])
 
         pb.chain(vco.o.Sine, sph.i.In_L)
         pb.chain(vco.o.Sine, sph.i.In_R)
@@ -114,9 +114,9 @@ class TestSaphirePatchProof:
     def test_mono_input_patch_proves(self):
         """VCO -> Saphire In L only (mono fold) -> Audio should prove."""
         pb = PatchBuilder()
-        vco  = pb.module(FUN, "VCO", pos=[0, 0])
-        sph  = pb.module(AR,  "Saphire", pos=[12, 0], Mix=0.65)
-        out  = pb.module("Core", "AudioInterface2", pos=[24, 0])
+        vco  = pb.module(FUN, "VCO", position=[0, 0])
+        sph  = pb.module(AR,  "Saphire", position=[12, 0], Mix=0.65)
+        out  = pb.module("Core", "AudioInterface2", position=[24, 0])
 
         pb.chain(vco.o.Sine, sph.i.In_L)
         pb.chain(sph.o.Out_L, out.i.Left_input)
@@ -130,8 +130,8 @@ class TestSaphirePatchProof:
         """Saphire with no output connected should raise PatchCompileError."""
         from vcvpatch.builder import PatchCompileError
         pb = PatchBuilder()
-        vco = pb.module(FUN, "VCO", pos=[0, 0])
-        sph = pb.module(AR,  "Saphire", pos=[12, 0])
+        vco = pb.module(FUN, "VCO", position=[0, 0])
+        sph = pb.module(AR,  "Saphire", position=[12, 0])
         pb.chain(vco.o.Sine, sph.i.In_L)
         # deliberately no output connection
         with pytest.raises(PatchCompileError):

@@ -6,10 +6,10 @@ incrementally -- proof state is accurate at every intermediate step, not just
 at save time.
 
     pb = PatchBuilder()
-    lfo   = pb.module("Fundamental", "LFO",  pos=[0, 0],  FREQ=0.4)
-    vco   = pb.module("Fundamental", "VCO",  pos=[8, 0],  FREQ=0.0, PW=0.5)
-    vcf   = pb.module("Fundamental", "VCF",  pos=[16, 0], FREQ=0.6)
-    audio = pb.module("Core", "AudioInterface2", pos=[24, 0])
+    lfo   = pb.module("Fundamental", "LFO",  position=[0, 0],  FREQ=0.4)
+    vco   = pb.module("Fundamental", "VCO",  position=[8, 0],  FREQ=0.0, PW=0.5)
+    vcf   = pb.module("Fundamental", "VCF",  position=[16, 0], FREQ=0.6)
+    audio = pb.module("Core", "AudioInterface2", position=[24, 0])
 
     # Cable types are auto-detected from the source port's signal type:
     #   audio, cv, gate, clock
@@ -243,19 +243,19 @@ class PatchBuilder:
 
     # -- Module addition -----------------------------------------------------
 
-    def module(self, plugin: str, model: str, pos, data=None, **params) -> ModuleHandle:
+    def module(self, plugin: str, model: str, position, data=None, **params) -> ModuleHandle:
         """
         Add a module, sync the graph node, return a ModuleHandle.
 
         params are keyword args matching canonical API param names, same as
         Patch.add(). E.g.: pb.module("Fundamental", "VCF", Cutoff_frequency=0.6)
 
-        pos is required. Pass either:
+        position is required. Pass either:
           - [hp, row]
           - (hp, row)
           - vcvpatch.layout.Position
         """
-        m = self._patch.add(plugin, model, pos=pos, extra_data=data, **params)
+        m = self._patch.add(plugin, model, position=position, extra_data=data, **params)
 
         key = f"{plugin}/{model}"
         node_cls = NODE_REGISTRY.get(key)

@@ -49,8 +49,8 @@ Primary melodic oscillator. Connect a sequencer V/OCT output to `VOCT` (input 1)
 
 Usage from `patches/archive/generate_dub_techno.py`:
 ```python
-osc1 = patch.add("Befaco", "EvenVCO", pos=[36, 0], OCTAVE=-2, TUNE=0.0)
-osc2 = patch.add("Befaco", "EvenVCO", pos=[44, 0], OCTAVE=-2, TUNE=detune / 100.0)
+osc1 = patch.add("Befaco", "EvenVCO", position=[36, 0], OCTAVE=-2, TUNE=0.0)
+osc2 = patch.add("Befaco", "EvenVCO", position=[44, 0], OCTAVE=-2, TUNE=detune / 100.0)
 ```
 
 ### Gotchas

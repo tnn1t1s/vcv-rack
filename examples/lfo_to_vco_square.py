@@ -49,15 +49,15 @@ LFO_RATE  = 0.4   # Hz -- slow enough to clearly hear the timbre sweep
 
 patch = Patch(zoom=1.0)
 
-lfo   = patch.add("Fundamental", "LFO",            pos=[0,  0],
+lfo   = patch.add("Fundamental", "LFO",            position=[0,  0],
                   Frequency=LFO_RATE)
 
-vco   = patch.add("Fundamental", "VCO",            pos=[8,  0],
+vco   = patch.add("Fundamental", "VCO",            position=[8,  0],
                   Frequency=0.0,
                   Pulse_width=PW_BASE,              # base pulse width = 50% (true square)
                   Pulse_width_modulation=PWM_DEPTH) # PWM attenuator open -- LFO now has effect
 
-audio = patch.add("Core",        "AudioInterface2", pos=[16, 0])
+audio = patch.add("Core",        "AudioInterface2", position=[16, 0])
 
 patch.connect(lfo.o.Sine,   vco.i.Pulse_width_modulation)
 patch.connect(vco.o.Square, audio.i.Left_input)

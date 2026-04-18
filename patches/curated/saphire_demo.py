@@ -49,7 +49,7 @@ def build() -> str:
 
     # ---- Clock: 90 BPM, MULT=1 for quarter notes --------------------------------
     clock = pb.module(SC, "SlimeChild-Substation-Clock",
-                      pos=top_row.at(0),
+                      position=top_row.at(0),
                       TEMPO=math.log2(90 / 60),
                       RUN=1,
                       MULT=1)
@@ -58,32 +58,32 @@ def build() -> str:
     seq_params = {f"CV_1_step_{i+1}": v for i, v in enumerate(MELODY)}
     seq_params.update({f"Step_{i+1}_trigger": 1 for i in range(8)})
     seq_params["Run"] = 1
-    seq = pb.module(FUN, "SEQ3", pos=top_row.at(14), **seq_params)
+    seq = pb.module(FUN, "SEQ3", position=top_row.at(14), **seq_params)
     pb.chain(clock.o.MULT, seq.i.Clock)
 
     # ---- Crinkle: wavefolder osc, clean-ish timbre for reverb tail --------------
-    crinkle = pb.module(AR, "Crinkle", pos=voice_row.at(14),
+    crinkle = pb.module(AR, "Crinkle", position=voice_row.at(14),
                         Tune=0.0, Timbre=0.1, Symmetry=0.0)
     pb.chain(seq.o.CV_1, crinkle.i.V_Oct)
 
     # ---- ADSR: medium attack/decay, long release for reverb interplay -----------
-    adsr = pb.module(AR, "ADSR", pos=voice_row.at(26),
+    adsr = pb.module(AR, "ADSR", position=voice_row.at(26),
                      Attack=0.02, Decay=0.2, Sustain=0.5, Release=0.8)
     pb.chain(seq.o.Trigger, adsr.i.Gate)
 
     # ---- VCA: amplitude shaped by envelope -------------------------------------
-    vca = pb.module(FUN, "VCA", pos=voice_row.at(38))
+    vca = pb.module(FUN, "VCA", position=voice_row.at(38))
     pb.chain(crinkle.o.Out, vca.i.IN)
     pb.chain(adsr.o.Envelope, vca.i.CV)
 
     # ---- Saphire: wet-heavy, long tail, slight pre-delay -----------------------
-    saphire = pb.module(AR, "Saphire", pos=voice_row.at(48),
+    saphire = pb.module(AR, "Saphire", position=voice_row.at(48),
                         Mix=0.65, Time=0.8, Bend=0.0, Tone=0.7, Pre_delay=0.08)
     pb.chain(vca.o.OUT, saphire.i.In_L)
     pb.chain(vca.o.OUT, saphire.i.In_R)
 
     # ---- Audio output ----------------------------------------------------------
-    audio = pb.module("Core", "AudioInterface2", pos=voice_row.at(62))
+    audio = pb.module("Core", "AudioInterface2", position=voice_row.at(62))
     pb.chain(saphire.o.Out_L, audio.i.Left_input)
     pb.chain(saphire.o.Out_R, audio.i.Right_input)
 

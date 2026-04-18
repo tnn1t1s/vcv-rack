@@ -26,11 +26,11 @@ def test_split_preserves_cv_for_tonnetz_voice_routing():
     layout = RackLayout()
     row0 = layout.row(0)
 
-    clock = pb.module(IM, "Clocked-Clkd", pos=row0.at(0), Master_clock=75, Run=1)
-    lfo = pb.module(FUN, "LFO", pos=row0.at(12), Frequency=-1.5, Offset=1)
-    tonnetz = pb.module(AR, "Tonnetz", pos=row0.at(24))
-    split = pb.module(FUN, "Split", pos=row0.at(36))
-    voice = pb.module(FUN, "VCO", pos=row0.at(44))
+    clock = pb.module(IM, "Clocked-Clkd", position=row0.at(0), Master_clock=75, Run=1)
+    lfo = pb.module(FUN, "LFO", position=row0.at(12), Frequency=-1.5, Offset=1)
+    tonnetz = pb.module(AR, "Tonnetz", position=row0.at(24))
+    split = pb.module(FUN, "Split", position=row0.at(36))
+    voice = pb.module(FUN, "VCO", position=row0.at(44))
 
     pb.connect(clock.o.Clock_0, tonnetz.i.Trigger)
     pb.connect(lfo.o.Triangle, tonnetz.i.CV_1_triangle_select)
@@ -45,10 +45,10 @@ def test_split_preserves_audio_for_downstream_audio_routing():
     layout = RackLayout()
     row0 = layout.row(0)
 
-    vco = pb.module(FUN, "VCO", pos=row0.at(0))
-    split = pb.module(FUN, "Split", pos=row0.at(8))
-    vcf = pb.module(FUN, "VCF", pos=row0.at(16))
-    audio = pb.module("Core", "AudioInterface2", pos=row0.at(28))
+    vco = pb.module(FUN, "VCO", position=row0.at(0))
+    split = pb.module(FUN, "Split", position=row0.at(8))
+    vcf = pb.module(FUN, "VCF", position=row0.at(16))
+    audio = pb.module("Core", "AudioInterface2", position=row0.at(28))
 
     pb.connect(vco.o.Sine, split.in_id(0))
     pb.connect(split.out_id(0), vcf.i.Audio)
@@ -66,10 +66,10 @@ def test_controller_specs_support_cv_inference_for_maintained_modules():
     layout = RackLayout()
     row0 = layout.row(0)
 
-    random = pb.module(FUN, "Random", pos=row0.at(0), Internal_trigger_rate=-1.5)
-    quant = pb.module("Coffee", "Quant", pos=row0.at(12), Note_6=1, Note_11=1)
-    dadsr = pb.module("Bogaudio", "Bogaudio-DADSRH", pos=row0.at(24))
-    mixer = pb.module("mscHack", "Mix_9_3_4", pos=row0.at(36))
+    random = pb.module(FUN, "Random", position=row0.at(0), Internal_trigger_rate=-1.5)
+    quant = pb.module("Coffee", "Quant", position=row0.at(12), Note_6=1, Note_11=1)
+    dadsr = pb.module("Bogaudio", "Bogaudio-DADSRH", position=row0.at(24))
+    mixer = pb.module("mscHack", "Mix_9_3_4", position=row0.at(36))
 
     pb.connect(random.o.Smooth, quant.i.V_OCT_In)
     assert pb._records[-1].cable_type == CableType.CV

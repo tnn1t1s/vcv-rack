@@ -92,7 +92,7 @@ def build(
 
     # -- Clock (ImpromptuModular Clocked) ------------------------------------
 
-    clock = patch.add("ImpromptuModular", "Clocked-Clkd", pos=[0, 0],
+    clock = patch.add("ImpromptuModular", "Clocked-Clkd", position=[0, 0],
                       BPM=bpm,
                       RUN=1,      # start playing immediately
                       RATIO1=4,   # CLK1 = 16th notes -> drives sequencer
@@ -101,7 +101,7 @@ def build(
 
     # -- Sequencer -----------------------------------------------------------
 
-    seq = patch.add("Fundamental", "SEQ3", pos=[14, 0], TEMPO=bpm, RUN=1)
+    seq = patch.add("Fundamental", "SEQ3", position=[14, 0], TEMPO=bpm, RUN=1)
 
     notes = scale_notes(root, scale, octaves=2)
     cvs, gates = make_sequence(notes, length=8, rng=rng, density=0.65)
@@ -116,66 +116,66 @@ def build(
 
     # -- Oscillators (Befaco EvenVCO -- analog-warm, no aliasing) -----------
 
-    osc1 = patch.add("Befaco", "EvenVCO", pos=[36, 0],
+    osc1 = patch.add("Befaco", "EvenVCO", position=[36, 0],
                      OCTAVE=-2, TUNE=0.0)
 
-    osc2 = patch.add("Befaco", "EvenVCO", pos=[44, 0],
+    osc2 = patch.add("Befaco", "EvenVCO", position=[44, 0],
                      OCTAVE=-2, TUNE=detune / 100.0)
 
     # -- Cascaded filters ----------------------------------------------------
 
-    vcf1 = patch.add("Fundamental", "VCF", pos=[52, 0],
+    vcf1 = patch.add("Fundamental", "VCF", position=[52, 0],
                      FREQ=filter_freq, RES=filter_res, FREQ_CV=filt_env_amt)
 
-    vcf2 = patch.add("Fundamental", "VCF", pos=[60, 0],
+    vcf2 = patch.add("Fundamental", "VCF", position=[60, 0],
                      FREQ=filter_freq + 0.06, RES=filter_res * 0.5,
                      FREQ_CV=filt_env_amt * 0.4)
 
     # -- Envelopes -----------------------------------------------------------
 
-    adsr_amp = patch.add("Bogaudio", "Bogaudio-ADSR", pos=[68, 0],
+    adsr_amp = patch.add("Bogaudio", "Bogaudio-ADSR", position=[68, 0],
                          ATTACK=amp_attack, DECAY=amp_decay,
                          SUSTAIN=amp_sustain, RELEASE=amp_release)
 
-    adsr_filt = patch.add("Bogaudio", "Bogaudio-ADSR", pos=[76, 0],
+    adsr_filt = patch.add("Bogaudio", "Bogaudio-ADSR", position=[76, 0],
                           ATTACK=filt_attack, DECAY=filt_decay,
                           SUSTAIN=filt_sustain, RELEASE=filt_release)
 
     # -- VCA -----------------------------------------------------------------
 
-    vca = patch.add("Fundamental", "VCA", pos=[84, 0])
+    vca = patch.add("Fundamental", "VCA", position=[84, 0])
 
     # -- LFOs ----------------------------------------------------------------
 
-    lfo1 = patch.add("Bogaudio", "Bogaudio-LFO", pos=[92, 0],
+    lfo1 = patch.add("Bogaudio", "Bogaudio-LFO", position=[92, 0],
                      FREQ=lfo1_rate, OFFSET=5.0, SCALE=5.0)  # unipolar
 
-    lfo2 = patch.add("Bogaudio", "Bogaudio-LFO", pos=[100, 0],
+    lfo2 = patch.add("Bogaudio", "Bogaudio-LFO", position=[100, 0],
                      FREQ=lfo2_rate)
 
-    lfo3 = patch.add("Bogaudio", "Bogaudio-LFO", pos=[108, 0],
+    lfo3 = patch.add("Bogaudio", "Bogaudio-LFO", position=[108, 0],
                      FREQ=lfo3_rate, OFFSET=5.0, SCALE=5.0)  # unipolar tremolo
 
     # -- S&H on noise --------------------------------------------------------
 
-    noise = patch.add("Fundamental", "Noise", pos=[116, 0])
+    noise = patch.add("Fundamental", "Noise", position=[116, 0])
 
-    sh = patch.add("Bogaudio", "Bogaudio-SampleHold", pos=[122, 0])
+    sh = patch.add("Bogaudio", "Bogaudio-SampleHold", position=[122, 0])
 
     # -- Effects row (row 1) -------------------------------------------------
 
     # DRY=1 passes signal through even before reverb tail builds up
-    reverb = patch.add("Valley", "Plateau", pos=[0, 1],
+    reverb = patch.add("Valley", "Plateau", position=[0, 1],
                        DRY=1.0, WET=reverb_wet,
                        SIZE=reverb_size, DIFFUSION=0.75,
                        DECAY=reverb_decay,
                        REVERB_LPF=0.75, IN_LPF=0.85,
                        MOD_SPEED=0.5, MOD_DEPTH=0.3)
 
-    delay = patch.add("AlrightDevices", "Chronoblob2", pos=[18, 1],
+    delay = patch.add("AlrightDevices", "Chronoblob2", position=[18, 1],
                       FEEDBACK=delay_feedback, MIX=delay_mix)
 
-    audio = patch.add("Core", "AudioInterface2", pos=[38, 1])
+    audio = patch.add("Core", "AudioInterface2", position=[38, 1])
 
     # -----------------------------------------------------------------------
     # WIRING

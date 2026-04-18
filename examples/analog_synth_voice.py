@@ -31,19 +31,19 @@ CUTOFF_MOD = 0.5   # LFO moves cutoff by ±50%
 
 patch = Patch(zoom=1.0)
 
-lfo  = patch.add("Fundamental", "LFO",            pos=[0,  0],
+lfo  = patch.add("Fundamental", "LFO",            position=[0,  0],
                  Frequency=LFO_RATE)
 
-vco  = patch.add("Fundamental", "VCO",            pos=[8,  0],
+vco  = patch.add("Fundamental", "VCO",            position=[8,  0],
                  Frequency=VCO_FREQ,
                  Pulse_width=PW_BASE,
                  Pulse_width_modulation=PWM_DEPTH)
 
-vcf  = patch.add("Fundamental", "VCF",            pos=[16, 0],
+vcf  = patch.add("Fundamental", "VCF",            position=[16, 0],
                  Cutoff_frequency=CUTOFF,
                  Cutoff_frequency_CV=CUTOFF_MOD)
 
-audio = patch.add("Core", "AudioInterface2",      pos=[24, 0])
+audio = patch.add("Core", "AudioInterface2",      position=[24, 0])
 
 # Modulation routing
 patch.connect(lfo.o.Sine, vco.i.Pulse_width_modulation)

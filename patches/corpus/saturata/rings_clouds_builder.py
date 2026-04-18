@@ -32,11 +32,11 @@ def _build(n: int, pb: PatchBuilder = None) -> str:
     if pb is None:
         pb = PatchBuilder()
 
-    audio = pb.module("Core",               "AudioInterface2", pos=[84, 4])
-    rings = pb.module("AudibleInstruments", "Rings",           pos=[52, 4], **RINGS_PARAMS[n])
-    clouds= pb.module("AudibleInstruments", "Clouds",          pos=[64, 4], **CLOUDS_PARAMS[n])
-    marbles=pb.module("AudibleInstruments", "Marbles",         pos=[0,  4], **MARBLES_PARAMS[n])
-    _     = pb.module("DanTModules",        "Purfenator",      pos=[36, 4])
+    audio = pb.module("Core",               "AudioInterface2", position=[84, 4])
+    rings = pb.module("AudibleInstruments", "Rings",           position=[52, 4], **RINGS_PARAMS[n])
+    clouds= pb.module("AudibleInstruments", "Clouds",          position=[64, 4], **CLOUDS_PARAMS[n])
+    marbles=pb.module("AudibleInstruments", "Marbles",         position=[0,  4], **MARBLES_PARAMS[n])
+    _     = pb.module("DanTModules",        "Purfenator",      position=[36, 4])
 
     # Core audio chain: Rings -> Clouds -> output
     pb.connect(rings.ODD,    clouds.i.IN_L)

@@ -988,7 +988,7 @@ class Patch:
     # -- Module placement ----------------------------------------------------
 
     def add(self, plugin: str, model: str,
-            pos,
+            position,
             color: Optional[str] = None,
             extra_data: Optional[dict] = None,
             **params) -> Module:
@@ -998,12 +998,12 @@ class Patch:
         params are keyword args matching the module's canonical API param names.
         E.g.: patch.add("Fundamental", "VCF", Cutoff_frequency=0.5, Resonance=0.3)
 
-        pos is required. Pass either:
+        position is required. Pass either:
           - [hp, row]
           - (hp, row)
           - vcvpatch.layout.Position
         """
-        pos = _normalize_pos(pos)
+        position = _normalize_position(position)
 
         # Resolve canonical API param names -> param IDs using discovered metadata
         discovered = _load_discovered(plugin, model)
@@ -1027,7 +1027,7 @@ class Patch:
                     )
             param_values[pid] = float(value)
 
-        m = Module(self, plugin, model, pos, param_values, extra_data=extra_data)
+        m = Module(self, plugin, model, position, param_values, extra_data=extra_data)
         self.modules.append(m)
         return m
 
@@ -1099,24 +1099,24 @@ class Patch:
         print(f"Patch: {len(self.modules)} modules, {len(self.cables)} cables")
         print("\nModules:")
         for m in self.modules:
-            print(f"  {m.plugin}/{m.model}  pos={m.pos}")
+            print(f"  {m.plugin}/{m.model}  position={m.pos}")
         print("\nCables:")
         for c in self.cables:
             o, i = c.output, c.input
             print(f"  {o.module.model}[out {o.port_id}] -> {i.module.model}[in {i.port_id}]  {c.cable_type.value}")
 
 
-def _normalize_pos(pos) -> list[int]:
+def _normalize_position(position) -> list[int]:
     """Normalize an explicit position value into [hp, row]."""
-    if pos is None:
+    if position is None:
         raise ValueError(
-            "pos is required. Pass an explicit position such as [0, 0] or "
+            "position is required. Pass an explicit position such as [0, 0] or "
             "RackLayout().row(0).at(0)."
         )
-    if isinstance(pos, Position):
-        return pos.as_list()
-    if isinstance(pos, (list, tuple)) and len(pos) == 2:
-        return [int(pos[0]), int(pos[1])]
+    if isinstance(position, Position):
+        return position.as_list()
+    if isinstance(position, (list, tuple)) and len(position) == 2:
+        return [int(position[0]), int(position[1])]
     raise TypeError(
-        f"Invalid pos={pos!r}. Expected [hp, row], (hp, row), or vcvpatch.layout.Position."
+        f"Invalid position={position!r}. Expected [hp, row], (hp, row), or vcvpatch.layout.Position."
     )

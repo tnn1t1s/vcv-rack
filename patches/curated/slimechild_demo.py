@@ -47,25 +47,25 @@ def build() -> str:
 
     # ---- Clock (127 BPM, MULT=4 for 16th notes) --------------------------------
     clock = pb.module(PLUGIN, "SlimeChild-Substation-Clock",
-                      pos=top_row.at(0),
+                      position=top_row.at(0),
                       TEMPO=math.log2(127 / 60), RUN=1, MULT=4)
 
     # ---- PolySeq: 4-step sequence A, routed via divider 1 ----------------------
     # DIV1=1 (every clock), DIV1_A=1 (route to A), A1-A4 = pitch offsets
     polyseq = pb.module(PLUGIN, "SlimeChild-Substation-PolySeq",
-                        pos=top_row.at(14),
+                        position=top_row.at(14),
                         STEPS=4,
                         A1=0.0, A2=0.25, A3=-0.17, A4=0.42,
                         DIV1=1, DIV1_A=1)
 
     # ---- Quantizer: C minor pentatonic ----------------------------------------
     quant = pb.module(PLUGIN, "SlimeChild-Substation-Quantizer",
-                      pos=middle_row.at(14),
+                      position=middle_row.at(14),
                       ROOT=0, OCTAVE=-1)
 
     # ---- SubOscillator: root + one + two octaves below -------------------------
     subosc = pb.module(PLUGIN, "SlimeChild-Substation-SubOscillator",
-                       pos=middle_row.at(28),
+                       position=middle_row.at(28),
                        BASE_FREQ=0, WAVEFORM=2,
                        SUBDIV1=2,    # SUB1 = 1 octave below
                        SUBDIV2=4,    # SUB2 = 2 octaves below
@@ -73,27 +73,27 @@ def build() -> str:
 
     # ---- Envelopes: EG1=amp (fast), EG2=filter (slower) ----------------------
     envs = pb.module(PLUGIN, "SlimeChild-Substation-Envelopes",
-                     pos=top_row.at(30),
+                     position=top_row.at(30),
                      EG1_ATTACK=-3, EG1_DECAY=-1,
                      EG2_ATTACK=-3, EG2_DECAY=0,
                      HOLD=0)
 
     # ---- Mixer: blend BASE + SUB1 + SUB2 --------------------------------------
     mixer = pb.module(PLUGIN, "SlimeChild-Substation-Mixer",
-                      pos=middle_row.at(42),
+                      position=middle_row.at(42),
                       LEVEL1=0.7, LEVEL2=0.5, LEVEL3=0.3,
                       MIX_LEVEL=1.0, DRIVE=0.2)
 
     # ---- Filter: mid cutoff, FM attenuation opened for envelope sweep ---------
     filt = pb.module(PLUGIN, "SlimeChild-Substation-Filter",
-                     pos=bottom_row.at(42),
+                     position=bottom_row.at(42),
                      FREQ=3.0, RES=0.25, FM=0.5)
 
     # ---- VCA ------------------------------------------------------------------
-    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", pos=bottom_row.at(56))
+    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", position=bottom_row.at(56))
 
     # ---- Audio output ---------------------------------------------------------
-    audio = pb.module("Core", "AudioInterface2", pos=bottom_row.at(68))
+    audio = pb.module("Core", "AudioInterface2", position=bottom_row.at(68))
 
     # =========================================================================
     # WIRING

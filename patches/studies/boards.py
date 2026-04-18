@@ -93,29 +93,29 @@ def build() -> str:
     middle_row = layout.row(1)
     bottom_row = layout.row(2)
 
-    notes = pb.module("Core", "Notes", pos=top_row.at(0), data={"text": NOTES})
+    notes = pb.module("Core", "Notes", position=top_row.at(0), data={"text": NOTES})
 
     # Clock
-    lfo = pb.module(FUN, "LFO", pos=top_row.at(18), Frequency=0.25)
+    lfo = pb.module(FUN, "LFO", position=top_row.at(18), Frequency=0.25)
 
     # Pgmr + PgmrX = 8 steps
-    pgmr = pb.module(BOG, "Bogaudio-Pgmr", pos=middle_row.at(18), **pgmr_main_params(0))
-    pgx1 = pb.module(BOG, "Bogaudio-PgmrX", pos=middle_row.at(32), **pgmrx_params(4))
+    pgmr = pb.module(BOG, "Bogaudio-Pgmr", position=middle_row.at(18), **pgmr_main_params(0))
+    pgx1 = pb.module(BOG, "Bogaudio-PgmrX", position=middle_row.at(32), **pgmrx_params(4))
 
-    tonnetz = pb.module(AR, "Tonnetz", pos=middle_row.at(46))
+    tonnetz = pb.module(AR, "Tonnetz", position=middle_row.at(46))
 
     # ADSR: gentle pad envelope
-    adsr = pb.module(FUN, "ADSR", pos=top_row.at(36),
+    adsr = pb.module(FUN, "ADSR", position=top_row.at(36),
                      Attack=0.4, Decay=0.3, Sustain=0.8, Release=0.5)
 
     # VCO -> Ladder (warm filter) -> Saphire (reverb) -> Audio
-    vco     = pb.module(FUN, "VCO", pos=bottom_row.at(46))
-    ladder  = pb.module(AR, "Ladder", pos=bottom_row.at(58),
+    vco     = pb.module(FUN, "VCO", position=bottom_row.at(46))
+    ladder  = pb.module(AR, "Ladder", position=bottom_row.at(58),
                         Cutoff=9.0, Resonance=0.2, Spread=0.25, Shape=0.3)
-    saphire = pb.module(AR, "Saphire", pos=bottom_row.at(70),
+    saphire = pb.module(AR, "Saphire", position=bottom_row.at(70),
                         Mix=0.5, Time=0.6, Bend=0.15, Tone=0.4)
-    vca     = pb.module(FUN, "VCA", pos=bottom_row.at(84))
-    audio   = pb.module("Core", "AudioInterface2", pos=bottom_row.at(96))
+    vca     = pb.module(FUN, "VCA", position=bottom_row.at(84))
+    audio   = pb.module("Core", "AudioInterface2", position=bottom_row.at(96))
 
     # Signal flow: LFO -> Pgmr -> Tonnetz -> VCO -> Ladder -> VCA -> Saphire -> Audio
 

@@ -61,11 +61,11 @@ def _err(result: dict):
     return result
 
 
-def _add(ctx, name: str, plugin: str, model: str, pos: list[int], params_json: str = "{}"):
+def _add(ctx, name: str, plugin: str, model: str, position: list[int], params_json: str = "{}"):
     """Small wrapper to keep explicit placement readable in tests."""
     return add_module(
         name, plugin, model,
-        pos_json=json.dumps(pos),
+        position_json=json.dumps(position),
         params_json=params_json,
         tool_context=ctx,
     )
@@ -279,8 +279,8 @@ class TestModulate:
 
     def test_builder_modulate_requires_explicit_via_for_multi_output_sources(self):
         pb = PatchBuilder()
-        lfo = pb.module("Fundamental", "LFO", pos=[0, 0])
-        vcf = pb.module("Fundamental", "VCF", pos=[12, 0])
+        lfo = pb.module("Fundamental", "LFO", position=[0, 0])
+        vcf = pb.module("Fundamental", "VCF", position=[12, 0])
         with pytest.raises(ValueError, match="Pass via= explicitly"):
             lfo.modulates(vcf.i.Frequency)
 

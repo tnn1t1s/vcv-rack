@@ -27,10 +27,10 @@ pb = PatchBuilder(zoom=1.0)
 layout = RackLayout()
 row0 = layout.row(0)
 
-lfo   = pb.module("Fundamental", "LFO",          pos=row0.at(0),  Frequency=0.4)
-vco   = pb.module("Fundamental", "VCO",          pos=row0.at(8),  Frequency=0.0, Pulse_width=0.5)
-vcf   = pb.module("Fundamental", "VCF",          pos=row0.at(16), Cutoff_frequency=0.6)
-audio = pb.module("Core",        "AudioInterface2", pos=row0.at(24))
+lfo   = pb.module("Fundamental", "LFO",          position=row0.at(0),  Frequency=0.4)
+vco   = pb.module("Fundamental", "VCO",          position=row0.at(8),  Frequency=0.0, Pulse_width=0.5)
+vcf   = pb.module("Fundamental", "VCF",          position=row0.at(16), Cutoff_frequency=0.6)
+audio = pb.module("Core",        "AudioInterface2", position=row0.at(24))
 
 # Audio chain -- reads left-to-right as signal flow.
 # fan_out automatically uses VCF.LPF (port 0) as the source.

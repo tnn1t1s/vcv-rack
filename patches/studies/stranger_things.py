@@ -37,22 +37,22 @@ def build() -> str:
 
     # Clock: 120 BPM, x4 multiplier for 16th notes
     clock = pb.module(PLUGIN, "SlimeChild-Substation-Clock",
-                      pos=top_row.at(0),
+                      position=top_row.at(0),
                       TEMPO=math.log2(120 / 60), RUN=1, MULT=4)
 
     # SEQ3: 8-step sequencer, steps set to CMaj7 voltages
-    seq = pb.module("Fundamental", "SEQ3", pos=top_row.at(14), **{
+    seq = pb.module("Fundamental", "SEQ3", position=top_row.at(14), **{
         f"CV_1_step_{i+1}": v for i, v in enumerate(STEPS)
     })
 
     # Quantizer: C major (CMaj7 notes C/E/G/B are all in C major)
     quant = pb.module(PLUGIN, "SlimeChild-Substation-Quantizer",
-                      pos=middle_row.at(14),
+                      position=middle_row.at(14),
                       ROOT=0, OCTAVE=0)
 
     # SubOscillator: sine-ish wave, slight detune for that synth shimmer
     subosc = pb.module(PLUGIN, "SlimeChild-Substation-SubOscillator",
-                       pos=middle_row.at(28),
+                       position=middle_row.at(28),
                        BASE_FREQ=0, WAVEFORM=0,
                        SUBDIV1=2,   # one octave below
                        SUBDIV2=4,   # two octaves below
@@ -60,27 +60,27 @@ def build() -> str:
 
     # Envelopes: fast attack, medium decay for arpeggio articulation
     envs = pb.module(PLUGIN, "SlimeChild-Substation-Envelopes",
-                     pos=top_row.at(30),
+                     position=top_row.at(30),
                      EG1_ATTACK=-4, EG1_DECAY=-1,
                      EG2_ATTACK=-4, EG2_DECAY=0,
                      HOLD=0)
 
     # Mixer: blend root + subs (heavier on root for melody clarity)
     mixer = pb.module(PLUGIN, "SlimeChild-Substation-Mixer",
-                      pos=middle_row.at(42),
+                      position=middle_row.at(42),
                       LEVEL1=0.9, LEVEL2=0.4, LEVEL3=0.2,
                       MIX_LEVEL=1.0, DRIVE=0.1)
 
     # Filter: slightly open, envelope sweep for movement
     filt = pb.module(PLUGIN, "SlimeChild-Substation-Filter",
-                     pos=bottom_row.at(42),
+                     position=bottom_row.at(42),
                      FREQ=3.5, RES=0.2, FM=0.5)
 
     # VCA
-    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", pos=bottom_row.at(56))
+    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", position=bottom_row.at(56))
 
     # Audio output
-    audio = pb.module("Core", "AudioInterface2", pos=bottom_row.at(68))
+    audio = pb.module("Core", "AudioInterface2", position=bottom_row.at(68))
 
     # --- Wiring ---
 

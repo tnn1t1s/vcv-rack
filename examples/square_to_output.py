@@ -23,8 +23,8 @@ OUT_PATH = os.path.join(os.path.dirname(__file__), "square_to_output.vcv")
 
 patch = Patch(zoom=1.0)
 
-vco   = patch.add("Fundamental", "VCO",           pos=[0, 0], Frequency=0.0)
-audio = patch.add("Core",        "AudioInterface2", pos=[8, 0])
+vco   = patch.add("Fundamental", "VCO",           position=[0, 0], Frequency=0.0)
+audio = patch.add("Core",        "AudioInterface2", position=[8, 0])
 
 patch.connect(vco.o.Square, audio.i.Left_input)
 patch.connect(vco.o.Square, audio.i.Right_input)

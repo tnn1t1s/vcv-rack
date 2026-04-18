@@ -80,7 +80,7 @@ Since the registry names are wrong, use `patch.add()` with explicit ID kwargs or
 
 ```python
 reverb = patch.add("Valley", "Plateau",
-    pos=[0, 1],
+    position=[0, 1],
     # Use discovered IDs, not registry names (registry is broken for this module):
     # id 0 = Dry level
     # id 1 = Wet level

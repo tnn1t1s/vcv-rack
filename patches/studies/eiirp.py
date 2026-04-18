@@ -103,26 +103,26 @@ def build() -> str:
     voice_row = layout.row(2)
 
     # ---- Clock: LFO square at ~2.5Hz (eighth notes at ~75 BPM) ---------------
-    lfo = pb.module(FUN, "LFO", pos=top_row.at(0), Frequency=1.3)
+    lfo = pb.module(FUN, "LFO", position=top_row.at(0), Frequency=1.3)
 
     # ---- Pgmr + 4x PgmrX = 20 steps (must be adjacent) ----------------------
-    pgmr = pb.module(BOG, "Bogaudio-Pgmr", pos=pgmr_row.at(0), **pgmr_main_params(0))
-    pgx1 = pb.module(BOG, "Bogaudio-PgmrX", pos=pgmr_row.at(14), **pgmrx_params(4))
-    pgx2 = pb.module(BOG, "Bogaudio-PgmrX", pos=pgmr_row.at(22), **pgmrx_params(8))
-    pgx3 = pb.module(BOG, "Bogaudio-PgmrX", pos=pgmr_row.at(30), **pgmrx_params(12))
-    pgx4 = pb.module(BOG, "Bogaudio-PgmrX", pos=pgmr_row.at(38), **pgmrx_params(16))
+    pgmr = pb.module(BOG, "Bogaudio-Pgmr", position=pgmr_row.at(0), **pgmr_main_params(0))
+    pgx1 = pb.module(BOG, "Bogaudio-PgmrX", position=pgmr_row.at(14), **pgmrx_params(4))
+    pgx2 = pb.module(BOG, "Bogaudio-PgmrX", position=pgmr_row.at(22), **pgmrx_params(8))
+    pgx3 = pb.module(BOG, "Bogaudio-PgmrX", position=pgmr_row.at(30), **pgmrx_params(12))
+    pgx4 = pb.module(BOG, "Bogaudio-PgmrX", position=pgmr_row.at(38), **pgmrx_params(16))
 
     # ---- Tonnetz --------------------------------------------------------------
-    tonnetz = pb.module(AR, "Tonnetz", pos=voice_row.at(0))
+    tonnetz = pb.module(AR, "Tonnetz", position=voice_row.at(0))
 
     # ---- ADSR envelope -------------------------------------------------------
-    adsr = pb.module(FUN, "ADSR", pos=top_row.at(14),
+    adsr = pb.module(FUN, "ADSR", position=top_row.at(14),
                      Attack=0.0, Decay=0.3, Sustain=0.5, Release=0.4)
 
     # ---- VCO + VCA + Audio ---------------------------------------------------
-    vco   = pb.module(FUN, "VCO", pos=voice_row.at(14))
-    vca   = pb.module(FUN, "VCA", pos=voice_row.at(26))
-    audio = pb.module("Core", "AudioInterface2", pos=voice_row.at(38))
+    vco   = pb.module(FUN, "VCO", position=voice_row.at(14))
+    vca   = pb.module(FUN, "VCA", position=voice_row.at(26))
+    audio = pb.module("Core", "AudioInterface2", position=voice_row.at(38))
 
     # Signal flow: LFO -> Pgmr -> Tonnetz -> VCO -> VCA -> Audio
 

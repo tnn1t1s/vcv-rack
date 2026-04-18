@@ -50,7 +50,7 @@ def build() -> str:
     bottom_row = layout.row(2)
 
     clock = pb.module(PLUGIN, "SlimeChild-Substation-Clock",
-                      pos=top_row.at(0),
+                      position=top_row.at(0),
                       TEMPO=math.log2(128 / 60), RUN=1, MULT=4)
 
     # Sequencer16: pitch values + gate pattern in one module
@@ -61,23 +61,23 @@ def build() -> str:
     seq_params["LENGTH"]   = 16.0
     seq_params["RANGE_SW"] = 1.0  # 1V full-scale: param 0-1 maps directly to 0-1V
 
-    seq = pb.module("CountModula", "Sequencer16", pos=top_row.at(14), **seq_params)
+    seq = pb.module("CountModula", "Sequencer16", position=top_row.at(14), **seq_params)
 
     # Quantizer: F root (set scale to minor/Fm in GUI)
     quant = pb.module(PLUGIN, "SlimeChild-Substation-Quantizer",
-                      pos=middle_row.at(14),
+                      position=middle_row.at(14),
                       ROOT=5, OCTAVE=0)
 
     # SubOscillator: saw, heavy subs
     subosc = pb.module(PLUGIN, "SlimeChild-Substation-SubOscillator",
-                       pos=middle_row.at(28),
+                       position=middle_row.at(28),
                        BASE_FREQ=0, WAVEFORM=1,
                        SUBDIV1=2, SUBDIV2=4,
                        PWM=0.5, DETUNE=0.015)
 
     # Envelopes: percussive -- very fast attack, short decay
     envs = pb.module(PLUGIN, "SlimeChild-Substation-Envelopes",
-                     pos=top_row.at(38),
+                     position=top_row.at(38),
                      EG1_ATTACK=-3,   # instant attack (min=-3)
                      EG1_DECAY=-1.5,  # short percussive decay
                      EG2_ATTACK=-3,   # instant attack on filter
@@ -85,17 +85,17 @@ def build() -> str:
                      HOLD=0)
 
     mixer = pb.module(PLUGIN, "SlimeChild-Substation-Mixer",
-                      pos=middle_row.at(42),
+                      position=middle_row.at(42),
                       LEVEL1=0.8, LEVEL2=0.5, LEVEL3=0.3,
                       MIX_LEVEL=1.0, DRIVE=0.2)
 
     filt = pb.module(PLUGIN, "SlimeChild-Substation-Filter",
-                     pos=bottom_row.at(42),
+                     position=bottom_row.at(42),
                      FREQ=1.5, RES=0.3, FM=0.6)
 
-    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", pos=bottom_row.at(56),
+    vca = pb.module(PLUGIN, "SlimeChild-Substation-VCA", position=bottom_row.at(56),
                     LEVEL=0)  # closed by default; ENV1 opens it
-    audio = pb.module("Core", "AudioInterface2", pos=bottom_row.at(68))
+    audio = pb.module("Core", "AudioInterface2", position=bottom_row.at(68))
 
     # Clock → Sequencer16
     pb.chain(clock.o.MULT, seq.i.CLOCK)
