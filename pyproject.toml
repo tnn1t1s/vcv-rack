@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 dependencies = [
     "zstandard>=0.21.0",
     "pillow",
-    "google-adk>=1.0.0",
+    "google-adk[eval]>=1.0.0",
     "litellm>=1.0.0",
     "google-genai>=1.0.0",
     "python-dotenv>=1.0.0",
@@ -31,10 +31,17 @@ runtime = [
 dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
+    "pandas>=2.2",
+    "tabulate>=0.9",
 ]
 
 [tool.uv]
-dev-dependencies = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+dev-dependencies = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pandas>=2.2",
+    "tabulate>=0.9",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

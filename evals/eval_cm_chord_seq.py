@@ -17,14 +17,19 @@ Marked `eval` so normal pytest runs skip it unless you pass -m eval:
 import asyncio
 import os
 import tempfile
+from pathlib import Path
 
 import pytest
+from dotenv import load_dotenv
 
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
+from evals.patch_checks import assert_cm_chord_seq_patch
 from vcvpatch.serialize import load_vcv
+
+load_dotenv(Path(__file__).resolve().parent.parent / "agent" / ".env")
 
 # ---------------------------------------------------------------------------
 # The prompt under test -- this is the artifact being stored
@@ -41,42 +46,6 @@ PROMPT = (
     "delay into AudioInterface2. "
     "Save to {output_path}"
 )
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def _models(patch_dict: dict) -> dict[str, dict]:
-    """Return {model_slug: module_dict} for every module in the patch."""
-    return {m["model"]: m for m in patch_dict["modules"]}
-
-
-def _cables(patch_dict: dict) -> list[dict]:
-    return patch_dict.get("cables", [])
-
-
-def _ports_into(patch_dict: dict, model: str) -> set[int]:
-    """Return the set of inputId values for cables arriving at the named model."""
-    mods = _models(patch_dict)
-    if model not in mods:
-        return set()
-    target_id = mods[model]["id"]
-    return {c["inputId"] for c in _cables(patch_dict) if c["inputModuleId"] == target_id}
-
-
-def _src_models_into(patch_dict: dict, dst_model: str) -> set[str]:
-    """Return the set of source model slugs for cables landing on dst_model."""
-    mods = _models(patch_dict)
-    if dst_model not in mods:
-        return set()
-    target_id = mods[dst_model]["id"]
-    id_to_model = {m["id"]: m["model"] for m in patch_dict["modules"]}
-    return {
-        id_to_model[c["outputModuleId"]]
-        for c in _cables(patch_dict)
-        if c["inputModuleId"] == target_id and c["outputModuleId"] in id_to_model
-    }
-
 
 # ---------------------------------------------------------------------------
 # Eval fixture: run agent, return patch dict
@@ -128,70 +97,8 @@ def patch_dict(tmp_path_factory):
 # ---------------------------------------------------------------------------
 
 class TestCmChordSeqEval:
-    REQUIRED_MODELS = [
-        "Clocked-Clkd",
-        "SEQ3",
-        "ChordCV",
-        "VCO",           # at least one; there should be three
-        "Bogaudio-Mix4",
-        "VCA",
-        "ADSR",
-        "Chronoblob2",
-        "AudioInterface2",
-    ]
-
     def test_all_required_modules_present(self, patch_dict):
-        present = {m["model"] for m in patch_dict["modules"]}
-        for model in self.REQUIRED_MODELS:
-            assert model in present, f"Missing module: {model}"
-
-    def test_three_vcos(self, patch_dict):
-        vcos = [m for m in patch_dict["modules"] if m["model"] == "VCO"]
-        assert len(vcos) == 3, f"Expected 3 VCOs, got {len(vcos)}"
-
-    def test_vcos_feed_mix4_audio_inputs(self, patch_dict):
-        """VCO SAW outputs must land on Mix4 IN ports (2, 5, 8), not LEVEL/PAN CVs."""
-        mix4_audio_inputs = {2, 5, 8, 11}   # IN1-IN4 per the corrected registry
-        ports = _ports_into(patch_dict, "Bogaudio-Mix4")
-        audio_ports_used = ports & mix4_audio_inputs
-        assert len(audio_ports_used) >= 3, (
-            f"Expected at least 3 VCOs on Mix4 audio IN ports {mix4_audio_inputs}, "
-            f"but cables arrived at ports {ports}"
-        )
-
-    def test_seq3_clocked_by_clock(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "SEQ3")
-        assert "Clocked-Clkd" in srcs, f"SEQ3 is not clocked by Clocked-Clkd; sources: {srcs}"
-
-    def test_chordcv_fed_by_seq3(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "ChordCV")
-        assert "SEQ3" in srcs, f"ChordCV root not driven by SEQ3; sources: {srcs}"
-
-    def test_vcos_fed_by_chordcv(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "VCO")
-        assert "ChordCV" in srcs, f"VCOs not pitched by ChordCV; sources: {srcs}"
-
-    def test_adsr_gated_by_seq3(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "ADSR")
-        assert "SEQ3" in srcs, f"ADSR gate not driven by SEQ3; sources: {srcs}"
-
-    def test_vca_fed_by_mix4(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "VCA")
-        assert "Bogaudio-Mix4" in srcs, f"VCA audio not fed by Mix4; sources: {srcs}"
-
-    def test_vca_enveloped_by_adsr(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "VCA")
-        assert "ADSR" in srcs, f"VCA CV not driven by ADSR; sources: {srcs}"
-
-    def test_chronoblob_fed_by_vca(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "Chronoblob2")
-        assert "VCA" in srcs, f"Chronoblob2 not fed by VCA; sources: {srcs}"
-
-    def test_audio_interface_fed_by_chronoblob(self, patch_dict):
-        srcs = _src_models_into(patch_dict, "AudioInterface2")
-        assert "Chronoblob2" in srcs, (
-            f"AudioInterface2 not fed by Chronoblob2; sources: {srcs}"
-        )
+        assert_cm_chord_seq_patch(patch_dict)
 
     def test_patch_file_is_valid_vcv(self, patch_dict):
         assert "modules" in patch_dict
