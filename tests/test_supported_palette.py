@@ -18,3 +18,16 @@ def test_supported_module_exposes_surface_and_semantics():
     assert ladder.semantics.routes == ((0, 0),)
     assert ladder.inputs[0].api_name == "Audio"
     assert ladder.outputs[0].api_name == "Out"
+
+
+def test_supported_palette_includes_befaco_slew_limiter():
+    keys = {(module.plugin, module.model) for module in supported_modules()}
+    assert ("Befaco", "SlewLimiter") in keys
+
+
+def test_supported_module_exposes_befaco_slew_limiter_as_controller():
+    slew = supported_module("Befaco", "SlewLimiter")
+    assert slew.semantics.kind == "controller"
+    assert slew.outputs[0].api_name == "Out"
+    assert slew.outputs[0].signal_type == "cv"
+    assert [entry.api_name for entry in slew.inputs] == ["Rise_CV", "Fall_CV", "In"]

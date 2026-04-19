@@ -111,6 +111,10 @@ modules:
     kind: audio_mixer
     audio_inputs: [0, 3, 6, 9]
     audio_outputs: [0, 1]
+  - plugin: Befaco
+    model: SlewLimiter
+    kind: controller
+    outputs: {0: cv}
   - plugin: Bogaudio
     model: Bogaudio-ADSR
     kind: controller

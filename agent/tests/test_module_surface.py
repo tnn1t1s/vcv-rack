@@ -34,3 +34,21 @@ def test_describe_module_surface_reports_unknown_module():
     result = inspect_module_surface("Nope", "Missing")
     assert result["status"] == "error"
     assert "not found" in result["message"].lower()
+
+
+
+def test_describe_module_surface_reports_befaco_slew_limiter_as_cv_controller():
+    result = inspect_module_surface("Befaco", "SlewLimiter")
+    assert result["status"] == "success"
+    assert result["kind"] == "controller"
+
+    params = {entry["api_name"]: entry for entry in result["params"]}
+    inputs = {entry["api_name"]: entry for entry in result["inputs"]}
+    outputs = {entry["api_name"]: entry for entry in result["outputs"]}
+
+    assert "Shape" in params
+    assert "Rise_time" in params
+    assert "Fall_time" in params
+    assert "In" in inputs
+    assert "Out" in outputs
+    assert outputs["Out"]["signal_type"] == "cv"
