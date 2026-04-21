@@ -23,6 +23,12 @@ dependencies = [
     "matplotlib>=3.10.8",
 ]
 
+
+
+[project.scripts]
+vcv-agent = "agent.main:run"
+vcv-agent-doctor = "agent.doctor:main"
+
 [project.optional-dependencies]
 runtime = [
     "mido",

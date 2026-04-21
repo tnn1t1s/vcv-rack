@@ -23,16 +23,34 @@ Three ADK agents that work together to build VCV Rack patches and produce tutori
    # edit agent/.env with real API keys
    ```
 
+3. Run the doctor from the repo root before debugging agent behavior:
+   ```bash
+   uv run vcv-agent-doctor
+   ```
+
 3. Required keys:
    - `OPENROUTER_API_KEY` -- for patch_builder and scripter (Claude via OpenRouter)
    - `GOOGLE_API_KEY` -- for narrator (Gemini TTS)
 
 ## Running
 
+Fresh session:
+
 ```bash
-# Run an individual agent interactively
-uv run python -m agent.main
+uv run vcv-agent-doctor
+```
+
+Canonical patch-builder entrypoints:
+
+```bash
+uv run vcv-agent "Create a minimal test patch"
+uv run python -m agent
 uv run adk run agent/patch_builder
+```
+
+Other agents:
+
+```bash
 uv run adk run agent/scripter
 uv run adk run agent/narrator
 

@@ -1,15 +1,16 @@
 """
 Minimal async CLI runner for the current VCV Rack patch-builder agent.
 
-Usage:
-    python -m agent.main
-
-The ADK web UI is also supported:
-    adk web --port 8000
+Canonical entrypoints:
+    uv run vcv-agent "Create a minimal patch"
+    uv run vcv-agent-doctor
+    uv run python -m agent
 """
 
+from __future__ import annotations
+
+import argparse
 import asyncio
-import sys
 
 from google.adk.artifacts import InMemoryArtifactService
 from google.adk.runners import Runner
@@ -21,7 +22,7 @@ from .patch_builder.agent import root_agent
 APP_NAME = "vcv_agent"
 
 
-async def main() -> None:
+async def run_agent(prompt: str | None = None) -> None:
     session_service = InMemorySessionService()
     session = await session_service.create_session(
         state={}, app_name=APP_NAME, user_id="user"
@@ -33,10 +34,8 @@ async def main() -> None:
         artifact_service=InMemoryArtifactService(),
     )
 
-    # Single-shot mode: prompt passed as CLI argument
-    if len(sys.argv) > 1:
-        user_input = " ".join(sys.argv[1:])
-        content = types.Content(parts=[types.Part.from_text(text=user_input)])
+    if prompt:
+        content = types.Content(parts=[types.Part.from_text(text=prompt)])
         async for event in runner.run_async(
             session_id=session.id, user_id="user", new_message=content
         ):
@@ -44,7 +43,6 @@ async def main() -> None:
                 print(event.content.parts[0].text)
         return
 
-    # Interactive REPL
     print("VCV Rack Patch Agent  (type 'quit' to exit)")
     while True:
         try:
@@ -66,5 +64,20 @@ async def main() -> None:
                 print(f"\nAgent: {event.content.parts[0].text}")
 
 
+def run() -> None:
+    parser = argparse.ArgumentParser(
+        prog="vcv-agent",
+        description="Run the VCV Rack patch-builder agent once or in interactive mode.",
+    )
+    parser.add_argument(
+        "prompt",
+        nargs="*",
+        help="Optional one-shot prompt. If omitted, start the interactive REPL.",
+    )
+    args = parser.parse_args()
+    prompt = " ".join(args.prompt).strip() or None
+    asyncio.run(run_agent(prompt))
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    run()

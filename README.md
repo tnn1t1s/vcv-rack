@@ -113,14 +113,18 @@ Both use `PatchBuilder` to declare modules and connections, then save a `.vcv`
 file.
 
 ```python
-from vcvpatch.builder import PatchBuilder
+from vcvpatch import PatchBuilder, RackLayout
 
 pb = PatchBuilder()
-lfo = pb.module("Fundamental", "LFO", Frequency=0.4)
-osc = pb.module("Fundamental", "VCO", Frequency=0.0, Pulse_width=0.5)
-audio = pb.module("Core", "AudioInterface2")
-pb.connect(osc.o.Square, audio.i.Left_input)
-pb.connect(osc.o.Square, audio.i.Right_input)
+layout = RackLayout()
+row0 = layout.row(0)
+
+osc = pb.module("Fundamental", "VCO", position=row0.at(0), Frequency=0.0, Pulse_width=0.5)
+vcf = pb.module("Fundamental", "VCF", position=row0.at(10), Cutoff_frequency=0.6)
+audio = pb.module("Core", "AudioInterface2", position=row0.at(22))
+pb.connect(osc.o.Square, vcf.i.Audio)
+pb.connect(vcf.o.LPF, audio.i.Left_input)
+pb.connect(vcf.o.LPF, audio.i.Right_input)
 pb.build().save("my_patch.vcv")
 ```
 
@@ -143,8 +147,7 @@ Patch scripts are written to keep signal flow and module intent legible.
 ## Agent
 
 The agent layer uses Google ADK to build patches from natural language
-descriptions. The root agent (`agent/agent.py`) reasons about signal flow,
-selects modules, and calls tools to construct and validate patches.
+descriptions. The canonical patch-builder entrypoint is `agent/main.py`.
 
 Agent tools are dumb primitives; the agent provides the intelligence. If a
 function would need to call an LLM, that reasoning belongs in the agent, not
@@ -153,7 +156,15 @@ the tool.
 ```bash
 cp agent/.env.example agent/.env
 # Set OPENROUTER_API_KEY and/or GOOGLE_API_KEY
+
+uv run vcv-agent-doctor
+uv run vcv-agent "Create a minimal test patch"
 ```
+
+The doctor command is the fastest way for a fresh agent or human to recover:
+it prints the repo root, env file path, default model, and canonical run
+commands instead of forcing the session to rediscover Python invocation and
+paths.
 
 ## Recording demos
 
@@ -181,6 +192,7 @@ warbly audio. macOS native screencapture is the only working approach.
 
 ```bash
 uv sync                              # Python dependencies
+uv run vcv-agent-doctor              # Show canonical agent entrypoints and env paths
 make -C plugin/AgentRack -j4         # Build plugin
 make -C plugin/AgentRack install     # Install to VCV Rack
 uv run pytest                        # Run tests
