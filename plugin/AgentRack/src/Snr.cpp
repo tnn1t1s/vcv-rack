@@ -87,10 +87,16 @@ struct Config {
     float body2Gain = 0.196282045f;
     float bodyDrive = 1.028451443f;
     float lowNoiseGain = 0.074649002f;
-    float lowNoiseToneBase = 0.75f;
-    float lowNoiseToneSpan = 0.25f;
-    float highNoiseBase = 0.073381014f;
-    float highNoiseSnappy = 0.315936893f;
+    float lowNoiseToneBase = 0.1f;
+    float lowNoiseToneSpan = 0.9f;
+    float snappyShapePower = 6.f;
+    float lowNoiseSnappyGainDelta = 0.f;
+    float lowNoiseSnappyTauDelta = 5.f;
+    float highNoiseBase = 0.01f;
+    float highNoiseSnappy = 0.42f;
+    float highNoiseToneBase = 1.f;
+    float highNoiseToneSpan = 0.f;
+    float highNoiseSnappyTauDelta = 0.f;
     float clickBodyGain = 0.171073779f;
     float clickNoiseGain = 0.075186349f;
     float mixDriveBase = 0.960915566f;
@@ -191,7 +197,10 @@ struct Snr : AgentModule {
         float f1       = fit.osc1BaseHz * scale * std::pow(2.f, bendOct);
         float f2       = fit.osc2BaseHz * scale * std::pow(2.f, bendOct * fit.osc2BendRatio);
         float toneTau  = SNR_TONE_MIN_SEC + tone_norm * (fit.toneMaxSec - SNR_TONE_MIN_SEC);
-        float noiseHighTau = toneTau * fit.noiseHighRatio;
+        float snapShape = 1.f - std::pow(snap_norm, fit.snappyShapePower);
+        float noiseLowTau = toneTau * (1.f + snapShape * fit.lowNoiseSnappyTauDelta);
+        float noiseHighTau = toneTau * fit.noiseHighRatio
+                           * (1.f + snapShape * fit.highNoiseSnappyTauDelta);
 
         // --- body: two phase-reset triangles with different decays ------
         phase1 += f1 * args.sampleTime;
@@ -218,9 +227,12 @@ struct Snr : AgentModule {
         lpNoise.process(noiseValue, fit.noiseLpHz, args.sampleRate, SNR_NOISE_LOW_Q);
         hpNoise.process(noiseValue, fit.noiseHpHz, args.sampleRate, SNR_NOISE_HIGH_Q);
         float lowNoiseGain = fit.lowNoiseGain
-                           * (fit.lowNoiseToneBase + tone_norm * fit.lowNoiseToneSpan);
+                           * (fit.lowNoiseToneBase + tone_norm * fit.lowNoiseToneSpan)
+                           * (1.f + snapShape * fit.lowNoiseSnappyGainDelta);
         float lowNoise = lpNoise.lpf * noiseLowEnv * lowNoiseGain;
-        float highNoise = hpNoise.hpf * noiseHighEnv * (fit.highNoiseBase + snap_norm * fit.highNoiseSnappy);
+        float highNoiseGain = (fit.highNoiseBase + snap_norm * fit.highNoiseSnappy)
+                            * (fit.highNoiseToneBase + tone_norm * fit.highNoiseToneSpan);
+        float highNoise = hpNoise.hpf * noiseHighEnv * highNoiseGain;
         float click = ((body - prevBody) * fit.clickBodyGain + (noiseValue - prevNoise) * fit.clickNoiseGain) * clickEnv;
         prevBody = body;
         prevNoise = noiseValue;
@@ -228,7 +240,7 @@ struct Snr : AgentModule {
         // --- envelope decays --------------------------------------------
         bodyEnv1 *= std::exp(-args.sampleTime / fit.body1TauSec);
         bodyEnv2 *= std::exp(-args.sampleTime / fit.body2TauSec);
-        noiseLowEnv *= std::exp(-args.sampleTime / toneTau);
+        noiseLowEnv *= std::exp(-args.sampleTime / noiseLowTau);
         noiseHighEnv *= std::exp(-args.sampleTime / noiseHighTau);
         bendEnv *= std::exp(-args.sampleTime / fit.bendTauSec);
         attackEnv += (1.f - attackEnv) * (1.f - std::exp(-args.sampleTime / fit.attackTauSec));
