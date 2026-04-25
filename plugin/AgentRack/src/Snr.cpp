@@ -89,9 +89,10 @@ struct Config {
     float lowNoiseGain = 0.074649002f;
     float lowNoiseToneBase = 0.1f;
     float lowNoiseToneSpan = 0.9f;
-    float snappyShapePower = 6.f;
+    float snappyShapePower = 1.5f;
     float lowNoiseSnappyGainDelta = 0.f;
-    float lowNoiseSnappyTauDelta = 5.f;
+    float lowNoiseSnappyTauMinScale = 0.45f;
+    float lowNoiseSnappyTauDelta = 4.f;
     float highNoiseBase = 0.01f;
     float highNoiseSnappy = 0.42f;
     float highNoiseToneBase = 1.f;
@@ -197,8 +198,9 @@ struct Snr : AgentModule {
         float f1       = fit.osc1BaseHz * scale * std::pow(2.f, bendOct);
         float f2       = fit.osc2BaseHz * scale * std::pow(2.f, bendOct * fit.osc2BendRatio);
         float toneTau  = SNR_TONE_MIN_SEC + tone_norm * (fit.toneMaxSec - SNR_TONE_MIN_SEC);
-        float snapShape = 1.f - std::pow(snap_norm, fit.snappyShapePower);
-        float noiseLowTau = toneTau * (1.f + snapShape * fit.lowNoiseSnappyTauDelta);
+        float snapShape = std::pow(1.f - snap_norm, fit.snappyShapePower);
+        float noiseLowTau = toneTau
+                          * (fit.lowNoiseSnappyTauMinScale + snapShape * fit.lowNoiseSnappyTauDelta);
         float noiseHighTau = toneTau * fit.noiseHighRatio
                            * (1.f + snapShape * fit.highNoiseSnappyTauDelta);
 
