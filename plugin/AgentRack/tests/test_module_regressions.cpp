@@ -48,14 +48,18 @@ static void test_attenuate_rows_are_independent() {
     printf("\n[Attenuate row independence]\n");
     Attenuate module;
 
-    module.inputs[Attenuate::IN_0].setVoltage(4.f);
+    ModuleHarness::connectInput(module, Attenuate::IN_0, 4.f);
     module.params[Attenuate::SCALE_0].setValue(0.5f);
 
-    module.inputs[Attenuate::IN_1].setVoltage(-3.f);
+    ModuleHarness::connectInput(module, Attenuate::IN_1, -3.f);
     module.params[Attenuate::SCALE_1].setValue(0.25f);
 
-    module.inputs[Attenuate::IN_2].setVoltage(7.f);
+    ModuleHarness::connectInput(module, Attenuate::IN_2, 7.f);
     module.params[Attenuate::SCALE_2].setValue(0.f);
+
+    ModuleHarness::connectOutput(module, Attenuate::OUT_0);
+    ModuleHarness::connectOutput(module, Attenuate::OUT_1);
+    ModuleHarness::connectOutput(module, Attenuate::OUT_2);
 
     ModuleHarness::step(module, 1);
 

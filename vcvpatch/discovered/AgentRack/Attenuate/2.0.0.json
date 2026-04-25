@@ -2,101 +2,58 @@
   "plugin": "AgentRack",
   "model": "Attenuate",
   "plugin_version": "2.0.0",
-  "discovered_at": "2026-04-04",
+  "discovered_at": "2026-04-22",
   "params": [
-    {
-      "id": 0,
-      "name": "Scale 1",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    },
-    {
-      "id": 1,
-      "name": "Scale 2",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    },
-    {
-      "id": 2,
-      "name": "Scale 3",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    },
-    {
-      "id": 3,
-      "name": "Scale 4",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    },
-    {
-      "id": 4,
-      "name": "Scale 5",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    },
-    {
-      "id": 5,
-      "name": "Scale 6",
-      "default": 1,
-      "min": 0,
-      "max": 1
-    }
+    {"id": 0, "name": "Scale 1", "default": 1, "min": 0, "max": 1},
+    {"id": 1, "name": "Scale 2", "default": 1, "min": 0, "max": 1},
+    {"id": 2, "name": "Scale 3", "default": 1, "min": 0, "max": 1},
+    {"id": 3, "name": "Scale 4", "default": 1, "min": 0, "max": 1},
+    {"id": 4, "name": "Scale 5", "default": 1, "min": 0, "max": 1},
+    {"id": 5, "name": "Scale 6", "default": 1, "min": 0, "max": 1},
+    {"id": 6, "name": "Scale 7", "default": 1, "min": 0, "max": 1},
+    {"id": 7, "name": "Scale 8", "default": 1, "min": 0, "max": 1}
   ],
   "inputs": [
-    {
-      "id": 0,
-      "name": "In 1"
-    },
-    {
-      "id": 1,
-      "name": "In 2"
-    },
-    {
-      "id": 2,
-      "name": "In 3"
-    },
-    {
-      "id": 3,
-      "name": "In 4"
-    },
-    {
-      "id": 4,
-      "name": "In 5"
-    },
-    {
-      "id": 5,
-      "name": "In 6"
-    }
+    {"id": 0, "name": "In 1"},
+    {"id": 1, "name": "In 2"},
+    {"id": 2, "name": "In 3"},
+    {"id": 3, "name": "In 4"},
+    {"id": 4, "name": "In 5"},
+    {"id": 5, "name": "In 6"},
+    {"id": 6, "name": "In 7"},
+    {"id": 7, "name": "In 8"}
   ],
   "outputs": [
-    {
-      "id": 0,
-      "name": "Out 1"
+    {"id": 0, "name": "Out 1"},
+    {"id": 1, "name": "Out 2"},
+    {"id": 2, "name": "Out 3"},
+    {"id": 3, "name": "Out 4"},
+    {"id": 4, "name": "Out 5"},
+    {"id": 5, "name": "Out 6"},
+    {"id": 6, "name": "Out 7"},
+    {"id": 7, "name": "Out 8"}
+  ],
+  "row_config": {
+    "description": "Each of the 8 rows is independently configurable. When IN is patched, row is an attenuator (OUT = IN * scale). When IN is unpatched, row is a macro knob whose output voltage depends on mode.",
+    "rows": 8,
+    "per_row_labels": {
+      "data_key": "labels",
+      "type": "array<string>",
+      "length": 8,
+      "description": "Human-readable label displayed above each knob. Use to name the macro (e.g. TUNE, LEVEL, DECAY)."
     },
-    {
-      "id": 1,
-      "name": "Out 2"
-    },
-    {
-      "id": 2,
-      "name": "Out 3"
-    },
-    {
-      "id": 3,
-      "name": "Out 4"
-    },
-    {
-      "id": 4,
-      "name": "Out 5"
-    },
-    {
-      "id": 5,
-      "name": "Out 6"
+    "per_row_modes": {
+      "data_key": "modes",
+      "type": "array<enum>",
+      "length": 8,
+      "default": "unipolar_10",
+      "description": "Output-voltage range for each row when IN is unpatched. Displayed as a tag below each knob.",
+      "values": [
+        {"key": "unipolar_10", "tag": "10V",  "formula": "scale * 10V",          "use": "volume, filter cutoff, any 0..+10V CV"},
+        {"key": "bipolar_5",   "tag": "+-5V", "formula": "(scale-0.5) * 10V",    "use": "general bipolar modulation"},
+        {"key": "voct_1oct",   "tag": "+-1V", "formula": "(scale-0.5) * 2V",     "use": "V/Oct pitch control, 1 octave range; knob at 0.5 = no shift"},
+        {"key": "voct_2oct",   "tag": "+-2V", "formula": "(scale-0.5) * 4V",     "use": "V/Oct pitch control, 2 octave range"}
+      ]
     }
-  ]
+  }
 }

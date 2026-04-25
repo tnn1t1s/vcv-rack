@@ -11,9 +11,9 @@ modules:
   - plugin: AgentRack
     model: Attenuate
     kind: audio_processor
-    routes: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
-    audio_inputs: [0, 1, 2, 3, 4, 5]
-    audio_outputs: [0, 1, 2, 3, 4, 5]
+    routes: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6], [7, 7]]
+    audio_inputs: [0, 1, 2, 3, 4, 5, 6, 7]
+    audio_outputs: [0, 1, 2, 3, 4, 5, 6, 7]
   - plugin: AgentRack
     model: BusCrush
     kind: audio_processor
