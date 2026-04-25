@@ -39,6 +39,8 @@ static inline SnrFit::Config snrFitConfigFromParams(const std::map<std::string, 
     cfg.body2Gain = paramOrDefault(params, "fit_body2_gain", cfg.body2Gain);
     cfg.bodyDrive = paramOrDefault(params, "fit_body_drive", cfg.bodyDrive);
     cfg.lowNoiseGain = paramOrDefault(params, "fit_low_noise_gain", cfg.lowNoiseGain);
+    cfg.lowNoiseToneBase = paramOrDefault(params, "fit_low_noise_tone_base", cfg.lowNoiseToneBase);
+    cfg.lowNoiseToneSpan = paramOrDefault(params, "fit_low_noise_tone_span", cfg.lowNoiseToneSpan);
     cfg.highNoiseBase = paramOrDefault(params, "fit_high_noise_base", cfg.highNoiseBase);
     cfg.highNoiseSnappy = paramOrDefault(params, "fit_high_noise_snappy", cfg.highNoiseSnappy);
     cfg.clickBodyGain = paramOrDefault(params, "fit_click_body_gain", cfg.clickBodyGain);

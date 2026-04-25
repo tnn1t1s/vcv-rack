@@ -17,6 +17,24 @@ CONTRACT_SRCS := test_component_contracts.cpp
 CONTRACT_BIN  := $(BUILD_DIR)/test_component_contracts
 MODULE_SRCS := test_module_regressions.cpp
 MODULE_BIN  := $(BUILD_DIR)/test_module_regressions
+MODULE_HEADERS := ModuleHarness.hpp \
+	../src/Attenuate.cpp \
+	../src/ADSR.cpp \
+	../src/ClockDiv.cpp \
+	../src/Noise.cpp \
+	../src/Crinkle.cpp \
+	../src/Ladder.cpp \
+	../src/Sonic.cpp \
+	../src/Maurizio.cpp \
+	../src/Tonnetz.cpp \
+	../src/Kck.cpp \
+	../src/Snr.cpp \
+	../src/Toms.cpp \
+	../src/Chh.cpp \
+	../src/Ohh.cpp \
+	../src/Ride.cpp \
+	../src/Crash.cpp \
+	../src/RimClap.cpp
 CASSETTE_RT_SRCS := test_cassette_runtime.cpp
 CASSETTE_RT_BIN  := $(BUILD_DIR)/test_cassette_runtime
 CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
@@ -56,7 +74,7 @@ $(PCONV_BIN): $(PCONV_SRCS) | $(BUILD_DIR)
 $(CONTRACT_BIN): $(CONTRACT_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(CONTRACT_SRCS) -o $(CONTRACT_BIN)
 
-$(MODULE_BIN): $(MODULE_SRCS) | $(BUILD_DIR)
+$(MODULE_BIN): $(MODULE_SRCS) $(MODULE_HEADERS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(MODULE_SRCS) $(LDFLAGS) $(RACK_LDFLAGS) -o $(MODULE_BIN)
 
 $(CASSETTE_RT_BIN): $(CASSETTE_RT_SRCS) | $(BUILD_DIR)

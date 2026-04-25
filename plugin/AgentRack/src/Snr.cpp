@@ -87,6 +87,8 @@ struct Config {
     float body2Gain = 0.196282045f;
     float bodyDrive = 1.028451443f;
     float lowNoiseGain = 0.074649002f;
+    float lowNoiseToneBase = 0.75f;
+    float lowNoiseToneSpan = 0.25f;
     float highNoiseBase = 0.073381014f;
     float highNoiseSnappy = 0.315936893f;
     float clickBodyGain = 0.171073779f;
@@ -215,7 +217,9 @@ struct Snr : AgentModule {
         }
         lpNoise.process(noiseValue, fit.noiseLpHz, args.sampleRate, SNR_NOISE_LOW_Q);
         hpNoise.process(noiseValue, fit.noiseHpHz, args.sampleRate, SNR_NOISE_HIGH_Q);
-        float lowNoise = lpNoise.lpf * noiseLowEnv * fit.lowNoiseGain;
+        float lowNoiseGain = fit.lowNoiseGain
+                           * (fit.lowNoiseToneBase + tone_norm * fit.lowNoiseToneSpan);
+        float lowNoise = lpNoise.lpf * noiseLowEnv * lowNoiseGain;
         float highNoise = hpNoise.hpf * noiseHighEnv * (fit.highNoiseBase + snap_norm * fit.highNoiseSnappy);
         float click = ((body - prevBody) * fit.clickBodyGain + (noiseValue - prevNoise) * fit.clickNoiseGain) * clickEnv;
         prevBody = body;
