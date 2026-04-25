@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "agentrack/signal/Audio.hpp"
+#include "agentrack/signal/CrinkleCore.hpp"
 #include "agentrack/signal/CV.hpp"
 #include <cmath>
 
@@ -25,31 +26,7 @@ extern Plugin* pluginInstance;
  *   Outputs: OUT_OUTPUT=0
  */
 
-// ---------------------------------------------------------------------------
-// Wavefolder -- true triangle-bounce fold (Buchla 259 character)
-// ---------------------------------------------------------------------------
-
-// Triangle-wave fold: signal bounces hard off ±1 ceiling, creating new
-// zero crossings and rich harmonics.  This is the classic Buchla approach --
-// much more dramatic than soft clipping.
-static inline float trifold(float x) {
-    // Map any real x into -1..1 via triangle bounce
-    x = x * 0.5f + 0.5f;          // shift to 0..1 range
-    x = x - std::floor(x);         // wrap to 0..1
-    if (x > 0.5f) x = 1.f - x;    // fold second half back
-    return (x - 0.25f) * 4.f;      // rescale to -1..1
-}
-
-// Main fold function.  in should be roughly -1..1.
-// timbre: 0..1   symmetry: -1..1 (DC offset adds even-order harmonics)
-static float wavefold(float in, float timbre, float symmetry) {
-    // TIMBRE scales amplitude 1x..6x -- at 1x output is clean triangle,
-    // at higher values the wave folds multiple times producing strong harmonics
-    float amp = 1.f + timbre * 5.f;
-    float x   = in * amp + symmetry * 0.8f;
-    return trifold(x);
-}
-
+using CrinkleVoice = AgentRack::Signal::Crinkle::Voice;
 
 // ---------------------------------------------------------------------------
 // Module
@@ -62,7 +39,7 @@ struct Crinkle : AgentModule {
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     static constexpr int MAX_POLY = 16;
-    float phase[MAX_POLY] = {};
+    CrinkleVoice voices[MAX_POLY];
 
     Crinkle() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -94,20 +71,7 @@ struct Crinkle : AgentModule {
             float freq  = dsp::FREQ_C4 * std::pow(2.f, pitch);
             float timbre = timbreParam.modulate(params[TIMBRE_CV_PARAM].getValue(),
                                                 inputs[TIMBRE_INPUT].getPolyVoltage(c));
-
-            // 4x oversampling -- run oscillator + folder at 4x sample rate
-            float dt = args.sampleTime / 4.f;
-            float out = 0.f;
-            for (int i = 0; i < 4; i++) {
-                phase[c] += freq * dt;
-                if (phase[c] >= 1.f) phase[c] -= 1.f;
-
-                // Triangle wave: 0..1 phase -> -1..1 triangle
-                float tri = 2.f * std::fabs(2.f * phase[c] - 1.f) - 1.f;
-
-                out += wavefold(tri, timbre, symmetry);
-            }
-            out /= 4.f;
+            float out = voices[c].processSample(freq, timbre, symmetry, args.sampleTime);
 
             outputs[OUT_OUTPUT].setVoltage(
                 AgentRack::Signal::Audio::toRackVolts(out), c);
