@@ -1,0 +1,1440 @@
+{
+  "batch_id": "snr-batch-100-v1",
+  "title": "Snare RLHF Batch 100",
+  "description": "100 fixed-control snare variants over a 10x10 osc1/osc2 body-core grid.",
+  "reference": "reference.wav",
+  "frames": 16384,
+  "conditioning": {
+    "tune": 0.5,
+    "tone": 1.0,
+    "snappy": 1.0
+  },
+  "grid_axes": {
+    "osc1_hz": [
+      141.169754,
+      146.169754,
+      151.169754,
+      156.169754,
+      161.169754,
+      166.169754,
+      171.169754,
+      176.169754,
+      181.169754,
+      186.169754
+    ],
+    "osc2_hz": [
+      307.964081,
+      312.964081,
+      317.964081,
+      322.964081,
+      327.964081,
+      332.964081,
+      337.964081,
+      342.964081,
+      347.964081,
+      352.964081
+    ]
+  },
+  "variants": [
+    {
+      "index": 1,
+      "id": "snr-r01-c01",
+      "label": "Variant 001",
+      "wav": "snr-r01-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 0
+      }
+    },
+    {
+      "index": 2,
+      "id": "snr-r01-c02",
+      "label": "Variant 002",
+      "wav": "snr-r01-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 1
+      }
+    },
+    {
+      "index": 3,
+      "id": "snr-r01-c03",
+      "label": "Variant 003",
+      "wav": "snr-r01-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 2
+      }
+    },
+    {
+      "index": 4,
+      "id": "snr-r01-c04",
+      "label": "Variant 004",
+      "wav": "snr-r01-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 3
+      }
+    },
+    {
+      "index": 5,
+      "id": "snr-r01-c05",
+      "label": "Variant 005",
+      "wav": "snr-r01-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 4
+      }
+    },
+    {
+      "index": 6,
+      "id": "snr-r01-c06",
+      "label": "Variant 006",
+      "wav": "snr-r01-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 5
+      }
+    },
+    {
+      "index": 7,
+      "id": "snr-r01-c07",
+      "label": "Variant 007",
+      "wav": "snr-r01-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 6
+      }
+    },
+    {
+      "index": 8,
+      "id": "snr-r01-c08",
+      "label": "Variant 008",
+      "wav": "snr-r01-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 7
+      }
+    },
+    {
+      "index": 9,
+      "id": "snr-r01-c09",
+      "label": "Variant 009",
+      "wav": "snr-r01-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 8
+      }
+    },
+    {
+      "index": 10,
+      "id": "snr-r01-c10",
+      "label": "Variant 010",
+      "wav": "snr-r01-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 141.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 0,
+        "col": 9
+      }
+    },
+    {
+      "index": 11,
+      "id": "snr-r02-c01",
+      "label": "Variant 011",
+      "wav": "snr-r02-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 0
+      }
+    },
+    {
+      "index": 12,
+      "id": "snr-r02-c02",
+      "label": "Variant 012",
+      "wav": "snr-r02-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 1
+      }
+    },
+    {
+      "index": 13,
+      "id": "snr-r02-c03",
+      "label": "Variant 013",
+      "wav": "snr-r02-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 2
+      }
+    },
+    {
+      "index": 14,
+      "id": "snr-r02-c04",
+      "label": "Variant 014",
+      "wav": "snr-r02-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 3
+      }
+    },
+    {
+      "index": 15,
+      "id": "snr-r02-c05",
+      "label": "Variant 015",
+      "wav": "snr-r02-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 4
+      }
+    },
+    {
+      "index": 16,
+      "id": "snr-r02-c06",
+      "label": "Variant 016",
+      "wav": "snr-r02-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 5
+      }
+    },
+    {
+      "index": 17,
+      "id": "snr-r02-c07",
+      "label": "Variant 017",
+      "wav": "snr-r02-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 6
+      }
+    },
+    {
+      "index": 18,
+      "id": "snr-r02-c08",
+      "label": "Variant 018",
+      "wav": "snr-r02-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 7
+      }
+    },
+    {
+      "index": 19,
+      "id": "snr-r02-c09",
+      "label": "Variant 019",
+      "wav": "snr-r02-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 8
+      }
+    },
+    {
+      "index": 20,
+      "id": "snr-r02-c10",
+      "label": "Variant 020",
+      "wav": "snr-r02-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 146.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 1,
+        "col": 9
+      }
+    },
+    {
+      "index": 21,
+      "id": "snr-r03-c01",
+      "label": "Variant 021",
+      "wav": "snr-r03-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 0
+      }
+    },
+    {
+      "index": 22,
+      "id": "snr-r03-c02",
+      "label": "Variant 022",
+      "wav": "snr-r03-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 1
+      }
+    },
+    {
+      "index": 23,
+      "id": "snr-r03-c03",
+      "label": "Variant 023",
+      "wav": "snr-r03-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 2
+      }
+    },
+    {
+      "index": 24,
+      "id": "snr-r03-c04",
+      "label": "Variant 024",
+      "wav": "snr-r03-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 3
+      }
+    },
+    {
+      "index": 25,
+      "id": "snr-r03-c05",
+      "label": "Variant 025",
+      "wav": "snr-r03-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 4
+      }
+    },
+    {
+      "index": 26,
+      "id": "snr-r03-c06",
+      "label": "Variant 026",
+      "wav": "snr-r03-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 5
+      }
+    },
+    {
+      "index": 27,
+      "id": "snr-r03-c07",
+      "label": "Variant 027",
+      "wav": "snr-r03-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 6
+      }
+    },
+    {
+      "index": 28,
+      "id": "snr-r03-c08",
+      "label": "Variant 028",
+      "wav": "snr-r03-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 7
+      }
+    },
+    {
+      "index": 29,
+      "id": "snr-r03-c09",
+      "label": "Variant 029",
+      "wav": "snr-r03-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 8
+      }
+    },
+    {
+      "index": 30,
+      "id": "snr-r03-c10",
+      "label": "Variant 030",
+      "wav": "snr-r03-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 151.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 2,
+        "col": 9
+      }
+    },
+    {
+      "index": 31,
+      "id": "snr-r04-c01",
+      "label": "Variant 031",
+      "wav": "snr-r04-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 0
+      }
+    },
+    {
+      "index": 32,
+      "id": "snr-r04-c02",
+      "label": "Variant 032",
+      "wav": "snr-r04-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 1
+      }
+    },
+    {
+      "index": 33,
+      "id": "snr-r04-c03",
+      "label": "Variant 033",
+      "wav": "snr-r04-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 2
+      }
+    },
+    {
+      "index": 34,
+      "id": "snr-r04-c04",
+      "label": "Variant 034",
+      "wav": "snr-r04-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 3
+      }
+    },
+    {
+      "index": 35,
+      "id": "snr-r04-c05",
+      "label": "Variant 035",
+      "wav": "snr-r04-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 4
+      }
+    },
+    {
+      "index": 36,
+      "id": "snr-r04-c06",
+      "label": "Variant 036",
+      "wav": "snr-r04-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 5
+      }
+    },
+    {
+      "index": 37,
+      "id": "snr-r04-c07",
+      "label": "Variant 037",
+      "wav": "snr-r04-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 6
+      }
+    },
+    {
+      "index": 38,
+      "id": "snr-r04-c08",
+      "label": "Variant 038",
+      "wav": "snr-r04-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 7
+      }
+    },
+    {
+      "index": 39,
+      "id": "snr-r04-c09",
+      "label": "Variant 039",
+      "wav": "snr-r04-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 8
+      }
+    },
+    {
+      "index": 40,
+      "id": "snr-r04-c10",
+      "label": "Variant 040",
+      "wav": "snr-r04-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 156.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 3,
+        "col": 9
+      }
+    },
+    {
+      "index": 41,
+      "id": "snr-r05-c01",
+      "label": "Variant 041",
+      "wav": "snr-r05-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 0
+      }
+    },
+    {
+      "index": 42,
+      "id": "snr-r05-c02",
+      "label": "Variant 042",
+      "wav": "snr-r05-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 1
+      }
+    },
+    {
+      "index": 43,
+      "id": "snr-r05-c03",
+      "label": "Variant 043",
+      "wav": "snr-r05-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 2
+      }
+    },
+    {
+      "index": 44,
+      "id": "snr-r05-c04",
+      "label": "Variant 044",
+      "wav": "snr-r05-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 3
+      }
+    },
+    {
+      "index": 45,
+      "id": "snr-r05-c05",
+      "label": "Variant 045",
+      "wav": "snr-r05-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 4
+      }
+    },
+    {
+      "index": 46,
+      "id": "snr-r05-c06",
+      "label": "Variant 046",
+      "wav": "snr-r05-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 5
+      }
+    },
+    {
+      "index": 47,
+      "id": "snr-r05-c07",
+      "label": "Variant 047",
+      "wav": "snr-r05-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 6
+      }
+    },
+    {
+      "index": 48,
+      "id": "snr-r05-c08",
+      "label": "Variant 048",
+      "wav": "snr-r05-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 7
+      }
+    },
+    {
+      "index": 49,
+      "id": "snr-r05-c09",
+      "label": "Variant 049",
+      "wav": "snr-r05-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 8
+      }
+    },
+    {
+      "index": 50,
+      "id": "snr-r05-c10",
+      "label": "Variant 050",
+      "wav": "snr-r05-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 161.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 4,
+        "col": 9
+      }
+    },
+    {
+      "index": 51,
+      "id": "snr-r06-c01",
+      "label": "Variant 051",
+      "wav": "snr-r06-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 0
+      }
+    },
+    {
+      "index": 52,
+      "id": "snr-r06-c02",
+      "label": "Variant 052",
+      "wav": "snr-r06-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 1
+      }
+    },
+    {
+      "index": 53,
+      "id": "snr-r06-c03",
+      "label": "Variant 053",
+      "wav": "snr-r06-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 2
+      }
+    },
+    {
+      "index": 54,
+      "id": "snr-r06-c04",
+      "label": "Variant 054",
+      "wav": "snr-r06-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 3
+      }
+    },
+    {
+      "index": 55,
+      "id": "snr-r06-c05",
+      "label": "Variant 055",
+      "wav": "snr-r06-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 4
+      }
+    },
+    {
+      "index": 56,
+      "id": "snr-r06-c06",
+      "label": "Variant 056",
+      "wav": "snr-r06-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 5
+      }
+    },
+    {
+      "index": 57,
+      "id": "snr-r06-c07",
+      "label": "Variant 057",
+      "wav": "snr-r06-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 6
+      }
+    },
+    {
+      "index": 58,
+      "id": "snr-r06-c08",
+      "label": "Variant 058",
+      "wav": "snr-r06-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 7
+      }
+    },
+    {
+      "index": 59,
+      "id": "snr-r06-c09",
+      "label": "Variant 059",
+      "wav": "snr-r06-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 8
+      }
+    },
+    {
+      "index": 60,
+      "id": "snr-r06-c10",
+      "label": "Variant 060",
+      "wav": "snr-r06-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 166.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 5,
+        "col": 9
+      }
+    },
+    {
+      "index": 61,
+      "id": "snr-r07-c01",
+      "label": "Variant 061",
+      "wav": "snr-r07-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 0
+      }
+    },
+    {
+      "index": 62,
+      "id": "snr-r07-c02",
+      "label": "Variant 062",
+      "wav": "snr-r07-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 1
+      }
+    },
+    {
+      "index": 63,
+      "id": "snr-r07-c03",
+      "label": "Variant 063",
+      "wav": "snr-r07-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 2
+      }
+    },
+    {
+      "index": 64,
+      "id": "snr-r07-c04",
+      "label": "Variant 064",
+      "wav": "snr-r07-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 3
+      }
+    },
+    {
+      "index": 65,
+      "id": "snr-r07-c05",
+      "label": "Variant 065",
+      "wav": "snr-r07-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 4
+      }
+    },
+    {
+      "index": 66,
+      "id": "snr-r07-c06",
+      "label": "Variant 066",
+      "wav": "snr-r07-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 5
+      }
+    },
+    {
+      "index": 67,
+      "id": "snr-r07-c07",
+      "label": "Variant 067",
+      "wav": "snr-r07-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 6
+      }
+    },
+    {
+      "index": 68,
+      "id": "snr-r07-c08",
+      "label": "Variant 068",
+      "wav": "snr-r07-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 7
+      }
+    },
+    {
+      "index": 69,
+      "id": "snr-r07-c09",
+      "label": "Variant 069",
+      "wav": "snr-r07-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 8
+      }
+    },
+    {
+      "index": 70,
+      "id": "snr-r07-c10",
+      "label": "Variant 070",
+      "wav": "snr-r07-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 171.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 6,
+        "col": 9
+      }
+    },
+    {
+      "index": 71,
+      "id": "snr-r08-c01",
+      "label": "Variant 071",
+      "wav": "snr-r08-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 0
+      }
+    },
+    {
+      "index": 72,
+      "id": "snr-r08-c02",
+      "label": "Variant 072",
+      "wav": "snr-r08-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 1
+      }
+    },
+    {
+      "index": 73,
+      "id": "snr-r08-c03",
+      "label": "Variant 073",
+      "wav": "snr-r08-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 2
+      }
+    },
+    {
+      "index": 74,
+      "id": "snr-r08-c04",
+      "label": "Variant 074",
+      "wav": "snr-r08-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 3
+      }
+    },
+    {
+      "index": 75,
+      "id": "snr-r08-c05",
+      "label": "Variant 075",
+      "wav": "snr-r08-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 4
+      }
+    },
+    {
+      "index": 76,
+      "id": "snr-r08-c06",
+      "label": "Variant 076",
+      "wav": "snr-r08-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 5
+      }
+    },
+    {
+      "index": 77,
+      "id": "snr-r08-c07",
+      "label": "Variant 077",
+      "wav": "snr-r08-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 6
+      }
+    },
+    {
+      "index": 78,
+      "id": "snr-r08-c08",
+      "label": "Variant 078",
+      "wav": "snr-r08-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 7
+      }
+    },
+    {
+      "index": 79,
+      "id": "snr-r08-c09",
+      "label": "Variant 079",
+      "wav": "snr-r08-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 8
+      }
+    },
+    {
+      "index": 80,
+      "id": "snr-r08-c10",
+      "label": "Variant 080",
+      "wav": "snr-r08-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 176.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 7,
+        "col": 9
+      }
+    },
+    {
+      "index": 81,
+      "id": "snr-r09-c01",
+      "label": "Variant 081",
+      "wav": "snr-r09-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 0
+      }
+    },
+    {
+      "index": 82,
+      "id": "snr-r09-c02",
+      "label": "Variant 082",
+      "wav": "snr-r09-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 1
+      }
+    },
+    {
+      "index": 83,
+      "id": "snr-r09-c03",
+      "label": "Variant 083",
+      "wav": "snr-r09-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 2
+      }
+    },
+    {
+      "index": 84,
+      "id": "snr-r09-c04",
+      "label": "Variant 084",
+      "wav": "snr-r09-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 3
+      }
+    },
+    {
+      "index": 85,
+      "id": "snr-r09-c05",
+      "label": "Variant 085",
+      "wav": "snr-r09-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 4
+      }
+    },
+    {
+      "index": 86,
+      "id": "snr-r09-c06",
+      "label": "Variant 086",
+      "wav": "snr-r09-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 5
+      }
+    },
+    {
+      "index": 87,
+      "id": "snr-r09-c07",
+      "label": "Variant 087",
+      "wav": "snr-r09-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 6
+      }
+    },
+    {
+      "index": 88,
+      "id": "snr-r09-c08",
+      "label": "Variant 088",
+      "wav": "snr-r09-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 7
+      }
+    },
+    {
+      "index": 89,
+      "id": "snr-r09-c09",
+      "label": "Variant 089",
+      "wav": "snr-r09-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 8
+      }
+    },
+    {
+      "index": 90,
+      "id": "snr-r09-c10",
+      "label": "Variant 090",
+      "wav": "snr-r09-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 181.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 8,
+        "col": 9
+      }
+    },
+    {
+      "index": 91,
+      "id": "snr-r10-c01",
+      "label": "Variant 091",
+      "wav": "snr-r10-c01.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 307.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 0
+      }
+    },
+    {
+      "index": 92,
+      "id": "snr-r10-c02",
+      "label": "Variant 092",
+      "wav": "snr-r10-c02.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 312.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 1
+      }
+    },
+    {
+      "index": 93,
+      "id": "snr-r10-c03",
+      "label": "Variant 093",
+      "wav": "snr-r10-c03.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 317.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 2
+      }
+    },
+    {
+      "index": 94,
+      "id": "snr-r10-c04",
+      "label": "Variant 094",
+      "wav": "snr-r10-c04.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 322.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 3
+      }
+    },
+    {
+      "index": 95,
+      "id": "snr-r10-c05",
+      "label": "Variant 095",
+      "wav": "snr-r10-c05.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 327.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 4
+      }
+    },
+    {
+      "index": 96,
+      "id": "snr-r10-c06",
+      "label": "Variant 096",
+      "wav": "snr-r10-c06.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 332.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 5
+      }
+    },
+    {
+      "index": 97,
+      "id": "snr-r10-c07",
+      "label": "Variant 097",
+      "wav": "snr-r10-c07.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 337.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 6
+      }
+    },
+    {
+      "index": 98,
+      "id": "snr-r10-c08",
+      "label": "Variant 098",
+      "wav": "snr-r10-c08.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 342.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 7
+      }
+    },
+    {
+      "index": 99,
+      "id": "snr-r10-c09",
+      "label": "Variant 099",
+      "wav": "snr-r10-c09.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 347.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 8
+      }
+    },
+    {
+      "index": 100,
+      "id": "snr-r10-c10",
+      "label": "Variant 100",
+      "wav": "snr-r10-c10.wav",
+      "params": {
+        "fit_osc1_base_hz": 186.169754,
+        "fit_osc2_base_hz": 352.964081
+      },
+      "grid": {
+        "row": 9,
+        "col": 9
+      }
+    }
+  ]
+}

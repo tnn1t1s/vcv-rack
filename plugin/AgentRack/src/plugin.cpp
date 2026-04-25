@@ -14,6 +14,18 @@ extern rack::Model* modelBusCrush;
 extern rack::Model* modelClockDiv;
 extern rack::Model* modelTonnetz;
 extern rack::Model* modelMaurizio;
+extern rack::Model* modelKck;
+extern rack::Model* modelLowTom;
+extern rack::Model* modelMidTom;
+extern rack::Model* modelHighTom;
+extern rack::Model* modelChh;
+extern rack::Model* modelOhh;
+extern rack::Model* modelRide;
+extern rack::Model* modelCrash;
+extern rack::Model* modelRimClap;
+extern rack::Model* modelSnr;
+extern rack::Model* modelTomDbg;
+extern rack::Model* modelToms;
 
 rack::Plugin* pluginInstance;
 
@@ -32,4 +44,16 @@ void init(rack::Plugin* p) {
     p->addModel(modelClockDiv);
     p->addModel(modelTonnetz);
     p->addModel(modelMaurizio);
+    p->addModel(modelKck);
+    p->addModel(modelLowTom);
+    p->addModel(modelMidTom);
+    p->addModel(modelHighTom);
+    p->addModel(modelChh);
+    p->addModel(modelOhh);
+    p->addModel(modelRide);
+    p->addModel(modelCrash);
+    p->addModel(modelRimClap);
+    p->addModel(modelSnr);
+    p->addModel(modelTomDbg);
+    p->addModel(modelToms);
 }

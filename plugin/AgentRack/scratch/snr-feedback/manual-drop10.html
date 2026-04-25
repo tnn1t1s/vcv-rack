@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snare Pitch Sweep</title>
+  <style>
+    :root {
+      --bg: #f2eee7;
+      --panel: #fffaf4;
+      --ink: #1b1712;
+      --muted: #786b5f;
+      --line: #d7c6b3;
+      --accent: #ad5336;
+      --accent2: #285b70;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Iowan Old Style", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #fff8ed, transparent 28%),
+        linear-gradient(180deg, #f9f2e7 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 42px);
+    }
+    p {
+      margin: 0 0 20px;
+      color: var(--muted);
+    }
+    .top {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 16px;
+      color: white;
+      font: inherit;
+      cursor: pointer;
+    }
+    .ref { background: var(--accent2); }
+    .var { background: var(--accent); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: rgba(255,250,244,0.95);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 10px 28px rgba(69, 45, 26, 0.06);
+    }
+    .small {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+      background: #fffefb;
+      color: var(--ink);
+      font: 14px/1.45 Georgia, "Iowan Old Style", serif;
+    }
+    .footer {
+      margin-top: 18px;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+    }
+    .status {
+      margin-top: 12px;
+      color: var(--muted);
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Snare Pitch Sweep</h1>
+    <p>Reference plus 10 generated variants, each with both body oscillator bases lowered by another 10 Hz.</p>
+
+    <div class="top">
+      <button class="ref" id="play-reference">Play Reference</button>
+      <button class="ref" id="submit-notes">Submit Notes</button>
+    </div>
+
+    <div class="grid" id="cards"></div>
+
+    <section class="footer">
+      <textarea id="global-notes" placeholder="Overall notes: best candidate, too low, too high, what direction to go next."></textarea>
+      <div class="status" id="status"></div>
+    </section>
+  </main>
+
+  <audio id="audio-reference" preload="auto" src="reference.wav"></audio>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const cardsEl = document.getElementById("cards");
+    const audioMap = { "reference.wav": document.getElementById("audio-reference") };
+
+    const variants = Array.from({ length: 10 }, (_, i) => {
+      const index = i + 1;
+      return {
+        index,
+        label: `Drop ${String(index).padStart(2, "0")}`,
+        wav: `manual_drop10/snr_drop_${String(index).padStart(2, "0")}.wav`,
+        osc1: 181.169759 - index * 10,
+        osc2: 352.964089 - index * 10,
+      };
+    });
+
+    function noteKey(id) {
+      return `snr-manual-drop10:${id}`;
+    }
+
+    async function playPath(path) {
+      const audio = audioMap[path];
+      if (!audio) throw new Error(`Missing audio ${path}`);
+      audio.pause();
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise) await playPromise;
+      return audio;
+    }
+
+    async function playSequence(paths) {
+      try {
+        statusEl.textContent = "Playing…";
+        for (const path of paths) {
+          const audio = await playPath(path);
+          await new Promise((resolve) => {
+            const done = () => {
+              audio.removeEventListener("ended", done);
+              window.setTimeout(resolve, 180);
+            };
+            audio.addEventListener("ended", done, { once: true });
+          });
+        }
+        statusEl.textContent = "";
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    }
+
+    document.getElementById("play-reference").addEventListener("click", () => {
+      playSequence(["reference.wav"]);
+    });
+
+    for (const variant of variants) {
+      const audio = document.createElement("audio");
+      audio.preload = "auto";
+      audio.src = variant.wav;
+      audioMap[variant.wav] = audio;
+      document.body.appendChild(audio);
+
+      const card = document.createElement("section");
+      card.className = "card";
+      const noteId = `variant-${variant.index}`;
+      card.innerHTML = `
+        <div class="small">Variant ${variant.index}</div>
+        <h2>${variant.label}</h2>
+        <div class="meta">osc1 ${variant.osc1.toFixed(3)} Hz, osc2 ${variant.osc2.toFixed(3)} Hz</div>
+        <div class="top">
+          <button class="ref" data-action="ab">Ref then Variant</button>
+          <button class="var" data-action="b">Play Variant</button>
+        </div>
+        <textarea id="${noteId}" placeholder="Notes for ${variant.label}"></textarea>
+      `;
+      cardsEl.appendChild(card);
+
+      const textarea = card.querySelector("textarea");
+      const saved = localStorage.getItem(noteKey(noteId));
+      if (saved) textarea.value = saved;
+      textarea.addEventListener("input", () => {
+        localStorage.setItem(noteKey(noteId), textarea.value);
+      });
+
+      card.querySelector('[data-action="ab"]').addEventListener("click", () => {
+        playSequence(["reference.wav", variant.wav]);
+      });
+      card.querySelector('[data-action="b"]').addEventListener("click", () => {
+        playSequence([variant.wav]);
+      });
+    }
+
+    const globalNotes = document.getElementById("global-notes");
+    const savedGlobal = localStorage.getItem(noteKey("global"));
+    if (savedGlobal) globalNotes.value = savedGlobal;
+    globalNotes.addEventListener("input", () => {
+      localStorage.setItem(noteKey("global"), globalNotes.value);
+    });
+
+    function buildNotesText() {
+      const lines = ["Snare manual pitch sweep notes", ""];
+      for (const variant of variants) {
+        const id = `variant-${variant.index}`;
+        lines.push(`${variant.label} (osc1=${variant.osc1.toFixed(3)}, osc2=${variant.osc2.toFixed(3)})`);
+        lines.push(document.getElementById(id).value.trim());
+        lines.push("");
+      }
+      lines.push("Overall notes:");
+      lines.push(globalNotes.value.trim());
+      return lines.join("\\n");
+    }
+
+    document.getElementById("submit-notes").addEventListener("click", async () => {
+      try {
+        const response = await fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: buildNotesText() }),
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || "Submit failed");
+        statusEl.textContent = `Saved ${payload.path}`;
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

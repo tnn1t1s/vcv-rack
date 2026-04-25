@@ -90,6 +90,78 @@
       "name": "Maurizio",
       "description": "Clock-syncable dub delay with dotted/triplet ratio, HP-filtered feedback, and tape saturation. Basic Channel-style deep echo.",
       "tags": ["Delay", "Effect"]
+    },
+    {
+      "slug": "Kck",
+      "name": "KCK",
+      "description": "TR-909 inspired kick. Struck bridged-T resonator model: damped sine body with pitch-env glide, bandpassed click transient, tanh drive.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "LowTom",
+      "name": "LTM",
+      "description": "TR-909-inspired low tom. Analog shared-engine tom voice with faithful Tune, Decay, Level, and accent input.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "MidTom",
+      "name": "MTM",
+      "description": "TR-909-inspired mid tom. Analog shared-engine tom voice with faithful Tune, Decay, Level, and accent input.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "HighTom",
+      "name": "HTM",
+      "description": "TR-909-inspired high tom. Analog shared-engine tom voice with faithful Tune, Decay, Level, and accent input.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "Chh",
+      "name": "CHH",
+      "description": "TR-909 inspired closed hi-hat. Embedded clean 909 sample treated as an in-memory ROM source, then tuned and shaped through BPF + HPF with a fast VCA envelope.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "Ohh",
+      "name": "OHH",
+      "description": "TR-909 inspired open hi-hat. Embedded clean 909 sample with playback-rate tune, BPF + HPF shaping, and a longer open-hat envelope.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "Ride",
+      "name": "RID",
+      "description": "TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "Crash",
+      "name": "CRH",
+      "description": "TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "RimClap",
+      "name": "RIMCLAP",
+      "description": "Dual 909-style ROMpler utility: embedded clean clap and rim captures with trigger inputs and level controls only.",
+      "tags": ["Drum", "Utility"]
+    },
+    {
+      "slug": "Snr",
+      "name": "SNR",
+      "description": "TR-909 inspired snare. Faithful Tune/Tone/Snappy/Level surface over two reset triangle VCOs, fixed binary noise, and split body/noise envelopes.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "TomDbg",
+      "name": "TOM DBG",
+      "description": "Debug tom voice. Same engine as LowTom/MidTom/HighTom with all 17 internal fit parameters exposed as live knobs alongside Tune/Decay/Level. For dialing in voicing then copying values back into TomFit defaults.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "Toms",
+      "name": "TOMS",
+      "description": "TR-909 inspired tom kit. Three voices (Low/Mid/High) sharing one engine; voices differ only by calibrated baseHz. Per-voice trigger, level, and audio output, plus a shared accent input.",
+      "tags": ["Drum"]
     }
   ]
 }

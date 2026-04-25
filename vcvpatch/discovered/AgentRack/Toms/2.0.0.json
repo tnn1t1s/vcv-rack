@@ -1,0 +1,22 @@
+{
+  "plugin": "AgentRack",
+  "model": "Toms",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-04-25",
+  "params": [
+    {"id": 0, "name": "Low level",  "default": 0.85, "min": 0, "max": 1},
+    {"id": 1, "name": "Mid level",  "default": 0.85, "min": 0, "max": 1},
+    {"id": 2, "name": "High level", "default": 0.85, "min": 0, "max": 1}
+  ],
+  "inputs": [
+    {"id": 0, "name": "Low trigger"},
+    {"id": 1, "name": "Mid trigger"},
+    {"id": 2, "name": "High trigger"},
+    {"id": 3, "name": "Accent (shared)"}
+  ],
+  "outputs": [
+    {"id": 0, "name": "Low audio"},
+    {"id": 1, "name": "Mid audio"},
+    {"id": 2, "name": "High audio"}
+  ]
+}

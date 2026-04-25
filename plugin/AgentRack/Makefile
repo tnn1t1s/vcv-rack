@@ -18,6 +18,14 @@ SOURCES += src/BusCrush.cpp
 SOURCES += src/ClockDiv.cpp
 SOURCES += src/Tonnetz.cpp
 SOURCES += src/Maurizio.cpp
+SOURCES += src/Kck.cpp
+SOURCES += src/Toms.cpp
+SOURCES += src/Chh.cpp
+SOURCES += src/Ohh.cpp
+SOURCES += src/Ride.cpp
+SOURCES += src/Crash.cpp
+SOURCES += src/RimClap.cpp
+SOURCES += src/Snr.cpp
 
 LDFLAGS += -framework Accelerate
 LDFLAGS += -L/opt/homebrew/lib -lsndfile

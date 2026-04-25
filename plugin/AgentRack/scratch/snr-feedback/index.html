@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snare A/B</title>
+  <style>
+    :root {
+      --bg: #f3efe7;
+      --panel: #fffaf0;
+      --ink: #17130f;
+      --muted: #6f6458;
+      --line: #d2c2b1;
+      --accent: #b54d2f;
+      --accent-2: #315f72;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Iowan Old Style", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, #fff7e8, transparent 32%),
+        linear-gradient(180deg, #f7f1e7 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: 0.02em;
+    }
+    p {
+      margin: 0 0 24px;
+      color: var(--muted);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 240, 0.92);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 12px 40px rgba(58, 36, 19, 0.06);
+    }
+    .label {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 24px;
+      margin: 0 0 14px;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      color: white;
+      cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    .ref { background: var(--accent-2); }
+    .gen { background: var(--accent); }
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      resize: vertical;
+      background: #fffef9;
+      color: var(--ink);
+      font: 15px/1.45 Georgia, "Iowan Old Style", serif;
+    }
+    .status {
+      min-height: 22px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .footer {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+    .wide {
+      margin-top: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Snare A/B</h1>
+    <p>Reference first, generated second. Notes save locally in your browser.</p>
+
+    <div class="grid">
+      <section class="card">
+        <div class="label">A</div>
+        <h2 class="title">Reference</h2>
+        <div class="row">
+          <button class="ref" data-play="reference.wav">Play Reference</button>
+        </div>
+        <textarea id="notes-reference" placeholder="What do you hear in the reference?"></textarea>
+      </section>
+
+      <section class="card">
+        <div class="label">B</div>
+        <h2 class="title">Generated</h2>
+        <div class="row">
+          <button class="gen" data-play="generated.wav">Play Generated</button>
+        </div>
+        <textarea id="notes-generated" placeholder="What do you hear in the generated snare?"></textarea>
+      </section>
+    </div>
+
+    <section class="card wide">
+      <div class="label">Compare</div>
+      <div class="row">
+        <button class="ref" id="play-ab">Play A then B</button>
+        <button class="gen" id="play-ba">Play B then A</button>
+      </div>
+      <textarea id="notes-compare" placeholder="Direct comparison notes: what's missing, what's better, what should change?"></textarea>
+      <div class="footer">
+        <button class="gen" id="submit-notes">Submit</button>
+        <div class="status" id="status"></div>
+      </div>
+    </section>
+  </main>
+
+  <audio id="audio-reference" preload="auto" src="reference.wav"></audio>
+  <audio id="audio-generated" preload="auto" src="generated.wav"></audio>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const audioMap = {
+      "reference.wav": document.getElementById("audio-reference"),
+      "generated.wav": document.getElementById("audio-generated"),
+    };
+
+    async function playFile(path) {
+      const audio = audioMap[path];
+      if (!audio) throw new Error(`Missing audio for ${path}`);
+      audio.pause();
+      audio.currentTime = 0;
+      const playPromise = audio.play();
+      if (playPromise) await playPromise;
+      return audio;
+    }
+
+    async function playSequence(paths) {
+      try {
+        statusEl.textContent = "Playing…";
+        for (const path of paths) {
+          const audio = await playFile(path);
+          await new Promise((resolve) => {
+            const done = () => {
+              audio.removeEventListener("ended", done);
+              window.setTimeout(resolve, 200);
+            };
+            audio.addEventListener("ended", done, { once: true });
+          });
+        }
+        statusEl.textContent = "";
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    }
+
+    document.querySelectorAll("[data-play]").forEach((button) => {
+      button.addEventListener("click", () => playSequence([button.dataset.play]));
+    });
+
+    document.getElementById("play-ab").addEventListener("click", () => {
+      playSequence(["reference.wav", "generated.wav"]);
+    });
+
+    document.getElementById("play-ba").addEventListener("click", () => {
+      playSequence(["generated.wav", "reference.wav"]);
+    });
+
+    const noteIds = ["notes-reference", "notes-generated", "notes-compare"];
+    for (const id of noteIds) {
+      const el = document.getElementById(id);
+      const saved = localStorage.getItem(`snr-feedback:${id}`);
+      if (saved) el.value = saved;
+      el.addEventListener("input", () => {
+        localStorage.setItem(`snr-feedback:${id}`, el.value);
+      });
+    }
+
+    function buildNotesText() {
+      return [
+        "Reference notes:",
+        document.getElementById("notes-reference").value.trim(),
+        "",
+        "Generated notes:",
+        document.getElementById("notes-generated").value.trim(),
+        "",
+        "Comparison notes:",
+        document.getElementById("notes-compare").value.trim(),
+      ].join("\n");
+    }
+
+    document.getElementById("submit-notes").addEventListener("click", async () => {
+      const text = buildNotesText();
+      try {
+        const response = await fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || "Submit failed.");
+        }
+        statusEl.textContent = `Saved ${payload.path}`;
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

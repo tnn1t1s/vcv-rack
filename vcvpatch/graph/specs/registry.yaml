@@ -198,6 +198,60 @@ modules:
   - plugin: Core
     model: MidiMap
     kind: controller
+  - plugin: Core
+    model: Notes
+    kind: controller
+  - plugin: AgentRack
+    model: Kck
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Clp
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Chh
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Snr
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: LowTom
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: MidTom
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: HighTom
+    kind: audio_source
+    audio_outputs: [0]
+  - plugin: AgentRack
+    model: Toms
+    kind: audio_source
+    audio_outputs: [0, 1, 2]
+  - plugin: Hora-Sequencers
+    model: Drumsequencer
+    kind: controller
+    # 12-track drum sequencer (808-style).  Cables 4 and 5 confirmed as gate
+    # outputs in autosave; outputs 0..11 inferred from the 12-track grid in
+    # module state.  Input 2 confirmed as clock.  Port names not introspected
+    # (plugin is closed-source); promote to full discovered entry when
+    # rack_introspect is available.
+    outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate, 5: gate, 6: gate, 7: gate, 8: gate, 9: gate, 10: gate, 11: gate}
+    required_inputs: {2: clock}
+  - plugin: Hora-Sequencers
+    model: DrumSongMapper
+    kind: controller
+    # Pattern sequencer that drives a Drumsequencer.  No cables seen yet;
+    # ports not verified -- register as controller with no constraints for now.
+  - plugin: Hora-Sequencers
+    model: Frequencydivider
+    kind: controller
+    # Clock divider utility.  Ports not verified; treat as clock-in/gate-out.
   - plugin: CountModula
     model: GateSequencer16
     kind: controller
@@ -222,6 +276,10 @@ modules:
     required_inputs: {4: gate}
   - plugin: Fundamental
     model: LFO
+    kind: controller
+    outputs: {0: cv, 1: cv, 2: cv, 3: cv}
+  - plugin: Fundamental
+    model: LFO2
     kind: controller
     outputs: {0: cv, 1: cv, 2: cv, 3: cv}
   - plugin: Fundamental

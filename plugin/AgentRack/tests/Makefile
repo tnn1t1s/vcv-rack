@@ -27,8 +27,16 @@ SAPHIRE_IR_SRCS := test_saphire_impulse_response.cpp
 SAPHIRE_IR_BIN  := $(BUILD_DIR)/test_saphire_impulse_response
 SAPHIRE_WET_SRCS := test_saphire_wet_path.cpp
 SAPHIRE_WET_BIN  := $(BUILD_DIR)/test_saphire_wet_path
+VOICE_LAB_COMMON_SRCS := ../src/FFTProvider.cpp ../src/FFTvDSP.cpp
+VOICE_LAB_HEADERS := voice_lab_common.hpp voice_lab_render_support.hpp ../src/Snr.cpp ../src/Toms.cpp
+VOICE_LAB_ANALYZE_SRCS := voice_lab_analyze.cpp $(VOICE_LAB_COMMON_SRCS)
+VOICE_LAB_ANALYZE_BIN  := $(BUILD_DIR)/ar-analyze
+VOICE_LAB_RENDER_SRCS := voice_lab_render.cpp $(VOICE_LAB_COMMON_SRCS)
+VOICE_LAB_RENDER_BIN  := $(BUILD_DIR)/ar-render
+VOICE_LAB_COMPARE_SRCS := voice_lab_compare.cpp $(VOICE_LAB_COMMON_SRCS)
+VOICE_LAB_COMPARE_BIN  := $(BUILD_DIR)/ar-compare
 
-all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN)
+all: $(FFT_BIN) $(CV_BIN) $(AUDIO_BIN) $(PCONV_BIN) $(CONTRACT_BIN) $(MODULE_BIN) $(CASSETTE_RT_BIN) $(CASSETTE_PROFILE_BIN) $(SAPHIRE_RT_BIN) $(SAPHIRE_IR_BIN) $(SAPHIRE_WET_BIN) $(VOICE_LAB_ANALYZE_BIN) $(VOICE_LAB_RENDER_BIN) $(VOICE_LAB_COMPARE_BIN)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -66,6 +74,15 @@ $(SAPHIRE_IR_BIN): $(SAPHIRE_IR_SRCS) | $(BUILD_DIR)
 $(SAPHIRE_WET_BIN): $(SAPHIRE_WET_SRCS) | $(BUILD_DIR)
 	$(CXX) $(CXXFLAGS) $(SAPHIRE_WET_SRCS) $(LDFLAGS) -o $(SAPHIRE_WET_BIN)
 
+$(VOICE_LAB_ANALYZE_BIN): $(VOICE_LAB_ANALYZE_SRCS) voice_lab_common.hpp | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(VOICE_LAB_ANALYZE_SRCS) $(LDFLAGS) -o $(VOICE_LAB_ANALYZE_BIN)
+
+$(VOICE_LAB_RENDER_BIN): $(VOICE_LAB_RENDER_SRCS) $(VOICE_LAB_HEADERS) | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(VOICE_LAB_RENDER_SRCS) $(LDFLAGS) $(RACK_LDFLAGS) -o $(VOICE_LAB_RENDER_BIN)
+
+$(VOICE_LAB_COMPARE_BIN): $(VOICE_LAB_COMPARE_SRCS) $(VOICE_LAB_HEADERS) | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(VOICE_LAB_COMPARE_SRCS) $(LDFLAGS) $(RACK_LDFLAGS) -o $(VOICE_LAB_COMPARE_BIN)
+
 run: $(FFT_BIN)
 	./$(FFT_BIN)
 
@@ -99,6 +116,15 @@ run-saphire-ir: $(SAPHIRE_IR_BIN)
 run-saphire-wet: $(SAPHIRE_WET_BIN)
 	./$(SAPHIRE_WET_BIN)
 
+run-ar-analyze: $(VOICE_LAB_ANALYZE_BIN)
+	./$(VOICE_LAB_ANALYZE_BIN)
+
+run-ar-render: $(VOICE_LAB_RENDER_BIN)
+	DYLD_LIBRARY_PATH=$(RACK_LIB_DIR) ./$(VOICE_LAB_RENDER_BIN)
+
+run-ar-compare: $(VOICE_LAB_COMPARE_BIN)
+	DYLD_LIBRARY_PATH=$(RACK_LIB_DIR) ./$(VOICE_LAB_COMPARE_BIN)
+
 run-all: all
 	./$(FFT_BIN)
 	./$(CV_BIN)
@@ -115,4 +141,4 @@ run-all: all
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-saphire-ir run-saphire-wet run-all clean
+.PHONY: all run run-cv run-audio run-pconv run-contracts run-modules run-cassette-runtime run-cassette-profile run-saphire-runtime run-saphire-ir run-saphire-wet run-ar-analyze run-ar-render run-ar-compare run-all clean

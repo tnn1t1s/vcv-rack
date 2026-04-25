@@ -1,0 +1,11 @@
+{
+  "snr": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/SnareDrum/SnareDrum909-tune050-tone100-snappy100.wav"
+  },
+  "clp": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/HandClap/HandClap909-accent100.wav"
+  },
+  "rim": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/RimShot/RimShot909-accent100.wav"
+  }
+}
