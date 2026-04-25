@@ -139,3 +139,24 @@ The core product question is:
 **Can we build a system where an agent works by inspecting and programming a real environment, rather than by compensating for poor design with prompt tricks?**
 
 That is what we are actually trying to answer.
+
+## Cold-Start Recovery Harness
+
+The repo and doc layer are themselves a product surface.
+
+Do not ask only whether the repo is "well documented." Ask whether a fresh
+agent with only the visible context surface can recover quickly and become
+useful without folklore or babysitting.
+
+That means we should maintain a repeatable cold-start recovery harness:
+
+- give the live agent small, diagnostic orientation tasks
+- score whether it can recover basic facts quickly:
+  - canonical invocation
+  - env path
+  - entrypoints
+  - workflow constraints
+- harden the visible context surface until recovery is fast and reliable
+
+This makes the repo/doc layer something we evaluate and optimize, not just
+something we hope is good enough.

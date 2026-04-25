@@ -1,3 +1,17 @@
+**Derive semantics from code/runtime objects.** Prefer inspectable Python/runtime truth over duplicated wrapper descriptions or parallel semantic registries.
+**Two is one, one is none.** Do not treat a single successful run, eval, or artifact as sufficient proof when a second independent check is practical.
+
+## Shared utilities
+
+Executable CLIs for all agents live in `~/home/bin/` (on `$PATH`). See
+`~/home/bin/AGENTS.md` for full docs. Quick reference:
+
+- `discord-notify <project> "msg"` — post to a Discord channel (also `--title`, `--body`, `--file`, `--color`).
+- `discord-read <project> [-n N] [--json]` — fetch recent messages.
+- `discord-setup <project>` — create channel + webhook.
+
+Projects are configured in `~/home/config/discord-projects.json`.
+
 # VCV Rack Project
 
 ## Goal

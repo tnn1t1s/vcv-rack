@@ -153,6 +153,10 @@ def build_persona_prompt(config_path: Path) -> str:
     if tool_usage and isinstance(tool_usage, str):
         sections.append(f"## Tool Usage\n{_clean(tool_usage)}")
 
+    runtime_orientation = _runtime_orientation_section()
+    if runtime_orientation:
+        sections.append(runtime_orientation)
+
     return "\n\n".join(sections)
 
 
@@ -182,3 +186,32 @@ def _collect_leaves(node: Any) -> list[str]:
         for item in node:
             results.extend(_collect_leaves(item))
     return results
+
+
+def _runtime_orientation_section() -> str | None:
+    """Append runtime-derived repo orientation when available."""
+    try:
+        from agent.doctor import describe_environment
+    except Exception:
+        return None
+
+    try:
+        info = describe_environment()
+    except Exception:
+        return None
+
+    commands = info.get("commands", {})
+    return "\n".join(
+        [
+            "## Runtime Orientation",
+            "Use these runtime-derived facts instead of guessing local paths or entrypoints:",
+            f"- Repo root: {info.get('repo_root')}",
+            f"- Agent env file: {info.get('env_path')}",
+            f"- Doctor command: {commands.get('doctor')}",
+            f"- One-shot agent command: {commands.get('agent')}",
+            f"- ADK patch-builder command: {commands.get('adk')}",
+            f"- ADK eval command: {commands.get('evals')}",
+            "",
+            "If asked how to re-orient in this repo, answer from these facts rather than inventing a generic Python invocation.",
+        ]
+    )
