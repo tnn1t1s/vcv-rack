@@ -6,6 +6,7 @@
  */
 
 #include "ModuleHarness.hpp"
+#include <array>
 #include <cmath>
 #include <cstdio>
 
@@ -20,6 +21,14 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Sonic.cpp"
 #include "../src/Maurizio.cpp"
 #include "../src/Tonnetz.cpp"
+#include "../src/Kck.cpp"
+#include "../src/Snr.cpp"
+#include "../src/Toms.cpp"
+#include "../src/Chh.cpp"
+#include "../src/Ohh.cpp"
+#include "../src/Ride.cpp"
+#include "../src/Crash.cpp"
+#include "../src/RimClap.cpp"
 
 static int passed = 0;
 static int failed = 0;
@@ -305,6 +314,472 @@ static void test_maurizio_dry_mix_is_identity() {
                "right output defaults to mono left input when right is disconnected");
 }
 
+static std::array<float, 4096> render_snr_hit(float tone, float snappy) {
+    Snr module;
+    module.params[Snr::TONE_PARAM].setValue(tone);
+    module.params[Snr::SNAPPY_PARAM].setValue(snappy);
+    module.params[Snr::TUNE_PARAM].setValue(0.50f);
+    module.params[Snr::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Snr::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 4096> render_chh_hit(float tune, float decay) {
+    Chh module;
+    module.params[Chh::TUNE_PARAM].setValue(tune);
+    module.params[Chh::DECAY_PARAM].setValue(decay);
+    module.params[Chh::BPF_PARAM].setValue(0.58f);
+    module.params[Chh::HPF_PARAM].setValue(0.52f);
+    module.params[Chh::Q_PARAM].setValue(0.30f);
+    module.params[Chh::DRIVE_PARAM].setValue(0.f);
+    module.params[Chh::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+
+    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Chh::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 4096> render_rimclap_clap_hit() {
+    RimClap module;
+    module.params[RimClap::CLAP_LEVEL_PARAM].setValue(1.f);
+    module.params[RimClap::RIM_LEVEL_PARAM].setValue(0.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+
+    ModuleHarness::connectInput(module, RimClap::CLAP_TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, RimClap::CLAP_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, RimClap::CLAP_TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[RimClap::CLAP_OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 4096> render_rimclap_rim_hit() {
+    RimClap module;
+    module.params[RimClap::CLAP_LEVEL_PARAM].setValue(0.f);
+    module.params[RimClap::RIM_LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+
+    ModuleHarness::connectInput(module, RimClap::RIM_TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, RimClap::RIM_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, RimClap::RIM_TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[RimClap::RIM_OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 4096> render_kck_hit() {
+    Kck module;
+    module.params[Kck::TUNE_PARAM].setValue(0.35f);
+    module.params[Kck::DECAY_PARAM].setValue(0.55f);
+    module.params[Kck::PITCH_PARAM].setValue(0.40f);
+    module.params[Kck::PITCH_DECAY_PARAM].setValue(0.30f);
+    module.params[Kck::CLICK_PARAM].setValue(0.35f);
+    module.params[Kck::DRIVE_PARAM].setValue(0.20f);
+    module.params[Kck::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Kck::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+template <typename TTom>
+static std::array<float, 4096> render_tom_hit(float tune, float decay) {
+    TTom module;
+    module.params[TTom::TUNE_PARAM].setValue(tune);
+    module.params[TTom::DECAY_PARAM].setValue(decay);
+    module.params[TTom::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, TTom::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, TTom::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, TTom::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[TTom::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 4096> render_ohh_hit(float tune, float decay) {
+    Ohh module;
+    module.params[Ohh::TUNE_PARAM].setValue(tune);
+    module.params[Ohh::DECAY_PARAM].setValue(decay);
+    module.params[Ohh::BPF_PARAM].setValue(0.55f);
+    module.params[Ohh::HPF_PARAM].setValue(0.40f);
+    module.params[Ohh::Q_PARAM].setValue(0.25f);
+    module.params[Ohh::DRIVE_PARAM].setValue(0.f);
+    module.params[Ohh::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Ohh::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 8192> render_ride_hit(float tune, float decay) {
+    Ride module;
+    module.params[Ride::TUNE_PARAM].setValue(tune);
+    module.params[Ride::DECAY_PARAM].setValue(decay);
+    module.params[Ride::TONE_PARAM].setValue(0.60f);
+    module.params[Ride::HPF_PARAM].setValue(0.08f);
+    module.params[Ride::Q_PARAM].setValue(0.18f);
+    module.params[Ride::DRIVE_PARAM].setValue(0.f);
+    module.params[Ride::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 8192> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Ride::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static std::array<float, 8192> render_crash_hit(float tune, float decay) {
+    Crash module;
+    module.params[Crash::TUNE_PARAM].setValue(tune);
+    module.params[Crash::DECAY_PARAM].setValue(decay);
+    module.params[Crash::TONE_PARAM].setValue(0.66f);
+    module.params[Crash::HPF_PARAM].setValue(0.10f);
+    module.params[Crash::Q_PARAM].setValue(0.18f);
+    module.params[Crash::DRIVE_PARAM].setValue(0.f);
+    module.params[Crash::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 8192> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Crash::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+
+static float sum_abs_diff(const std::array<float, 4096>& signal, int start, int count) {
+    float total = 0.f;
+    for (int i = start + 1; i < start + count; i++) {
+        total += std::fabs(signal[i] - signal[i - 1]);
+    }
+    return total;
+}
+
+static float sum_abs(const std::array<float, 4096>& signal, int start, int count) {
+    float total = 0.f;
+    for (int i = start; i < start + count; i++) {
+        total += std::fabs(signal[i]);
+    }
+    return total;
+}
+
+static int decay_frames(const std::array<float, 4096>& signal, float threshold) {
+    int peakIndex = 0;
+    float peakValue = 0.f;
+    for (int i = 0; i < 4096; i++) {
+        float v = std::fabs(signal[i]);
+        if (v > peakValue) {
+            peakValue = v;
+            peakIndex = i;
+        }
+    }
+    for (int i = peakIndex; i < 4096; i++) {
+        if (std::fabs(signal[i]) <= threshold) {
+            return i - peakIndex;
+        }
+    }
+    return 4095 - peakIndex;
+}
+
+static int zero_crossings(const std::array<float, 4096>& signal, int start, int count) {
+    int total = 0;
+    for (int i = start + 1; i < start + count; i++) {
+        bool signA = signal[i - 1] >= 0.f;
+        bool signB = signal[i] >= 0.f;
+        if (signA != signB) total++;
+    }
+    return total;
+}
+
+static float sum_abs_8192(const std::array<float, 8192>& signal, int start, int count) {
+    float total = 0.f;
+    for (int i = start; i < start + count; i++) {
+        total += std::fabs(signal[i]);
+    }
+    return total;
+}
+
+static int zero_crossings_8192(const std::array<float, 8192>& signal, int start, int count) {
+    int total = 0;
+    for (int i = start + 1; i < start + count; i++) {
+        bool signA = signal[i - 1] >= 0.f;
+        bool signB = signal[i] >= 0.f;
+        if (signA != signB) total++;
+    }
+    return total;
+}
+
+static void test_snr_noise_controls_shape_the_hit() {
+    printf("\n[Snr 909 voicing regression]\n");
+    rack::random::local().seed(1234, 5678);
+    auto lowSnap = render_snr_hit(0.45f, 0.10f);
+    rack::random::local().seed(1234, 5678);
+    auto highSnap = render_snr_hit(0.45f, 1.f);
+    rack::random::local().seed(1234, 5678);
+    auto shortTone = render_snr_hit(0.f, 0.55f);
+    rack::random::local().seed(1234, 5678);
+    auto longTone = render_snr_hit(1.f, 0.55f);
+
+    float maxAbs = 0.f;
+    for (float sample : highSnap) {
+        maxAbs = std::max(maxAbs, std::fabs(sample));
+    }
+
+    float lowSnapEdge = sum_abs_diff(lowSnap, 64, 768);
+    float highSnapEdge = sum_abs_diff(highSnap, 64, 768);
+    int shortDecay = decay_frames(shortTone, 0.01f);
+    int longDecay = decay_frames(longTone, 0.01f);
+
+    CHECK(maxAbs < 2.6f, "snare output remains in a sane bounded range");
+    CHECK(highSnapEdge > lowSnapEdge * 1.20f,
+          "higher snappy increases noisy high-frequency edge");
+    CHECK(longDecay > shortDecay + 8,
+          "higher tone extends the snare-noise tail");
+}
+
+static void test_chh_sample_voice_controls_shape_the_hit() {
+    printf("\n[Chh sampled hat regression]\n");
+    auto shortHat = render_chh_hit(0.50f, 0.f);
+    auto longHat = render_chh_hit(0.50f, 1.f);
+    auto lowHat = render_chh_hit(0.f, 0.35f);
+    auto highHat = render_chh_hit(1.f, 0.35f);
+
+    float maxAbs = 0.f;
+    for (float sample : highHat) {
+        maxAbs = std::max(maxAbs, std::fabs(sample));
+    }
+
+    float shortTail = sum_abs(shortHat, 1200, 800);
+    float longTail = sum_abs(longHat, 1200, 800);
+    int lowCross = zero_crossings(lowHat, 64, 320);
+    int highCross = zero_crossings(highHat, 64, 320);
+
+    CHECK(maxAbs < 2.0f, "hat output remains bounded");
+    CHECK(longTail > shortTail * 1.8f, "higher decay extends the sampled hat tail");
+    CHECK(highCross > lowCross, "higher tune raises early-cycle hat brightness/pitch");
+}
+
+static void test_rimclap_voices_produce_audio() {
+    printf("\n[RimClap voice regression]\n");
+    auto clap = render_rimclap_clap_hit();
+    auto rim  = render_rimclap_rim_hit();
+
+    float clapPeak = 0.f, clapEnergy = 0.f;
+    for (float s : clap) { clapPeak = std::max(clapPeak, std::fabs(s)); clapEnergy += std::fabs(s); }
+    float rimPeak = 0.f, rimEnergy = 0.f;
+    for (float s : rim)  { rimPeak  = std::max(rimPeak,  std::fabs(s)); rimEnergy  += std::fabs(s); }
+
+    CHECK(clapPeak < 2.0f && rimPeak < 2.0f, "RimClap outputs remain bounded");
+    CHECK(clapEnergy > 1.f, "Clap trigger produces audio");
+    CHECK(rimEnergy  > 1.f, "Rim trigger produces audio");
+}
+
+static void test_ohh_sample_voice_controls_shape_the_hit() {
+    printf("\n[Ohh sampled hat regression]\n");
+    auto shortHat = render_ohh_hit(0.50f, 0.f);
+    auto longHat = render_ohh_hit(0.50f, 1.f);
+    auto lowHat = render_ohh_hit(0.f, 0.55f);
+    auto highHat = render_ohh_hit(1.f, 0.55f);
+
+    float maxAbs = 0.f;
+    for (float sample : highHat) {
+        maxAbs = std::max(maxAbs, std::fabs(sample));
+    }
+
+    float shortTail = sum_abs(shortHat, 1800, 1400);
+    float longTail = sum_abs(longHat, 1800, 1400);
+    int lowCross = zero_crossings(lowHat, 96, 384);
+    int highCross = zero_crossings(highHat, 96, 384);
+
+    CHECK(maxAbs < 2.2f, "open hat output remains bounded");
+    CHECK(longTail > shortTail * 1.4f, "higher decay extends the open-hat tail");
+    CHECK(highCross > lowCross, "higher tune raises early-cycle open-hat brightness");
+}
+
+static void test_ride_sample_voice_controls_shape_the_hit() {
+    printf("\n[Ride sampled cymbal regression]\n");
+    auto shortRide = render_ride_hit(0.50f, 0.f);
+    auto longRide = render_ride_hit(0.50f, 1.f);
+    auto lowRide = render_ride_hit(0.f, 0.65f);
+    auto highRide = render_ride_hit(1.f, 0.65f);
+
+    float maxAbs = 0.f;
+    for (float sample : highRide) {
+        maxAbs = std::max(maxAbs, std::fabs(sample));
+    }
+
+    float shortTail = sum_abs_8192(shortRide, 5000, 2500);
+    float longTail = sum_abs_8192(longRide, 5000, 2500);
+    int lowCross = zero_crossings_8192(lowRide, 128, 512);
+    int highCross = zero_crossings_8192(highRide, 128, 512);
+
+    CHECK(maxAbs < 2.2f, "ride output remains bounded");
+    CHECK(longTail > shortTail * 1.5f, "higher decay extends the ride tail");
+    CHECK(highCross > lowCross, "higher tune raises early ride brightness");
+}
+
+static void test_crash_sample_voice_controls_shape_the_hit() {
+    printf("\n[Crash sampled cymbal regression]\n");
+    auto shortCrash = render_crash_hit(0.50f, 0.f);
+    auto longCrash = render_crash_hit(0.50f, 1.f);
+
+    float maxAbs = 0.f;
+    for (float sample : longCrash) {
+        maxAbs = std::max(maxAbs, std::fabs(sample));
+    }
+
+    float shortTail = sum_abs_8192(shortCrash, 4200, 2200);
+    float longTail = sum_abs_8192(longCrash, 4200, 2200);
+
+    CHECK(maxAbs < 2.2f, "crash output remains bounded");
+    CHECK(longTail > shortTail * 1.5f, "higher decay extends the crash tail");
+}
+
+static void test_kck_trigger_produces_decaying_body() {
+    printf("\n[Kck regression]\n");
+    auto hit = render_kck_hit();
+
+    float peak = 0.f;
+    int peakIndex = 0;
+    for (int i = 0; i < (int)hit.size(); i++) {
+        float v = std::fabs(hit[i]);
+        if (v > peak) { peak = v; peakIndex = i; }
+    }
+    float earlyEnergy = sum_abs(hit, 100, 400);
+
+    CHECK(peak < 2.5f,         "Kck output remains bounded");
+    CHECK(earlyEnergy > 1.f,   "Kck trigger produces an audible body");
+    CHECK(peakIndex < 800,     "Kck peak occurs in the attack region (<18 ms)");
+}
+
+static void test_toms_pitch_increases_with_voice() {
+    printf("\n[Toms pitch ordering regression]\n");
+    auto low  = render_tom_hit<LowTom> (0.50f, 0.50f);
+    auto mid  = render_tom_hit<MidTom> (0.50f, 0.50f);
+    auto high = render_tom_hit<HighTom>(0.50f, 0.50f);
+
+    float lowPeak = 0.f, midPeak = 0.f, highPeak = 0.f;
+    for (float s : low)  lowPeak  = std::max(lowPeak,  std::fabs(s));
+    for (float s : mid)  midPeak  = std::max(midPeak,  std::fabs(s));
+    for (float s : high) highPeak = std::max(highPeak, std::fabs(s));
+
+    // Compare across the full body window. Each voice's steady-state pitch
+    // sets the zero-crossing density.
+    int lowCross  = zero_crossings(low,  256, 3000);
+    int midCross  = zero_crossings(mid,  256, 3000);
+    int highCross = zero_crossings(high, 256, 3000);
+
+    CHECK(lowPeak < 1.5f && midPeak < 1.5f && highPeak < 1.5f,
+          "Tom outputs remain bounded");
+    CHECK(highCross > lowCross,
+          "HighTom has higher steady-state pitch than LowTom");
+    CHECK(midCross >= lowCross && midCross <= highCross,
+          "MidTom pitch sits between Low and High");
+}
+
+static void test_toms_decay_knob_extends_tail() {
+    printf("\n[Toms decay regression]\n");
+    auto shortHit = render_tom_hit<LowTom>(0.50f, 0.f);
+    auto longHit  = render_tom_hit<LowTom>(0.50f, 1.f);
+
+    // Compare a late window where decay differences are amplified.
+    float shortTail = sum_abs(shortHit, 3000, 1000);
+    float longTail  = sum_abs(longHit,  3000, 1000);
+
+    CHECK(longTail > shortTail * 1.3f,
+          "higher decay extends the tom tail");
+}
+
 static void test_tonnetz_trigger_selects_triangle() {
     printf("\n[Tonnetz trigger selection]\n");
     Tonnetz module;
@@ -331,6 +806,15 @@ int main() {
     test_crinkle_polyphony_tracks_independent_channels();
     test_sonic_zero_input_stays_silent();
     test_maurizio_dry_mix_is_identity();
+    test_kck_trigger_produces_decaying_body();
+    test_snr_noise_controls_shape_the_hit();
+    test_toms_pitch_increases_with_voice();
+    test_toms_decay_knob_extends_tail();
+    test_chh_sample_voice_controls_shape_the_hit();
+    test_ohh_sample_voice_controls_shape_the_hit();
+    test_ride_sample_voice_controls_shape_the_hit();
+    test_crash_sample_voice_controls_shape_the_hit();
+    test_rimclap_voices_produce_audio();
     test_tonnetz_trigger_selects_triangle();
 
     printf("\n=== Results: %d passed, %d failed ===\n", passed, failed);
