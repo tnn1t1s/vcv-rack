@@ -25,6 +25,16 @@ static inline float paramOrDefault(const std::map<std::string, float>& params,
     return it == params.end() ? fallback : it->second;
 }
 
+static inline int defaultFramesForVoice(const std::string& voice) {
+    if (voice == "ride" || voice == "crash") {
+        return 65536;
+    }
+    if (voice == "ohh") {
+        return 32768;
+    }
+    return 8192;
+}
+
 template <typename TModule>
 static inline AudioFile renderTriggeredOutput(TModule& module,
                                               int trigInputId,
@@ -182,8 +192,9 @@ static inline AudioFile renderKck(const std::map<std::string, float>& params, in
 }
 
 template <typename THat>
-static inline AudioFile renderBpfHpfHat(const std::map<std::string, float>& params, int frames, int sampleRate) {
+static inline AudioFile renderRomHat(const std::map<std::string, float>& params, int frames, int sampleRate) {
     THat module;
+    module.dbgBitDepth = std::max(1, std::min(16, int(std::round(paramOrDefault(params, "fit_bit_depth", 16.f)))));
     module.params[THat::TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
     module.params[THat::DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
     module.params[THat::BPF_PARAM].setValue(paramOrDefault(params, "bpf", 0.56f));
@@ -195,8 +206,9 @@ static inline AudioFile renderBpfHpfHat(const std::map<std::string, float>& para
 }
 
 template <typename TCymbal>
-static inline AudioFile renderToneHpfCymbal(const std::map<std::string, float>& params, int frames, int sampleRate) {
+static inline AudioFile renderRomCymbal(const std::map<std::string, float>& params, int frames, int sampleRate) {
     TCymbal module;
+    module.dbgBitDepth = std::max(1, std::min(16, int(std::round(paramOrDefault(params, "fit_bit_depth", 16.f)))));
     module.params[TCymbal::TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
     module.params[TCymbal::DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
     module.params[TCymbal::TONE_PARAM].setValue(paramOrDefault(params, "tone", 0.62f));
@@ -208,19 +220,19 @@ static inline AudioFile renderToneHpfCymbal(const std::map<std::string, float>& 
 }
 
 static inline AudioFile renderChh(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderBpfHpfHat<Chh>(params, frames, sampleRate);
+    return renderRomHat<Chh>(params, frames, sampleRate);
 }
 
 static inline AudioFile renderOhh(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderBpfHpfHat<Ohh>(params, frames, sampleRate);
+    return renderRomHat<Ohh>(params, frames, sampleRate);
 }
 
 static inline AudioFile renderRide(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderToneHpfCymbal<Ride>(params, frames, sampleRate);
+    return renderRomCymbal<Ride>(params, frames, sampleRate);
 }
 
 static inline AudioFile renderCrash(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderToneHpfCymbal<Crash>(params, frames, sampleRate);
+    return renderRomCymbal<Crash>(params, frames, sampleRate);
 }
 
 static inline AudioFile renderRimClapVoice(const std::map<std::string, float>& params,

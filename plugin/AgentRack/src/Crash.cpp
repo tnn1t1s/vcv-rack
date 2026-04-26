@@ -12,14 +12,14 @@ extern Plugin* pluginInstance;
 /**
  * Crash -- TR-909 style crash cymbal.
  *
- * Like the ride and hats, this voice starts from an embedded clean 909 PCM hit
- * and recreates the editable part of the instrument in code:
+ * This voice starts from an embedded clean 909 PCM hit and keeps the
+ * controllable part of the instrument intentionally simple:
  *
- *   embedded PCM source -> sample-rate tune -> LPF(tone/Q) -> HPF -> VCA
+ *   embedded PCM source -> sample-rate tune -> shortening VCA
  *   -> soft drive -> output level
  *
- * The module is deliberately documented inline so the DSP structure remains
- * understandable without having to maintain parallel prose elsewhere.
+ * The crash follows the same plain-ROM pattern as the ride: tune and decay
+ * act directly on the embedded source, and the rest of the path stays light.
  *
  * Rack IDs (stable):
  *   Params:  TUNE=0, DECAY=1, TONE=2, HPF=3, Q=4, DRIVE=5, LEVEL=6
@@ -33,12 +33,6 @@ static constexpr float CRASH_SAMPLE_RATE   = 44100.f;
 static constexpr float CRASH_TUNE_OCTAVES  = 0.8f;
 static constexpr float CRASH_DECAY_MIN_SEC = 0.25f;
 static constexpr float CRASH_DECAY_MAX_SEC = 3.80f;
-static constexpr float CRASH_TONE_MIN_HZ   = 2200.f;
-static constexpr float CRASH_TONE_MAX_HZ   = 17000.f;
-static constexpr float CRASH_HPF_MIN_HZ    = 140.f;
-static constexpr float CRASH_HPF_MAX_HZ    = 5000.f;
-static constexpr float CRASH_Q_MIN         = 0.60f;
-static constexpr float CRASH_Q_MAX         = 2.50f;
 
 static const std::vector<float>& crashSource() {
     static const std::vector<float> sample =
@@ -46,25 +40,15 @@ static const std::vector<float>& crashSource() {
     return sample;
 }
 
-static const AgentRack::TR909::RomTailAsset& crashAsset() {
-    static const AgentRack::TR909::RomTailAsset asset =
-        AgentRack::TR909::makeRomTailAsset(
-            crashSource(),
-            {
-                CRASH_SAMPLE_RATE,
-                0.08f, 0.34f,
-                0.989f,
-                640,
-                0.082f,
-                0.008f,
-                5.2f,
-                224
-            });
+static const AgentRack::TR909::RomAsset& crashAsset() {
+    static const AgentRack::TR909::RomAsset asset =
+        AgentRack::TR909::makeRomAsset(crashSource(),
+                                       AgentRack::TR909::RomAssetConfig(CRASH_SAMPLE_RATE));
     return asset;
 }
 
-static const AgentRack::TR909::RomTailVoiceConfig CRASH_ROM_CFG = {
-    0.98f, 0.30f, 0.f, 0.016f, 0.98f
+static const AgentRack::TR909::RomVoiceConfig CRASH_ROM_CFG = {
+    0.98f, 1.00f, 16
 };
 }
 
@@ -81,11 +65,9 @@ struct Crash : AgentModule {
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
-    dsp::SchmittTrigger trigger;
-    AgentRack::TR909::RomTailVoice voice;
-    AgentRack::TR909::TptSVF lp;
-    AgentRack::TR909::TptSVF hp;
-
+    rack::dsp::SchmittTrigger trigger;
+    AgentRack::TR909::RomVoice voice;
+    int dbgBitDepth = 16;
     Crash() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
         configParam(TUNE_PARAM,  0.f, 1.f, 0.50f, "Tune",  "%", 0.f, 100.f);
@@ -109,8 +91,6 @@ struct Crash : AgentModule {
     void process(const ProcessArgs& args) override {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             voice.trigger();
-            lp.reset();
-            hp.reset();
         }
 
         float tuneNorm  = AgentRack::TR909::normWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
@@ -120,24 +100,19 @@ struct Crash : AgentModule {
         float qNorm     = AgentRack::TR909::normWithCV(*this, Q_PARAM,     Q_CV_INPUT);
         float driveNorm = AgentRack::TR909::normWithCV(*this, DRIVE_PARAM, DRIVE_CV_INPUT);
         float levelNorm = AgentRack::TR909::normWithCV(*this, LEVEL_PARAM, LEVEL_CV_INPUT);
+        (void) toneNorm;
+        (void) hpfNorm;
+        (void) qNorm;
 
         float playbackRate = std::pow(2.f, (tuneNorm - 0.5f) * 2.f * CRASH_TUNE_OCTAVES);
         float decaySec = CRASH_DECAY_MIN_SEC + decayNorm * (CRASH_DECAY_MAX_SEC - CRASH_DECAY_MIN_SEC);
-        float toneHz = CRASH_TONE_MIN_HZ + toneNorm * (CRASH_TONE_MAX_HZ - CRASH_TONE_MIN_HZ);
-        float hpfHz = CRASH_HPF_MIN_HZ + hpfNorm * (CRASH_HPF_MAX_HZ - CRASH_HPF_MIN_HZ);
-        float q = CRASH_Q_MIN + qNorm * (CRASH_Q_MAX - CRASH_Q_MIN);
 
-        float source = voice.process(args, crashAsset(), playbackRate, decaySec, decayNorm, CRASH_ROM_CFG);
-        lp.process(source,
-                   AgentRack::TR909::clampFilterHz(toneHz, args.sampleRate),
-                   args.sampleRate, q);
-        hp.process(lp.lpf,
-                   AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
-                   args.sampleRate, 0.7071f);
-
-        float out = hp.hpf * 1.08f;
+        AgentRack::TR909::RomVoiceConfig romCfg = CRASH_ROM_CFG;
+        romCfg.bitDepth = dbgBitDepth;
+        float raw = voice.process(args, crashAsset(), playbackRate, decaySec, decayNorm, romCfg);
+        float out = raw * 1.04f;
         out = AgentRack::TR909::drive(out, driveNorm);
-        out *= levelNorm * 0.90f;
+        out *= levelNorm * 0.92f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };

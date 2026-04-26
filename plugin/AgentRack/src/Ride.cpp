@@ -12,15 +12,16 @@ extern Plugin* pluginInstance;
 /**
  * Ride -- TR-909 style ride cymbal.
  *
- * The ride is handled here as a digital cymbal-family voice built from a
- * single embedded PCM hit and then reshaped in the analog domain:
+ * The ride is handled here as a sampled ROM voice built from a single
+ * embedded PCM hit:
  *
- *   embedded PCM source -> playback-rate tuning -> LPF(tone/Q) -> HPF -> VCA
+ *   embedded PCM source -> playback-rate tuning -> shortening VCA
  *   -> soft drive -> output level
  *
- * This is a pragmatic first pass: it uses a pristine capture from an original
- * 909 at the neutral tune position and keeps the important part editable in
- * the module itself rather than in external notes.
+ * This deliberately keeps the post-ROM path minimal. The embedded source
+ * already carries the defining 909 ride identity, and the user controls mainly
+ * shorten or repitch that source rather than rebuilding it through a heavier
+ * filter shell.
  *
  * Rack IDs (stable):
  *   Params:  TUNE=0, DECAY=1, TONE=2, HPF=3, Q=4, DRIVE=5, LEVEL=6
@@ -34,12 +35,6 @@ static constexpr float RIDE_SAMPLE_RATE   = 44100.f;
 static constexpr float RIDE_TUNE_OCTAVES  = 0.7f;
 static constexpr float RIDE_DECAY_MIN_SEC = 0.12f;
 static constexpr float RIDE_DECAY_MAX_SEC = 4.80f;
-static constexpr float RIDE_TONE_MIN_HZ   = 1800.f;
-static constexpr float RIDE_TONE_MAX_HZ   = 16000.f;
-static constexpr float RIDE_HPF_MIN_HZ    = 120.f;
-static constexpr float RIDE_HPF_MAX_HZ    = 4200.f;
-static constexpr float RIDE_Q_MIN         = 0.60f;
-static constexpr float RIDE_Q_MAX         = 2.20f;
 
 static const std::vector<float>& rideSource() {
     static const std::vector<float> sample =
@@ -47,25 +42,15 @@ static const std::vector<float>& rideSource() {
     return sample;
 }
 
-static const AgentRack::TR909::RomTailAsset& rideAsset() {
-    static const AgentRack::TR909::RomTailAsset asset =
-        AgentRack::TR909::makeRomTailAsset(
-            rideSource(),
-            {
-                RIDE_SAMPLE_RATE,
-                0.10f, 0.42f,
-                0.990f,
-                640,
-                0.080f,
-                0.008f,
-                5.0f,
-                256
-            });
+static const AgentRack::TR909::RomAsset& rideAsset() {
+    static const AgentRack::TR909::RomAsset asset =
+        AgentRack::TR909::makeRomAsset(rideSource(),
+                                       AgentRack::TR909::RomAssetConfig(RIDE_SAMPLE_RATE));
     return asset;
 }
 
-static const AgentRack::TR909::RomTailVoiceConfig RIDE_ROM_CFG = {
-    1.00f, 0.26f, 0.f, 0.020f, 0.96f
+static const AgentRack::TR909::RomVoiceConfig RIDE_ROM_CFG = {
+    1.00f, 1.00f, 16
 };
 }
 
@@ -82,11 +67,9 @@ struct Ride : AgentModule {
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
-    dsp::SchmittTrigger trigger;
-    AgentRack::TR909::RomTailVoice voice;
-    AgentRack::TR909::TptSVF lp;
-    AgentRack::TR909::TptSVF hp;
-
+    rack::dsp::SchmittTrigger trigger;
+    AgentRack::TR909::RomVoice voice;
+    int dbgBitDepth = 16;
     Ride() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
         configParam(TUNE_PARAM,  0.f, 1.f, 0.50f, "Tune",  "%", 0.f, 100.f);
@@ -110,8 +93,6 @@ struct Ride : AgentModule {
     void process(const ProcessArgs& args) override {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             voice.trigger();
-            lp.reset();
-            hp.reset();
         }
 
         float tuneNorm  = AgentRack::TR909::normWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
@@ -121,24 +102,19 @@ struct Ride : AgentModule {
         float qNorm     = AgentRack::TR909::normWithCV(*this, Q_PARAM,     Q_CV_INPUT);
         float driveNorm = AgentRack::TR909::normWithCV(*this, DRIVE_PARAM, DRIVE_CV_INPUT);
         float levelNorm = AgentRack::TR909::normWithCV(*this, LEVEL_PARAM, LEVEL_CV_INPUT);
+        (void) toneNorm;
+        (void) hpfNorm;
+        (void) qNorm;
 
         float playbackRate = std::pow(2.f, (tuneNorm - 0.5f) * 2.f * RIDE_TUNE_OCTAVES);
         float decaySec = RIDE_DECAY_MIN_SEC + decayNorm * (RIDE_DECAY_MAX_SEC - RIDE_DECAY_MIN_SEC);
-        float toneHz = RIDE_TONE_MIN_HZ + toneNorm * (RIDE_TONE_MAX_HZ - RIDE_TONE_MIN_HZ);
-        float hpfHz = RIDE_HPF_MIN_HZ + hpfNorm * (RIDE_HPF_MAX_HZ - RIDE_HPF_MIN_HZ);
-        float q = RIDE_Q_MIN + qNorm * (RIDE_Q_MAX - RIDE_Q_MIN);
 
-        float source = voice.process(args, rideAsset(), playbackRate, decaySec, decayNorm, RIDE_ROM_CFG);
-        lp.process(source,
-                   AgentRack::TR909::clampFilterHz(toneHz, args.sampleRate),
-                   args.sampleRate, q);
-        hp.process(lp.lpf,
-                   AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
-                   args.sampleRate, 0.7071f);
-
-        float out = hp.hpf * 1.05f;
+        AgentRack::TR909::RomVoiceConfig romCfg = RIDE_ROM_CFG;
+        romCfg.bitDepth = dbgBitDepth;
+        float raw = voice.process(args, rideAsset(), playbackRate, decaySec, decayNorm, romCfg);
+        float out = raw * 1.02f;
         out = AgentRack::TR909::drive(out, driveNorm);
-        out *= levelNorm * 0.88f;
+        out *= levelNorm * 0.92f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };

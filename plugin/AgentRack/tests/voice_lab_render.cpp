@@ -14,7 +14,7 @@ static void usage(const char* argv0) {
 int main(int argc, char** argv) {
     std::string voice;
     std::string wavPath;
-    int frames = 8192;
+    int frames = 0;
     int sampleRate = 44100;
     std::map<std::string, float> params;
 
@@ -45,6 +45,9 @@ int main(int argc, char** argv) {
     if (voice.empty()) {
         usage(argv[0]);
         return 2;
+    }
+    if (frames <= 0) {
+        frames = VoiceLab::defaultFramesForVoice(voice);
     }
 
     try {

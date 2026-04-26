@@ -62,165 +62,68 @@ inline float drive(float x, float driveNorm) {
     return std::tanh(x * g) / std::sqrt(g);
 }
 
-struct RomTailAssetConfig {
-    float sourceSampleRate = 44100.f;
-    float loopStartNorm = 0.06f;
-    float loopEndNorm = 0.40f;
-    float hpCoef = 0.985f;
-    int rmsWindow = 384;
-    float targetRms = 0.10f;
-    float rmsFloor = 0.01f;
-    float maxGain = 6.f;
-    int edgeFadeSamples = 192;
-
-    RomTailAssetConfig() {}
-    RomTailAssetConfig(float sourceSampleRate,
-                       float loopStartNorm,
-                       float loopEndNorm,
-                       float hpCoef,
-                       int rmsWindow,
-                       float targetRms,
-                       float rmsFloor,
-                       float maxGain,
-                       int edgeFadeSamples)
-        : sourceSampleRate(sourceSampleRate),
-          loopStartNorm(loopStartNorm),
-          loopEndNorm(loopEndNorm),
-          hpCoef(hpCoef),
-          rmsWindow(rmsWindow),
-          targetRms(targetRms),
-          rmsFloor(rmsFloor),
-          maxGain(maxGain),
-          edgeFadeSamples(edgeFadeSamples) {}
-};
-
-struct RomTailAsset {
-    float sourceSampleRate = 44100.f;
-    std::vector<float> source;
-    std::vector<float> textureLoop;
-};
-
-inline std::vector<float> buildTextureLoop(const std::vector<float>& source,
-                                           const RomTailAssetConfig& cfg) {
-    if (source.size() < 16) {
-        return source;
+inline float bitReduce(float x, int bits) {
+    if (bits >= 16) {
+        return x;
     }
-
-    size_t start = size_t(cfg.loopStartNorm * float(source.size()));
-    size_t end   = size_t(cfg.loopEndNorm   * float(source.size()));
-    start = std::min(start, source.size() - 2);
-    end = std::max(end, start + 8);
-    end = std::min(end, source.size());
-
-    std::vector<float> loop(source.begin() + start, source.begin() + end);
-    if (loop.size() < 8) {
-        return loop;
-    }
-
-    // Remove most of the baked amplitude slope so decay control can rebuild
-    // the energy contour instead of inheriting the raw PCM tail.
-    std::vector<float> hp(loop.size(), 0.f);
-    float prevIn = 0.f;
-    float prevOut = 0.f;
-    for (size_t i = 0; i < loop.size(); i++) {
-        float x = loop[i];
-        float y = x - prevIn + cfg.hpCoef * prevOut;
-        hp[i] = y;
-        prevIn = x;
-        prevOut = y;
-    }
-
-    const int win = std::max(8, cfg.rmsWindow);
-    double sumSq = 0.0;
-    for (int i = 0; i < win && i < (int)hp.size(); i++) {
-        sumSq += double(hp[(size_t)i]) * double(hp[(size_t)i]);
-    }
-
-    std::vector<float> out(hp.size(), 0.f);
-    for (size_t i = 0; i < hp.size(); i++) {
-        size_t addIndex = i + size_t(win / 2);
-        size_t removeIndex = (i > size_t(win / 2)) ? (i - size_t(win / 2) - 1) : size_t(-1);
-        if (addIndex < hp.size() && addIndex >= (size_t)win) {
-            sumSq += double(hp[addIndex]) * double(hp[addIndex]);
-        }
-        if (removeIndex < hp.size()) {
-            sumSq -= double(hp[removeIndex]) * double(hp[removeIndex]);
-        }
-
-        float rms = std::sqrt(float(std::max(sumSq, 0.0) / double(win)));
-        float gain = cfg.targetRms / std::max(rms, cfg.rmsFloor);
-        gain = std::min(gain, cfg.maxGain);
-        out[i] = hp[i] * gain;
-    }
-
-    const int fade = std::min<int>(cfg.edgeFadeSamples, (int)out.size() / 4);
-    for (int i = 0; i < fade; i++) {
-        float t = float(i) / float(std::max(1, fade - 1));
-        out[(size_t)i] *= t;
-        out[out.size() - 1 - (size_t)i] *= t;
-    }
-
-    // Crossfade the loop boundary to avoid obvious clicks when the texture
-    // branch wraps under a long decay.
-    for (int i = 0; i < fade; i++) {
-        float t = float(i) / float(std::max(1, fade - 1));
-        size_t tailIndex = out.size() - fade + (size_t)i;
-        float a = out[tailIndex];
-        float b = out[(size_t)i];
-        out[tailIndex] = a * (1.f - t) + b * t;
-    }
-
-    return out;
+    bits = std::max(1, std::min(16, bits));
+    float clamped = rack::math::clamp(x, -1.f, 1.f);
+    const int levels = (1 << bits) - 1;
+    const float scaled = (clamped + 1.f) * 0.5f;
+    const float quantized = std::round(scaled * float(levels)) / float(levels);
+    return quantized * 2.f - 1.f;
 }
 
-inline RomTailAsset makeRomTailAsset(const std::vector<float>& source,
-                                     const RomTailAssetConfig& cfg) {
-    RomTailAsset asset;
+struct RomAssetConfig {
+    float sourceSampleRate = 44100.f;
+
+    RomAssetConfig() {}
+    explicit RomAssetConfig(float sourceSampleRate)
+        : sourceSampleRate(sourceSampleRate) {}
+};
+
+struct RomAsset {
+    float sourceSampleRate = 44100.f;
+    std::vector<float> source;
+};
+
+inline RomAsset makeRomAsset(const std::vector<float>& source,
+                             const RomAssetConfig& cfg) {
+    RomAsset asset;
     asset.sourceSampleRate = cfg.sourceSampleRate;
     asset.source = source;
-    asset.textureLoop = buildTextureLoop(source, cfg);
     return asset;
 }
 
-struct RomTailVoiceConfig {
+struct RomVoiceConfig {
     float sourceGain = 1.f;
-    float tailGain = 0.65f;
-    float tailGainDecayScale = 0.f;
-    float tailAttackSec = 0.012f;
-    float tailPlaybackRate = 1.f;
+    float outputGain = 1.f;
+    int bitDepth = 16;
 
-    RomTailVoiceConfig() {}
-    RomTailVoiceConfig(float sourceGain,
-                       float tailGain,
-                       float tailGainDecayScale,
-                       float tailAttackSec,
-                       float tailPlaybackRate)
+    RomVoiceConfig() {}
+    RomVoiceConfig(float sourceGain,
+                   float outputGain,
+                   int bitDepth = 16)
         : sourceGain(sourceGain),
-          tailGain(tailGain),
-          tailGainDecayScale(tailGainDecayScale),
-          tailAttackSec(tailAttackSec),
-          tailPlaybackRate(tailPlaybackRate) {}
+          outputGain(outputGain),
+          bitDepth(bitDepth) {}
 };
 
-struct RomTailVoice {
+struct RomVoice {
     float sourcePos = 1e9f;
-    float tailPos = 0.f;
     float env = 0.f;
-    float ageSec = 0.f;
 
     void trigger() {
         sourcePos = 0.f;
-        tailPos = 0.f;
         env = 1.f;
-        ageSec = 0.f;
     }
 
     float process(const rack::Module::ProcessArgs& args,
-                  const RomTailAsset& asset,
+                  const RomAsset& asset,
                   float playbackRate,
                   float decaySec,
                   float decayNorm,
-                  const RomTailVoiceConfig& cfg) {
+                  const RomVoiceConfig& cfg) {
         if (asset.source.empty()) {
             return 0.f;
         }
@@ -228,22 +131,11 @@ struct RomTailVoice {
         const float step = playbackStep(asset.sourceSampleRate, args.sampleRate, playbackRate);
         float source = sampleAt(asset.source, sourcePos);
         sourcePos += step;
-
-        float tail = 0.f;
-        if (!asset.textureLoop.empty()) {
-            tail = sampleAt(asset.textureLoop, tailPos);
-            tailPos += step * cfg.tailPlaybackRate;
-            float limit = float(std::max<size_t>(1, asset.textureLoop.size() - 1));
-            while (tailPos >= limit) tailPos -= limit;
-        }
-
-        float tailFade = 1.f - std::exp(-ageSec / std::max(1e-4f, cfg.tailAttackSec));
-        float tailGain = cfg.tailGain + decayNorm * cfg.tailGainDecayScale;
-        float out = source * cfg.sourceGain + tail * tailGain * env * tailFade;
+        float out = source * cfg.sourceGain * cfg.outputGain;
 
         env *= std::exp(-args.sampleTime / std::max(1e-4f, decaySec));
-        ageSec += args.sampleTime;
-        return out;
+        out *= env;
+        return bitReduce(out, cfg.bitDepth);
     }
 };
 

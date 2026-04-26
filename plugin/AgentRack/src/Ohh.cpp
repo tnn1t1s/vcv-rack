@@ -58,6 +58,7 @@ struct Ohh : AgentModule {
     dsp::SchmittTrigger trigger;
     float samplePos = 0.f;
     float env = 0.f;
+    int dbgBitDepth = 16;
 
     Ohh() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -105,6 +106,7 @@ struct Ohh : AgentModule {
 
         env *= std::exp(-args.sampleTime / decaySec);
         float out = source * env * 1.05f;
+        out = AgentRack::TR909::bitReduce(out, dbgBitDepth);
         out = AgentRack::TR909::drive(out, driveNorm);
         out *= levelNorm * 0.96f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
