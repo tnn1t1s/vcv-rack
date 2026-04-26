@@ -32,14 +32,8 @@ extern Plugin* pluginInstance;
 namespace {
 static constexpr float OHH_SAMPLE_RATE   = 44100.f;
 static constexpr float OHH_TUNE_OCTAVES  = 1.0f;
-static constexpr float OHH_DECAY_MIN_SEC = 0.10f;
-static constexpr float OHH_DECAY_MAX_SEC = 1.35f;
-static constexpr float OHH_BPF_MIN_HZ    = 3200.f;
-static constexpr float OHH_BPF_MAX_HZ    = 10500.f;
-static constexpr float OHH_HPF_MIN_HZ    = 1800.f;
-static constexpr float OHH_HPF_MAX_HZ    = 9000.f;
-static constexpr float OHH_Q_MIN         = 0.65f;
-static constexpr float OHH_Q_MAX         = 3.0f;
+static constexpr float OHH_DECAY_MIN_SEC = 0.006f;
+static constexpr float OHH_DECAY_MAX_SEC = 3.20f;
 
 static const std::vector<float>& ohhSource() {
     static const std::vector<float> sample =
@@ -64,8 +58,6 @@ struct Ohh : AgentModule {
     dsp::SchmittTrigger trigger;
     float samplePos = 0.f;
     float env = 0.f;
-    AgentRack::TR909::TptSVF bp;
-    AgentRack::TR909::TptSVF hp;
 
     Ohh() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -91,8 +83,6 @@ struct Ohh : AgentModule {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             samplePos = 0.f;
             env = 1.f;
-            bp.reset();
-            hp.reset();
         }
 
         float tuneNorm  = AgentRack::TR909::normWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
@@ -102,28 +92,21 @@ struct Ohh : AgentModule {
         float qNorm     = AgentRack::TR909::normWithCV(*this, Q_PARAM,     Q_CV_INPUT);
         float driveNorm = AgentRack::TR909::normWithCV(*this, DRIVE_PARAM, DRIVE_CV_INPUT);
         float levelNorm = AgentRack::TR909::normWithCV(*this, LEVEL_PARAM, LEVEL_CV_INPUT);
+        (void) bpfNorm;
+        (void) hpfNorm;
+        (void) qNorm;
 
         float playbackRate = std::pow(2.f, (tuneNorm - 0.5f) * 2.f * OHH_TUNE_OCTAVES);
         float decaySec = OHH_DECAY_MIN_SEC + decayNorm * (OHH_DECAY_MAX_SEC - OHH_DECAY_MIN_SEC);
-        float bpfHz = OHH_BPF_MIN_HZ + bpfNorm * (OHH_BPF_MAX_HZ - OHH_BPF_MIN_HZ);
-        float hpfHz = OHH_HPF_MIN_HZ + hpfNorm * (OHH_HPF_MAX_HZ - OHH_HPF_MIN_HZ);
-        float q = OHH_Q_MIN + qNorm * (OHH_Q_MAX - OHH_Q_MIN);
 
         const auto& sample = ohhSource();
         float source = AgentRack::TR909::sampleAt(sample, samplePos);
         samplePos += AgentRack::TR909::playbackStep(OHH_SAMPLE_RATE, args.sampleRate, playbackRate);
 
         env *= std::exp(-args.sampleTime / decaySec);
-        bp.process(source,
-                   AgentRack::TR909::clampFilterHz(bpfHz, args.sampleRate),
-                   args.sampleRate, q);
-        hp.process(bp.bpf,
-                   AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
-                   args.sampleRate, 0.7071f);
-
-        float out = hp.hpf * env * 1.15f;
+        float out = source * env * 1.05f;
         out = AgentRack::TR909::drive(out, driveNorm);
-        out *= levelNorm * 0.92f;
+        out *= levelNorm * 0.96f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };

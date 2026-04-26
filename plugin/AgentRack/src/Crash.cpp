@@ -45,6 +45,27 @@ static const std::vector<float>& crashSource() {
         AgentRack::TR909::decodeEmbeddedF32(crash909_f32, crash909_f32_len);
     return sample;
 }
+
+static const AgentRack::TR909::RomTailAsset& crashAsset() {
+    static const AgentRack::TR909::RomTailAsset asset =
+        AgentRack::TR909::makeRomTailAsset(
+            crashSource(),
+            {
+                CRASH_SAMPLE_RATE,
+                0.08f, 0.34f,
+                0.989f,
+                640,
+                0.082f,
+                0.008f,
+                5.2f,
+                224
+            });
+    return asset;
+}
+
+static const AgentRack::TR909::RomTailVoiceConfig CRASH_ROM_CFG = {
+    0.98f, 0.30f, 0.f, 0.016f, 0.98f
+};
 }
 
 struct Crash : AgentModule {
@@ -61,8 +82,7 @@ struct Crash : AgentModule {
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     dsp::SchmittTrigger trigger;
-    float samplePos = 0.f;
-    float env = 0.f;
+    AgentRack::TR909::RomTailVoice voice;
     AgentRack::TR909::TptSVF lp;
     AgentRack::TR909::TptSVF hp;
 
@@ -88,8 +108,7 @@ struct Crash : AgentModule {
 
     void process(const ProcessArgs& args) override {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
-            samplePos = 0.f;
-            env = 1.f;
+            voice.trigger();
             lp.reset();
             hp.reset();
         }
@@ -108,11 +127,7 @@ struct Crash : AgentModule {
         float hpfHz = CRASH_HPF_MIN_HZ + hpfNorm * (CRASH_HPF_MAX_HZ - CRASH_HPF_MIN_HZ);
         float q = CRASH_Q_MIN + qNorm * (CRASH_Q_MAX - CRASH_Q_MIN);
 
-        const auto& sample = crashSource();
-        float source = AgentRack::TR909::sampleAt(sample, samplePos);
-        samplePos += AgentRack::TR909::playbackStep(CRASH_SAMPLE_RATE, args.sampleRate, playbackRate);
-
-        env *= std::exp(-args.sampleTime / decaySec);
+        float source = voice.process(args, crashAsset(), playbackRate, decaySec, decayNorm, CRASH_ROM_CFG);
         lp.process(source,
                    AgentRack::TR909::clampFilterHz(toneHz, args.sampleRate),
                    args.sampleRate, q);
@@ -120,7 +135,7 @@ struct Crash : AgentModule {
                    AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
                    args.sampleRate, 0.7071f);
 
-        float out = hp.hpf * env * 1.08f;
+        float out = hp.hpf * 1.08f;
         out = AgentRack::TR909::drive(out, driveNorm);
         out *= levelNorm * 0.90f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));

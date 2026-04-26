@@ -5,7 +5,8 @@
 
 static void usage(const char* argv0) {
     std::fprintf(stderr,
-        "usage: %s --voice {snr|ltm|mtm|htm} [--frames N] [--sample-rate SR] "
+        "usage: %s --voice {kck|snr|ltm|mtm|htm|chh|ohh|ride|crash|clp|rim} "
+        "[--frames N] [--sample-rate SR] "
         "[--param name=value]... [--wav path]\n",
         argv0);
 }

@@ -1,6 +1,30 @@
 {
+  "kck": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/BassDrum/BassDrum909-tune050-attack050-decay050.wav"
+  },
   "snr": {
     "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/SnareDrum/SnareDrum909-tune050-tone100-snappy100.wav"
+  },
+  "ltm": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/LowTom/LowTom909-tune050-decay050.wav"
+  },
+  "mtm": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/MidTom/MidTom909-tune050-decay050.wav"
+  },
+  "htm": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/HiTom/HiTom909-tune050-decay050.wav"
+  },
+  "chh": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/ClosedHat/ClosedHat909-decay100.wav"
+  },
+  "ohh": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/OpenHat/OpendHat909-decay100.wav"
+  },
+  "ride": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/Ride/Ride909-tune050.wav"
+  },
+  "crash": {
+    "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/Crash/Crash909-tune050.wav"
   },
   "clp": {
     "default": "/Users/palaitis/Downloads/TR-909-44.1kHz-16bit/HandClap/HandClap909-accent100.wav"

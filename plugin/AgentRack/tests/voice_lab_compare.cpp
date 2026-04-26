@@ -4,7 +4,7 @@
 
 static void usage(const char* argv0) {
     std::fprintf(stderr,
-        "usage: %s --voice {snr|clp|rim} --reference path.wav "
+        "usage: %s --voice {kck|snr|ltm|mtm|htm|chh|ohh|ride|crash|clp|rim} --reference path.wav "
         "[--frames N] [--sample-rate SR] [--param name=value]... [--artifact-dir path]\n",
         argv0);
 }

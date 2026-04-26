@@ -46,7 +46,15 @@ SAPHIRE_IR_BIN  := $(BUILD_DIR)/test_saphire_impulse_response
 SAPHIRE_WET_SRCS := test_saphire_wet_path.cpp
 SAPHIRE_WET_BIN  := $(BUILD_DIR)/test_saphire_wet_path
 VOICE_LAB_COMMON_SRCS := ../src/FFTProvider.cpp ../src/FFTvDSP.cpp
-VOICE_LAB_HEADERS := voice_lab_common.hpp voice_lab_render_support.hpp ../src/Snr.cpp ../src/Toms.cpp
+VOICE_LAB_HEADERS := voice_lab_common.hpp voice_lab_render_support.hpp \
+	../src/Kck.cpp \
+	../src/Snr.cpp \
+	../src/Toms.cpp \
+	../src/Chh.cpp \
+	../src/Ohh.cpp \
+	../src/Ride.cpp \
+	../src/Crash.cpp \
+	../src/RimClap.cpp
 VOICE_LAB_ANALYZE_SRCS := voice_lab_analyze.cpp $(VOICE_LAB_COMMON_SRCS)
 VOICE_LAB_ANALYZE_BIN  := $(BUILD_DIR)/ar-analyze
 VOICE_LAB_RENDER_SRCS := voice_lab_render.cpp $(VOICE_LAB_COMMON_SRCS)

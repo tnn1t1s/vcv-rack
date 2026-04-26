@@ -13,14 +13,14 @@ extern Plugin* pluginInstance;
  * Chh -- TR-909 style closed hi-hat.
  *
  * This module now uses an embedded clean closed-hat capture as the fixed PCM
- * source and rebuilds the controllable part of the 909 hat path around it:
+ * source and keeps the control path intentionally simple:
  *
- *   embedded PCM source -> playback-rate tuning -> BPF -> HPF -> fast VCA
+ *   embedded PCM source -> playback-rate tuning -> shortening VCA
  *   -> soft drive -> output level
  *
  * The important design choice is that the source stays static while the
- * control stage stays analog-ish. That mirrors the 909 family more closely
- * than the older synthetic metallic approximation in this file.
+ * control stage only shortens or trims the captured hat. We are not trying to
+ * synthesize extra metallic tail beyond what is already in the ROM capture.
  *
  * Rack IDs (stable):
  *   Params:  TUNE=0, DECAY=1, BPF=2, HPF=3, Q=4, DRIVE=5, LEVEL=6
@@ -32,14 +32,8 @@ extern Plugin* pluginInstance;
 namespace {
 static constexpr float CHH_SAMPLE_RATE   = 44100.f;
 static constexpr float CHH_TUNE_OCTAVES  = 1.0f;
-static constexpr float CHH_DECAY_MIN_SEC = 0.012f;
-static constexpr float CHH_DECAY_MAX_SEC = 0.18f;
-static constexpr float CHH_BPF_MIN_HZ    = 4200.f;
-static constexpr float CHH_BPF_MAX_HZ    = 12000.f;
-static constexpr float CHH_HPF_MIN_HZ    = 2600.f;
-static constexpr float CHH_HPF_MAX_HZ    = 10000.f;
-static constexpr float CHH_Q_MIN         = 0.65f;
-static constexpr float CHH_Q_MAX         = 3.6f;
+static constexpr float CHH_DECAY_MIN_SEC = 0.010f;
+static constexpr float CHH_DECAY_MAX_SEC = 0.16f;
 
 static const std::vector<float>& chhSource() {
     static const std::vector<float> sample =
@@ -64,8 +58,6 @@ struct Chh : AgentModule {
     dsp::SchmittTrigger trigger;
     float samplePos = 0.f;
     float env = 0.f;
-    AgentRack::TR909::TptSVF bp;
-    AgentRack::TR909::TptSVF hp;
 
     Chh() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -91,8 +83,6 @@ struct Chh : AgentModule {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             samplePos = 0.f;
             env = 1.f;
-            bp.reset();
-            hp.reset();
         }
 
         float tuneNorm  = AgentRack::TR909::normWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
@@ -102,28 +92,22 @@ struct Chh : AgentModule {
         float qNorm     = AgentRack::TR909::normWithCV(*this, Q_PARAM,     Q_CV_INPUT);
         float driveNorm = AgentRack::TR909::normWithCV(*this, DRIVE_PARAM, DRIVE_CV_INPUT);
         float levelNorm = AgentRack::TR909::normWithCV(*this, LEVEL_PARAM, LEVEL_CV_INPUT);
+        (void) bpfNorm;
+        (void) hpfNorm;
+        (void) qNorm;
 
         float playbackRate = std::pow(2.f, (tuneNorm - 0.5f) * 2.f * CHH_TUNE_OCTAVES);
-        float decaySec = CHH_DECAY_MIN_SEC + decayNorm * (CHH_DECAY_MAX_SEC - CHH_DECAY_MIN_SEC);
-        float bpfHz = CHH_BPF_MIN_HZ + bpfNorm * (CHH_BPF_MAX_HZ - CHH_BPF_MIN_HZ);
-        float hpfHz = CHH_HPF_MIN_HZ + hpfNorm * (CHH_HPF_MAX_HZ - CHH_HPF_MIN_HZ);
-        float q = CHH_Q_MIN + qNorm * (CHH_Q_MAX - CHH_Q_MIN);
+        float decayShape = std::sqrt(decayNorm);
+        float decaySec = CHH_DECAY_MIN_SEC + decayShape * (CHH_DECAY_MAX_SEC - CHH_DECAY_MIN_SEC);
 
         const auto& sample = chhSource();
         float source = AgentRack::TR909::sampleAt(sample, samplePos);
         samplePos += AgentRack::TR909::playbackStep(CHH_SAMPLE_RATE, args.sampleRate, playbackRate);
 
         env *= std::exp(-args.sampleTime / decaySec);
-        bp.process(source,
-                   AgentRack::TR909::clampFilterHz(bpfHz, args.sampleRate),
-                   args.sampleRate, q);
-        hp.process(bp.bpf,
-                   AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
-                   args.sampleRate, 0.7071f);
-
-        float out = hp.hpf * env * 1.18f;
+        float out = source * env * 1.04f;
         out = AgentRack::TR909::drive(out, driveNorm);
-        out *= levelNorm * 0.92f;
+        out *= levelNorm * 0.94f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };

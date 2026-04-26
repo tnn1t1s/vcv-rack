@@ -46,6 +46,27 @@ static const std::vector<float>& rideSource() {
         AgentRack::TR909::decodeEmbeddedF32(ride909_f32, ride909_f32_len);
     return sample;
 }
+
+static const AgentRack::TR909::RomTailAsset& rideAsset() {
+    static const AgentRack::TR909::RomTailAsset asset =
+        AgentRack::TR909::makeRomTailAsset(
+            rideSource(),
+            {
+                RIDE_SAMPLE_RATE,
+                0.10f, 0.42f,
+                0.990f,
+                640,
+                0.080f,
+                0.008f,
+                5.0f,
+                256
+            });
+    return asset;
+}
+
+static const AgentRack::TR909::RomTailVoiceConfig RIDE_ROM_CFG = {
+    1.00f, 0.26f, 0.f, 0.020f, 0.96f
+};
 }
 
 struct Ride : AgentModule {
@@ -62,8 +83,7 @@ struct Ride : AgentModule {
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     dsp::SchmittTrigger trigger;
-    float samplePos = 0.f;
-    float env = 0.f;
+    AgentRack::TR909::RomTailVoice voice;
     AgentRack::TR909::TptSVF lp;
     AgentRack::TR909::TptSVF hp;
 
@@ -89,8 +109,7 @@ struct Ride : AgentModule {
 
     void process(const ProcessArgs& args) override {
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
-            samplePos = 0.f;
-            env = 1.f;
+            voice.trigger();
             lp.reset();
             hp.reset();
         }
@@ -109,11 +128,7 @@ struct Ride : AgentModule {
         float hpfHz = RIDE_HPF_MIN_HZ + hpfNorm * (RIDE_HPF_MAX_HZ - RIDE_HPF_MIN_HZ);
         float q = RIDE_Q_MIN + qNorm * (RIDE_Q_MAX - RIDE_Q_MIN);
 
-        const auto& sample = rideSource();
-        float source = AgentRack::TR909::sampleAt(sample, samplePos);
-        samplePos += AgentRack::TR909::playbackStep(RIDE_SAMPLE_RATE, args.sampleRate, playbackRate);
-
-        env *= std::exp(-args.sampleTime / decaySec);
+        float source = voice.process(args, rideAsset(), playbackRate, decaySec, decayNorm, RIDE_ROM_CFG);
         lp.process(source,
                    AgentRack::TR909::clampFilterHz(toneHz, args.sampleRate),
                    args.sampleRate, q);
@@ -121,7 +136,7 @@ struct Ride : AgentModule {
                    AgentRack::TR909::clampFilterHz(hpfHz, args.sampleRate),
                    args.sampleRate, 0.7071f);
 
-        float out = hp.hpf * env * 1.05f;
+        float out = hp.hpf * 1.05f;
         out = AgentRack::TR909::drive(out, driveNorm);
         out *= levelNorm * 0.88f;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
