@@ -162,6 +162,12 @@
       "name": "TOMS",
       "description": "TR-909 inspired tom kit. Three voices (Low/Mid/High) sharing one engine; voices differ only by calibrated baseHz. Per-voice trigger, level, and audio output, plus a shared accent input.",
       "tags": ["Drum"]
+    },
+    {
+      "slug": "KckDbg",
+      "name": "KCK DBG",
+      "description": "Debug kick voice. Same engine as Kck with the most informative KckFit parameters exposed as live knobs alongside the 7 user-facing controls. For dialing in voicing then copying values back into KckFit defaults.",
+      "tags": ["Drum"]
     }
   ]
 }

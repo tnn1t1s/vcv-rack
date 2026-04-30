@@ -51,3 +51,4 @@ install: all
 	cp plugin.dylib "$(RACK_PLUGINS)/AgentRack/plugin.dylib"
 	cp plugin.json  "$(RACK_PLUGINS)/AgentRack/plugin.json"
 	cp -r res/      "$(RACK_PLUGINS)/AgentRack/res/"
+	@if [ -d presets ]; then cp -r presets "$(RACK_PLUGINS)/AgentRack/"; fi
