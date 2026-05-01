@@ -229,6 +229,40 @@ Colors: success (green), error (red), warning (yellow), info (blurple)
 When to post unprompted: finishing a significant task, producing a plot or output
 file, completing a build, or hitting an error worth surfacing. Keep it short.
 
+## Operator Comfort: stay in the terminal, automate everything
+
+The human operator stays in the terminal. They do not want to:
+- open VCV Rack manually
+- run shell commands themselves
+- restart applications
+- copy / paste output
+- click anywhere on the desktop
+
+If a step in your work requires opening, closing, restarting, deploying,
+running a command, or any other side effect on the host system, **you do
+it yourself** via the available tools (`Bash`, `open`, `make install`,
+`afplay`, `osascript`, etc.). Things to do without asking:
+
+- Build and `make install` after any source change that affects what runs
+  in VCV Rack.
+- `open <patch>.vcv` to load patches into Rack.
+- Quit and re-open Rack via `osascript -e 'quit app "Rack"'` (or
+  `pkill -x Rack`) when the dylib has changed shape (new params/inputs)
+  and the loaded plugin needs to be re-registered.
+- `afplay` audio output for auditioning, with peak-normalised renders for
+  fair A/B.
+- Generate, print, or open any artifact (PDF, plot, log) the operator
+  asked about; do not link to a path and stop.
+
+When you cannot automate something (e.g. logging into a remote service
+that only accepts an interactive password prompt), say so explicitly and
+suggest the `! <command>` prefix the operator can paste --- that runs the
+command in the conversation so its output lands here without a context
+switch.
+
+If you find yourself writing "now go open ...", "now restart ...", "now
+run ..." in chat: that's a missed automation. Do it instead.
+
 ## GitHub CLI Rule
 
 When creating GitHub issues or PRs with `gh`, do not inline long shell-quoted

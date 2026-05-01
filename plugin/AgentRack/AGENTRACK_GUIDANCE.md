@@ -46,6 +46,51 @@ For the 909 family in this repo:
 - if a voice is effectively solved by sample playback for our use case, prefer
   the ROMpler path over a more complex synthesis model
 
+## Debug Module Policy
+
+A `*Dbg` variant of a synthesis voice (e.g. `KckDbg`, `TomDbg`) is not an
+internal tool. It is a release-quality module aimed at power users who want
+direct access to the full model surface for fitting, sound design, or
+modulation experiments. The doctrine:
+
+- Every internal `Fit::Config` field that materially affects voicing is
+  exposed as a knob on the debug panel.
+- Every knob has a CV input below it, scaled at the same convention used
+  by the rest of AgentRack (0.1 of knob range per volt, summed with the
+  knob value, clamped to the parameter's range).
+- The debug panel is wider than the production panel (typical 30--36 HP)
+  and uses a knob + CV-jack grid layout with comfortable spacing
+  (~26 mm row spacing, ~10 mm knob-to-jack gap). Busy is OK; the
+  audience is power users.
+- Defaults on the debug knobs match the production module's `Fit::Config`
+  defaults, so an instance fresh from the browser sounds identical to the
+  production voice. Users tweak from there.
+
+### Two legitimate use cases (do not conflate)
+
+A debug module serves two distinct purposes, and only one of them feeds
+back into production defaults:
+
+1. **Fitting tool.** A user adjusts knobs *toward a reference* (e.g.\ a
+   sample of the real instrument). When the converged settings sound
+   right and a corresponding spectrum / measurement check confirms the
+   match, fold the values back into the production module's
+   `Fit::Config` defaults. The debug module is the design surface;
+   production is what crystallises out of it.
+
+2. **Sound-design instrument.** A user adjusts knobs *away* from any
+   reference, into their own artistic vision (think Maurizio, Ben Klock,
+   Hawtin given a 30-HP control surface for a kick). Those settings live
+   in the user's patch as a sound-design choice, never as production
+   defaults. Don't bake artistic exploration into the production module's
+   voicing; doing so would steal a single user's preferences and impose
+   them on every new instance.
+
+Before folding any debug-module state into production, confirm with the
+user which of the two modes they were in. The clearest signal is whether
+they were comparing against a reference (fitting) or simply playing the
+instrument (sound design).
+
 ## Modeling Workflow
 
 When fitting emulations:
