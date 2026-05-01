@@ -29,6 +29,7 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Ride.cpp"
 #include "../src/Crash.cpp"
 #include "../src/RimClap.cpp"
+#include "../src/CrashRide.cpp"
 
 static int passed = 0;
 static int failed = 0;
@@ -653,6 +654,40 @@ static void test_chh_sample_voice_controls_shape_the_hit() {
     CHECK(highCross > lowCross, "higher tune raises early-cycle hat brightness/pitch");
 }
 
+static void test_crashride_voices_produce_audio() {
+    printf("\n[CrashRide voice regression]\n");
+    CrashRide module;
+    auto args = ModuleHarness::makeArgs();
+
+    // Crash trigger
+    ModuleHarness::connectInput(module, CrashRide::CRASH_TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, CrashRide::CRASH_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, CrashRide::CRASH_TRIG_INPUT, 0.f);
+
+    // Ride trigger (separate)
+    ModuleHarness::connectInput(module, CrashRide::RIDE_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, CrashRide::RIDE_TRIG_INPUT, 0.f);
+
+    float crashPeak = 0.f, crashEnergy = 0.f;
+    float ridePeak  = 0.f, rideEnergy  = 0.f;
+    for (int i = 0; i < 4096; i++) {
+        module.process(args);
+        float c = AgentRack::Signal::Audio::fromRackVolts(module.outputs[CrashRide::CRASH_OUT_OUTPUT].getVoltage());
+        float r = AgentRack::Signal::Audio::fromRackVolts(module.outputs[CrashRide::RIDE_OUT_OUTPUT].getVoltage());
+        crashPeak   = std::max(crashPeak, std::fabs(c));
+        ridePeak    = std::max(ridePeak,  std::fabs(r));
+        crashEnergy += std::fabs(c);
+        rideEnergy  += std::fabs(r);
+    }
+
+    CHECK(crashPeak < 2.0f && ridePeak < 2.0f, "CrashRide outputs remain bounded");
+    CHECK(crashEnergy > 1.f, "Crash trigger produces audio on its output");
+    CHECK(rideEnergy  > 1.f, "Ride trigger produces audio on its output");
+}
+
 static void test_rimclap_voices_produce_audio() {
     printf("\n[RimClap voice regression]\n");
     auto clap = render_rimclap_clap_hit();
@@ -819,6 +854,7 @@ int main() {
     test_ride_sample_voice_controls_shape_the_hit();
     test_crash_sample_voice_controls_shape_the_hit();
     test_rimclap_voices_produce_audio();
+    test_crashride_voices_produce_audio();
     test_tonnetz_trigger_selects_triangle();
 
     printf("\n=== Results: %d passed, %d failed ===\n", passed, failed);

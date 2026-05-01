@@ -30,7 +30,6 @@ extern Plugin* pluginInstance;
  */
 
 namespace {
-static constexpr float OHH_SAMPLE_RATE   = 44100.f;
 static constexpr float OHH_TUNE_OCTAVES  = 1.0f;
 static constexpr float OHH_DECAY_MIN_SEC = 0.006f;
 static constexpr float OHH_DECAY_MAX_SEC = 3.20f;
@@ -102,7 +101,7 @@ struct Ohh : AgentModule {
 
         const auto& sample = ohhSource();
         float source = AgentRack::TR909::sampleAt(sample, samplePos);
-        samplePos += AgentRack::TR909::playbackStep(OHH_SAMPLE_RATE, args.sampleRate, playbackRate);
+        samplePos += AgentRack::TR909::playbackStep(AgentRack::TR909::kEmbeddedPcmSampleRate, args.sampleRate, playbackRate);
 
         env *= std::exp(-args.sampleTime / decaySec);
         float out = source * env * 1.05f;

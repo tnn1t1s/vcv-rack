@@ -24,6 +24,7 @@ SOURCES += src/Chh.cpp
 SOURCES += src/Ohh.cpp
 SOURCES += src/Ride.cpp
 SOURCES += src/Crash.cpp
+SOURCES += src/CrashRide.cpp
 SOURCES += src/RimClap.cpp
 SOURCES += src/Snr.cpp
 

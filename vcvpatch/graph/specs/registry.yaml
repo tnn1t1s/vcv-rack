@@ -233,6 +233,10 @@ modules:
     model: Toms
     kind: audio_source
     audio_outputs: [0, 1, 2]
+  - plugin: AgentRack
+    model: CrashRide
+    kind: audio_source
+    audio_outputs: [0, 1]
   - plugin: Hora-Sequencers
     model: Drumsequencer
     kind: controller

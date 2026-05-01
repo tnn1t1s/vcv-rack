@@ -168,6 +168,12 @@
       "name": "KCK DBG",
       "description": "Debug kick voice. Same engine as Kck with the most informative KckFit parameters exposed as live knobs alongside the 7 user-facing controls. For dialing in voicing then copying values back into KckFit defaults.",
       "tags": ["Drum"]
+    },
+    {
+      "slug": "CrashRide",
+      "name": "CRASHRIDE",
+      "description": "TR-909 inspired cymbal pair. Crash + Ride consolidated into a single 14HP module with independent Tune / Decay / Drive / Level per voice. Per-voice trigger and audio output, shared accent input. Same engine as the standalone Crash and Ride.",
+      "tags": ["Drum"]
     }
   ]
 }

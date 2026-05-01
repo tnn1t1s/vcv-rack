@@ -27,6 +27,7 @@ extern rack::Model* modelSnr;
 extern rack::Model* modelTomDbg;
 extern rack::Model* modelToms;
 extern rack::Model* modelKckDbg;
+extern rack::Model* modelCrashRide;
 
 rack::Plugin* pluginInstance;
 
@@ -58,4 +59,5 @@ void init(rack::Plugin* p) {
     p->addModel(modelTomDbg);
     p->addModel(modelToms);
     p->addModel(modelKckDbg);
+    p->addModel(modelCrashRide);
 }
