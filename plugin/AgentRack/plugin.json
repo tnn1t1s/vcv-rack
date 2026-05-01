@@ -128,18 +128,6 @@
       "tags": ["Drum"]
     },
     {
-      "slug": "Ride",
-      "name": "RID",
-      "description": "TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control.",
-      "tags": ["Drum"]
-    },
-    {
-      "slug": "Crash",
-      "name": "CRH",
-      "description": "TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping.",
-      "tags": ["Drum"]
-    },
-    {
       "slug": "RimClap",
       "name": "RIMCLAP",
       "description": "Dual 909-style ROMpler utility: embedded clean clap and rim captures with trigger inputs and level controls only.",

@@ -32,9 +32,8 @@ MODULE_HEADERS := ModuleHarness.hpp \
 	../src/Toms.cpp \
 	../src/Chh.cpp \
 	../src/Ohh.cpp \
-	../src/Ride.cpp \
-	../src/Crash.cpp \
-	../src/RimClap.cpp
+	../src/RimClap.cpp \
+	../src/CrashRide.cpp
 CASSETTE_RT_SRCS := test_cassette_runtime.cpp
 CASSETTE_RT_BIN  := $(BUILD_DIR)/test_cassette_runtime
 CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
@@ -52,9 +51,8 @@ VOICE_LAB_HEADERS := voice_lab_common.hpp voice_lab_render_support.hpp \
 	../src/Toms.cpp \
 	../src/Chh.cpp \
 	../src/Ohh.cpp \
-	../src/Ride.cpp \
-	../src/Crash.cpp \
-	../src/RimClap.cpp
+	../src/RimClap.cpp \
+	../src/CrashRide.cpp
 VOICE_LAB_ANALYZE_SRCS := voice_lab_analyze.cpp $(VOICE_LAB_COMMON_SRCS)
 VOICE_LAB_ANALYZE_BIN  := $(BUILD_DIR)/ar-analyze
 VOICE_LAB_RENDER_SRCS := voice_lab_render.cpp $(VOICE_LAB_COMMON_SRCS)

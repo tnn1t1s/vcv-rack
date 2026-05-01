@@ -26,8 +26,6 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Toms.cpp"
 #include "../src/Chh.cpp"
 #include "../src/Ohh.cpp"
-#include "../src/Ride.cpp"
-#include "../src/Crash.cpp"
 #include "../src/RimClap.cpp"
 #include "../src/CrashRide.cpp"
 
@@ -489,59 +487,6 @@ static std::array<float, 4096> render_ohh_hit(float tune, float decay) {
     return out;
 }
 
-static std::array<float, 8192> render_ride_hit(float tune, float decay) {
-    Ride module;
-    module.params[Ride::TUNE_PARAM].setValue(tune);
-    module.params[Ride::DECAY_PARAM].setValue(decay);
-    module.params[Ride::TONE_PARAM].setValue(0.60f);
-    module.params[Ride::HPF_PARAM].setValue(0.08f);
-    module.params[Ride::Q_PARAM].setValue(0.18f);
-    module.params[Ride::DRIVE_PARAM].setValue(0.f);
-    module.params[Ride::LEVEL_PARAM].setValue(1.f);
-
-    std::array<float, 8192> out {};
-    auto args = ModuleHarness::makeArgs();
-    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 0.f);
-    module.process(args);
-    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 10.f);
-    module.process(args);
-    ModuleHarness::connectInput(module, Ride::TRIG_INPUT, 0.f);
-
-    for (size_t i = 0; i < out.size(); i++) {
-        module.process(args);
-        out[i] = AgentRack::Signal::Audio::fromRackVolts(
-            module.outputs[Ride::OUT_OUTPUT].getVoltage());
-    }
-    return out;
-}
-
-static std::array<float, 8192> render_crash_hit(float tune, float decay) {
-    Crash module;
-    module.params[Crash::TUNE_PARAM].setValue(tune);
-    module.params[Crash::DECAY_PARAM].setValue(decay);
-    module.params[Crash::TONE_PARAM].setValue(0.66f);
-    module.params[Crash::HPF_PARAM].setValue(0.10f);
-    module.params[Crash::Q_PARAM].setValue(0.18f);
-    module.params[Crash::DRIVE_PARAM].setValue(0.f);
-    module.params[Crash::LEVEL_PARAM].setValue(1.f);
-
-    std::array<float, 8192> out {};
-    auto args = ModuleHarness::makeArgs();
-    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 0.f);
-    module.process(args);
-    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 10.f);
-    module.process(args);
-    ModuleHarness::connectInput(module, Crash::TRIG_INPUT, 0.f);
-
-    for (size_t i = 0; i < out.size(); i++) {
-        module.process(args);
-        out[i] = AgentRack::Signal::Audio::fromRackVolts(
-            module.outputs[Crash::OUT_OUTPUT].getVoltage());
-    }
-    return out;
-}
-
-
 static float sum_abs_diff(const std::array<float, 4096>& signal, int start, int count) {
     float total = 0.f;
     for (int i = start + 1; i < start + count; i++) {
@@ -725,45 +670,6 @@ static void test_ohh_sample_voice_controls_shape_the_hit() {
     CHECK(highCross > lowCross, "higher tune raises early-cycle open-hat brightness");
 }
 
-static void test_ride_sample_voice_controls_shape_the_hit() {
-    printf("\n[Ride sampled cymbal regression]\n");
-    auto shortRide = render_ride_hit(0.50f, 0.f);
-    auto longRide = render_ride_hit(0.50f, 1.f);
-    auto lowRide = render_ride_hit(0.f, 0.65f);
-    auto highRide = render_ride_hit(1.f, 0.65f);
-
-    float maxAbs = 0.f;
-    for (float sample : highRide) {
-        maxAbs = std::max(maxAbs, std::fabs(sample));
-    }
-
-    float shortTail = sum_abs_8192(shortRide, 5000, 2500);
-    float longTail = sum_abs_8192(longRide, 5000, 2500);
-    int lowCross = zero_crossings_8192(lowRide, 128, 512);
-    int highCross = zero_crossings_8192(highRide, 128, 512);
-
-    CHECK(maxAbs < 2.2f, "ride output remains bounded");
-    CHECK(longTail > shortTail * 1.5f, "higher decay extends the ride tail");
-    CHECK(highCross > lowCross, "higher tune raises early ride brightness");
-}
-
-static void test_crash_sample_voice_controls_shape_the_hit() {
-    printf("\n[Crash sampled cymbal regression]\n");
-    auto shortCrash = render_crash_hit(0.50f, 0.f);
-    auto longCrash = render_crash_hit(0.50f, 1.f);
-
-    float maxAbs = 0.f;
-    for (float sample : longCrash) {
-        maxAbs = std::max(maxAbs, std::fabs(sample));
-    }
-
-    float shortTail = sum_abs_8192(shortCrash, 4200, 2200);
-    float longTail = sum_abs_8192(longCrash, 4200, 2200);
-
-    CHECK(maxAbs < 2.2f, "crash output remains bounded");
-    CHECK(longTail > shortTail * 1.5f, "higher decay extends the crash tail");
-}
-
 static void test_kck_trigger_produces_decaying_body() {
     printf("\n[Kck regression]\n");
     auto hit = render_kck_hit();
@@ -851,8 +757,6 @@ int main() {
     test_toms_decay_knob_extends_tail();
     test_chh_sample_voice_controls_shape_the_hit();
     test_ohh_sample_voice_controls_shape_the_hit();
-    test_ride_sample_voice_controls_shape_the_hit();
-    test_crash_sample_voice_controls_shape_the_hit();
     test_rimclap_voices_produce_audio();
     test_crashride_voices_produce_audio();
     test_tonnetz_trigger_selects_triangle();

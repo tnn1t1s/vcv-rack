@@ -12,9 +12,8 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Toms.cpp"
 #include "../src/Chh.cpp"
 #include "../src/Ohh.cpp"
-#include "../src/Ride.cpp"
-#include "../src/Crash.cpp"
 #include "../src/RimClap.cpp"
+#include "../src/CrashRide.cpp"
 
 namespace VoiceLab {
 
@@ -205,18 +204,27 @@ static inline AudioFile renderRomHat(const std::map<std::string, float>& params,
     return renderTriggeredOutput(module, THat::TRIG_INPUT, THat::OUT_OUTPUT, frames, sampleRate);
 }
 
-template <typename TCymbal>
-static inline AudioFile renderRomCymbal(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    TCymbal module;
+// Render one voice of CrashRide. The ride or crash side is selected by
+// `pickRide`; the other voice is muted via its level knob and never triggered.
+static inline AudioFile renderCrashRideVoice(const std::map<std::string, float>& params,
+                                             int frames, int sampleRate, bool pickRide) {
+    CrashRide module;
     module.dbgBitDepth = std::max(1, std::min(16, int(std::round(paramOrDefault(params, "fit_bit_depth", 16.f)))));
-    module.params[TCymbal::TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
-    module.params[TCymbal::DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
-    module.params[TCymbal::TONE_PARAM].setValue(paramOrDefault(params, "tone", 0.62f));
-    module.params[TCymbal::HPF_PARAM].setValue(paramOrDefault(params, "hpf", 0.10f));
-    module.params[TCymbal::Q_PARAM].setValue(paramOrDefault(params, "q", 0.18f));
-    module.params[TCymbal::DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.10f));
-    module.params[TCymbal::LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
-    return renderTriggeredOutput(module, TCymbal::TRIG_INPUT, TCymbal::OUT_OUTPUT, frames, sampleRate);
+    if (pickRide) {
+        module.params[CrashRide::RIDE_TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
+        module.params[CrashRide::RIDE_DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
+        module.params[CrashRide::RIDE_DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.10f));
+        module.params[CrashRide::RIDE_LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
+        module.params[CrashRide::CRASH_LEVEL_PARAM].setValue(0.f);
+        return renderTriggeredOutput(module, CrashRide::RIDE_TRIG_INPUT, CrashRide::RIDE_OUT_OUTPUT, frames, sampleRate);
+    } else {
+        module.params[CrashRide::CRASH_TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
+        module.params[CrashRide::CRASH_DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
+        module.params[CrashRide::CRASH_DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.10f));
+        module.params[CrashRide::CRASH_LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
+        module.params[CrashRide::RIDE_LEVEL_PARAM].setValue(0.f);
+        return renderTriggeredOutput(module, CrashRide::CRASH_TRIG_INPUT, CrashRide::CRASH_OUT_OUTPUT, frames, sampleRate);
+    }
 }
 
 static inline AudioFile renderChh(const std::map<std::string, float>& params, int frames, int sampleRate) {
@@ -228,11 +236,11 @@ static inline AudioFile renderOhh(const std::map<std::string, float>& params, in
 }
 
 static inline AudioFile renderRide(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderRomCymbal<Ride>(params, frames, sampleRate);
+    return renderCrashRideVoice(params, frames, sampleRate, /*pickRide=*/true);
 }
 
 static inline AudioFile renderCrash(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderRomCymbal<Crash>(params, frames, sampleRate);
+    return renderCrashRideVoice(params, frames, sampleRate, /*pickRide=*/false);
 }
 
 static inline AudioFile renderRimClapVoice(const std::map<std::string, float>& params,
