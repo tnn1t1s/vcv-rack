@@ -41,12 +41,12 @@ extern Plugin* pluginInstance;
 // share a translation unit, e.g. inside test_module_regressions.cpp.
 namespace crashride_impl {
 
-static constexpr float CRASH_SAMPLE_RATE   = 44100.f;
+// Per-voice playable ranges. Source PCM rate is shared via
+// AgentRack::TR909::kEmbeddedPcmSampleRate.
 static constexpr float CRASH_TUNE_OCTAVES  = 0.8f;
 static constexpr float CRASH_DECAY_MIN_SEC = 0.25f;
 static constexpr float CRASH_DECAY_MAX_SEC = 3.80f;
 
-static constexpr float RIDE_SAMPLE_RATE    = 44100.f;
 static constexpr float RIDE_TUNE_OCTAVES   = 0.7f;
 static constexpr float RIDE_DECAY_MIN_SEC  = 0.12f;
 static constexpr float RIDE_DECAY_MAX_SEC  = 4.80f;
@@ -66,17 +66,29 @@ static const std::vector<float>& rideSource() {
 static const AgentRack::TR909::RomAsset& crashAsset() {
     static const AgentRack::TR909::RomAsset asset =
         AgentRack::TR909::makeRomAsset(crashSource(),
-                                       AgentRack::TR909::RomAssetConfig(CRASH_SAMPLE_RATE));
+                                       AgentRack::TR909::RomAssetConfig(AgentRack::TR909::kEmbeddedPcmSampleRate));
     return asset;
 }
 
 static const AgentRack::TR909::RomAsset& rideAsset() {
     static const AgentRack::TR909::RomAsset asset =
         AgentRack::TR909::makeRomAsset(rideSource(),
-                                       AgentRack::TR909::RomAssetConfig(RIDE_SAMPLE_RATE));
+                                       AgentRack::TR909::RomAssetConfig(AgentRack::TR909::kEmbeddedPcmSampleRate));
     return asset;
 }
 
+// RomVoiceConfig fields are { sourceGain, outputGain, bitDepth }:
+//   sourceGain: pre-decay gain on the PCM source (1.0 = no change).
+//                Crash trims slightly to leave headroom for its longer cymbal
+//                attack peak; Ride passes through.
+//   outputGain: post-VCA gain on the voice output. Both pass through; final
+//                level scaling lives downstream in voiceProcess() (postGain
+//                argument and the user LEVEL knob).
+//   bitDepth:   quantisation depth applied to the source samples. 16 = the
+//                full embedded resolution; lower values are a debug hook for
+//                researching ROMpler bit-crush character.
+// Values are 1:1 with the standalone Crash and Ride modules so the per-voice
+// outputs of CrashRide are audibly identical to those of the standalones.
 static const AgentRack::TR909::RomVoiceConfig CRASH_ROM_CFG = { 0.98f, 1.00f, 16 };
 static const AgentRack::TR909::RomVoiceConfig RIDE_ROM_CFG  = { 1.00f, 1.00f, 16 };
 

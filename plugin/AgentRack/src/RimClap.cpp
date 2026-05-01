@@ -34,7 +34,7 @@ struct RomVoice {
             return 0.f;
         }
         float out = AgentRack::TR909::sampleAt(sample, pos);
-        pos += AgentRack::TR909::playbackStep(44100.f, sampleRate, 1.f);
+        pos += AgentRack::TR909::playbackStep(AgentRack::TR909::kEmbeddedPcmSampleRate, sampleRate, 1.f);
         return out;
     }
 };

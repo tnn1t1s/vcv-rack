@@ -30,7 +30,6 @@ extern Plugin* pluginInstance;
  */
 
 namespace {
-static constexpr float CHH_SAMPLE_RATE   = 44100.f;
 static constexpr float CHH_TUNE_OCTAVES  = 1.0f;
 static constexpr float CHH_DECAY_MIN_SEC = 0.010f;
 static constexpr float CHH_DECAY_MAX_SEC = 0.16f;
@@ -103,7 +102,7 @@ struct Chh : AgentModule {
 
         const auto& sample = chhSource();
         float source = AgentRack::TR909::sampleAt(sample, samplePos);
-        samplePos += AgentRack::TR909::playbackStep(CHH_SAMPLE_RATE, args.sampleRate, playbackRate);
+        samplePos += AgentRack::TR909::playbackStep(AgentRack::TR909::kEmbeddedPcmSampleRate, args.sampleRate, playbackRate);
 
         env *= std::exp(-args.sampleTime / decaySec);
         float out = source * env * 1.04f;

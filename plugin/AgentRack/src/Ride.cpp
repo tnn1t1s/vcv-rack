@@ -31,7 +31,6 @@ extern Plugin* pluginInstance;
  */
 
 namespace {
-static constexpr float RIDE_SAMPLE_RATE   = 44100.f;
 static constexpr float RIDE_TUNE_OCTAVES  = 0.7f;
 static constexpr float RIDE_DECAY_MIN_SEC = 0.12f;
 static constexpr float RIDE_DECAY_MAX_SEC = 4.80f;
@@ -45,7 +44,7 @@ static const std::vector<float>& rideSource() {
 static const AgentRack::TR909::RomAsset& rideAsset() {
     static const AgentRack::TR909::RomAsset asset =
         AgentRack::TR909::makeRomAsset(rideSource(),
-                                       AgentRack::TR909::RomAssetConfig(RIDE_SAMPLE_RATE));
+                                       AgentRack::TR909::RomAssetConfig(AgentRack::TR909::kEmbeddedPcmSampleRate));
     return asset;
 }
 

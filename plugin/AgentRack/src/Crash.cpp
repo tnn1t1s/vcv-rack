@@ -29,7 +29,6 @@ extern Plugin* pluginInstance;
  */
 
 namespace {
-static constexpr float CRASH_SAMPLE_RATE   = 44100.f;
 static constexpr float CRASH_TUNE_OCTAVES  = 0.8f;
 static constexpr float CRASH_DECAY_MIN_SEC = 0.25f;
 static constexpr float CRASH_DECAY_MAX_SEC = 3.80f;
@@ -43,7 +42,7 @@ static const std::vector<float>& crashSource() {
 static const AgentRack::TR909::RomAsset& crashAsset() {
     static const AgentRack::TR909::RomAsset asset =
         AgentRack::TR909::makeRomAsset(crashSource(),
-                                       AgentRack::TR909::RomAssetConfig(CRASH_SAMPLE_RATE));
+                                       AgentRack::TR909::RomAssetConfig(AgentRack::TR909::kEmbeddedPcmSampleRate));
     return asset;
 }
 

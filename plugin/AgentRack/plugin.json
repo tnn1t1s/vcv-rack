@@ -130,13 +130,13 @@
     {
       "slug": "Ride",
       "name": "RID",
-      "description": "DEPRECATED: use CrashRide for new patches. TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control. Kept registered for backward compatibility with existing patches.",
+      "description": "TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control.",
       "tags": ["Drum"]
     },
     {
       "slug": "Crash",
       "name": "CRH",
-      "description": "DEPRECATED: use CrashRide for new patches. TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping. Kept registered for backward compatibility with existing patches.",
+      "description": "TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping.",
       "tags": ["Drum"]
     },
     {

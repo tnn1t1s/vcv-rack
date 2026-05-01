@@ -25,6 +25,12 @@ namespace TR909 {
 
 static constexpr float kCvScale = 0.1f;
 
+// All embedded 909 PCM captures in this suite were rendered at 44.1 kHz.
+// Every rompler voice (Crash, Ride, Chh, Ohh, RimClap, CrashRide) uses this
+// constant when constructing a RomAssetConfig so there is one source of truth
+// for the source rate of the bundled samples.
+static constexpr float kEmbeddedPcmSampleRate = 44100.f;
+
 inline float normWithCV(rack::Module& self, int paramId, int inputId) {
     float norm = self.params[paramId].getValue()
                + self.inputs[inputId].getVoltage() * kCvScale;
