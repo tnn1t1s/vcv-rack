@@ -1,0 +1,25 @@
+{
+  "plugin": "AgentRack",
+  "model": "CrashRide",
+  "plugin_version": "2.0.0",
+  "discovered_at": "2026-05-01",
+  "params": [
+    {"id": 0, "name": "Crash tune",  "default": 0.50, "min": 0, "max": 1},
+    {"id": 1, "name": "Crash decay", "default": 0.58, "min": 0, "max": 1},
+    {"id": 2, "name": "Crash drive", "default": 0.10, "min": 0, "max": 1},
+    {"id": 3, "name": "Crash level", "default": 0.82, "min": 0, "max": 1},
+    {"id": 4, "name": "Ride tune",   "default": 0.50, "min": 0, "max": 1},
+    {"id": 5, "name": "Ride decay",  "default": 0.65, "min": 0, "max": 1},
+    {"id": 6, "name": "Ride drive",  "default": 0.10, "min": 0, "max": 1},
+    {"id": 7, "name": "Ride level",  "default": 0.80, "min": 0, "max": 1}
+  ],
+  "inputs": [
+    {"id": 0, "name": "Crash trigger"},
+    {"id": 1, "name": "Ride trigger"},
+    {"id": 2, "name": "Accent (shared)"}
+  ],
+  "outputs": [
+    {"id": 0, "name": "Crash audio"},
+    {"id": 1, "name": "Ride audio"}
+  ]
+}

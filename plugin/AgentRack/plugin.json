@@ -130,13 +130,13 @@
     {
       "slug": "Ride",
       "name": "RID",
-      "description": "TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control.",
+      "description": "DEPRECATED: use CrashRide for new patches. TR-909 inspired ride cymbal. Embedded clean 909 ride sample with sample-rate tune, tone LPF, HPF trim, and long cymbal decay control. Kept registered for backward compatibility with existing patches.",
       "tags": ["Drum"]
     },
     {
       "slug": "Crash",
       "name": "CRH",
-      "description": "TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping.",
+      "description": "DEPRECATED: use CrashRide for new patches. TR-909 inspired crash cymbal. Embedded clean 909 crash sample with sample-rate tune, tone LPF, HPF trim, and long decay shaping. Kept registered for backward compatibility with existing patches.",
       "tags": ["Drum"]
     },
     {
@@ -167,6 +167,12 @@
       "slug": "KckDbg",
       "name": "KCK DBG",
       "description": "Debug kick voice. Same engine as Kck with the most informative KckFit parameters exposed as live knobs alongside the 7 user-facing controls. For dialing in voicing then copying values back into KckFit defaults.",
+      "tags": ["Drum"]
+    },
+    {
+      "slug": "CrashRide",
+      "name": "CRASHRIDE",
+      "description": "TR-909 inspired cymbal pair. Crash + Ride consolidated into a single 14HP module with independent Tune / Decay / Drive / Level per voice. Per-voice trigger and audio output, shared accent input. Same engine as the standalone Crash and Ride.",
       "tags": ["Drum"]
     }
   ]
