@@ -3,13 +3,8 @@
 #include "PanelLayout.hpp"
 #include "TR909VoiceCommon.hpp"
 #include "agentrack/signal/Audio.hpp"
-// The embedded PCM symbols are defined in Crash.cpp and Ride.cpp via their
-// "embedded/...Data.hpp" includes. Re-including those headers here would
-// duplicate the global arrays at link time, so we forward-declare instead.
-extern unsigned char crash909_f32[];
-extern unsigned int  crash909_f32_len;
-extern unsigned char ride909_f32[];
-extern unsigned int  ride909_f32_len;
+#include "embedded/Crash909Data.hpp"
+#include "embedded/Ride909Data.hpp"
 #include <cmath>
 
 using namespace rack;

@@ -20,8 +20,6 @@ extern rack::Model* modelMidTom;
 extern rack::Model* modelHighTom;
 extern rack::Model* modelChh;
 extern rack::Model* modelOhh;
-extern rack::Model* modelRide;
-extern rack::Model* modelCrash;
 extern rack::Model* modelRimClap;
 extern rack::Model* modelSnr;
 extern rack::Model* modelTomDbg;
@@ -52,8 +50,6 @@ void init(rack::Plugin* p) {
     p->addModel(modelHighTom);
     p->addModel(modelChh);
     p->addModel(modelOhh);
-    p->addModel(modelRide);
-    p->addModel(modelCrash);
     p->addModel(modelRimClap);
     p->addModel(modelSnr);
     p->addModel(modelTomDbg);
