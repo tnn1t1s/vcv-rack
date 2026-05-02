@@ -10,8 +10,7 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Kck.cpp"
 #include "../src/Snr.cpp"
 #include "../src/Toms.cpp"
-#include "../src/Chh.cpp"
-#include "../src/Ohh.cpp"
+#include "../src/ChhOhh.cpp"
 #include "../src/RimClap.cpp"
 #include "../src/CrashRide.cpp"
 
@@ -197,18 +196,27 @@ static inline AudioFile renderKck(const std::map<std::string, float>& params, in
     return renderTriggeredOutput(module, Kck::TRIG_INPUT, Kck::OUT_OUTPUT, frames, sampleRate);
 }
 
-template <typename THat>
-static inline AudioFile renderRomHat(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    THat module;
+// Render one voice of ChhOhh. Picks CH or OH; the other voice is muted
+// via its level knob and never triggered. Mirrors the CrashRide pattern.
+static inline AudioFile renderChhOhhVoice(const std::map<std::string, float>& params,
+                                          int frames, int sampleRate, bool pickOhh) {
+    ChhOhh module;
     module.dbgBitDepth = std::max(1, std::min(16, int(std::round(paramOrDefault(params, "fit_bit_depth", 16.f)))));
-    module.params[THat::TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
-    module.params[THat::DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.50f));
-    module.params[THat::BPF_PARAM].setValue(paramOrDefault(params, "bpf", 0.56f));
-    module.params[THat::HPF_PARAM].setValue(paramOrDefault(params, "hpf", 0.42f));
-    module.params[THat::Q_PARAM].setValue(paramOrDefault(params, "q", 0.26f));
-    module.params[THat::DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.12f));
-    module.params[THat::LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
-    return renderTriggeredOutput(module, THat::TRIG_INPUT, THat::OUT_OUTPUT, frames, sampleRate);
+    if (pickOhh) {
+        module.params[ChhOhh::OHH_TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
+        module.params[ChhOhh::OHH_DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.58f));
+        module.params[ChhOhh::OHH_DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.12f));
+        module.params[ChhOhh::OHH_LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
+        module.params[ChhOhh::CHH_LEVEL_PARAM].setValue(0.f);
+        return renderTriggeredOutput(module, ChhOhh::OHH_TRIG_INPUT, ChhOhh::OHH_OUT_OUTPUT, frames, sampleRate);
+    } else {
+        module.params[ChhOhh::CHH_TUNE_PARAM].setValue(paramOrDefault(params, "tune", 0.50f));
+        module.params[ChhOhh::CHH_DECAY_PARAM].setValue(paramOrDefault(params, "decay", 0.22f));
+        module.params[ChhOhh::CHH_DRIVE_PARAM].setValue(paramOrDefault(params, "drive", 0.10f));
+        module.params[ChhOhh::CHH_LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
+        module.params[ChhOhh::OHH_LEVEL_PARAM].setValue(0.f);
+        return renderTriggeredOutput(module, ChhOhh::CHH_TRIG_INPUT, ChhOhh::CHH_OUT_OUTPUT, frames, sampleRate);
+    }
 }
 
 // Render one voice of CrashRide. The ride or crash side is selected by
@@ -235,11 +243,11 @@ static inline AudioFile renderCrashRideVoice(const std::map<std::string, float>&
 }
 
 static inline AudioFile renderChh(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderRomHat<Chh>(params, frames, sampleRate);
+    return renderChhOhhVoice(params, frames, sampleRate, /*pickOhh=*/false);
 }
 
 static inline AudioFile renderOhh(const std::map<std::string, float>& params, int frames, int sampleRate) {
-    return renderRomHat<Ohh>(params, frames, sampleRate);
+    return renderChhOhhVoice(params, frames, sampleRate, /*pickOhh=*/true);
 }
 
 static inline AudioFile renderRide(const std::map<std::string, float>& params, int frames, int sampleRate) {

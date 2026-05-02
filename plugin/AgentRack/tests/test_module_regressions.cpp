@@ -25,8 +25,7 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Snr.cpp"
 #include "../src/Tr909Ctrl.cpp"
 #include "../src/Toms.cpp"
-#include "../src/Chh.cpp"
-#include "../src/Ohh.cpp"
+#include "../src/ChhOhh.cpp"
 #include "../src/RimClap.cpp"
 #include "../src/CrashRide.cpp"
 
@@ -343,28 +342,25 @@ static std::array<float, 4096> render_snr_hit(float tone, float snappy) {
 }
 
 static std::array<float, 4096> render_chh_hit(float tune, float decay) {
-    Chh module;
-    module.params[Chh::TUNE_PARAM].setValue(tune);
-    module.params[Chh::DECAY_PARAM].setValue(decay);
-    module.params[Chh::BPF_PARAM].setValue(0.58f);
-    module.params[Chh::HPF_PARAM].setValue(0.52f);
-    module.params[Chh::Q_PARAM].setValue(0.30f);
-    module.params[Chh::DRIVE_PARAM].setValue(0.f);
-    module.params[Chh::LEVEL_PARAM].setValue(1.f);
+    ChhOhh module;
+    module.params[ChhOhh::CHH_TUNE_PARAM].setValue(tune);
+    module.params[ChhOhh::CHH_DECAY_PARAM].setValue(decay);
+    module.params[ChhOhh::CHH_DRIVE_PARAM].setValue(0.f);
+    module.params[ChhOhh::CHH_LEVEL_PARAM].setValue(1.f);
 
     std::array<float, 4096> out {};
     auto args = ModuleHarness::makeArgs();
 
-    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 0.f);
     module.process(args);
-    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 10.f);
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 10.f);
     module.process(args);
-    ModuleHarness::connectInput(module, Chh::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 0.f);
 
     for (size_t i = 0; i < out.size(); i++) {
         module.process(args);
         out[i] = AgentRack::Signal::Audio::fromRackVolts(
-            module.outputs[Chh::OUT_OUTPUT].getVoltage());
+            module.outputs[ChhOhh::CHH_OUT_OUTPUT].getVoltage());
     }
     return out;
 }
@@ -496,27 +492,24 @@ static std::array<float, 4096> render_tom_hit(float tune, float decay) {
 }
 
 static std::array<float, 4096> render_ohh_hit(float tune, float decay) {
-    Ohh module;
-    module.params[Ohh::TUNE_PARAM].setValue(tune);
-    module.params[Ohh::DECAY_PARAM].setValue(decay);
-    module.params[Ohh::BPF_PARAM].setValue(0.55f);
-    module.params[Ohh::HPF_PARAM].setValue(0.40f);
-    module.params[Ohh::Q_PARAM].setValue(0.25f);
-    module.params[Ohh::DRIVE_PARAM].setValue(0.f);
-    module.params[Ohh::LEVEL_PARAM].setValue(1.f);
+    ChhOhh module;
+    module.params[ChhOhh::OHH_TUNE_PARAM].setValue(tune);
+    module.params[ChhOhh::OHH_DECAY_PARAM].setValue(decay);
+    module.params[ChhOhh::OHH_DRIVE_PARAM].setValue(0.f);
+    module.params[ChhOhh::OHH_LEVEL_PARAM].setValue(1.f);
 
     std::array<float, 4096> out {};
     auto args = ModuleHarness::makeArgs();
-    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
     module.process(args);
-    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 10.f);
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 10.f);
     module.process(args);
-    ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
 
     for (size_t i = 0; i < out.size(); i++) {
         module.process(args);
         out[i] = AgentRack::Signal::Audio::fromRackVolts(
-            module.outputs[Ohh::OUT_OUTPUT].getVoltage());
+            module.outputs[ChhOhh::OHH_OUT_OUTPUT].getVoltage());
     }
     return out;
 }
@@ -1102,28 +1095,86 @@ static void test_snr_accent_sample_at_trig_invariance() {
           "ACC LOW at trig (then HIGH after) produces ghost-level hit (sample-at-trig)");
 }
 
+static void test_chh_oh_choke_silences_open_hat_when_chh_fires() {
+    printf("\n[CH/OH choke (issue #78): CH trigger silences ringing OH]\n");
+    // CH and OH share a single ChhOhh module so the choke is internal
+    // state. The test compares the OH amplitude window JUST BEFORE the
+    // CH trigger to the OH amplitude window ~25ms AFTER -- both as
+    // peaks over a 100-sample slice so we're not at the mercy of a
+    // single zero-crossing sample.
+    ChhOhh module;
+    module.params[ChhOhh::OHH_TUNE_PARAM].setValue(0.50f);
+    module.params[ChhOhh::OHH_DECAY_PARAM].setValue(1.f);  // long natural ring
+    module.params[ChhOhh::OHH_LEVEL_PARAM].setValue(1.f);
+
+    auto args = ModuleHarness::makeArgs();
+    auto ohOut = [&]() {
+        return std::fabs(AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[ChhOhh::OHH_OUT_OUTPUT].getVoltage()));
+    };
+
+    // Fire OH.
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
+
+    // Let OH ring for ~46ms to get past the initial transient.
+    for (int i = 0; i < 1948; i++) module.process(args);
+
+    // Sample a 100-sample window of "OH playing normally" right before CH.
+    float preChokePeak = 0.f;
+    for (int i = 0; i < 100; i++) {
+        module.process(args);
+        preChokePeak = std::max(preChokePeak, ohOut());
+    }
+    CHECK(preChokePeak > 0.01f, "OH is audibly ringing before CH fires");
+
+    // Fire CH -- ChhOhh sets ohhChokeActive internally.
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, ChhOhh::CHH_TRIG_INPUT, 0.f);
+
+    // Skip ~25ms of choke decay (~5 tau at the project's CHOKE_DECAY_SEC).
+    for (int i = 0; i < 1100; i++) module.process(args);
+
+    // Sample a 100-sample window post-choke.
+    float postChokePeak = 0.f;
+    for (int i = 0; i < 100; i++) {
+        module.process(args);
+        postChokePeak = std::max(postChokePeak, ohOut());
+    }
+    float ratio = postChokePeak / std::max(preChokePeak, 1e-6f);
+    CHECK(ratio < 0.05f,
+          "OH choked to <5% of pre-choke level within ~25ms of CH firing");
+}
+
 static void test_ohh_total_accent_reaches_output() {
-    printf("\n[Ohh accent: TOTAL_ACC path reaches output]\n");
-    // Ohh has no Accent B (Roland TR-909 OM); only TOTAL_ACC.
+    printf("\n[ChhOhh OH-side accent: TOTAL_ACC path reaches output]\n");
+    // OH has no Accent B (Roland TR-909 OM); only TOTAL_ACC. The shared
+    // TOTAL_ACC input on ChhOhh routes to both voices.
     auto run = [](float tAccVoltage, AgentRack::TR909::AccentMix mix) {
-        Ohh module;
+        ChhOhh module;
         module.accentMix = mix;
-        module.params[Ohh::TUNE_PARAM].setValue(0.50f);
-        module.params[Ohh::DECAY_PARAM].setValue(0.55f);
-        module.params[Ohh::LEVEL_PARAM].setValue(1.f);
+        module.params[ChhOhh::OHH_TUNE_PARAM].setValue(0.50f);
+        module.params[ChhOhh::OHH_DECAY_PARAM].setValue(0.55f);
+        module.params[ChhOhh::OHH_LEVEL_PARAM].setValue(1.f);
 
         std::array<float, 4096> out {};
         auto args = ModuleHarness::makeArgs();
-        ModuleHarness::connectInput(module, Ohh::TOTAL_ACC_INPUT, tAccVoltage);
-        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+        ModuleHarness::connectInput(module, ChhOhh::TOTAL_ACC_INPUT, tAccVoltage);
+        ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
         module.process(args);
-        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 10.f);
+        ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 10.f);
         module.process(args);
-        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+        ModuleHarness::connectInput(module, ChhOhh::OHH_TRIG_INPUT, 0.f);
         for (size_t i = 0; i < out.size(); i++) {
             module.process(args);
             out[i] = AgentRack::Signal::Audio::fromRackVolts(
-                module.outputs[Ohh::OUT_OUTPUT].getVoltage());
+                module.outputs[ChhOhh::OHH_OUT_OUTPUT].getVoltage());
         }
         return out;
     };
@@ -1248,6 +1299,7 @@ int main() {
     test_snr_accent_paths_reach_output();
     test_snr_accent_sample_at_trig_invariance();
     test_ohh_total_accent_reaches_output();
+    test_chh_oh_choke_silences_open_hat_when_chh_fires();
     test_snr_noise_controls_shape_the_hit();
     test_toms_pitch_increases_with_voice();
     test_toms_decay_knob_extends_tail();
