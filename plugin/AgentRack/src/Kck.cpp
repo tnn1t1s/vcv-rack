@@ -338,11 +338,13 @@ struct Kck : Tr909Module {
 
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             // Hit-time gates from cables (deterministic, zero latency).
-            // bus.accentAmount defaults to 1.0 when no controller present.
+            // bus.accent[A|B]Amount default to 1.0 when no controller present.
             const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const float accent   = AgentRack::TR909::resolveAccentStrength(
-                totalGate, localGate, bus.accentAmount, fit.accentMix);
+                totalGate, localGate,
+                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
+                fit.accentMix);
             voice.fire(accent);
         }
 
@@ -612,7 +614,9 @@ struct KckDbg : Tr909Module {
             const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const float accent   = AgentRack::TR909::resolveAccentStrength(
-                totalGate, localGate, bus.accentAmount, fit.accentMix);
+                totalGate, localGate,
+                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
+                fit.accentMix);
             voice.fire(accent);
         }
 

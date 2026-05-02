@@ -32,7 +32,9 @@
 namespace AgentRack { namespace TR909 {
 
 struct Bus {
-    float accentAmount      = 1.f;   // 0..1, scales accent strength
+    float accentAAmount     = 1.f;   // global multiplier on A-only case
+    float accentBAmount     = 1.f;   // global multiplier on B-only case
+    float accentBothAmount  = 1.f;   // global multiplier on both-gates case
     float masterVolume      = 1.f;   // 0..1, scales voice output
     bool  controllerPresent = false;
 };
@@ -73,19 +75,29 @@ struct AccentMix {
 /**
  * Compute accent strength at trigger-rising-edge time.
  *
- * Gates are sampled from cable inputs (zero latency). busAmount is from
- * Tr909Ctrl via the slow-state bus. The mix selects one of three weights
- * by case (only-A, only-B, both); when neither gate fires, returns 0.
+ * Gates are sampled from cable inputs (zero latency). amtA / amtB /
+ * amtBoth are independent global multipliers from Tr909Ctrl via the
+ * bus -- each scales exactly one case, with NO hidden combination
+ * rule between the three. This keeps the three cases truly orthogonal
+ * so per-voice tuning research can decide what "both" means.
+ *
+ * Per-case scaling (each case multiplies its own weight by its own
+ * global amount; cross-case interaction is left to the user, not
+ * baked in):
+ *   - only A:  weightTotal * amtA
+ *   - only B:  weightLocal * amtB
+ *   - both:    weightBoth  * amtBoth
+ *   - neither: 0
  *
  * Voices then multiply the returned strength by their own per-DSP-stage
  * weights to scale specific stages of their synthesis.
  */
 inline float resolveAccentStrength(bool totalGate, bool localGate,
-                                   float busAmount,
+                                   float amtA, float amtB, float amtBoth,
                                    const AccentMix& mix) {
-    if (totalGate && localGate) return mix.weightBoth  * busAmount;
-    if (totalGate)              return mix.weightTotal * busAmount;
-    if (localGate)              return mix.weightLocal * busAmount;
+    if (totalGate && localGate) return mix.weightBoth  * amtBoth;
+    if (totalGate)              return mix.weightTotal * amtA;
+    if (localGate)              return mix.weightLocal * amtB;
     return 0.f;
 }
 

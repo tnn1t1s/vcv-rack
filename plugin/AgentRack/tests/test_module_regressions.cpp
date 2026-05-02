@@ -800,14 +800,18 @@ static void test_kck_total_accent_boosts_amplitude() {
 }
 
 // Render a kick hit with Tr909Ctrl wired as the left expander, exposing
-// configurable accentAmount and masterVolume on the bus. Trigger fires at
-// frame 1; kick processes after Tr909Ctrl in each frame so resolveBus()
+// configurable accentA/B amounts and masterVolume on the bus. Trigger fires
+// at frame 1; kick processes after Tr909Ctrl in each frame so resolveBus()
 // sees the controller's current state.
+//
+// Older calls used a single accentAmtKnob; we map it to BOTH ACCENT_A and
+// ACCENT_B so tests that exercise A-only or B-only paths still work.
 static std::array<float, 4096> render_kck_with_ctrl(float accentAmtKnob,
                                                     float masterVolKnob,
                                                     float totalAccGate) {
     Tr909Ctrl ctrl;
-    ctrl.params[Tr909Ctrl::ACCENT_AMT_PARAM].setValue(accentAmtKnob);
+    ctrl.params[Tr909Ctrl::ACCENT_A_PARAM].setValue(accentAmtKnob);
+    ctrl.params[Tr909Ctrl::ACCENT_B_PARAM].setValue(accentAmtKnob);
     ctrl.params[Tr909Ctrl::MASTER_VOL_PARAM].setValue(masterVolKnob);
 
     Kck kck;
@@ -886,10 +890,10 @@ static void test_accent_mix_resolves_three_cases_independently() {
     mix.weightLocal = 0.50f;
     mix.weightBoth  = 1.00f;
 
-    float onlyA   = resolveAccentStrength(true,  false, 1.f, mix);
-    float onlyB   = resolveAccentStrength(false, true,  1.f, mix);
-    float both    = resolveAccentStrength(true,  true,  1.f, mix);
-    float neither = resolveAccentStrength(false, false, 1.f, mix);
+    float onlyA   = resolveAccentStrength(true,  false, 1.f, 1.f, 1.f, mix);
+    float onlyB   = resolveAccentStrength(false, true,  1.f, 1.f, 1.f, mix);
+    float both    = resolveAccentStrength(true,  true,  1.f, 1.f, 1.f, mix);
+    float neither = resolveAccentStrength(false, false, 1.f, 1.f, 1.f, mix);
 
     CHECK(std::fabs(onlyA   - 0.25f) < 1e-6f, "A-only uses weightTotal");
     CHECK(std::fabs(onlyB   - 0.50f) < 1e-6f, "B-only uses weightLocal");
@@ -902,14 +906,28 @@ static void test_accent_mix_resolves_three_cases_independently() {
     dipped.weightTotal = 0.80f;
     dipped.weightLocal = 0.80f;
     dipped.weightBoth  = 0.40f;
-    float dippedBoth = resolveAccentStrength(true, true, 1.f, dipped);
+    float dippedBoth = resolveAccentStrength(true, true, 1.f, 1.f, 1.f, dipped);
     CHECK(std::fabs(dippedBoth - 0.40f) < 1e-6f,
           "weightBoth can be less than weightTotal/weightLocal");
 
-    // busAmount scales the result of the selected case.
-    AccentMix unit;  // all 1.0
-    float scaled = resolveAccentStrength(true, false, 0.5f, unit);
-    CHECK(std::fabs(scaled - 0.5f) < 1e-6f, "busAmount scales the resolved weight");
+    // The three amount multipliers are orthogonal: amtA scales only the
+    // A-only case, amtB only B-only, amtBoth only the both case. No
+    // hidden combination rule.
+    AccentMix unit;  // all weights 1.0
+    float scaledA = resolveAccentStrength(true,  false, 0.5f, 1.f,  1.f, unit);
+    float scaledB = resolveAccentStrength(false, true,  1.f,  0.3f, 1.f, unit);
+    float scaledBoth = resolveAccentStrength(true, true, 1.f, 1.f, 0.7f, unit);
+    CHECK(std::fabs(scaledA    - 0.5f) < 1e-6f, "amtA scales A-only path");
+    CHECK(std::fabs(scaledB    - 0.3f) < 1e-6f, "amtB scales B-only path");
+    CHECK(std::fabs(scaledBoth - 0.7f) < 1e-6f, "amtBoth scales both-case independently");
+
+    // Cross-case isolation: amtA does NOT affect B-only or both.
+    float bAmtA999 = resolveAccentStrength(false, true, 999.f, 0.5f, 999.f, unit);
+    CHECK(std::fabs(bAmtA999 - 0.5f) < 1e-6f,
+          "amtA leaks into B-only case = NO (orthogonal)");
+    float bothAmtAB999 = resolveAccentStrength(true, true, 999.f, 999.f, 0.5f, unit);
+    CHECK(std::fabs(bothAmtAB999 - 0.5f) < 1e-6f,
+          "amtA/amtB leak into both case = NO (orthogonal)");
 }
 
 static void test_accent_mix_no_local_voice_ignores_local_gate() {
@@ -921,9 +939,9 @@ static void test_accent_mix_no_local_voice_ignores_local_gate() {
     noLocal.weightLocal = 0.f;
     noLocal.weightBoth  = 1.f;  // when both fire, behaves like total-only
 
-    float onlyA = resolveAccentStrength(true,  false, 1.f, noLocal);
-    float onlyB = resolveAccentStrength(false, true,  1.f, noLocal);
-    float both  = resolveAccentStrength(true,  true,  1.f, noLocal);
+    float onlyA = resolveAccentStrength(true,  false, 1.f, 1.f, 1.f, noLocal);
+    float onlyB = resolveAccentStrength(false, true,  1.f, 1.f, 1.f, noLocal);
+    float both  = resolveAccentStrength(true,  true,  1.f, 1.f, 1.f, noLocal);
 
     CHECK(std::fabs(onlyA - 1.0f) < 1e-6f,
           "Accent A still produces full strength");
