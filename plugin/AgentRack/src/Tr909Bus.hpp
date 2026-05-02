@@ -1,6 +1,7 @@
 #pragma once
 #include <rack.hpp>
 #include <algorithm>
+#include <cmath>
 #include "AgentModule.hpp"
 
 /**
@@ -32,73 +33,117 @@
 namespace AgentRack { namespace TR909 {
 
 struct Bus {
-    float accentAAmount     = 1.f;   // global multiplier on A-only case
-    float accentBAmount     = 1.f;   // global multiplier on B-only case
-    float accentBothAmount  = 1.f;   // global multiplier on both-gates case
-    float masterVolume      = 1.f;   // 0..1, scales voice output
+    // accentAAmount / accentBAmount are 0..1 linear-space attenuators on
+    // each accent rail's contribution. amtA=0 mutes A's contribution
+    // wherever A fires (alone or in the both case); same for amtB.
+    // ghostAmount is a 0..1 attenuator on the ghost case (no accent
+    // gates fired) -- lets the user globally tune "default volume" /
+    // "ghost note level" without editing per-voice config.
+    float accentAAmount     = 1.f;
+    float accentBAmount     = 1.f;
+    float ghostAmount       = 1.f;
+    float masterVolume      = 1.f;   // post-everything linear scalar
     bool  controllerPresent = false;
 };
 
 /**
- * AccentMix -- per-voice tuning of how Accent A (Total) and Accent B
- * (Local) gates combine into a single accent strength.
+ * AccentMix -- per-voice level relationship across the four 909 accent
+ * cases, expressed in dB relative to a reference level.
  *
- * Three independent weights are configurable, one per case:
- *   - weightTotal: strength when only Accent A fires
- *   - weightLocal: strength when only Accent B fires
- *   - weightBoth:  strength when both fire (NOT derived from the other two;
- *                  research may show "both accented" should be stronger,
- *                  weaker, or shaped differently than either alone)
+ * The four cases:
+ *   - ghost:   neither gate fired. On a real 909 this is the ghost note
+ *              level: a programmer leaves both accents off when they
+ *              want the voice to duck below its normal hit.
+ *   - local:   B only (per-voice accent track). This is the 909 "normal"
+ *              hit on supported voices (BD/SD/Toms/CH per Roland OM)
+ *              and is the project reference (0 dB by default).
+ *   - global:  A only (Total Accent track on its own). Slight emphasis,
+ *              less than full because there's no per-voice support.
+ *   - both:    A and B together. The strongest hit.
  *
- * Defaults are all 1.0, which makes any accented hit (A, B, or both) full
- * strength. This is a current heuristic, NOT a verified hardware-faithful
- * default -- TR-909 service manual research is open. Tune per-voice.
+ * Defaults are MODEST starting points (-6 / -1 / 0 / +1.5 dB) selected
+ * to be tunable by ear without clipping. They are NOT verified
+ * hardware-faithful values; per-voice tuning by ear or against TR-909
+ * reference samples is expected.
  *
- * Common patterns:
- *   - weightLocal=0: voice ignores Accent B. Required for voices that
- *                    don't have a LOCAL_ACC_INPUT jack (Ohh, RimClap,
- *                    CrashRide per Roland TR-909 OM).
- *   - weightLocal > weightTotal: voice responds more strongly to its own
- *                    per-step accent than to global accent.
- *   - weightBoth > max(weightTotal, weightLocal): "both" case stacks.
+ * AccentMix encodes ONLY the level relationship. The voice's own
+ * Fit::Config still decides the CHARACTER of an accented hit
+ * (drive, pitch dive, click brightness, etc.) via per-DSP-stage weights
+ * gated on "is this hit accented at all?" -- different concerns,
+ * intentionally separated.
  *
- * The DSP-stage weights (e.g. accentBodyAmt, accentDriveAmt) live in the
- * voice's own Fit::Config, NOT here. AccentMix produces the scalar
- * strength; the voice decides what each DSP stage does with it.
+ * To make a voice ignore Accent B (Ohh / RimClap / Crash / Ride per
+ * Roland OM): set localDb = ghostDb so B-alone collapses to ghost.
+ * Or simply do not wire LOCAL_ACC_INPUT on the voice.
  */
 struct AccentMix {
-    float weightTotal = 1.f;
-    float weightLocal = 1.f;
-    float weightBoth  = 1.f;
+    float ghostDb  = -6.f;
+    float globalDb = -1.f;
+    float localDb  =  0.f;
+    float bothDb   = +1.5f;
 };
 
+/** dB to linear gain (10^(db/20)). */
+inline float dbToLinear(float db) {
+    return std::pow(10.f, db / 20.f);
+}
+
 /**
- * Compute accent strength at trigger-rising-edge time.
+ * Resolve the per-case output gain (linear) at trigger-rising-edge time.
  *
- * Gates are sampled from cable inputs (zero latency). amtA / amtB /
- * amtBoth are independent global multipliers from Tr909Ctrl via the
- * bus -- each scales exactly one case, with NO hidden combination
- * rule between the three. This keeps the three cases truly orthogonal
- * so per-voice tuning research can decide what "both" means.
+ * Reads the bus's three accent attenuators (accentAAmount,
+ * accentBAmount, ghostAmount) and the voice's per-case dB mix.
  *
- * Per-case scaling (each case multiplies its own weight by its own
- * global amount; cross-case interaction is left to the user, not
- * baked in):
- *   - only A:  weightTotal * amtA
- *   - only B:  weightLocal * amtB
- *   - both:    weightBoth  * amtBoth
- *   - neither: 0
+ * Single-rail and both-case scaling (linear contribution model):
+ *     gain = amtA * lin(globalDb) + amtB * lin(localDb)
+ *          + amtA*amtB * (lin(bothDb) - lin(globalDb) - lin(localDb))
+ * (cases compute only the contributions for rails that fired).
  *
- * Voices then multiply the returned strength by their own per-DSP-stage
- * weights to scale specific stages of their synthesis.
+ * - amtA = 0 mutes A's contribution wherever A fires (alone or both).
+ * - amtA = 1 makes A's contribution count fully.
+ * - same for amtB.
+ * - amtA = amtB = 0 with any rail firing -> effectively silent.
+ *
+ * Ghost case (neither gate fires):
+ *     gain = lin(ghostDb) * bus.ghostAmount
+ * The bus's ghostAmount knob is a global trim on the no-accent level.
+ *
+ * Verified algebraically:
+ *   - amtA=1, amtB=1, both fire: gain = lin(bothDb)
+ *   - amtA=0, amtB=1, both fire: gain = lin(localDb) (B-only behavior)
+ *   - amtA=1, amtB=0, both fire: gain = lin(globalDb) (A-only behavior)
+ *   - amtA=0, amtB=0, any fire:  gain = 0
+ *   - no gates, ghostAmt=1:      gain = lin(ghostDb)
+ *   - no gates, ghostAmt=0:      gain = 0
  */
-inline float resolveAccentStrength(bool totalGate, bool localGate,
-                                   float amtA, float amtB, float amtBoth,
-                                   const AccentMix& mix) {
-    if (totalGate && localGate) return mix.weightBoth  * amtBoth;
-    if (totalGate)              return mix.weightTotal * amtA;
-    if (localGate)              return mix.weightLocal * amtB;
-    return 0.f;
+inline float resolveAccentGain(bool totalGate, bool localGate,
+                               const Bus& bus,
+                               const AccentMix& mix) {
+    if (!totalGate && !localGate) {
+        return dbToLinear(mix.ghostDb) * bus.ghostAmount;
+    }
+
+    const float gA    = dbToLinear(mix.globalDb);
+    const float gB    = dbToLinear(mix.localDb);
+    const float gBoth = dbToLinear(mix.bothDb);
+    const float amtA  = bus.accentAAmount;
+    const float amtB  = bus.accentBAmount;
+
+    float gain = 0.f;
+    if (totalGate)              gain += amtA * gA;
+    if (localGate)              gain += amtB * gB;
+    if (totalGate && localGate) gain += amtA * amtB * (gBoth - gA - gB);
+    return gain;
+}
+
+/**
+ * Whether the hit should apply the voice's accent CHARACTER (per-DSP
+ * weights for drive/click/pitch/etc.). Boolean: any accent gate fires =
+ * accent character on; ghost = off. The voice's own Fit::Config decides
+ * what that character is.
+ */
+inline bool isAccentedHit(bool totalGate, bool localGate) {
+    return totalGate || localGate;
 }
 
 }} // namespace
