@@ -245,6 +245,13 @@ modules:
     # module state.  Input 2 confirmed as clock.  Port names not introspected
     # (plugin is closed-source); promote to full discovered entry when
     # rack_introspect is available.
+    #
+    # GOTCHA: a cold-instantiated Hora silently sits idle.  Patches MUST set
+    # 38 baseline params + data flags or no gates fire even with the clock
+    # cable connected.  See docs/modules/Hora-Drumsequencer.md for the exact
+    # baseline; reference impl in
+    # plugin/AgentRack/scratch/build_kck_local_accent_test.py
+    # (HORA_BASELINE_PARAMS + hora_data()).
     outputs: {0: gate, 1: gate, 2: gate, 3: gate, 4: gate, 5: gate, 6: gate, 7: gate, 8: gate, 9: gate, 10: gate, 11: gate}
     required_inputs: {2: clock}
   - plugin: Hora-Sequencers

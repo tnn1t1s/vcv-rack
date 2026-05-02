@@ -33,7 +33,8 @@ MODULE_HEADERS := ModuleHarness.hpp \
 	../src/Chh.cpp \
 	../src/Ohh.cpp \
 	../src/RimClap.cpp \
-	../src/CrashRide.cpp
+	../src/CrashRide.cpp \
+	../src/Tr909Ctrl.cpp
 CASSETTE_RT_SRCS := test_cassette_runtime.cpp
 CASSETTE_RT_BIN  := $(BUILD_DIR)/test_cassette_runtime
 CASSETTE_PROFILE_SRCS := test_cassette_machine_profile.cpp
