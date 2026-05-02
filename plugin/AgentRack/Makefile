@@ -25,6 +25,7 @@ SOURCES += src/Ohh.cpp
 SOURCES += src/CrashRide.cpp
 SOURCES += src/RimClap.cpp
 SOURCES += src/Snr.cpp
+SOURCES += src/Tr909Ctrl.cpp
 
 LDFLAGS += -framework Accelerate
 LDFLAGS += -L/opt/homebrew/lib -lsndfile

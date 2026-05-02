@@ -2,7 +2,9 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "NineOhNinePanel.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 
@@ -130,6 +132,27 @@ struct Config {
 
     // Output
     float outputGain                = 1.0f;
+
+    // Accent application.
+    //
+    // accentMix tells how Accent A (total) and Accent B (local) gates
+    // combine into a single accent strength. See Tr909Bus.hpp for the
+    // full semantics; the inherited AccentMix defaults (1.0 / 1.0 / 1.0)
+    // are the project's current heuristic, not a verified hardware-
+    // faithful starting point. Tune per-voice as TR-909 service-manual
+    // research lands.
+    AgentRack::TR909::AccentMix accentMix;
+
+    // accent*Amt fields are this voice's per-DSP-stage weights. They
+    // are multiplied by the resolved accent strength at fire-time.
+    // Voice-specific (kick has body/drive/pitch/click/level stages;
+    // snare will have noise/tone; etc.) so they live in this Config
+    // rather than the shared AccentMix.
+    float accentBodyAmt             = 0.80f;   // body amplitude +80%
+    float accentDriveAmt            = 0.60f;   // saturator notably harder
+    float accentPitchAmt            = 0.80f;   // deeper fast pitch dive
+    float accentClickAmt            = 0.50f;   // brighter click on accent
+    float accentLevelAmt            = 0.25f;   // post-level lift
 };
 
 inline Config makeKick() { return Config{}; }
@@ -156,13 +179,19 @@ struct KckVoice {
     bool  active   = false;
     uint32_t rngState = 1u;
 
-    void fire() {
+    // Latched at the moment fire() is called; constant for the whole hit.
+    // Per #73 design: sample-at-trig, no decay over the envelope.
+    float latchedAccent = 0.f;
+
+    void fire(float accentStrength) {
         phase = phaseSub = 0.f;
         t = 0.f;
         hpState = 0.f;
         active = true;
-        rngState = 1978u;  // mirrors JUCE's `juce::Random rng(1978)`
+        rngState = 1978u;
+        latchedAccent = rack::math::clamp(accentStrength, 0.f, 1.f);
     }
+    void fire() { fire(0.f); }
 
     inline float nextNoise() {
         // Numerical Recipes LCG; map upper bits to [-1, 1).
@@ -181,10 +210,14 @@ struct KckVoice {
                   float levelNorm) {
         if (!active) return 0.f;
 
+        const float acc = latchedAccent;  // 0..1, latched at fire()
+
         const float basePitch = fit.basePitchOffset + tuneNorm * fit.basePitchSpan;
         const float ampDecay  = fit.ampDecayMin - decayNorm * fit.ampDecaySpan;
 
-        const float pitchAmpScale   = pitchNorm * 2.f;
+        // Accent deepens the fast pitch sweep (more "thump scoop") and
+        // brightens the click; both scale linearly with latchedAccent.
+        const float pitchAmpScale   = pitchNorm * 2.f * (1.f + acc * fit.accentPitchAmt);
         const float pitchDecayScale = 0.5f + pitchDecayNorm;
 
         const float fastSweep =
@@ -219,14 +252,18 @@ struct KckVoice {
         const float clickRate = fit.clickRateBase + attackNorm * fit.clickRateAttack;
         const float clickEnv  = std::exp(-clickRate * t);
 
+        const float clickGain = (1.f + acc * fit.accentClickAmt);
         const float clickNoise = nextNoise() * clickEnv
-                               * (fit.clickNoiseBase + attackNorm * fit.clickNoiseAttack);
+                               * (fit.clickNoiseBase + attackNorm * fit.clickNoiseAttack)
+                               * clickGain;
 
         const float chirpInstFreq = fit.clickChirpStartHz - t * fit.clickChirpRate;
         const float clickChirp = std::sin(TWO_PI * chirpInstFreq * t) * clickEnv
-                               * (fit.clickChirpBase + attackNorm * fit.clickChirpAttack);
+                               * (fit.clickChirpBase + attackNorm * fit.clickChirpAttack)
+                               * clickGain;
 
-        float out = (body + sub) * ampEnv + clickNoise + clickChirp;
+        const float bodyGain = (1.f + acc * fit.accentBodyAmt);
+        float out = ((body + sub) * bodyGain) * ampEnv + clickNoise + clickChirp;
 
         // Leaky DC-blocking HP.
         hpState += fit.hpCoef * (out - hpState);
@@ -236,10 +273,12 @@ struct KckVoice {
             fit.driveBase
           + decayNorm  * fit.driveDecay
           + attackNorm * fit.driveAttack
-          + driveNorm  * fit.driveExtraSpan;
+          + driveNorm  * fit.driveExtraSpan
+          + acc        * fit.accentDriveAmt;
         out = std::tanh(out * driveAmount);
 
-        out = rack::math::clamp(out, -1.f, 1.f) * fit.outputGain * levelNorm;
+        const float levelGain = fit.outputGain * levelNorm * (1.f + acc * fit.accentLevelAmt);
+        out = rack::math::clamp(out, -1.f, 1.f) * levelGain;
 
         t += args.sampleTime;
         if (ampEnv < 1e-5f && t > 0.5f) active = false;
@@ -255,7 +294,7 @@ struct KckVoice {
 // Kck -- production module
 // ---------------------------------------------------------------------------
 
-struct Kck : AgentModule {
+struct Kck : Tr909Module {
     enum ParamId  {
         TUNE_PARAM, DECAY_PARAM, PITCH_PARAM, PITCH_DECAY_PARAM,
         CLICK_PARAM, DRIVE_PARAM, LEVEL_PARAM,
@@ -264,7 +303,7 @@ struct Kck : AgentModule {
     enum InputId  {
         TRIG_INPUT, TUNE_CV_INPUT, DECAY_CV_INPUT, PITCH_CV_INPUT,
         PITCH_DECAY_CV_INPUT, CLICK_CV_INPUT, DRIVE_CV_INPUT, LEVEL_CV_INPUT,
-        ACCENT_INPUT,
+        LOCAL_ACC_INPUT, TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
@@ -277,9 +316,6 @@ struct Kck : AgentModule {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
         configParam(TUNE_PARAM,        0.f, 1.f, 0.50f,  "Tune",         "%", 0.f, 100.f);
         configParam(DECAY_PARAM,       0.f, 1.f, 0.50f,  "Decay",        "%", 0.f, 100.f);
-        // PITCH and PITCH_DECAY defaults dialed in by ear against TR-909 BD ref:
-        // amount 0.385 (=> sweep magnitude * 0.77) and decay 0.26 (=> rate * 0.76)
-        // produce the most convincing "scooped, chest-pumping" attack character.
         configParam(PITCH_PARAM,       0.f, 1.f, 0.385f, "Pitch amount", "%", 0.f, 100.f);
         configParam(PITCH_DECAY_PARAM, 0.f, 1.f, 0.26f,  "Pitch decay",  "%", 0.f, 100.f);
         configParam(CLICK_PARAM,       0.f, 1.f, 0.50f, "Click",        "%", 0.f, 100.f);
@@ -293,13 +329,24 @@ struct Kck : AgentModule {
         configInput (CLICK_CV_INPUT,       "Click CV");
         configInput (DRIVE_CV_INPUT,       "Drive CV");
         configInput (LEVEL_CV_INPUT,       "Level CV");
-        configInput (ACCENT_INPUT,         "Accent");
+        configInput (LOCAL_ACC_INPUT,      "Local accent (Accent B, sampled at TRIG)");
+        configInput (TOTAL_ACC_INPUT,      "Total accent (Accent A, sampled at TRIG)");
         configOutput(OUT_OUTPUT,           "Audio");
     }
 
     void process(const ProcessArgs& args) override {
+        const auto bus = AgentRack::TR909::resolveBus(this);
+
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
-            voice.fire();
+            // Hit-time gates from cables (deterministic, zero latency).
+            // bus.accent[A|B]Amount default to 1.0 when no controller present.
+            const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
+            const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
+            const float accent   = AgentRack::TR909::resolveAccentStrength(
+                totalGate, localGate,
+                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
+                fit.accentMix);
+            voice.fire(accent);
         }
 
         float tuneNorm       = kckNormWithCV(*this, TUNE_PARAM,        TUNE_CV_INPUT);
@@ -313,6 +360,8 @@ struct Kck : AgentModule {
         float out = voice.process(args, fit,
                                   tuneNorm, decayNorm, pitchNorm, pitchDecayNorm,
                                   clickNorm, driveNorm, levelNorm);
+        // bus.masterVolume defaults to 1.0 when no controller present.
+        out *= bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -351,13 +400,14 @@ struct KckPanel : rack::widget::Widget {
         nvgText(args.vg, mm2px(P9::KNOB_R_X), mm2px(P9::PAIR_Y[2][0] + dy), "DRIVE",   nullptr);
         nvgText(args.vg, mm2px(AgentLayout::CENTER_12HP), mm2px(P9::LEVEL_KNOB_Y + dy), "LEVEL", nullptr);
 
-        // Bottom IO row labels.
+        // Bottom IO row labels (4 jacks: TRIG, LACC, TACC, OUT).
         nvgFontSize(args.vg, 4.5f);
         nvgFillColor(args.vg, nvgRGBA(180, 180, 200, 180));
         const float ioLabelY = P9::IO_JACK_Y - 6.f;
-        nvgText(args.vg, mm2px(P9::IO_TRIG_X),   mm2px(ioLabelY), "TRIG",   nullptr);
-        nvgText(args.vg, mm2px(P9::IO_ACCENT_X), mm2px(ioLabelY), "ACCENT", nullptr);
-        nvgText(args.vg, mm2px(P9::IO_OUT_X),    mm2px(ioLabelY), "OUT",    nullptr);
+        nvgText(args.vg, mm2px(8.f),  mm2px(ioLabelY), "TRIG", nullptr);
+        nvgText(args.vg, mm2px(22.f), mm2px(ioLabelY), "LACC", nullptr);
+        nvgText(args.vg, mm2px(38.f), mm2px(ioLabelY), "TACC", nullptr);
+        nvgText(args.vg, mm2px(53.f), mm2px(ioLabelY), "OUT",  nullptr);
     }
 };
 
@@ -397,12 +447,15 @@ struct KckWidget : rack::ModuleWidget {
             mm2px(Vec(AgentLayout::CENTER_12HP, P9::LEVEL_JACK_Y)),
             module, Kck::LEVEL_CV_INPUT));
 
+        // 4 jacks across the IO row: TRIG, LACC, TACC, OUT.
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(P9::IO_TRIG_X, P9::IO_JACK_Y)), module, Kck::TRIG_INPUT));
+            mm2px(Vec(8.f,  P9::IO_JACK_Y)), module, Kck::TRIG_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(P9::IO_ACCENT_X, P9::IO_JACK_Y)), module, Kck::ACCENT_INPUT));
+            mm2px(Vec(22.f, P9::IO_JACK_Y)), module, Kck::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(38.f, P9::IO_JACK_Y)), module, Kck::TOTAL_ACC_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(P9::IO_OUT_X, P9::IO_JACK_Y)), module, Kck::OUT_OUTPUT));
+            mm2px(Vec(53.f, P9::IO_JACK_Y)), module, Kck::OUT_OUTPUT));
     }
 };
 
@@ -417,7 +470,7 @@ rack::Model* modelKck = createModel<Kck, KckWidget>("Kck");
 // copy the values back into KckFit::makeKick().
 // ---------------------------------------------------------------------------
 
-struct KckDbg : AgentModule {
+struct KckDbg : Tr909Module {
     enum ParamId {
         TUNE_PARAM, DECAY_PARAM, PITCH_PARAM, PITCH_DECAY_PARAM,
         CLICK_PARAM, DRIVE_PARAM, LEVEL_PARAM,
@@ -435,7 +488,7 @@ struct KckDbg : AgentModule {
     };
     // Per-knob CV inputs: one per ParamId. Layout-paired with the knobs.
     enum InputId  {
-        TRIG_INPUT, ACCENT_INPUT,
+        TRIG_INPUT, LOCAL_ACC_INPUT, TOTAL_ACC_INPUT,
         TUNE_CV, DECAY_CV, PITCH_CV, PITCH_DECAY_CV,
         CLICK_CV, DRIVE_CV, LEVEL_CV,
         BASE_PITCH_OFFSET_CV, BASE_PITCH_SPAN_CV,
@@ -487,8 +540,9 @@ struct KckDbg : AgentModule {
         configParam(DRIVE_BASE_PARAM,         0.5f,  4.f,     1.55f, "Drive base");
         configParam(OUTPUT_GAIN_PARAM,        0.f,   2.f,     1.f,   "Output gain");
 
-        configInput (TRIG_INPUT,   "Trigger");
-        configInput (ACCENT_INPUT, "Accent");
+        configInput (TRIG_INPUT,         "Trigger");
+        configInput (LOCAL_ACC_INPUT,    "Local accent (Accent B, sampled at TRIG)");
+        configInput (TOTAL_ACC_INPUT,    "Total accent (Accent A, sampled at TRIG)");
 
         configInput(TUNE_CV,                   "Tune CV");
         configInput(DECAY_CV,                  "Decay CV");
@@ -555,8 +609,16 @@ struct KckDbg : AgentModule {
         fit.driveBase                = readWithCV(DRIVE_BASE_PARAM,        DRIVE_BASE_CV);
         fit.outputGain               = readWithCV(OUTPUT_GAIN_PARAM,       OUTPUT_GAIN_CV);
 
+        const auto bus = AgentRack::TR909::resolveBus(this);
+
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
-            voice.fire();
+            const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
+            const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
+            const float accent   = AgentRack::TR909::resolveAccentStrength(
+                totalGate, localGate,
+                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
+                fit.accentMix);
+            voice.fire(accent);
         }
 
         const float tuneNorm       = readWithCV(TUNE_PARAM,        TUNE_CV);
@@ -570,6 +632,7 @@ struct KckDbg : AgentModule {
         float out = voice.process(args, fit,
                                   tuneNorm, decayNorm, pitchNorm, pitchDecayNorm,
                                   clickNorm, driveNorm, levelNorm);
+        out *= bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -679,13 +742,19 @@ struct KckDbgWidget : rack::ModuleWidget {
                            COLS_X[c], ROWS_Y[r], cells[i].label, panel);
         }
 
-        // Bottom IO row: TRIG, ACCENT, OUT (centred horizontally on the 36 HP panel)
+        // Bottom IO row: TRIG, LACC, TACC, OUT (4 jacks, centred on 36 HP panel)
+        panel->labels.push_back({62.f,    117.5f, "TRIG"});
+        panel->labels.push_back({81.4f,   117.5f, "LACC"});
+        panel->labels.push_back({100.8f,  117.5f, "TACC"});
+        panel->labels.push_back({120.2f,  117.5f, "OUT"});
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(72.f, 124.f)), module, KckDbg::TRIG_INPUT));
+            mm2px(Vec(62.f,    124.f)), module, KckDbg::TRIG_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(91.4f, 124.f)), module, KckDbg::ACCENT_INPUT));
+            mm2px(Vec(81.4f,   124.f)), module, KckDbg::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(100.8f,  124.f)), module, KckDbg::TOTAL_ACC_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(110.8f, 124.f)), module, KckDbg::OUT_OUTPUT));
+            mm2px(Vec(120.2f,  124.f)), module, KckDbg::OUT_OUTPUT));
     }
 };
 

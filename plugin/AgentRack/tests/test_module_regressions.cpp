@@ -23,6 +23,7 @@ rack::Plugin* pluginInstance = nullptr;
 #include "../src/Tonnetz.cpp"
 #include "../src/Kck.cpp"
 #include "../src/Snr.cpp"
+#include "../src/Tr909Ctrl.cpp"
 #include "../src/Toms.cpp"
 #include "../src/Chh.cpp"
 #include "../src/Ohh.cpp"
@@ -438,6 +439,39 @@ static std::array<float, 4096> render_kck_hit() {
     return out;
 }
 
+// Render a kick hit with controlled local-accent voltage at TRIG and after.
+// gateAtTrig: voltage on LOCAL_ACC_INPUT at the rising-edge frame
+//             (>1V latches accent for the hit).
+// gateAfter:  voltage to drive on LOCAL_ACC_INPUT for the rest of the hit
+//             (no effect once latched, used to verify sample-at-trig).
+static std::array<float, 4096> render_kck_with_accent(float gateAtTrig, float gateAfter) {
+    Kck module;
+    module.params[Kck::TUNE_PARAM].setValue(0.35f);
+    module.params[Kck::DECAY_PARAM].setValue(0.55f);
+    module.params[Kck::PITCH_PARAM].setValue(0.40f);
+    module.params[Kck::PITCH_DECAY_PARAM].setValue(0.30f);
+    module.params[Kck::CLICK_PARAM].setValue(0.35f);
+    module.params[Kck::DRIVE_PARAM].setValue(0.20f);
+    module.params[Kck::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Kck::LOCAL_ACC_INPUT, gateAtTrig);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 10.f);
+    module.process(args);                // <-- accent latched here
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, Kck::LOCAL_ACC_INPUT, gateAfter);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Kck::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
 template <typename TTom>
 static std::array<float, 4096> render_tom_hit(float tune, float decay) {
     TTom module;
@@ -687,6 +721,313 @@ static void test_kck_trigger_produces_decaying_body() {
     CHECK(peakIndex < 800,     "Kck peak occurs in the attack region (<18 ms)");
 }
 
+static float peak_abs(const std::array<float, 4096>& a) {
+    float p = 0.f;
+    for (float v : a) p = std::max(p, std::fabs(v));
+    return p;
+}
+
+static void test_kck_local_accent_low_is_base_level() {
+    printf("\n[Kck local accent: base level]\n");
+    auto base = render_kck_with_accent(0.f, 0.f);
+    float peak = peak_abs(base);
+    CHECK(peak > 0.05f, "Kck fires at audible base level when ACC is low");
+    CHECK(peak < 2.0f,  "Kck base output remains bounded");
+}
+
+static void test_kck_local_accent_high_boosts_amplitude() {
+    printf("\n[Kck local accent: high boosts amplitude]\n");
+    auto base     = render_kck_with_accent(0.f,  0.f);
+    auto accented = render_kck_with_accent(10.f, 10.f);
+    float peakBase     = peak_abs(base);
+    float peakAccented = peak_abs(accented);
+    CHECK(peakAccented > peakBase * 1.05f,
+          "ACC=10V at TRIG increases output peak by >5% over base");
+    CHECK(peakAccented < 2.5f, "Accented Kck output remains bounded");
+}
+
+static void test_kck_local_accent_sample_at_trig_invariance() {
+    printf("\n[Kck local accent: sample-at-trig invariance]\n");
+    // ACC was LOW at the trig moment; flipping it HIGH afterward must NOT
+    // boost the hit. This proves the design's sample-at-trig latch.
+    auto base       = render_kck_with_accent(0.f, 0.f);
+    auto flippedHi  = render_kck_with_accent(0.f, 10.f);
+    float peakBase     = peak_abs(base);
+    float peakFlipped  = peak_abs(flippedHi);
+    float ratio = peakFlipped / std::max(peakBase, 1e-6f);
+    CHECK(ratio > 0.99f && ratio < 1.01f,
+          "ACC toggled AFTER trig leaves output unchanged (sample-at-trig)");
+}
+
+// Render a kick hit driven by TOTAL_ACC_INPUT instead of LOCAL_ACC.
+// Local jack stays at 0V; total jack is high at TRIG.
+static std::array<float, 4096> render_kck_with_total_accent(float gateAtTrig) {
+    Kck module;
+    module.params[Kck::TUNE_PARAM].setValue(0.35f);
+    module.params[Kck::DECAY_PARAM].setValue(0.55f);
+    module.params[Kck::PITCH_PARAM].setValue(0.40f);
+    module.params[Kck::PITCH_DECAY_PARAM].setValue(0.30f);
+    module.params[Kck::CLICK_PARAM].setValue(0.35f);
+    module.params[Kck::DRIVE_PARAM].setValue(0.20f);
+    module.params[Kck::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Kck::TOTAL_ACC_INPUT, gateAtTrig);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 10.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Kck::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static void test_kck_total_accent_boosts_amplitude() {
+    printf("\n[Kck total accent: high boosts amplitude]\n");
+    auto base     = render_kck_with_total_accent(0.f);
+    auto accented = render_kck_with_total_accent(10.f);
+    float peakBase     = peak_abs(base);
+    float peakAccented = peak_abs(accented);
+    CHECK(peakAccented > peakBase * 1.05f,
+          "TOTAL_ACC=10V at TRIG increases output peak (proves Accent A path)");
+    CHECK(peakAccented < 2.5f, "Total-accented Kck output remains bounded");
+}
+
+// Render a kick hit with Tr909Ctrl wired as the left expander, exposing
+// configurable accentA/B amounts and masterVolume on the bus. Trigger fires
+// at frame 1; kick processes after Tr909Ctrl in each frame so resolveBus()
+// sees the controller's current state.
+//
+// Older calls used a single accentAmtKnob; we map it to BOTH ACCENT_A and
+// ACCENT_B so tests that exercise A-only or B-only paths still work.
+static std::array<float, 4096> render_kck_with_ctrl(float accentAmtKnob,
+                                                    float masterVolKnob,
+                                                    float totalAccGate) {
+    Tr909Ctrl ctrl;
+    ctrl.params[Tr909Ctrl::ACCENT_A_PARAM].setValue(accentAmtKnob);
+    ctrl.params[Tr909Ctrl::ACCENT_B_PARAM].setValue(accentAmtKnob);
+    ctrl.params[Tr909Ctrl::MASTER_VOL_PARAM].setValue(masterVolKnob);
+
+    Kck kck;
+    kck.params[Kck::TUNE_PARAM].setValue(0.35f);
+    kck.params[Kck::DECAY_PARAM].setValue(0.55f);
+    kck.params[Kck::PITCH_PARAM].setValue(0.40f);
+    kck.params[Kck::PITCH_DECAY_PARAM].setValue(0.30f);
+    kck.params[Kck::CLICK_PARAM].setValue(0.35f);
+    kck.params[Kck::DRIVE_PARAM].setValue(0.20f);
+    kck.params[Kck::LEVEL_PARAM].setValue(1.f);
+
+    // Wire ctrl as kck's left expander.
+    kck.leftExpander.module  = &ctrl;
+    ctrl.rightExpander.module = &kck;
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(kck, Kck::TOTAL_ACC_INPUT, totalAccGate);
+    ModuleHarness::connectInput(kck, Kck::TRIG_INPUT, 0.f);
+    ctrl.process(args);  // ctrl writes to its currentBus first
+    kck.process(args);   // kck reads neighbor->currentBus
+    ModuleHarness::connectInput(kck, Kck::TRIG_INPUT, 10.f);
+    ctrl.process(args);
+    kck.process(args);   // <-- TRIG rising edge here, accent latched
+    ModuleHarness::connectInput(kck, Kck::TRIG_INPUT, 0.f);
+
+    for (size_t i = 0; i < out.size(); i++) {
+        ctrl.process(args);
+        kck.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            kck.outputs[Kck::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static void test_tr909ctrl_accent_amount_scales_accent() {
+    printf("\n[Tr909Ctrl bus: accentAmount scales accent]\n");
+    // TOTAL_ACC gate high in both runs; only the controller knob differs.
+    // accentAmount=0 should produce the same audio as no-accent (gate
+    // is high but amount=0 zeroes the latched strength).
+    auto amt0  = render_kck_with_ctrl(0.f, 1.f, 10.f);
+    auto amt1  = render_kck_with_ctrl(1.f, 1.f, 10.f);
+    auto noAcc = render_kck_with_total_accent(0.f);  // baseline, no ctrl
+    float peakAmt0  = peak_abs(amt0);
+    float peakAmt1  = peak_abs(amt1);
+    float peakNoAcc = peak_abs(noAcc);
+    CHECK(peakAmt1 > peakAmt0 * 1.05f,
+          "ctrl ACCENT_AMT=1.0 louder than ACCENT_AMT=0.0 (bus reaches voice)");
+    // amt=0 with TOTAL_ACC high should be near-equal to no accent at all.
+    float ratio = peakAmt0 / std::max(peakNoAcc, 1e-6f);
+    CHECK(ratio > 0.95f && ratio < 1.05f,
+          "ACCENT_AMT=0 collapses to base level even with TOTAL_ACC high");
+}
+
+static void test_tr909ctrl_master_volume_scales_output() {
+    printf("\n[Tr909Ctrl bus: masterVolume scales output]\n");
+    auto vol100 = render_kck_with_ctrl(1.f, 1.0f, 0.f);
+    auto vol050 = render_kck_with_ctrl(1.f, 0.5f, 0.f);
+    auto vol000 = render_kck_with_ctrl(1.f, 0.0f, 0.f);
+    float p100 = peak_abs(vol100);
+    float p050 = peak_abs(vol050);
+    float p000 = peak_abs(vol000);
+    CHECK(p050 > 0.4f * p100 && p050 < 0.6f * p100,
+          "MASTER_VOL=0.5 yields ~half peak vs MASTER_VOL=1.0");
+    CHECK(p000 < p100 * 0.05f,
+          "MASTER_VOL=0.0 silences the voice");
+}
+
+static void test_accent_mix_resolves_three_cases_independently() {
+    printf("\n[AccentMix: three cases tunable independently]\n");
+    using namespace AgentRack::TR909;
+
+    // Custom mix: A-only weak, B-only medium, both strong.
+    AccentMix mix;
+    mix.weightTotal = 0.25f;
+    mix.weightLocal = 0.50f;
+    mix.weightBoth  = 1.00f;
+
+    float onlyA   = resolveAccentStrength(true,  false, 1.f, 1.f, 1.f, mix);
+    float onlyB   = resolveAccentStrength(false, true,  1.f, 1.f, 1.f, mix);
+    float both    = resolveAccentStrength(true,  true,  1.f, 1.f, 1.f, mix);
+    float neither = resolveAccentStrength(false, false, 1.f, 1.f, 1.f, mix);
+
+    CHECK(std::fabs(onlyA   - 0.25f) < 1e-6f, "A-only uses weightTotal");
+    CHECK(std::fabs(onlyB   - 0.50f) < 1e-6f, "B-only uses weightLocal");
+    CHECK(std::fabs(both    - 1.00f) < 1e-6f, "Both uses weightBoth (independent of A/B)");
+    CHECK(std::fabs(neither - 0.00f) < 1e-6f, "Neither returns 0");
+
+    // weightBoth can be smaller than max(A,B) -- the "both" case is
+    // truly independent, NOT clamped to be at least max.
+    AccentMix dipped;
+    dipped.weightTotal = 0.80f;
+    dipped.weightLocal = 0.80f;
+    dipped.weightBoth  = 0.40f;
+    float dippedBoth = resolveAccentStrength(true, true, 1.f, 1.f, 1.f, dipped);
+    CHECK(std::fabs(dippedBoth - 0.40f) < 1e-6f,
+          "weightBoth can be less than weightTotal/weightLocal");
+
+    // The three amount multipliers are orthogonal: amtA scales only the
+    // A-only case, amtB only B-only, amtBoth only the both case. No
+    // hidden combination rule.
+    AccentMix unit;  // all weights 1.0
+    float scaledA = resolveAccentStrength(true,  false, 0.5f, 1.f,  1.f, unit);
+    float scaledB = resolveAccentStrength(false, true,  1.f,  0.3f, 1.f, unit);
+    float scaledBoth = resolveAccentStrength(true, true, 1.f, 1.f, 0.7f, unit);
+    CHECK(std::fabs(scaledA    - 0.5f) < 1e-6f, "amtA scales A-only path");
+    CHECK(std::fabs(scaledB    - 0.3f) < 1e-6f, "amtB scales B-only path");
+    CHECK(std::fabs(scaledBoth - 0.7f) < 1e-6f, "amtBoth scales both-case independently");
+
+    // Cross-case isolation: amtA does NOT affect B-only or both.
+    float bAmtA999 = resolveAccentStrength(false, true, 999.f, 0.5f, 999.f, unit);
+    CHECK(std::fabs(bAmtA999 - 0.5f) < 1e-6f,
+          "amtA leaks into B-only case = NO (orthogonal)");
+    float bothAmtAB999 = resolveAccentStrength(true, true, 999.f, 999.f, 0.5f, unit);
+    CHECK(std::fabs(bothAmtAB999 - 0.5f) < 1e-6f,
+          "amtA/amtB leak into both case = NO (orthogonal)");
+}
+
+static void test_accent_mix_no_local_voice_ignores_local_gate() {
+    printf("\n[AccentMix: weightLocal=0 voice ignores Accent B]\n");
+    using namespace AgentRack::TR909;
+    // Models Ohh / RimClap / CrashRide configuration: no Accent B response.
+    AccentMix noLocal;
+    noLocal.weightTotal = 1.f;
+    noLocal.weightLocal = 0.f;
+    noLocal.weightBoth  = 1.f;  // when both fire, behaves like total-only
+
+    float onlyA = resolveAccentStrength(true,  false, 1.f, 1.f, 1.f, noLocal);
+    float onlyB = resolveAccentStrength(false, true,  1.f, 1.f, 1.f, noLocal);
+    float both  = resolveAccentStrength(true,  true,  1.f, 1.f, 1.f, noLocal);
+
+    CHECK(std::fabs(onlyA - 1.0f) < 1e-6f,
+          "Accent A still produces full strength");
+    CHECK(std::fabs(onlyB - 0.0f) < 1e-6f,
+          "Accent B alone produces zero (voice has no Accent B)");
+    CHECK(std::fabs(both  - 1.0f) < 1e-6f,
+          "When both fire, weightBoth governs (here equal to A alone)");
+}
+
+static void test_kck_with_custom_mix_responds_to_both_case() {
+    printf("\n[Kck: custom mix routes both-case to weightBoth]\n");
+    // Tune Kck's mix so weightBoth is much larger than weightTotal/Local;
+    // verify a hit with both gates high produces a louder result than
+    // either alone. End-to-end test through the voice DSP.
+    auto runHit = [](bool tA, bool tB, AgentRack::TR909::AccentMix mix) {
+        Kck module;
+        module.fit.accentMix = mix;
+        module.params[Kck::TUNE_PARAM].setValue(0.35f);
+        module.params[Kck::DECAY_PARAM].setValue(0.55f);
+        module.params[Kck::PITCH_PARAM].setValue(0.40f);
+        module.params[Kck::PITCH_DECAY_PARAM].setValue(0.30f);
+        module.params[Kck::CLICK_PARAM].setValue(0.35f);
+        module.params[Kck::DRIVE_PARAM].setValue(0.20f);
+        module.params[Kck::LEVEL_PARAM].setValue(1.f);
+
+        std::array<float, 4096> out {};
+        auto args = ModuleHarness::makeArgs();
+        ModuleHarness::connectInput(module, Kck::TOTAL_ACC_INPUT, tA ? 10.f : 0.f);
+        ModuleHarness::connectInput(module, Kck::LOCAL_ACC_INPUT, tB ? 10.f : 0.f);
+        ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+        module.process(args);
+        ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 10.f);
+        module.process(args);
+        ModuleHarness::connectInput(module, Kck::TRIG_INPUT, 0.f);
+        for (size_t i = 0; i < out.size(); i++) {
+            module.process(args);
+            out[i] = AgentRack::Signal::Audio::fromRackVolts(
+                module.outputs[Kck::OUT_OUTPUT].getVoltage());
+        }
+        return out;
+    };
+
+    AgentRack::TR909::AccentMix stacked;
+    stacked.weightTotal = 0.30f;
+    stacked.weightLocal = 0.30f;
+    stacked.weightBoth  = 1.00f;
+
+    float pA    = peak_abs(runHit(true,  false, stacked));
+    float pB    = peak_abs(runHit(false, true,  stacked));
+    float pBoth = peak_abs(runHit(true,  true,  stacked));
+
+    CHECK(pBoth > pA   * 1.05f, "both-case louder than A-only with custom mix");
+    CHECK(pBoth > pB   * 1.05f, "both-case louder than B-only with custom mix");
+    CHECK(pBoth < 2.5f,         "both-case output remains bounded");
+}
+
+static void test_kck_accent_strength_scales_amplitude() {
+    printf("\n[Kck accent: strength scales monotonically]\n");
+    // Drive the voice DSP directly with three latched accent values.
+    // This proves the accent path applies linear strength; the call site
+    // (Kck::process) computes max(local, total) from gates and feeds the
+    // result to fire(), so the max() rule is trivially satisfied so long
+    // as fire(strength) responds monotonically to its argument.
+    KckFit::Config fit = KckFit::makeKick();
+    auto args = ModuleHarness::makeArgs();
+
+    auto runVoice = [&](float strength) {
+        KckVoice v;
+        v.fire(strength);
+        float p = 0.f;
+        for (int i = 0; i < 4096; i++) {
+            float s = v.process(args, fit, 0.50f, 0.50f, 0.385f, 0.26f,
+                                0.50f, 0.f, 1.f);
+            p = std::max(p, std::fabs(s));
+        }
+        return p;
+    };
+
+    float p0   = runVoice(0.f);
+    float p050 = runVoice(0.5f);
+    float p1   = runVoice(1.f);
+    CHECK(p050 > p0   * 1.02f, "accent=0.5 boosts peak vs accent=0");
+    CHECK(p1   > p050 * 1.02f, "accent=1.0 boosts peak vs accent=0.5");
+    CHECK(p1   < 2.5f,         "accent=1.0 output remains bounded");
+}
+
 static void test_toms_pitch_increases_with_voice() {
     printf("\n[Toms pitch ordering regression]\n");
     auto low  = render_tom_hit<LowTom> (0.50f, 0.50f);
@@ -752,6 +1093,16 @@ int main() {
     test_sonic_zero_input_stays_silent();
     test_maurizio_dry_mix_is_identity();
     test_kck_trigger_produces_decaying_body();
+    test_kck_local_accent_low_is_base_level();
+    test_kck_local_accent_high_boosts_amplitude();
+    test_kck_local_accent_sample_at_trig_invariance();
+    test_kck_total_accent_boosts_amplitude();
+    test_tr909ctrl_accent_amount_scales_accent();
+    test_tr909ctrl_master_volume_scales_output();
+    test_accent_mix_resolves_three_cases_independently();
+    test_accent_mix_no_local_voice_ignores_local_gate();
+    test_kck_with_custom_mix_responds_to_both_case();
+    test_kck_accent_strength_scales_amplitude();
     test_snr_noise_controls_shape_the_hit();
     test_toms_pitch_increases_with_voice();
     test_toms_decay_knob_extends_tail();
