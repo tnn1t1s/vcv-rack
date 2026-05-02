@@ -1017,6 +1017,130 @@ static void test_kck_levels_match_configured_db() {
           "both/local peak ratio approximates dB difference (within +/-20%)");
 }
 
+// --------------------------------------------------------------------------
+// Coverage for the accent rollout to non-Kck voices (PR #81).
+// --------------------------------------------------------------------------
+// Each new voice ships with a NEUTRAL AccentMix by default (all dB at 0)
+// so absolute amplitude is unchanged for un-tuned voices. To verify that
+// the cable+latch wiring actually reaches the voice output, these tests
+// override the per-voice accentMix to a non-neutral preset and check the
+// expected amplitude relationship.
+
+// Render an Snr hit with controlled LOCAL_ACC and TOTAL_ACC voltages at
+// trig fire time and a custom AccentMix. Returns the rendered output.
+static std::array<float, 4096> render_snr_with_accent(
+    float lAccAtTrig, float tAccAtTrig,
+    float lAccAfter,  float tAccAfter,
+    AgentRack::TR909::AccentMix mix)
+{
+    Snr module;
+    module.accentMix = mix;
+    module.params[Snr::TUNE_PARAM].setValue(0.50f);
+    module.params[Snr::TONE_PARAM].setValue(0.55f);
+    module.params[Snr::SNAPPY_PARAM].setValue(0.55f);
+    module.params[Snr::LEVEL_PARAM].setValue(1.f);
+
+    std::array<float, 4096> out {};
+    auto args = ModuleHarness::makeArgs();
+    ModuleHarness::connectInput(module, Snr::LOCAL_ACC_INPUT, lAccAtTrig);
+    ModuleHarness::connectInput(module, Snr::TOTAL_ACC_INPUT, tAccAtTrig);
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 0.f);
+    module.process(args);
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 10.f);
+    module.process(args);                // <-- accent latched here
+    ModuleHarness::connectInput(module, Snr::TRIG_INPUT, 0.f);
+    ModuleHarness::connectInput(module, Snr::LOCAL_ACC_INPUT, lAccAfter);
+    ModuleHarness::connectInput(module, Snr::TOTAL_ACC_INPUT, tAccAfter);
+    for (size_t i = 0; i < out.size(); i++) {
+        module.process(args);
+        out[i] = AgentRack::Signal::Audio::fromRackVolts(
+            module.outputs[Snr::OUT_OUTPUT].getVoltage());
+    }
+    return out;
+}
+
+static void test_snr_accent_paths_reach_output() {
+    printf("\n[Snr accent: LOCAL_ACC and TOTAL_ACC reach output]\n");
+    // Pick a mix that's clearly louder than ghost so we can see the path.
+    AgentRack::TR909::AccentMix mix;
+    mix.ghostDb  = -6.f;
+    mix.globalDb =  0.f;   // A-only at unity
+    mix.localDb  =  0.f;   // B-only at unity
+    mix.bothDb   = +1.5f;
+
+    auto pGhost  = peak_abs(render_snr_with_accent(0.f,  0.f,  0.f,  0.f,  mix));
+    auto pGlobal = peak_abs(render_snr_with_accent(0.f, 10.f, 0.f, 10.f,  mix));
+    auto pLocal  = peak_abs(render_snr_with_accent(10.f, 0.f, 10.f, 0.f,  mix));
+
+    CHECK(pGlobal > pGhost * 1.1f,
+          "TOTAL_ACC=10V at TRIG raises Snr peak vs ghost");
+    CHECK(pLocal  > pGhost * 1.1f,
+          "LOCAL_ACC=10V at TRIG raises Snr peak vs ghost");
+    CHECK(pGlobal < 2.5f && pLocal < 2.5f, "Snr accented output remains bounded");
+}
+
+static void test_snr_accent_sample_at_trig_invariance() {
+    printf("\n[Snr accent: sample-at-trig invariance]\n");
+    // ACC voltages high BEFORE trig latches but flipped LOW after trig
+    // should produce an accented hit; ACC voltages low at trig and
+    // flipped HIGH after should NOT. The latch only reads at the rising
+    // edge of TRIG.
+    AgentRack::TR909::AccentMix mix;
+    mix.ghostDb  = -6.f;
+    mix.globalDb =  0.f;
+    mix.localDb  =  0.f;
+    mix.bothDb   = +1.5f;
+
+    auto pLowAtTrig  = peak_abs(render_snr_with_accent(0.f, 0.f, 10.f, 10.f, mix));
+    auto pHighAtTrig = peak_abs(render_snr_with_accent(10.f, 10.f, 0.f, 0.f, mix));
+    auto pBaseGhost  = peak_abs(render_snr_with_accent(0.f, 0.f, 0.f,  0.f,  mix));
+
+    CHECK(pHighAtTrig > pBaseGhost * 1.1f,
+          "ACC HIGH at trig (then LOW after) still produces accented hit");
+    float ratio = pLowAtTrig / std::max(pBaseGhost, 1e-6f);
+    CHECK(ratio > 0.95f && ratio < 1.05f,
+          "ACC LOW at trig (then HIGH after) produces ghost-level hit (sample-at-trig)");
+}
+
+static void test_ohh_total_accent_reaches_output() {
+    printf("\n[Ohh accent: TOTAL_ACC path reaches output]\n");
+    // Ohh has no Accent B (Roland TR-909 OM); only TOTAL_ACC.
+    auto run = [](float tAccVoltage, AgentRack::TR909::AccentMix mix) {
+        Ohh module;
+        module.accentMix = mix;
+        module.params[Ohh::TUNE_PARAM].setValue(0.50f);
+        module.params[Ohh::DECAY_PARAM].setValue(0.55f);
+        module.params[Ohh::LEVEL_PARAM].setValue(1.f);
+
+        std::array<float, 4096> out {};
+        auto args = ModuleHarness::makeArgs();
+        ModuleHarness::connectInput(module, Ohh::TOTAL_ACC_INPUT, tAccVoltage);
+        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+        module.process(args);
+        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 10.f);
+        module.process(args);
+        ModuleHarness::connectInput(module, Ohh::TRIG_INPUT, 0.f);
+        for (size_t i = 0; i < out.size(); i++) {
+            module.process(args);
+            out[i] = AgentRack::Signal::Audio::fromRackVolts(
+                module.outputs[Ohh::OUT_OUTPUT].getVoltage());
+        }
+        return out;
+    };
+
+    AgentRack::TR909::AccentMix mix;
+    mix.ghostDb  = -6.f;
+    mix.globalDb = +1.5f;
+    mix.localDb  =  0.f;
+    mix.bothDb   = +1.5f;
+
+    float pGhost  = peak_abs(run(0.f,  mix));
+    float pGlobal = peak_abs(run(10.f, mix));
+    CHECK(pGlobal > pGhost * 1.15f,
+          "TOTAL_ACC=10V at TRIG raises Ohh peak vs ghost (Accent A path reaches voice)");
+    CHECK(pGlobal < 2.5f, "Ohh accented output remains bounded");
+}
+
 static void test_kck_voice_character_responds_to_accent_flag() {
     printf("\n[Kck voice: character changes when accented vs ghost]\n");
     // Per the new model, the voice's accent character is a binary on/off
@@ -1121,6 +1245,9 @@ int main() {
     test_accent_mix_no_local_via_localDb_eq_globalDb();
     test_kck_levels_match_configured_db();
     test_kck_voice_character_responds_to_accent_flag();
+    test_snr_accent_paths_reach_output();
+    test_snr_accent_sample_at_trig_invariance();
+    test_ohh_total_accent_reaches_output();
     test_snr_noise_controls_shape_the_hit();
     test_toms_pitch_increases_with_voice();
     test_toms_decay_knob_extends_tail();

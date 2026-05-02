@@ -135,7 +135,14 @@ static inline AudioFile renderTom(const std::map<std::string, float>& params, in
     module.params[TTom::LEVEL_PARAM].setValue(paramOrDefault(params, "level", 1.f));
 
     auto args = ModuleHarness::makeArgs((float)sampleRate);
-    ModuleHarness::connectInput(module, TTom::ACCENT_INPUT, paramOrDefault(params, "accent", 10.f));
+    // Tom voices now have separate LOCAL_ACC and TOTAL_ACC inputs.
+    // Drive both with the legacy `accent` param so existing voice_lab
+    // calls keep producing accented hits; per-rail tuning will get
+    // dedicated params (`local_acc` / `total_acc`) when accent character
+    // tuning starts on the toms.
+    const float accV = paramOrDefault(params, "accent", 10.f);
+    ModuleHarness::connectInput(module, TTom::LOCAL_ACC_INPUT, accV);
+    ModuleHarness::connectInput(module, TTom::TOTAL_ACC_INPUT, accV);
     return renderTriggeredOutput(module, TTom::TRIG_INPUT, TTom::OUT_OUTPUT, frames, sampleRate);
 }
 
