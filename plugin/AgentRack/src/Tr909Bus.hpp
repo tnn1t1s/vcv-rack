@@ -205,21 +205,6 @@ inline AccentResolution sampleAccentAtTrig(rack::Module* self,
 /** Marker base for any 909 module that participates in the state bus. */
 struct Tr909Module : AgentModule {
     AgentRack::TR909::Bus currentBus;
-
-    // CH-OH choke (issue #78): on the original TR-909 the closed and open
-    // hi-hat share a single envelope/sound circuit, so a CH hit instantly
-    // mutes any sounding OH. We replicate that with a frame-counter-style
-    // signal across the bus -- when Chh's TRIG fires it increments
-    // chhChokeCounter; an adjacent Ohh reads its neighbor's counter and
-    // triggers a fast envelope release on increment. The counter is a
-    // simple monotonic uint32_t so any value change implies "choke now".
-    // Only Chh writes; only Ohh reads, gated on the neighbor's isChh()
-    // virtual returning true.
-    uint32_t chhChokeCounter = 0;
-
-    /** Override in Chh to return true; lets Ohh identify a Chh neighbor
-     *  without cross-cpp class dependencies. */
-    virtual bool isChh() const { return false; }
 };
 
 namespace AgentRack { namespace TR909 {
