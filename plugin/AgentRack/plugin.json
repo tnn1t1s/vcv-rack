@@ -160,7 +160,7 @@
     {
       "slug": "Tr909Ctrl",
       "name": "909 CTRL",
-      "description": "TR-909 global state controller. Four knobs (DEFAULT level, ACCENT A, ACCENT B, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. DEFAULT scales the no-accent (ghost) case; ACCENT A scales any case where Accent A fires; ACCENT B scales any case where Accent B fires; MASTER scales final voice output. Consumed by every AgentRack 909 voice (Kck, Snr, Toms, Chh, Ohh, RimClap, CrashRide). Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 8 HP.",
+      "description": "TR-909 global state controller. Four knobs (DEFAULT level, ACCENT A, ACCENT B, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. DEFAULT scales the no-accent (ghost) case; ACCENT A scales any case where Accent A fires; ACCENT B scales any case where Accent B fires; MASTER scales final voice output. Consumed by every AgentRack 909 voice (Kck, Snr, Toms, ChhOhh, RimClap, CrashRide). Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 8 HP.",
       "tags": ["Controller", "Utility"]
     }
   ]
