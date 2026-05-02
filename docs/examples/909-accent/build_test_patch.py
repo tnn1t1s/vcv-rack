@@ -1,36 +1,52 @@
 """
-Test rig for Kck accent inputs (issue #73 phase 1, redesigned).
+TR-909 accent calibration patches for Kck.
 
-Architecture:
-    - Per-step accent events come via CABLES (deterministic, zero latency).
-    - Tr909Ctrl broadcasts slow-changing state (accent amount, master
-      volume) via the expander bus to adjacent voices.
-    - Tr909Ctrl is NOT in the trigger path; the sequencer wires directly
-      to each voice's TRIG / LOCAL_ACC / TOTAL_ACC inputs.
+Generates one or more reproducible .vcv patches that exercise the
+accent paths on Kck with the AgentRack 909 controller, for ear-tuning
+the per-case dB targets defined in src/Tr909Bus.hpp::AccentMix.
+
+Architecture (matches plugin/AgentRack/src/Tr909Bus.hpp):
+    - Per-step accent events travel via CABLES (deterministic, zero
+      latency): TRIG, LOCAL_ACC (Accent B), TOTAL_ACC (Accent A).
+    - Tr909Ctrl broadcasts slow-changing state via the expander bus:
+      DEFAULT (ghost amount), ACCENT A, ACCENT B, MASTER VOL.
+    - Tr909Ctrl is NOT in the trigger path; the sequencer wires
+      directly to each voice's cable inputs.
 
 Layout (two rows):
-    Row 0 (top): SlimeChild Clock | Hora Drumsequencer
-    Row 1 (bot): Tr909Ctrl       | Kck                 | AudioInterface2
+    Row 0: SlimeChild Clock | Hora Drumsequencer
+    Row 1: Tr909Ctrl | Kck | AudioInterface2
 
-Cables:
-    Clock           -> Hora CLOCK
-    Hora ACC (out 3) -> Kck TOTAL_ACC    (Roland's "Accent A")
-    Hora BD  (out 4) -> Kck TRIG
-    Kck OUT          -> Audio L + R
+Tr909Ctrl knobs (each scales one of the four accent cases):
+    DEFAULT   -> ghost (no rail fired)
+    ACCENT A  -> A-only and A's contribution to both
+    ACCENT B  -> B-only and B's contribution to both
+    MASTER    -> post-everything output volume
 
-Hora pattern:
-    - Track 1 (BD?): kicks on steps 1, 5, 9, 13 (4-on-the-floor)
-    - ACC track: accent gates -- programmed via INSTRUMENT=ACC in Hora UI
-      (the autosave editing of `gates*P1` for an ACC track is unverified;
-      easiest to set this in the Hora panel after the patch loads).
+Sweep DEFAULT to set the no-accent floor; sweep ACC A / ACC B to
+calibrate each rail; verify the four levels by ear (or with peak
+metering) match the per-voice ghostDb / globalDb / localDb / bothDb
+targets.
 
-Tr909Ctrl sits adjacent to Kck and broadcasts ACCENT_AMT (default 1.0)
-and MASTER_VOL (default 1.0). Sweep the Tr909Ctrl ACCENT knob to scale
-the strength of every accented hit. Sweep MASTER_VOL to scale Kck's
-output level.
+Variants:
+    basic     -- 4-on-floor BD only, no accent rails wired. Simplest;
+                 every hit is a ghost-case hit, so DEFAULT alone scales
+                 the kick.
+    accent_a  -- 4-on-floor BD + Accent A on every other hit. Cleanly
+                 alternates ghost vs A-only; good for calibrating the
+                 A-vs-default relationship.
+    dense     -- 16th-note kicks + Accent A every 4th + Accent B every
+                 4th. Exercises all four cases (ghost / A / B / both)
+                 in one bar. Note: at low DEFAULT the ghost notes
+                 become click-prominent (uniform attenuation reveals
+                 the click transient); use the simpler variants for
+                 quiet-floor calibration.
 
 Usage:
-    python3 build_kck_local_accent_test.py
+    python3 docs/examples/909-accent/build_test_patch.py --variant basic
+    python3 docs/examples/909-accent/build_test_patch.py --all
+
+Output filenames default to `kck_<variant>_test.vcv` next to this script.
 """
 
 from __future__ import annotations
@@ -123,7 +139,7 @@ VARIANTS = {
         "ghost-case hit. Use to calibrate DEFAULT knob and per-voice ghostDb.",
         [0, 4, 8, 12], [], [], False,
     ),
-    "accent-a": (
+    "accent_a": (
         "4-on-floor kick + Accent A on every other hit (steps 0, 8). Use to "
         "calibrate ACC A vs DEFAULT relationship: alternating loud/quiet.",
         [0, 4, 8, 12], [0, 8], [], False,
