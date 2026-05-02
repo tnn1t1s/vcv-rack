@@ -46,7 +46,6 @@ import zstandard
 
 
 RACK_VERSION = "2.6.6"
-DEFAULT_OUT  = Path(__file__).resolve().parent / "kck_local_accent_test.vcv"
 GATE_COLOR   = "#f44336"
 ACCENT_COLOR = "#ff9800"
 AUDIO_COLOR  = "#ffb437"
@@ -83,29 +82,59 @@ def cable(out_id: int, out_port: int, in_id: int, in_port: int, color: str) -> d
     }
 
 
-def hora_data() -> dict:
-    """Track 1 = 4-on-floor kicks; Track 2 = accent gates on hit 1 and 9.
+def hora_data(bd_steps, acc_steps, local_steps) -> dict:
+    """Build Hora data with the given gate patterns per track.
 
     `gate run: 0` is the AUTO-RUN mode (counter-intuitive but verified
     against working autosaves in scratch/). `gate run: 1` would tell Hora
     to wait for an external RUN gate, which we don't supply.
+
+    Track <-> output mapping (1-indexed for Hora gates arrays, 0-indexed
+    for autosave outputs):
+      - gates1P1 -> output 3 (ACC, "#4 output" in UI) -- Total Accent
+      - gates2P1 -> output 4 (BD)                     -- kick trigger
+      - gates3P1 -> output 5 (SD)                     -- used here for
+        Local Accent because it's the next available gate output
     """
     d = {}
-    gates_t1 = [0] * 32
-    for i in (0, 4, 8, 12):
-        gates_t1[i] = 1
-    d["gates1P1"] = gates_t1
-    gates_t2 = [0] * 32
-    for i in (0, 8):
-        gates_t2[i] = 1
-    d["gates2P1"] = gates_t2
-    for trk in range(3, 13):
+    def gates(steps):
+        a = [0] * 32
+        for i in steps: a[i] = 1
+        return a
+    d["gates1P1"] = gates(acc_steps)
+    d["gates2P1"] = gates(bd_steps)
+    d["gates3P1"] = gates(local_steps)
+    for trk in range(4, 13):
         d[f"gates{trk}P1"] = [0] * 32
     d["Direct Clock"] = 0
     d["auto reset"]   = 0
-    d["gate run"]     = 0           # 0 = auto-run, 1 = wait for RUN gate
+    d["gate run"]     = 0
     d["runningSeq"]   = True
     return d
+
+
+# --- Variants -------------------------------------------------------------
+# Each variant is a (description, BD steps, ACC-A steps, ACC-B steps,
+# wire_local_acc) tuple. wire_local_acc=False means no LOCAL_ACC cable
+# in the patch (cleaner for variants that only need ghost vs A-only).
+VARIANTS = {
+    "basic": (
+        "Plain 4-on-floor kick. No accent rails wired -- every hit is a "
+        "ghost-case hit. Use to calibrate DEFAULT knob and per-voice ghostDb.",
+        [0, 4, 8, 12], [], [], False,
+    ),
+    "accent-a": (
+        "4-on-floor kick + Accent A on every other hit (steps 0, 8). Use to "
+        "calibrate ACC A vs DEFAULT relationship: alternating loud/quiet.",
+        [0, 4, 8, 12], [0, 8], [], False,
+    ),
+    "dense": (
+        "16th-note kicks + Accent A on every 4th step + Accent B on every "
+        "4th step. Exercises ghost / A-only / B-only / both cases. Watch "
+        "out: dense pattern, ghost notes can sound clicky at low DEFAULT.",
+        list(range(16)), [0, 4, 8, 12], [0, 4, 8, 12], True,
+    ),
+}
 
 
 # Hora baseline params -- copied verbatim from a known-working autosave
@@ -127,55 +156,68 @@ def hora_params() -> list:
     return [{"id": pid, "value": float(v)} for pid, v in HORA_BASELINE_PARAMS]
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--out", type=Path, default=DEFAULT_OUT)
-    args = ap.parse_args()
-
-    # Row 0: clock + sequencer
-    clock    = module("SlimeChild-Substation", "SlimeChild-Substation-Clock",
-                      pos=[-22, 0],
-                      params=[{"id": 0, "value": 1.0},   # TEMPO=1 -> 120 BPM
-                              {"id": 1, "value": 1.0},   # RUN=1
-                              {"id": 2, "value": 4.0}])  # MULT=4 (16ths)
-    hora     = module("Hora-Sequencers", "Drumsequencer",
-                      pos=[-15, 0],
-                      params=hora_params(),
-                      data=hora_data())
+def build_patch(bd_steps, acc_a_steps, acc_b_steps, wire_local) -> dict:
+    clock = module("SlimeChild-Substation", "SlimeChild-Substation-Clock",
+                   pos=[-22, 0],
+                   params=[{"id": 0, "value": 1.0},   # TEMPO=1 -> 120 BPM
+                           {"id": 1, "value": 1.0},   # RUN=1
+                           {"id": 2, "value": 4.0}])  # MULT=4 (16ths)
+    hora  = module("Hora-Sequencers", "Drumsequencer",
+                   pos=[-15, 0],
+                   params=hora_params(),
+                   data=hora_data(bd_steps, acc_a_steps, acc_b_steps))
 
     # Row 1: controller + kick + audio (Tr909Ctrl adjacent to Kck for bus chain)
-    ctrl     = module("AgentRack", "Tr909Ctrl", pos=[-22, 1])
-    kck      = module("AgentRack", "Kck",       pos=[-18, 1])
-    audio    = module("Core",      "AudioInterface2", pos=[ -6, 1])
+    ctrl  = module("AgentRack", "Tr909Ctrl", pos=[-22, 1])
+    kck   = module("AgentRack", "Kck",       pos=[-18, 1])
+    audio = module("Core",      "AudioInterface2", pos=[ -6, 1])
 
     # Kck input ids (must match enum in src/Kck.cpp):
-    #   TRIG=0, ..., LOCAL_ACC=8, TOTAL_ACC=9
     KCK_TRIG       = 0
     KCK_LOCAL_ACC  = 8
     KCK_TOTAL_ACC  = 9
 
-    patch = {
+    cables = [
+        # Clock MULT (out 1, x4 for 16ths) -> Hora CLOCK (in 2)
+        cable(clock["id"], 1, hora["id"],  2, CLOCK_COLOR),
+        # Hora BD (out 4) -> Kck TRIG
+        cable(hora["id"],  4, kck["id"],   KCK_TRIG, GATE_COLOR),
+        # Kck OUT -> Audio L + R
+        cable(kck["id"],   0, audio["id"], 0, AUDIO_COLOR),
+        cable(kck["id"],   0, audio["id"], 1, AUDIO_COLOR),
+    ]
+    if acc_a_steps:
+        # Hora ACC (out 3) -> Kck TOTAL_ACC
+        cables.append(cable(hora["id"], 3, kck["id"], KCK_TOTAL_ACC, ACCENT_COLOR))
+    if wire_local and acc_b_steps:
+        # Hora SD-track (out 5) used as Local Accent source -> Kck LOCAL_ACC
+        cables.append(cable(hora["id"], 5, kck["id"], KCK_LOCAL_ACC, ACCENT_COLOR))
+
+    return {
         "version": RACK_VERSION,
         "modules": [clock, hora, ctrl, kck, audio],
-        "cables": [
-            # Clock MULT (out 1, x4 for 16ths) -> Hora CLOCK (in 2)
-            cable(clock["id"], 1, hora["id"],  2, CLOCK_COLOR),
-
-            # Hora ACC (out 3, "#4 output" in UI) -> Kck TOTAL_ACC
-            # Direct cable; sampled at TRIG rising edge with zero latency.
-            cable(hora["id"],  3, kck["id"],   KCK_TOTAL_ACC, ACCENT_COLOR),
-
-            # Hora BD (out 4) -> Kck TRIG
-            cable(hora["id"],  4, kck["id"],   KCK_TRIG,      GATE_COLOR),
-
-            # Kck OUT -> Audio L + R
-            cable(kck["id"],   0, audio["id"], 0, AUDIO_COLOR),
-            cable(kck["id"],   0, audio["id"], 1, AUDIO_COLOR),
-        ],
+        "cables":  cables,
     }
 
-    save_vcv(patch, args.out)
-    print(f"wrote {args.out}")
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--variant", choices=list(VARIANTS.keys()), default="dense")
+    ap.add_argument("--out", type=Path, default=None,
+                    help="Output path. Defaults to scratch/kck_<variant>_test.vcv.")
+    ap.add_argument("--all", action="store_true",
+                    help="Render every variant (overrides --variant).")
+    args = ap.parse_args()
+
+    targets = list(VARIANTS.keys()) if args.all else [args.variant]
+    for variant in targets:
+        desc, bd, accA, accB, wireLocal = VARIANTS[variant]
+        patch = build_patch(bd, accA, accB, wireLocal)
+        out_path = args.out if (args.out and not args.all) \
+                   else Path(__file__).resolve().parent / f"kck_{variant}_test.vcv"
+        save_vcv(patch, out_path)
+        print(f"wrote {out_path}")
+        print(f"  -> {desc}")
     return 0
 
 

@@ -133,26 +133,25 @@ struct Config {
     // Output
     float outputGain                = 1.0f;
 
-    // Accent application.
+    // Accent application -- two orthogonal axes, see Tr909Bus.hpp.
     //
-    // accentMix tells how Accent A (total) and Accent B (local) gates
-    // combine into a single accent strength. See Tr909Bus.hpp for the
-    // full semantics; the inherited AccentMix defaults (1.0 / 1.0 / 1.0)
-    // are the project's current heuristic, not a verified hardware-
-    // faithful starting point. Tune per-voice as TR-909 service-manual
-    // research lands.
+    // accentMix decides the LEVEL relationship across the four cases
+    // (ghost / global / local / both) in dB. Defaults are the project's
+    // modest tuning starting point, not a verified hardware-faithful
+    // setup. Tune per-voice as research and ear evaluations land.
     AgentRack::TR909::AccentMix accentMix;
 
-    // accent*Amt fields are this voice's per-DSP-stage weights. They
-    // are multiplied by the resolved accent strength at fire-time.
-    // Voice-specific (kick has body/drive/pitch/click/level stages;
-    // snare will have noise/tone; etc.) so they live in this Config
-    // rather than the shared AccentMix.
+    // accent*Amt fields are this voice's per-DSP-stage CHARACTER weights.
+    // Applied multiplicatively at fire-time when the hit is accented
+    // (any accent gate fired). Boolean character on real 909: any accent
+    // produces the same per-voice feel; only level varies across cases.
     float accentBodyAmt             = 0.80f;   // body amplitude +80%
     float accentDriveAmt            = 0.60f;   // saturator notably harder
     float accentPitchAmt            = 0.80f;   // deeper fast pitch dive
     float accentClickAmt            = 0.50f;   // brighter click on accent
-    float accentLevelAmt            = 0.25f;   // post-level lift
+    // Note: there is intentionally NO accent*Level field. Level on/across
+    // accent cases is governed by AccentMix dB; a per-voice level boost
+    // here would double-count with the shared abstraction.
 };
 
 inline Config makeKick() { return Config{}; }
@@ -277,7 +276,7 @@ struct KckVoice {
           + acc        * fit.accentDriveAmt;
         out = std::tanh(out * driveAmount);
 
-        const float levelGain = fit.outputGain * levelNorm * (1.f + acc * fit.accentLevelAmt);
+        const float levelGain = fit.outputGain * levelNorm;
         out = rack::math::clamp(out, -1.f, 1.f) * levelGain;
 
         t += args.sampleTime;
@@ -334,19 +333,30 @@ struct Kck : Tr909Module {
         configOutput(OUT_OUTPUT,           "Audio");
     }
 
+    // Latched at TRIG rising edge along with voice.latchedAccent. Determines
+    // the per-case output level (ghost / global / local / both dB lookup);
+    // see Tr909Bus.hpp::resolveAccentGain for the math. Held constant for
+    // the duration of the hit so knob movements during a hit don't shift
+    // its level mid-flight.
+    float latchedCaseGain = 1.f;
+
     void process(const ProcessArgs& args) override {
         const auto bus = AgentRack::TR909::resolveBus(this);
 
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             // Hit-time gates from cables (deterministic, zero latency).
-            // bus.accent[A|B]Amount default to 1.0 when no controller present.
             const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
-            const float accent   = AgentRack::TR909::resolveAccentStrength(
-                totalGate, localGate,
-                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
-                fit.accentMix);
-            voice.fire(accent);
+
+            // Two orthogonal axes:
+            //   character: boolean -- voice DSP applies its full accent
+            //              feel (drive, pitch dive, click) on any accent.
+            //   level:     per-case dB lerp from AccentMix, latched once.
+            const float charStrength =
+                AgentRack::TR909::isAccentedHit(totalGate, localGate) ? 1.f : 0.f;
+            latchedCaseGain = AgentRack::TR909::resolveAccentGain(
+                totalGate, localGate, bus, fit.accentMix);
+            voice.fire(charStrength);
         }
 
         float tuneNorm       = kckNormWithCV(*this, TUNE_PARAM,        TUNE_CV_INPUT);
@@ -360,8 +370,7 @@ struct Kck : Tr909Module {
         float out = voice.process(args, fit,
                                   tuneNorm, decayNorm, pitchNorm, pitchDecayNorm,
                                   clickNorm, driveNorm, levelNorm);
-        // bus.masterVolume defaults to 1.0 when no controller present.
-        out *= bus.masterVolume;
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -471,6 +480,8 @@ rack::Model* modelKck = createModel<Kck, KckWidget>("Kck");
 // ---------------------------------------------------------------------------
 
 struct KckDbg : Tr909Module {
+    float latchedCaseGain = 1.f;
+
     enum ParamId {
         TUNE_PARAM, DECAY_PARAM, PITCH_PARAM, PITCH_DECAY_PARAM,
         CLICK_PARAM, DRIVE_PARAM, LEVEL_PARAM,
@@ -614,11 +625,11 @@ struct KckDbg : Tr909Module {
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             const bool totalGate = inputs[TOTAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
             const bool localGate = inputs[LOCAL_ACC_INPUT].getNormalVoltage(0.f) > 1.f;
-            const float accent   = AgentRack::TR909::resolveAccentStrength(
-                totalGate, localGate,
-                bus.accentAAmount, bus.accentBAmount, bus.accentBothAmount,
-                fit.accentMix);
-            voice.fire(accent);
+            const float charStrength =
+                AgentRack::TR909::isAccentedHit(totalGate, localGate) ? 1.f : 0.f;
+            latchedCaseGain = AgentRack::TR909::resolveAccentGain(
+                totalGate, localGate, bus, fit.accentMix);
+            voice.fire(charStrength);
         }
 
         const float tuneNorm       = readWithCV(TUNE_PARAM,        TUNE_CV);
@@ -632,7 +643,7 @@ struct KckDbg : Tr909Module {
         float out = voice.process(args, fit,
                                   tuneNorm, decayNorm, pitchNorm, pitchDecayNorm,
                                   clickNorm, driveNorm, levelNorm);
-        out *= bus.masterVolume;
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
