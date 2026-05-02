@@ -207,31 +207,59 @@ struct ChhOhhPanel : rack::widget::Widget {
         nvgTextAlign(args.vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
         nvgText(args.vg, cx, mm2px(8.f), "HIHAT", nullptr);
 
+        // Section dividers: horizontal hairlines mark the boundary between
+        // the CLOSED and OPEN sections, and between OPEN and the shared
+        // TACC zone. Mirrors the way the original 909 panel groups CH
+        // and OH as visually separate strips.
+        auto hLine = [&](float y) {
+            nvgStrokeColor(args.vg, nvgRGBA(80, 95, 105, 200));
+            nvgStrokeWidth(args.vg, 0.4f);
+            nvgBeginPath(args.vg);
+            nvgMoveTo(args.vg, mm2px(4.f),          mm2px(y));
+            nvgLineTo(args.vg, box.size.x - mm2px(4.f), mm2px(y));
+            nvgStroke(args.vg);
+        };
+        hLine(60.f);   // CLOSED  ─┤
+        hLine(110.f);  // OPEN    ─┤  shared zone below
+
+        // Section labels.
         nvgFontSize(args.vg, 6.f);
         nvgFillColor(args.vg, nvgRGBA(220, 235, 240, 220));
-        nvgText(args.vg, cx, mm2px(20.f), "CLOSED", nullptr);
-        nvgText(args.vg, cx, mm2px(70.f), "OPEN",   nullptr);
+        nvgText(args.vg, cx, mm2px(18.f), "CLOSED", nullptr);
+        nvgText(args.vg, cx, mm2px(68.f), "OPEN",   nullptr);
 
-        // Voice section labels.
-        nvgFontSize(args.vg, 4.5f);
-        nvgFillColor(args.vg, nvgRGBA(200, 220, 230, 180));
+        // Knob and jack labels.
         const float xs[4] = {12.f, 28.f, 44.f, 60.f};
         const char* knobs[4] = {"TUNE", "DECAY", "DRIVE", "LEVEL"};
+        nvgFontSize(args.vg, 4.5f);
+        nvgFillColor(args.vg, nvgRGBA(200, 220, 230, 180));
         for (int v = 0; v < 2; v++) {
-            float yKnob = (v == 0) ? 30.f : 80.f;
+            float yKnob = (v == 0) ? 28.f : 78.f;
             for (int i = 0; i < 4; i++) {
                 nvgText(args.vg, mm2px(xs[i]), mm2px(yKnob - 6.f), knobs[i], nullptr);
             }
-            float yIO = (v == 0) ? 50.f : 100.f;
-            nvgText(args.vg, mm2px(xs[0]), mm2px(yIO - 6.f), "TRIG", nullptr);
-            nvgText(args.vg, mm2px(xs[3]), mm2px(yIO - 6.f), "OUT",  nullptr);
         }
 
-        // Shared accent at bottom.
+        // CLOSED IO row: TRIG | LACC | OUT (LACC is CH-only per Roland OM).
+        const float chIoY = 48.f;
+        nvgText(args.vg, mm2px(xs[0]), mm2px(chIoY - 6.f), "TRIG", nullptr);
+        nvgText(args.vg, cx,           mm2px(chIoY - 6.f), "LACC", nullptr);
+        nvgText(args.vg, mm2px(xs[3]), mm2px(chIoY - 6.f), "OUT",  nullptr);
+
+        // OPEN IO row: TRIG | OUT only -- OH has no Accent B.
+        const float ohIoY = 98.f;
+        nvgText(args.vg, mm2px(xs[0]), mm2px(ohIoY - 6.f), "TRIG", nullptr);
+        nvgText(args.vg, mm2px(xs[3]), mm2px(ohIoY - 6.f), "OUT",  nullptr);
+
+        // Shared TACC at the bottom (applies to both voices). Centered
+        // above the jack at y=121 so it reads as belonging to neither
+        // section -- it is the rail shared by CLOSED and OPEN.
         nvgFontSize(args.vg, 5.f);
         nvgFillColor(args.vg, nvgRGBA(220, 235, 240, 200));
-        nvgText(args.vg, mm2px(xs[0]), mm2px(115.f), "LACC", nullptr);
-        nvgText(args.vg, mm2px(xs[3]), mm2px(115.f), "TACC", nullptr);
+        nvgText(args.vg, cx, mm2px(115.f), "TACC", nullptr);
+        nvgFontSize(args.vg, 3.6f);
+        nvgFillColor(args.vg, nvgRGBA(160, 180, 195, 160));
+        nvgText(args.vg, cx, mm2px(118.5f), "(shared)", nullptr);
     }
 };
 
@@ -250,8 +278,11 @@ struct ChhOhhWidget : rack::ModuleWidget {
         addChild(createWidget<rack::ScrewSilver>(Vec(box.size.x - 30, RACK_GRID_HEIGHT - 15)));
 
         const float xs[4] = {12.f, 28.f, 44.f, 60.f};
+        const float cx_mm = 14.f * 5.08f * 0.5f;  // 14HP center (~35.56mm)
 
-        // CLOSED voice (top half).
+        // CLOSED voice (top section): knobs at y=30, IO row at y=48 with
+        // TRIG | LACC | OUT. LACC sits inside this section because Accent B
+        // is CH-only per Roland TR-909 OM.
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(Vec(xs[0], 30.f)), module, ChhOhh::CHH_TUNE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
@@ -261,11 +292,14 @@ struct ChhOhhWidget : rack::ModuleWidget {
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(Vec(xs[3], 30.f)), module, ChhOhh::CHH_LEVEL_PARAM));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[0], 50.f)), module, ChhOhh::CHH_TRIG_INPUT));
+            mm2px(Vec(xs[0], 48.f)), module, ChhOhh::CHH_TRIG_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(cx_mm, 48.f)), module, ChhOhh::LOCAL_ACC_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[3], 50.f)), module, ChhOhh::CHH_OUT_OUTPUT));
+            mm2px(Vec(xs[3], 48.f)), module, ChhOhh::CHH_OUT_OUTPUT));
 
-        // OPEN voice (bottom half).
+        // OPEN voice (middle section): knobs at y=80, IO row at y=98 with
+        // TRIG | OUT only. OH has no Accent B per Roland OM.
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(Vec(xs[0], 80.f)), module, ChhOhh::OHH_TUNE_PARAM));
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
@@ -275,15 +309,13 @@ struct ChhOhhWidget : rack::ModuleWidget {
         addParam(createParamCentered<rack::RoundSmallBlackKnob>(
             mm2px(Vec(xs[3], 80.f)), module, ChhOhh::OHH_LEVEL_PARAM));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[0], 100.f)), module, ChhOhh::OHH_TRIG_INPUT));
+            mm2px(Vec(xs[0], 98.f)), module, ChhOhh::OHH_TRIG_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[3], 100.f)), module, ChhOhh::OHH_OUT_OUTPUT));
+            mm2px(Vec(xs[3], 98.f)), module, ChhOhh::OHH_OUT_OUTPUT));
 
-        // Shared accent inputs at bottom.
+        // Shared zone (below the OPEN divider): TACC applies to both voices.
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[0], 121.f)), module, ChhOhh::LOCAL_ACC_INPUT));
-        addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(xs[3], 121.f)), module, ChhOhh::TOTAL_ACC_INPUT));
+            mm2px(Vec(cx_mm, 121.f)), module, ChhOhh::TOTAL_ACC_INPUT));
     }
 };
 
