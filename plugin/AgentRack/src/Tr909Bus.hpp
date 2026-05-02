@@ -83,6 +83,18 @@ struct AccentMix {
     float bothDb   = +1.5f;
 };
 
+/**
+ * Neutral mix: every case at 0 dB so accent rails change nothing.
+ * Used as the per-voice default until that voice's level relationship
+ * has been calibrated by ear; lets us plumb accent inputs everywhere
+ * without changing audible behaviour for un-tuned voices.
+ */
+inline AccentMix neutralMix() {
+    AccentMix m;
+    m.ghostDb = m.globalDb = m.localDb = m.bothDb = 0.f;
+    return m;
+}
+
 /** dB to linear gain (10^(db/20)). */
 inline float dbToLinear(float db) {
     return std::pow(10.f, db / 20.f);
@@ -144,6 +156,48 @@ inline float resolveAccentGain(bool totalGate, bool localGate,
  */
 inline bool isAccentedHit(bool totalGate, bool localGate) {
     return totalGate || localGate;
+}
+
+
+/** Result of resolving the accent state at a TRIG rising edge. */
+struct AccentResolution {
+    float charStrength;  // 0 or 1, drives voice DSP accent character
+    float gain;          // linear multiplier for the voice output
+};
+
+/**
+ * One-shot sample of the accent gates at trigger-rising-edge time.
+ *
+ * Reads totalInputId from `self`'s inputs (always required); reads
+ * localInputId if it is >= 0 (voices without Accent B per Roland TR-909
+ * OM -- Ohh, RimClap, CrashRide -- pass -1 to skip). Combines the gates
+ * with bus state and the voice's mix into a {charStrength, gain} pair.
+ *
+ * Voice integration (with Accent B):
+ *     auto acc = sampleAccentAtTrig(this, TOTAL_ACC_INPUT, bus,
+ *                                   fit.accentMix, LOCAL_ACC_INPUT);
+ *     voice.fire(acc.charStrength);
+ *     latchedCaseGain = acc.gain;
+ *
+ * Voice integration (without Accent B):
+ *     auto acc = sampleAccentAtTrig(this, TOTAL_ACC_INPUT, bus,
+ *                                   fit.accentMix);
+ *     voice.fire(acc.charStrength);
+ *     latchedCaseGain = acc.gain;
+ */
+inline AccentResolution sampleAccentAtTrig(rack::Module* self,
+                                           int totalInputId,
+                                           const Bus& bus,
+                                           const AccentMix& mix,
+                                           int localInputId = -1) {
+    const bool totalGate = (totalInputId >= 0)
+        && self->inputs[totalInputId].getNormalVoltage(0.f) > 1.f;
+    const bool localGate = (localInputId >= 0)
+        && self->inputs[localInputId].getNormalVoltage(0.f) > 1.f;
+    AccentResolution r;
+    r.charStrength = isAccentedHit(totalGate, localGate) ? 1.f : 0.f;
+    r.gain         = resolveAccentGain(totalGate, localGate, bus, mix);
+    return r;
 }
 
 }} // namespace

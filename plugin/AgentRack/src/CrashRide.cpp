@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "TR909VoiceCommon.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "embedded/Crash909Data.hpp"
 #include "embedded/Ride909Data.hpp"
@@ -89,16 +90,19 @@ static const AgentRack::TR909::RomVoiceConfig RIDE_ROM_CFG  = { 1.00f, 1.00f, 16
 
 } // namespace crashride_impl
 
-struct CrashRide : AgentModule {
+struct CrashRide : Tr909Module {
     enum ParamId {
         CRASH_TUNE_PARAM, CRASH_DECAY_PARAM, CRASH_DRIVE_PARAM, CRASH_LEVEL_PARAM,
         RIDE_TUNE_PARAM,  RIDE_DECAY_PARAM,  RIDE_DRIVE_PARAM,  RIDE_LEVEL_PARAM,
         NUM_PARAMS
     };
+    // Per Roland TR-909 OM, neither CY nor RD has Accent B; they share a
+    // single TOTAL_ACC_INPUT (Accent A). Each voice latches the case gain
+    // independently at its own trigger edge.
     enum InputId {
         CRASH_TRIG_INPUT,
         RIDE_TRIG_INPUT,
-        ACCENT_INPUT,
+        TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId {
@@ -112,6 +116,9 @@ struct CrashRide : AgentModule {
     AgentRack::TR909::RomVoice crashVoice;
     AgentRack::TR909::RomVoice rideVoice;
     int dbgBitDepth = 16;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float crashLatchedGain = 1.f;
+    float rideLatchedGain  = 1.f;
 
     CrashRide() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -125,7 +132,7 @@ struct CrashRide : AgentModule {
         configParam(RIDE_LEVEL_PARAM,  0.f, 1.f, 0.80f, "Ride level",  "%", 0.f, 100.f);
         configInput(CRASH_TRIG_INPUT, "Crash trigger");
         configInput(RIDE_TRIG_INPUT,  "Ride trigger");
-        configInput(ACCENT_INPUT,     "Accent (shared)");
+        configInput(TOTAL_ACC_INPUT,  "Total accent (Accent A, sampled at TRIG; shared)");
         configOutput(CRASH_OUT_OUTPUT, "Crash audio");
         configOutput(RIDE_OUT_OUTPUT,  "Ride audio");
     }
@@ -150,8 +157,21 @@ struct CrashRide : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        if (crashTrigger.process(inputs[CRASH_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) crashVoice.trigger();
-        if (rideTrigger.process(inputs[RIDE_TRIG_INPUT].getVoltage(),   0.1f, 2.f)) rideVoice.trigger();
+        const auto bus = AgentRack::TR909::resolveBus(this);
+        if (crashTrigger.process(inputs[CRASH_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            crashVoice.trigger();
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix);
+            (void)acc.charStrength;
+            crashLatchedGain = acc.gain;
+        }
+        if (rideTrigger.process(inputs[RIDE_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            rideVoice.trigger();
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix);
+            (void)acc.charStrength;
+            rideLatchedGain = acc.gain;
+        }
 
         const float crashTune  = rack::math::clamp(params[CRASH_TUNE_PARAM].getValue(),  0.f, 1.f);
         const float crashDecay = rack::math::clamp(params[CRASH_DECAY_PARAM].getValue(), 0.f, 1.f);
@@ -173,6 +193,8 @@ struct CrashRide : AgentModule {
                                       cri::RIDE_TUNE_OCTAVES, cri::RIDE_DECAY_MIN_SEC, cri::RIDE_DECAY_MAX_SEC,
                                       cri::RIDE_ROM_CFG, 1.02f);
 
+        crashOut *= crashLatchedGain * bus.masterVolume;
+        rideOut  *= rideLatchedGain  * bus.masterVolume;
         outputs[CRASH_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(crashOut));
         outputs[RIDE_OUT_OUTPUT] .setVoltage(AgentRack::Signal::Audio::toRackVolts(rideOut));
     }
@@ -210,7 +232,7 @@ struct CrashRidePanel : rack::widget::Widget {
         nvgText(args.vg, mm2px(53.f), mm2px(89.f),  "TRIG",   nullptr);
         nvgText(args.vg, mm2px(18.f), mm2px(105.f), "OUT",    nullptr);
         nvgText(args.vg, mm2px(53.f), mm2px(105.f), "OUT",    nullptr);
-        nvgText(args.vg, mm2px(35.5f),mm2px(120.f), "ACCENT", nullptr);
+        nvgText(args.vg, mm2px(35.5f),mm2px(120.f), "TACC",   nullptr);
     }
 };
 
@@ -251,7 +273,7 @@ struct CrashRideWidget : rack::ModuleWidget {
         addOutput(createOutputCentered<rack::PJ301MPort>(mm2px(Vec(RID_X, 110.f)), module, CrashRide::RIDE_OUT_OUTPUT));
 
         // Shared accent (centred at bottom).
-        addInput(createInputCentered<rack::PJ301MPort>(mm2px(Vec(35.5f, 124.f)), module, CrashRide::ACCENT_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(mm2px(Vec(35.5f, 124.f)), module, CrashRide::TOTAL_ACC_INPUT));
     }
 };
 

@@ -30,8 +30,7 @@ MODULE_HEADERS := ModuleHarness.hpp \
 	../src/Kck.cpp \
 	../src/Snr.cpp \
 	../src/Toms.cpp \
-	../src/Chh.cpp \
-	../src/Ohh.cpp \
+	../src/ChhOhh.cpp \
 	../src/RimClap.cpp \
 	../src/CrashRide.cpp \
 	../src/Tr909Ctrl.cpp
@@ -50,8 +49,7 @@ VOICE_LAB_HEADERS := voice_lab_common.hpp voice_lab_render_support.hpp \
 	../src/Kck.cpp \
 	../src/Snr.cpp \
 	../src/Toms.cpp \
-	../src/Chh.cpp \
-	../src/Ohh.cpp \
+	../src/ChhOhh.cpp \
 	../src/RimClap.cpp \
 	../src/CrashRide.cpp
 VOICE_LAB_ANALYZE_SRCS := voice_lab_analyze.cpp $(VOICE_LAB_COMMON_SRCS)

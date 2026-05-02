@@ -116,15 +116,9 @@
       "tags": ["Drum"]
     },
     {
-      "slug": "Chh",
-      "name": "CHH",
-      "description": "TR-909 inspired closed hi-hat. Embedded clean 909 sample treated as an in-memory ROM source, then tuned and shaped through BPF + HPF with a fast VCA envelope.",
-      "tags": ["Drum"]
-    },
-    {
-      "slug": "Ohh",
-      "name": "OHH",
-      "description": "TR-909 inspired open hi-hat. Embedded clean 909 sample with playback-rate tune, BPF + HPF shaping, and a longer open-hat envelope.",
+      "slug": "ChhOhh",
+      "name": "HIHAT",
+      "description": "TR-909 inspired closed + open hi-hat in one module. Mirrors the original 909 hardware path where CH and OH share a single envelope/sound circuit, so a CH hit instantly mutes any sounding OH (the canonical hi-hat choke). Per Roland TR-909 OM, CH responds to Accent B (LACC) and both voices respond to Accent A (TACC; shared input). 14 HP.",
       "tags": ["Drum"]
     },
     {
@@ -166,7 +160,7 @@
     {
       "slug": "Tr909Ctrl",
       "name": "909 CTRL",
-      "description": "TR-909 global state controller. Four knobs (ACCENT A, ACCENT B, ACCENT BOTH, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. Each ACCENT knob scales exactly one accent case (only-A, only-B, both gates fired) with no hidden combination rule. Currently consumed by Kck and KckDbg; other voices read the bus as they are rolled in. Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 8 HP.",
+      "description": "TR-909 global state controller. Four knobs (DEFAULT level, ACCENT A, ACCENT B, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. DEFAULT scales the no-accent (ghost) case; ACCENT A scales any case where Accent A fires; ACCENT B scales any case where Accent B fires; MASTER scales final voice output. Consumed by every AgentRack 909 voice (Kck, Snr, Toms, ChhOhh, RimClap, CrashRide). Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 8 HP.",
       "tags": ["Controller", "Utility"]
     }
   ]
