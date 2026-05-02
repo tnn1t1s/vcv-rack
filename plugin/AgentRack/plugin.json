@@ -166,7 +166,7 @@
     {
       "slug": "Tr909Ctrl",
       "name": "909 CTRL",
-      "description": "TR-909 global state controller. Three knobs (ACCENT A amount, ACCENT B amount, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. Currently consumed by Kck and KckDbg; other voices read the bus as they are rolled in. Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 6 HP.",
+      "description": "TR-909 global state controller. Four knobs (ACCENT A, ACCENT B, ACCENT BOTH, MASTER volume) plus CV inputs, broadcast to adjacent AgentRack 909 voices via the expander bus. Each ACCENT knob scales exactly one accent case (only-A, only-B, both gates fired) with no hidden combination rule. Currently consumed by Kck and KckDbg; other voices read the bus as they are rolled in. Hit-time events (TRIG / LOCAL_ACC / TOTAL_ACC gates) travel via cables to each voice directly, NOT through this module. 8 HP.",
       "tags": ["Controller", "Utility"]
     }
   ]

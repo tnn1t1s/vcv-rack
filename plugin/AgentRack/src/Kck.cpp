@@ -136,10 +136,11 @@ struct Config {
     // Accent application.
     //
     // accentMix tells how Accent A (total) and Accent B (local) gates
-    // combine into a single accent strength (0..1). Defaults match 909
-    // hardware: either gate produces full accent. Tuned per-voice when
-    // the voice deserves a different feel (e.g. snare may want B
-    // stronger than A).
+    // combine into a single accent strength. See Tr909Bus.hpp for the
+    // full semantics; the inherited AccentMix defaults (1.0 / 1.0 / 1.0)
+    // are the project's current heuristic, not a verified hardware-
+    // faithful starting point. Tune per-voice as TR-909 service-manual
+    // research lands.
     AgentRack::TR909::AccentMix accentMix;
 
     // accent*Amt fields are this voice's per-DSP-stage weights. They
