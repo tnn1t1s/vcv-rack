@@ -45,9 +45,17 @@ static constexpr float LEVEL_JACK_Y = 112.f;
 static constexpr float SEPARATOR_Y  = 116.5f;
 static constexpr float IO_LABEL_Y   = 119.f;
 static constexpr float IO_JACK_Y    = 124.f;
+// 3-jack IO row (legacy; voices without Accent B can still use this).
 static constexpr float IO_TRIG_X    = 12.f;
 static constexpr float IO_ACCENT_X  = 30.48f;
 static constexpr float IO_OUT_X     = 49.f;
+
+// 4-jack IO row used by voices that have BOTH local and total accent
+// inputs (per Roland TR-909 OM: BD, SD, LT, MT, HT, CH).
+static constexpr float IO4_TRIG_X = 8.f;
+static constexpr float IO4_LACC_X = 22.f;
+static constexpr float IO4_TACC_X = 38.f;
+static constexpr float IO4_OUT_X  = 53.f;
 
 // Header.
 static constexpr float HEADER_X_MM = 5.5f;
@@ -218,6 +226,36 @@ inline void drawIOStrip(NVGcontext* vg, Vec size) {
     nvgText(vg, mm2px(IO_TRIG_X),   mm2px(IO_LABEL_Y), "TRIG",   nullptr);
     nvgText(vg, mm2px(IO_ACCENT_X), mm2px(IO_LABEL_Y), "ACCENT", nullptr);
     nvgText(vg, mm2px(IO_OUT_X),    mm2px(IO_LABEL_Y), "OUT",    nullptr);
+}
+
+/** 4-jack IO strip: TRIG | LACC | TACC | OUT. */
+inline void drawIOStrip4(NVGcontext* vg, Vec size) {
+    nvgStrokeColor(vg, inkColor());
+    nvgStrokeWidth(vg, 0.5f);
+    nvgBeginPath(vg);
+    nvgMoveTo(vg, mm2px(4.f),          mm2px(SEPARATOR_Y));
+    nvgLineTo(vg, size.x - mm2px(4.f), mm2px(SEPARATOR_Y));
+    nvgStroke(vg);
+
+    for (float x : {(IO4_TRIG_X + IO4_LACC_X) * 0.5f,
+                    (IO4_LACC_X + IO4_TACC_X) * 0.5f,
+                    (IO4_TACC_X + IO4_OUT_X)  * 0.5f}) {
+        nvgBeginPath(vg);
+        nvgMoveTo(vg, mm2px(x), mm2px(SEPARATOR_Y + 1.f));
+        nvgLineTo(vg, mm2px(x), mm2px(IO_JACK_Y + 3.5f));
+        nvgStroke(vg);
+    }
+
+    auto font = interFont();
+    if (!font || !font->handle) return;
+    nvgFontFaceId(vg, font->handle);
+    nvgFontSize(vg, 6.5f);
+    nvgFillColor(vg, inkColor());
+    nvgTextAlign(vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+    nvgText(vg, mm2px(IO4_TRIG_X), mm2px(IO_LABEL_Y), "TRIG", nullptr);
+    nvgText(vg, mm2px(IO4_LACC_X), mm2px(IO_LABEL_Y), "LACC", nullptr);
+    nvgText(vg, mm2px(IO4_TACC_X), mm2px(IO_LABEL_Y), "TACC", nullptr);
+    nvgText(vg, mm2px(IO4_OUT_X),  mm2px(IO_LABEL_Y), "OUT",  nullptr);
 }
 
 // ---- top-level panel --------------------------------------------------------

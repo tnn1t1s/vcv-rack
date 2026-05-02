@@ -1,6 +1,7 @@
 #include <rack.hpp>
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include <cmath>
 
@@ -119,7 +120,7 @@ static inline void reset() {
 }  // namespace SnrFit
 
 
-struct Snr : AgentModule {
+struct Snr : Tr909Module {
 
     enum ParamId  {
         TUNE_PARAM, TONE_PARAM, SNAPPY_PARAM, LEVEL_PARAM,
@@ -127,11 +128,17 @@ struct Snr : AgentModule {
     };
     enum InputId  {
         TRIG_INPUT, TUNE_CV_INPUT, TONE_CV_INPUT, SNAPPY_CV_INPUT, LEVEL_CV_INPUT,
+        LOCAL_ACC_INPUT, TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     dsp::SchmittTrigger trigger;
+    // Default to a neutral mix until Snr accent is ear-tuned; keeps the
+    // existing 909-snare voicing audibly unchanged when no controller is
+    // wired or accent gates fire.
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float latchedCaseGain = 1.f;
 
     float phase1   = 0.f;
     float phase2   = 0.f;
@@ -159,16 +166,25 @@ struct Snr : AgentModule {
         configParam(TONE_PARAM,   0.f, 1.f, 1.00f, "Tone",   "%", 0.f, 100.f);
         configParam(SNAPPY_PARAM, 0.f, 1.f, 1.00f, "Snappy", "%", 0.f, 100.f);
         configParam(LEVEL_PARAM,  0.f, 1.f, 0.82f, "Level",  "%", 0.f, 100.f);
-        configInput (TRIG_INPUT,      "Trigger");
-        configInput (TUNE_CV_INPUT,   "Tune CV");
-        configInput (TONE_CV_INPUT,   "Tone CV");
-        configInput (SNAPPY_CV_INPUT, "Snappy CV");
-        configInput (LEVEL_CV_INPUT,  "Level CV");
-        configOutput(OUT_OUTPUT,      "Audio");
+        configInput (TRIG_INPUT,        "Trigger");
+        configInput (TUNE_CV_INPUT,     "Tune CV");
+        configInput (TONE_CV_INPUT,     "Tone CV");
+        configInput (SNAPPY_CV_INPUT,   "Snappy CV");
+        configInput (LEVEL_CV_INPUT,    "Level CV");
+        configInput (LOCAL_ACC_INPUT,   "Local accent (Accent B, sampled at TRIG)");
+        configInput (TOTAL_ACC_INPUT,   "Total accent (Accent A, sampled at TRIG)");
+        configOutput(OUT_OUTPUT,        "Audio");
     }
 
     void process(const ProcessArgs& args) override {
+        const auto bus = AgentRack::TR909::resolveBus(this);
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix, LOCAL_ACC_INPUT);
+            (void)acc.charStrength;  // Snr DSP does not yet apply accent CHARACTER
+                                     // (drive/noise scaling); future tuning pass will
+                                     // wire this through SnrFit::Config.
+            latchedCaseGain = acc.gain;
             bodyEnv1 = 1.f;
             bodyEnv2 = 1.f;
             noiseLowEnv = 1.f;
@@ -253,6 +269,7 @@ struct Snr : AgentModule {
         mix *= attackEnv;
 
         float out = mix * level_norm * fit.outputGain;
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -281,6 +298,13 @@ struct SnrPanel : rack::widget::Widget {
             nvgText(args.vg, mm2px(AgentLayout::CENTER_12HP), mm2px(ys[i]),
                     LABELS[i], NULL);
         }
+        // Accent input row labels (column-anchored, like the IO row).
+        nvgFontSize(args.vg, 4.5f);
+        nvgFillColor(args.vg, nvgRGBA(255, 190, 180, 160));
+        nvgText(args.vg, mm2px(AgentLayout::LEFT_COLUMN_12HP),
+                mm2px(ys[5] - 6.f), "LACC", NULL);
+        nvgText(args.vg, mm2px(AgentLayout::RIGHT_COLUMN_12HP),
+                mm2px(ys[5] - 6.f), "TACC", NULL);
     }
 };
 
@@ -320,6 +344,13 @@ struct SnrWidget : rack::ModuleWidget {
                 mm2px(Vec(jackX, ys[i])), module, rows[i].input));
         }
 
+        // Row 5: LACC (left) | TACC (right) -- accent gate inputs.
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(knobX, ys[5])), module, Snr::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(jackX, ys[5])), module, Snr::TOTAL_ACC_INPUT));
+
+        // Row 7: TRIG | OUT
         addInput(createInputCentered<rack::PJ301MPort>(
             mm2px(Vec(knobX, ys[7])), module, Snr::TRIG_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(

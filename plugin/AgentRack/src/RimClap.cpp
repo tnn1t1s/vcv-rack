@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "TR909VoiceCommon.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "embedded/Clp909Data.hpp"
 #include "embedded/Rim909Data.hpp"
@@ -40,15 +41,19 @@ struct RomVoice {
 };
 }
 
-struct RimClap : AgentModule {
+struct RimClap : Tr909Module {
     enum ParamId {
         CLAP_LEVEL_PARAM,
         RIM_LEVEL_PARAM,
         NUM_PARAMS
     };
+    // Per Roland TR-909 OM, neither RS nor CP has Accent B; they share a
+    // single TOTAL_ACC_INPUT (Accent A). Each voice latches the case gain
+    // independently at its own trigger edge.
     enum InputId {
         CLAP_TRIG_INPUT,
         RIM_TRIG_INPUT,
+        TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId {
@@ -61,6 +66,9 @@ struct RimClap : AgentModule {
     dsp::SchmittTrigger rimTrigger;
     RomVoice clapVoice;
     RomVoice rimVoice;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float clapLatchedGain = 1.f;
+    float rimLatchedGain  = 1.f;
 
     RimClap() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -68,16 +76,26 @@ struct RimClap : AgentModule {
         configParam(RIM_LEVEL_PARAM, 0.f, 1.f, 0.90f, "Rim level", "%", 0.f, 100.f);
         configInput(CLAP_TRIG_INPUT, "Clap trigger");
         configInput(RIM_TRIG_INPUT, "Rim trigger");
+        configInput(TOTAL_ACC_INPUT, "Total accent (Accent A, sampled at TRIG; shared)");
         configOutput(CLAP_OUT_OUTPUT, "Clap audio");
         configOutput(RIM_OUT_OUTPUT, "Rim audio");
     }
 
     void process(const ProcessArgs& args) override {
+        const auto bus = AgentRack::TR909::resolveBus(this);
         if (clapTrigger.process(inputs[CLAP_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             clapVoice.trigger();
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix);
+            (void)acc.charStrength;
+            clapLatchedGain = acc.gain;
         }
         if (rimTrigger.process(inputs[RIM_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             rimVoice.trigger();
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix);
+            (void)acc.charStrength;
+            rimLatchedGain = acc.gain;
         }
 
         float clapLevel = params[CLAP_LEVEL_PARAM].getValue();
@@ -85,6 +103,8 @@ struct RimClap : AgentModule {
 
         float clap = clapVoice.process(rimClapClapSource(), args.sampleRate) * clapLevel;
         float rim = rimVoice.process(rimClapRimSource(), args.sampleRate) * rimLevel;
+        clap *= clapLatchedGain * bus.masterVolume;
+        rim  *= rimLatchedGain  * bus.masterVolume;
 
         outputs[CLAP_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(clap));
         outputs[RIM_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(rim));
@@ -111,6 +131,10 @@ struct RimClapPanel : rack::widget::Widget {
         nvgText(args.vg, mm2px(AgentLayout::LEFT_COLUMN_12HP), mm2px(81.f), "TRIG", nullptr);
         nvgText(args.vg, mm2px(AgentLayout::CENTER_12HP), mm2px(81.f), "LEVEL", nullptr);
         nvgText(args.vg, mm2px(AgentLayout::RIGHT_COLUMN_12HP), mm2px(81.f), "OUT", nullptr);
+        // Shared accent input lives between the two voices.
+        nvgFontSize(args.vg, 5.0f);
+        nvgFillColor(args.vg, nvgRGBA(255, 215, 155, 200));
+        nvgText(args.vg, mm2px(AgentLayout::CENTER_12HP), mm2px(60.f), "TACC", nullptr);
     }
 };
 
@@ -136,6 +160,10 @@ struct RimClapWidget : rack::ModuleWidget {
             mm2px(Vec(AgentLayout::LEFT_COLUMN_12HP, 95.f)), module, RimClap::RIM_TRIG_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
             mm2px(Vec(AgentLayout::RIGHT_COLUMN_12HP, 95.f)), module, RimClap::RIM_OUT_OUTPUT));
+
+        // Shared TOTAL_ACC input centered between the two voice rows.
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(AgentLayout::CENTER_12HP, 65.f)), module, RimClap::TOTAL_ACC_INPUT));
     }
 };
 

@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "NineOhNinePanel.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include <cmath>
 
@@ -178,7 +179,8 @@ struct TomPanel : rack::widget::Widget {
         drawCosmeticScrews(args.vg, box.size);
         drawRegistrationMarks(args.vg, box.size);
         drawHeader(args.vg, box.size, voiceCode);
-        drawIOStrip(args.vg, box.size);
+        // Toms have Accent B per Roland TR-909 OM -> 4-jack IO row.
+        drawIOStrip4(args.vg, box.size);
 
         drawKnobLabel(args.vg, "TUNE", KNOB_L_X, PAIR_Y[0][0] - 6.5f);
         drawKnobLabel(args.vg, "DECAY", KNOB_R_X, PAIR_Y[0][0] - 6.5f);
@@ -190,16 +192,19 @@ struct TomPanel : rack::widget::Widget {
 typedef TomFit::Config (*TomConfigMaker)();
 
 template <TomConfigMaker Maker, const char* VoiceCode>
-struct TomModule : AgentModule {
+struct TomModule : Tr909Module {
     enum ParamId  { TUNE_PARAM, DECAY_PARAM, LEVEL_PARAM, NUM_PARAMS };
     enum InputId  {
-        TRIG_INPUT, TUNE_CV_INPUT, DECAY_CV_INPUT, LEVEL_CV_INPUT, ACCENT_INPUT,
+        TRIG_INPUT, TUNE_CV_INPUT, DECAY_CV_INPUT, LEVEL_CV_INPUT,
+        LOCAL_ACC_INPUT, TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     TomVoice voice;
     TomFit::Config fit;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float latchedCaseGain = 1.f;
 
     TomModule() {
         fit = Maker();
@@ -207,27 +212,44 @@ struct TomModule : AgentModule {
         configParam(TUNE_PARAM,  0.f, 1.f, 0.50f, "Tune",  "%", 0.f, 100.f);
         configParam(DECAY_PARAM, 0.f, 1.f, 0.45f, "Decay", "%", 0.f, 100.f);
         configParam(LEVEL_PARAM, 0.f, 1.f, 0.85f, "Level", "%", 0.f, 100.f);
-        configInput(TRIG_INPUT,      "Trigger");
-        configInput(TUNE_CV_INPUT,   "Tune CV");
-        configInput(DECAY_CV_INPUT,  "Decay CV");
-        configInput(LEVEL_CV_INPUT,  "Level CV");
-        configInput(ACCENT_INPUT,    "Accent");
-        configOutput(OUT_OUTPUT,     "Audio");
+        configInput(TRIG_INPUT,        "Trigger");
+        configInput(TUNE_CV_INPUT,     "Tune CV");
+        configInput(DECAY_CV_INPUT,    "Decay CV");
+        configInput(LEVEL_CV_INPUT,    "Level CV");
+        configInput(LOCAL_ACC_INPUT,   "Local accent (Accent B, sampled at TRIG)");
+        configInput(TOTAL_ACC_INPUT,   "Total accent (Accent A, sampled at TRIG)");
+        configOutput(OUT_OUTPUT,       "Audio");
     }
 
     void process(const ProcessArgs& args) override {
+        const auto bus = AgentRack::TR909::resolveBus(this);
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix, LOCAL_ACC_INPUT);
+            // TomVoice::fire() takes no args; voice DSP currently consumes
+            // accent via a continuous accentNorm parameter. Pass the binary
+            // character flag (0 or 1) to preserve the accent character path
+            // through the existing voice.process signature.
             voice.fire();
+            latchedCaseGain = acc.gain;
+            // Stash for use below:
+            voiceCharStrength = acc.charStrength;
         }
 
         float tuneNorm   = tomNormWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
         float decayNorm  = tomNormWithCV(*this, DECAY_PARAM, DECAY_CV_INPUT);
         float levelNorm  = tomNormWithCV(*this, LEVEL_PARAM, LEVEL_CV_INPUT);
-        float accentNorm = rack::math::clamp(inputs[ACCENT_INPUT].getVoltage() / 10.f, 0.f, 1.f);
 
-        float out = voice.process(args, fit, tuneNorm, decayNorm, levelNorm, accentNorm);
+        float out = voice.process(args, fit, tuneNorm, decayNorm, levelNorm,
+                                  voiceCharStrength);
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
+
+private:
+    // Latched at TRIG along with latchedCaseGain. Drives the existing voice
+    // DSP's accent-character path (formerly fed by inputs[ACCENT_INPUT]).
+    float voiceCharStrength = 0.f;
 };
 
 template <typename ModuleType, const char* VoiceCode>
@@ -259,12 +281,15 @@ struct TomWidget : rack::ModuleWidget {
         addInput(createInputCentered<rack::PJ301MPort>(
             mm2px(Vec(AgentLayout::CENTER_12HP, 102.f)), module, ModuleType::LEVEL_CV_INPUT));
 
+        // 4-jack IO row: TRIG | LACC | TACC | OUT.
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(IO_TRIG_X, IO_JACK_Y)), module, ModuleType::TRIG_INPUT));
+            mm2px(Vec(IO4_TRIG_X, IO_JACK_Y)), module, ModuleType::TRIG_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(IO_ACCENT_X, IO_JACK_Y)), module, ModuleType::ACCENT_INPUT));
+            mm2px(Vec(IO4_LACC_X, IO_JACK_Y)), module, ModuleType::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(IO4_TACC_X, IO_JACK_Y)), module, ModuleType::TOTAL_ACC_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(IO_OUT_X, IO_JACK_Y)), module, ModuleType::OUT_OUTPUT));
+            mm2px(Vec(IO4_OUT_X,  IO_JACK_Y)), module, ModuleType::OUT_OUTPUT));
     }
 };
 
@@ -291,7 +316,7 @@ rack::Model* modelHighTom = createModel<HighTom, TomWidget<HighTom, HIGH_TOM_COD
 // the values back into TomFit::makeXxxTom().
 // ---------------------------------------------------------------------------
 
-struct TomDbg : AgentModule {
+struct TomDbg : Tr909Module {
     enum ParamId {
         TUNE_PARAM, DECAY_PARAM, LEVEL_PARAM,
         BASE_HZ_PARAM,
@@ -304,11 +329,14 @@ struct TomDbg : AgentModule {
         OUTPUT_GAIN_PARAM, ACCENT_SPAN_PARAM,
         NUM_PARAMS
     };
-    enum InputId  { TRIG_INPUT, ACCENT_INPUT, NUM_INPUTS };
+    enum InputId  { TRIG_INPUT, LOCAL_ACC_INPUT, TOTAL_ACC_INPUT, NUM_INPUTS };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
 
     TomVoice voice;
     TomFit::Config fit;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float latchedCaseGain = 1.f;
+    float voiceCharStrength = 0.f;
 
     TomDbg() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -335,9 +363,10 @@ struct TomDbg : AgentModule {
         configParam(OUTPUT_GAIN_PARAM,           0.f,    2.f,     0.78f, "Output gain");
         configParam(ACCENT_SPAN_PARAM,           0.f,    1.f,     0.20f, "Accent span");
 
-        configInput(TRIG_INPUT,   "Trigger");
-        configInput(ACCENT_INPUT, "Accent");
-        configOutput(OUT_OUTPUT,  "Audio");
+        configInput(TRIG_INPUT,        "Trigger");
+        configInput(LOCAL_ACC_INPUT,   "Local accent (Accent B, sampled at TRIG)");
+        configInput(TOTAL_ACC_INPUT,   "Total accent (Accent A, sampled at TRIG)");
+        configOutput(OUT_OUTPUT,       "Audio");
     }
 
     void process(const ProcessArgs& args) override {
@@ -360,16 +389,22 @@ struct TomDbg : AgentModule {
         fit.outputGain         = params[OUTPUT_GAIN_PARAM].getValue();
         fit.accentSpan         = params[ACCENT_SPAN_PARAM].getValue();
 
+        const auto bus = AgentRack::TR909::resolveBus(this);
         if (voice.trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix, LOCAL_ACC_INPUT);
             voice.fire();
+            latchedCaseGain   = acc.gain;
+            voiceCharStrength = acc.charStrength;
         }
 
         float tuneNorm   = rack::math::clamp(params[TUNE_PARAM].getValue(),  0.f, 1.f);
         float decayNorm  = rack::math::clamp(params[DECAY_PARAM].getValue(), 0.f, 1.f);
         float levelNorm  = rack::math::clamp(params[LEVEL_PARAM].getValue(), 0.f, 1.f);
-        float accentNorm = rack::math::clamp(inputs[ACCENT_INPUT].getVoltage() / 10.f, 0.f, 1.f);
 
-        float out = voice.process(args, fit, tuneNorm, decayNorm, levelNorm, accentNorm);
+        float out = voice.process(args, fit, tuneNorm, decayNorm, levelNorm,
+                                  voiceCharStrength);
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -471,13 +506,16 @@ struct TomDbgWidget : rack::ModuleWidget {
             }
         }
 
-        // Bottom I/O strip
+        // Bottom I/O strip: TRIG | LACC | TACC | OUT (4 jacks across the
+        // wide debug panel).
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(40.f, 120.f)), module, TomDbg::TRIG_INPUT));
+            mm2px(Vec(30.f,  120.f)), module, TomDbg::TRIG_INPUT));
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(78.f, 120.f)), module, TomDbg::ACCENT_INPUT));
+            mm2px(Vec(60.f,  120.f)), module, TomDbg::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(90.f,  120.f)), module, TomDbg::TOTAL_ACC_INPUT));
         addOutput(createOutputCentered<rack::PJ301MPort>(
-            mm2px(Vec(116.f, 120.f)), module, TomDbg::OUT_OUTPUT));
+            mm2px(Vec(120.f, 120.f)), module, TomDbg::OUT_OUTPUT));
     }
 };
 
@@ -492,18 +530,22 @@ rack::Model* modelTomDbg = createModel<TomDbg, TomDbgWidget>("TomDbg");
 // from TomFit. Use TomDbg if you want to sweep internal voicing parameters.
 // ---------------------------------------------------------------------------
 
-struct Toms : AgentModule {
+struct Toms : Tr909Module {
     enum ParamId  {
         LOW_LEVEL_PARAM,
         MID_LEVEL_PARAM,
         HIGH_LEVEL_PARAM,
         NUM_PARAMS
     };
+    // Per Roland TR-909 OM, all three toms have Accent B. The shared
+    // LOCAL_ACC and TOTAL_ACC inputs apply to whichever voice fires;
+    // each voice latches its own gain at its own trigger edge.
     enum InputId  {
         LOW_TRIG_INPUT,
         MID_TRIG_INPUT,
         HIGH_TRIG_INPUT,
-        ACCENT_INPUT,
+        LOCAL_ACC_INPUT,
+        TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId {
@@ -515,6 +557,9 @@ struct Toms : AgentModule {
 
     TomVoice low, mid, high;
     TomFit::Config lowFit, midFit, highFit;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float lowGain = 1.f, midGain = 1.f, highGain = 1.f;
+    float lowChar = 0.f, midChar = 0.f, highChar = 0.f;
 
     Toms() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -524,7 +569,8 @@ struct Toms : AgentModule {
         configInput(LOW_TRIG_INPUT,   "Low trigger");
         configInput(MID_TRIG_INPUT,   "Mid trigger");
         configInput(HIGH_TRIG_INPUT,  "High trigger");
-        configInput(ACCENT_INPUT,     "Accent (shared)");
+        configInput(LOCAL_ACC_INPUT,  "Local accent (Accent B, sampled at TRIG; shared)");
+        configInput(TOTAL_ACC_INPUT,  "Total accent (Accent A, sampled at TRIG; shared)");
         configOutput(LOW_OUT_OUTPUT,  "Low audio");
         configOutput(MID_OUT_OUTPUT,  "Mid audio");
         configOutput(HIGH_OUT_OUTPUT, "High audio");
@@ -535,24 +581,33 @@ struct Toms : AgentModule {
     }
 
     void process(const ProcessArgs& args) override {
-        if (low.trigger.process(inputs[LOW_TRIG_INPUT].getVoltage(),   0.1f, 2.f)) low.fire();
-        if (mid.trigger.process(inputs[MID_TRIG_INPUT].getVoltage(),   0.1f, 2.f)) mid.fire();
-        if (high.trigger.process(inputs[HIGH_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) high.fire();
+        const auto bus = AgentRack::TR909::resolveBus(this);
+        auto sampleAcc = [&]() {
+            return AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix, LOCAL_ACC_INPUT);
+        };
+        if (low.trigger.process(inputs[LOW_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            low.fire(); auto a = sampleAcc(); lowGain = a.gain; lowChar = a.charStrength;
+        }
+        if (mid.trigger.process(inputs[MID_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            mid.fire(); auto a = sampleAcc(); midGain = a.gain; midChar = a.charStrength;
+        }
+        if (high.trigger.process(inputs[HIGH_TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
+            high.fire(); auto a = sampleAcc(); highGain = a.gain; highChar = a.charStrength;
+        }
 
         const float TUNE = 0.5f, DECAY = 0.45f;
-        const float accentNorm =
-            rack::math::clamp(inputs[ACCENT_INPUT].getVoltage() / 10.f, 0.f, 1.f);
-
         const float lowLevel  = params[LOW_LEVEL_PARAM].getValue();
         const float midLevel  = params[MID_LEVEL_PARAM].getValue();
         const float highLevel = params[HIGH_LEVEL_PARAM].getValue();
 
+        const float master = bus.masterVolume;
         outputs[LOW_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(
-            low.process(args, lowFit, TUNE, DECAY, lowLevel, accentNorm)));
+            low.process(args, lowFit, TUNE, DECAY, lowLevel, lowChar) * lowGain * master));
         outputs[MID_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(
-            mid.process(args, midFit, TUNE, DECAY, midLevel, accentNorm)));
+            mid.process(args, midFit, TUNE, DECAY, midLevel, midChar) * midGain * master));
         outputs[HIGH_OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(
-            high.process(args, highFit, TUNE, DECAY, highLevel, accentNorm)));
+            high.process(args, highFit, TUNE, DECAY, highLevel, highChar) * highGain * master));
     }
 };
 
@@ -579,7 +634,8 @@ struct TomsPanel : rack::widget::Widget {
             nvgText(args.vg, mm2px(AgentLayout::RIGHT_COLUMN_12HP), mm2px(y), "OUT",   nullptr);
         }
 
-        nvgText(args.vg, mm2px(AgentLayout::CENTER_12HP), mm2px(112.f), "ACCENT", nullptr);
+        nvgText(args.vg, mm2px(AgentLayout::LEFT_COLUMN_12HP),  mm2px(112.f), "LACC", nullptr);
+        nvgText(args.vg, mm2px(AgentLayout::RIGHT_COLUMN_12HP), mm2px(112.f), "TACC", nullptr);
     }
 };
 
@@ -607,8 +663,13 @@ struct TomsWidget : rack::ModuleWidget {
                 mm2px(Vec(AgentLayout::RIGHT_COLUMN_12HP, r.y)), module, r.out));
         }
 
+        // Shared accent inputs at the bottom of the panel.
         addInput(createInputCentered<rack::PJ301MPort>(
-            mm2px(Vec(AgentLayout::CENTER_12HP, 120.f)), module, Toms::ACCENT_INPUT));
+            mm2px(Vec(AgentLayout::LEFT_COLUMN_12HP,  120.f)),
+            module, Toms::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(AgentLayout::RIGHT_COLUMN_12HP, 120.f)),
+            module, Toms::TOTAL_ACC_INPUT));
     }
 };
 

@@ -2,6 +2,7 @@
 #include "AgentModule.hpp"
 #include "PanelLayout.hpp"
 #include "TR909VoiceCommon.hpp"
+#include "Tr909Bus.hpp"
 #include "agentrack/signal/Audio.hpp"
 #include "embedded/Chh909Data.hpp"
 #include <cmath>
@@ -41,7 +42,7 @@ static const std::vector<float>& chhSource() {
 }
 }
 
-struct Chh : AgentModule {
+struct Chh : Tr909Module {
     enum ParamId {
         TUNE_PARAM, DECAY_PARAM, BPF_PARAM, HPF_PARAM,
         Q_PARAM, DRIVE_PARAM, LEVEL_PARAM,
@@ -50,6 +51,7 @@ struct Chh : AgentModule {
     enum InputId {
         TRIG_INPUT, TUNE_CV_INPUT, DECAY_CV_INPUT, BPF_CV_INPUT,
         HPF_CV_INPUT, Q_CV_INPUT, DRIVE_CV_INPUT, LEVEL_CV_INPUT,
+        LOCAL_ACC_INPUT, TOTAL_ACC_INPUT,
         NUM_INPUTS
     };
     enum OutputId { OUT_OUTPUT, NUM_OUTPUTS };
@@ -58,6 +60,8 @@ struct Chh : AgentModule {
     float samplePos = 0.f;
     float env = 0.f;
     int dbgBitDepth = 16;
+    AgentRack::TR909::AccentMix accentMix = AgentRack::TR909::neutralMix();
+    float latchedCaseGain = 1.f;
 
     Chh() {
         config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
@@ -76,13 +80,20 @@ struct Chh : AgentModule {
         configInput(Q_CV_INPUT,      "Q CV");
         configInput(DRIVE_CV_INPUT,  "Drive CV");
         configInput(LEVEL_CV_INPUT,  "Level CV");
+        configInput(LOCAL_ACC_INPUT, "Local accent (Accent B, sampled at TRIG)");
+        configInput(TOTAL_ACC_INPUT, "Total accent (Accent A, sampled at TRIG)");
         configOutput(OUT_OUTPUT,     "Audio");
     }
 
     void process(const ProcessArgs& args) override {
+        const auto bus = AgentRack::TR909::resolveBus(this);
         if (trigger.process(inputs[TRIG_INPUT].getVoltage(), 0.1f, 2.f)) {
             samplePos = 0.f;
             env = 1.f;
+            auto acc = AgentRack::TR909::sampleAccentAtTrig(
+                this, TOTAL_ACC_INPUT, bus, accentMix, LOCAL_ACC_INPUT);
+            (void)acc.charStrength;  // Chh accent CHARACTER tuning is a follow-up
+            latchedCaseGain = acc.gain;
         }
 
         float tuneNorm  = AgentRack::TR909::normWithCV(*this, TUNE_PARAM,  TUNE_CV_INPUT);
@@ -109,6 +120,7 @@ struct Chh : AgentModule {
         out = AgentRack::TR909::bitReduce(out, dbgBitDepth);
         out = AgentRack::TR909::drive(out, driveNorm);
         out *= levelNorm * 0.94f;
+        out *= latchedCaseGain * bus.masterVolume;
         outputs[OUT_OUTPUT].setVoltage(AgentRack::Signal::Audio::toRackVolts(out));
     }
 };
@@ -160,8 +172,16 @@ struct ChhWidget : rack::ModuleWidget {
             addParam(createParamCentered<rack::RoundBlackKnob>(mm2px(Vec(knobX, ys[i])), module, rows[i].param));
             addInput(createInputCentered<rack::PJ301MPort>(mm2px(Vec(jackX, ys[i])), module, rows[i].input));
         }
-        addInput(createInputCentered<rack::PJ301MPort>(mm2px(Vec(knobX, ys[7])), module, Chh::TRIG_INPUT));
-        addOutput(createOutputCentered<rack::PJ301MPort>(mm2px(Vec(jackX, ys[7])), module, Chh::OUT_OUTPUT));
+        // Bottom IO row: TRIG | LACC | TACC | OUT (4 jacks across 12HP).
+        constexpr float COLS_4[4] = {10.f, 24.f, 38.f, 51.f};
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(COLS_4[0], ys[7])), module, Chh::TRIG_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(COLS_4[1], ys[7])), module, Chh::LOCAL_ACC_INPUT));
+        addInput(createInputCentered<rack::PJ301MPort>(
+            mm2px(Vec(COLS_4[2], ys[7])), module, Chh::TOTAL_ACC_INPUT));
+        addOutput(createOutputCentered<rack::PJ301MPort>(
+            mm2px(Vec(COLS_4[3], ys[7])), module, Chh::OUT_OUTPUT));
     }
 };
 
