@@ -47,3 +47,7 @@ agent/**/.adk/
 # Editor
 .vscode/
 *.swp
+
+# Local agent tooling under evaluation. Move to its own repo once the
+# tools have stabilized through real use.
+tools/pr/
